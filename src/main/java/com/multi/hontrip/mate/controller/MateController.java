@@ -7,4 +7,8 @@ import org.springframework.stereotype.Controller;
 public class MateController {
 
     MateService mateService;
+
+    public void insert(){
+        System.out.println("양혜원");
+    }
 }
