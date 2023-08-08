@@ -9,4 +9,8 @@ public class MateController {
     MateService mateService;
     //good
 
+
+    public void insert(){
+        System.out.println("양혜원");
+    }
 }
