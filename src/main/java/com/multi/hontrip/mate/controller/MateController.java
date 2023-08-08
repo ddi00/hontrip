@@ -7,4 +7,6 @@ import org.springframework.stereotype.Controller;
 public class MateController {
 
     MateService mateService;
+    //good
+
 }
