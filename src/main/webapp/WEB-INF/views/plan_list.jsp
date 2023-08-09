@@ -12,13 +12,13 @@
 <h1>일정 목록</h1>
 <ul type="circle">
   <c:forEach items="${list}" var="planDTO">
-    사용자 id : ${planDTO.user_id} <br>
+    사용자 id : ${planDTO.userId} <br>
     제목 : ${planDTO.title} <br>
-    시작일 : ${planDTO.start_date} <br>
-    종료일 : ${planDTO.end_date} <br>
+    시작일 : ${planDTO.startDate} <br>
+    종료일 : ${planDTO.endDate} <br>
     메모 : ${planDTO.memo} <br>
-    생성일시 : ${planDTO.created_at} <br>
-    수정일시 : ${planDTO.updated_at} <br>
+    생성일시 : ${planDTO.createdAt} <br>
+    수정일시 : ${planDTO.updatedAt} <br>
     <hr>
   </c:forEach>
 </ul>

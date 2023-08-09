@@ -19,15 +19,15 @@ public class PlanController {
     @Autowired
     PlanService planService;
 
-    @RequestMapping("/plan_form")
+    @RequestMapping("/plan_form") // 여행일정 insert
     public String showPlanForm() {
         return "plan_form";
     }
 
     @RequestMapping(value = "/insert_plan", method = RequestMethod.POST, consumes = "application/json")
-    @ResponseBody
+    @ResponseBody // plan_form에서 insert한 정보 ajax로 insert_plan으로 전달
     public String insert(@RequestBody PlanDTO planDTO) {
-        planDTO.setUser_id(1L); // 사용자 ID 설정 (실제로는 세션 등에서 가져와야 함)
+        planDTO.setUserId(1L); // 사용자 ID 설정 (실제로는 세션 등에서 가져와야 함)
         planService.insert(planDTO);
         return "Plan inserted successfully!";
     }
@@ -55,6 +55,7 @@ public class PlanController {
         return planDTO;
     }
 
+    // 여행 일정 list
     @RequestMapping("plan_list")
     public void list(Model model) {
         List<PlanDTO> list = planService.list();

@@ -19,11 +19,11 @@
   <label for="title">Title:</label>
   <input type="text" id="title" name="title" required><br>
 
-  <label for="start_date">Start Date:</label>
-  <input type="date" id="start_date" name="start_date" required><br>
+  <label for="startDate">Start Date:</label>
+  <input type="date" id="startDate" name="startDate" required><br>
 
-  <label for="end_date">End Date:</label>
-  <input type="date" id="end_date" name="end_date" required><br>
+  <label for="endDate">End Date:</label>
+  <input type="date" id="endDate" name="endDate" required><br>
 
   <label for="memo">Memo:</label>
   <textarea id="memo" name="memo"></textarea><br>
@@ -41,8 +41,8 @@
 
       var formData = {
         title: $("#title").val(),
-        start_date: $("#start_date").val(),
-        end_date: $("#end_date").val(),
+        startDate: $("#startDate").val(),
+        endDate: $("#endDate").val(),
         memo: $("#memo").val()
       };
 
@@ -55,8 +55,8 @@
         success: function(response) {
           // 일정 생성 후 폼 초기화
           $("#title").val("");
-          $("#start_date").val("");
-          $("#end_date").val("");
+          $("#startDate").val("");
+          $("#endDate").val("");
           $("#memo").val("");
 
           // 서버로부터의 응답을 처리
