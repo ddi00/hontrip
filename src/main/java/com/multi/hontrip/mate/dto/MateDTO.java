@@ -1,8 +1,8 @@
 package com.multi.hontrip.mate.dto;
-트
+
 import lombok.Data;
 
-@Data
+/*@Data
 public class MateDTO {
 	
 	private long mateBoardId;
@@ -14,4 +14,4 @@ public class MateDTO {
 	private boolean isFinish;
 	private int recruitNumber;
 	
-}
+}*/

@@ -6,7 +6,9 @@ import com.multi.hontrip.plan.service.PlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -17,24 +19,27 @@ public class PlanController {
     @Autowired
     PlanService planService;
 
-    @RequestMapping("insert.plan")
-    @ResponseBody
-    public void insert(PlanDTO planDTO, Model model) {
-        planService.insert(planDTO);
+    @RequestMapping("/plan_form")
+    public String showPlanForm() {
+        return "plan_form";
     }
 
-    @RequestMapping("update.plan")
+    @RequestMapping(value = "/insert_plan", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public String update(PlanDTO planDTO, Model model) {
-            PlanDTO newPlan = new PlanDTO();
-            newPlan.setId(planDTO.getId());
-            newPlan.setUserId(planDTO.getUserId());
-            // 다른 변경 사항도 위와 같이..
+    public String insert(@RequestBody PlanDTO planDTO) {
+        planDTO.setUser_id(1L); // 사용자 ID 설정 (실제로는 세션 등에서 가져와야 함)
+        planService.insert(planDTO);
+        return "Plan inserted successfully!";
+    }
 
-            planService.update(newPlan);
-            //return "redirect:plan.jsp";
-            return null;
+    // 업데이트
+    public String update(PlanDTO planDTO){
+        PlanDTO newPlan = new PlanDTO();
+        newPlan.setId(planDTO.getId());
 
+        planService.update(newPlan);
+        //return "redirect:plan.jsp";
+        return null;
     }
 
     @RequestMapping("delete.plan")
@@ -50,10 +55,9 @@ public class PlanController {
         return planDTO;
     }
 
-    @RequestMapping("list.plan")
-    @ResponseBody
-    public List<PlanDTO> list() {
+    @RequestMapping("plan_list")
+    public void list(Model model) {
         List<PlanDTO> list = planService.list();
-        return list;
+        model.addAttribute("list", list);
     }
 }
