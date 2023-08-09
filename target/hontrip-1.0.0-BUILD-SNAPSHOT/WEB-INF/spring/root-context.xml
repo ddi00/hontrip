@@ -4,5 +4,27 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+
+	<!-- myBatis의 싱글톤 객체 생성 -->
+	<bean id="my" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="config"></constructor-arg>
+	</bean>
+
+	<!-- myBatis의 설정 객체 생성 -->
+	<bean id="config" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dbcp"></property>
+		<property name="configLocation"
+				  value="classpath:mybatis-config.xml"></property>
+	</bean>
+
+	<!-- dbcp의 싱글톤 객체 생성 -->
+	<bean id="dbcp" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+				  value="com.mysql.cj.jdbc.Driver"></property>
+		<property name="url"
+				  value="jdbc:mysql://localhost:3306/hontrip?characterEncoding=UTF-8"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="1234"></property>
+	</bean>
 		
 </beans>

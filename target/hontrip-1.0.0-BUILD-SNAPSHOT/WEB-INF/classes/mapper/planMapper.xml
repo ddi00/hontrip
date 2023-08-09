@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mateBoard">
-	<insert id="insert" parameterType="mateBoardVO">
-		insert into mate_board (title, content, want_gender, want_age, region, start_date, finish_date,recruit_number)
-		values(#{title}, #{content}, #{wantGender},#{wantAge}, #{region},#{startDate},#{finishDate},#{recruitNumber})
+<mapper namespace="plan">
+	<insert id="insert" parameterType="PlanDTO"
+			useGeneratedKeys="true"
+			keyProperty="id">
+		<!-- insert, update, delete문은 결과가 int임.
+           mybatis에서는 resultType="int"가 자동으로 들어가 있음.
+         -->
+		insert into plan
+		values (null, #{user_id}, #{title}, #{start_date}, #{end_date}, #{memo}, now(), now())
 	</insert>
+	<update id="update" parameterType="PlanDTO">
+		update plan
+		set title = #{title}, start_date = #{startDate}, end_date = #{endDate}, memo = #{memo}, updated_at = now()
+		where id = #{id}
+	</update>
+	<select id="one" parameterType="Long" resultType="PlanDTO">
+		select * from plan
+		where id = #{id}
+	</select>
+	<select id="count" parameterType="Long" resultType="int">
+		select count(id) from plan
+		where user_id = ${userId}
+	</select>
+	<select id="all" resultType="PlanDTO">
+		select * from plan
+	</select>
+	<delete id="delete" parameterType="PlanDTO">
+		delete from plan
+		where id = #{id}
+	</delete>
 </mapper>
-
-
-
-
-
-
-
-
-
-
-

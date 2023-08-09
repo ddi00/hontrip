@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-hihihihihihi
+home
 </body>
 </html>
