@@ -11,6 +11,6 @@ public class MateController {
 
 
     public void insert(){
-        System.out.println("양혜원");
+        System.out.println("강진구");
     }
 }
