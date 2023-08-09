@@ -26,7 +26,7 @@ public class PlanController {
     @RequestMapping(value = "/insert_plan", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
     public String insert(@RequestBody PlanDTO planDTO) {
-        planDTO.setUser_id(1L); // 사용자 ID 설정 (실제로는 세션 등에서 가져와야 함)
+        planDTO.setUserId(1L); // 사용자 ID 설정 (실제로는 세션 등에서 가져와야 함)
         planService.insert(planDTO);
         return "Plan inserted successfully!";
     }
@@ -35,7 +35,7 @@ public class PlanController {
     public String update(PlanDTO planDTO, Model model) {
         PlanDTO newPlan = new PlanDTO();
         newPlan.setId(planDTO.getId());
-        newPlan.setUser_id(planDTO.getUser_id());
+        newPlan.setUserId(planDTO.getUserId());
         // 다른 변경 사항도 위와 같이..
 
         planService.update(newPlan);
@@ -56,9 +56,9 @@ public class PlanController {
     }
 
     @RequestMapping("plan_list")
-    @ResponseBody
     public void list(Model model) {
         List<PlanDTO> list = planService.list();
         model.addAttribute("list", list);
     }
+
 }
