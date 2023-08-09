@@ -1,0 +1,8 @@
+CREATE USER 'copidinz'@'localhost' IDENTIFIED BY 'qwer1234';
+select `user` from `mysql`.`user`;
+
+GRANT ALL PRIVILEGES ON hontrip_test.* TO 'copidinz'@'localhost';
+show grants for 'copidingz'@'localhost';
+
+flush  privileges ; -- 이거 꼭 치세요!!
+
