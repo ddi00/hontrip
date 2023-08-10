@@ -11,6 +11,8 @@
     <title>Title</title>
 </head>
 <body>
-hihihihihihi
+동행인 매칭
+<a href="mate/insert">동행인 매칭 게시글 작성</a>
+<a href=""></a>
 </body>
 </html>
