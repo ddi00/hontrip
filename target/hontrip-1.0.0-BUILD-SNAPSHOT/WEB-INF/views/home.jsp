@@ -22,12 +22,12 @@
     $(document).ready(function() {
         // "여행일정생성" 버튼 클릭 시
         $("#goToPlanForm").click(function() {
-            window.location.href = "/hontrip/plan_form";
+            window.location.href = "/hontrip/plan/plan_form";
         });
 
         // "일정리스트" 버튼 클릭 시
         $("#goToPlanList").click(function() {
-            window.location.href = "/hontrip/plan_list";
+            window.location.href = "/hontrip/plan/plan_list";
         });
     });
 </script>
