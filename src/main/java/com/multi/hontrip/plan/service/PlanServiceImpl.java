@@ -16,27 +16,27 @@ public class PlanServiceImpl implements PlanService{
     @Override
     public void insert(PlanDTO planDTO) {
         planDAO.insert(planDTO);
-    }
+    } // insert
 
     @Override
     public void update(PlanDTO planDTO) {
         planDAO.update(planDTO);
-    }
+    } // update
 
     @Override
     public void delete(Long id) {
         planDAO.delete(id);
-    }
+    } // delete
 
     @Override
     public PlanDTO one(Long id) {
         return planDAO.one(id);
-    }
+    } // 일정 하나만 보기
 
     @Override
     public List<PlanDTO> list() {
         return planDAO.list();
-    }
+    } // 일정 list
 
 
 }
