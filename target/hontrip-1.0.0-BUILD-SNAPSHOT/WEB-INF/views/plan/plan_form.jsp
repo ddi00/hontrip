@@ -9,7 +9,7 @@
 <body>
 <h2>여행 일정 생성</h2>
 <form id="myForm" action="insert_plan" method="post">
-  <%--<form id="myForm">--%>
+
   <label for="title">Title:</label>
   <input type="text" id="title" name="title" required><br>
 

@@ -27,12 +27,16 @@
 
       <tr>
         <td>Start Date</td>
-        <td><input type="date" id="startDate" name="startDate" value="${plan.startDate}" required></td>
+        <td><input type="date" id="startDate" name="startDate"
+                   value="<fmt:formatDate value="${plan.startDate}" pattern="yyyy-MM-dd" type="date"/>" required>
+        </td>
       </tr>
 
       <tr>
         <td>End Date</td>
-        <td><input type="date" id="endDate" name="endDate" value="${plan.endDate}" required></td>
+        <td><input type="date" id="endDate" name="endDate"
+                   value="<fmt:formatDate value="${plan.endDate}" pattern="yyyy-MM-dd" type="date"/>" required>
+        </td>
       </tr>
 
       <tr>
