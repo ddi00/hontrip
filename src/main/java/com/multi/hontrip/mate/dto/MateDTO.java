@@ -1,5 +1,4 @@
 package com.multi.hontrip.mate.dto;
-트
 import lombok.Data;
 
 @Data
