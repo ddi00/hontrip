@@ -9,8 +9,9 @@
         <a href="/hontrip/user/sign-in">사용자 로그인</a>
     </c:if>
     <c:if test="${not empty sessionScope.id}"><!-- 세션에 ID값이 있는 경우, 로그아웃 링크 출력 -->
-        <a href="/hontrip/user/logout?socialout=true">소셜로그인도 함께 로그아웃</a><br>
-        <a href="/hontrip/user/logout?socialout=false">사이트만 로그아웃</a>
+        <a href="/hontrip/user/logout">사용자 로그아웃</a>
     </c:if>
+
+    ${logOutUrl}
 </body>
 </html>

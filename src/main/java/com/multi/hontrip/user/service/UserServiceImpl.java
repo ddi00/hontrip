@@ -28,9 +28,10 @@ public class UserServiceImpl implements  UserService{
     @Override
     public UserDTO getUserInfByAuth(HttpServletRequest request, String provider) throws Exception { //소셜 인증정보를 통해 DB저장
         UserInsertDTO userInsertDTO =null;  //DB에 입력할 정보
-
+        String logOutUrl = null;
         if(provider.equals("kakao")){   //카카오 인증인 경우
             userInsertDTO=kakaoService.getKakaoInfo(request.getParameter("code"));  //카카오 인증 받아오기
+            logOutUrl = kakaoService.getKakaoLogOut();
         }
 
         // 기존 회원 판별
@@ -41,6 +42,20 @@ public class UserServiceImpl implements  UserService{
             userInsertDTO.setId(userId);    //id 넣어서 해당 정보 update
             userDAO.updateUserInfo(userInsertDTO);  // update
         }
-        return UserInsertDTO.convertToInsertUserDTO(userInsertDTO); // 세션에 넣을 정보 저장
+        return UserInsertDTO.convertToInsertUserDTO(userInsertDTO,logOutUrl); // 세션에 넣을 정보 저장
+    }
+
+    @Override
+    public void logOut(Long userId) {   //로그아웃시 사용자 access 토큰 관련 정보 지우기
+        userDAO.removeAccessToken(userId);
+    }
+
+    @Override
+    public String getUserLogOutUrl(Long id) {       // id로 공급자 검색해서 로그아웃 url 반환
+        String provider = userDAO.getProviderById(id);  // 공급자 검색
+        if(provider.equals("kakao")) {
+            return kakaoService.getKakaoLogOut();   // kakao 로그아웃 url 반환
+        }
+        return "/";
     }
 }

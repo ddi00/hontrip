@@ -74,7 +74,7 @@ public class KakaoUserDTO { // kakao 사용자 정보 -  자세한 사항은 htt
         ZonedDateTime zonedDateTime = ZonedDateTime.parse(kakaoUserDTO.getConnectedAt(), DateTimeFormatter.ISO_DATE_TIME);
         LocalDateTime createdAt = zonedDateTime.toLocalDateTime();
         LocalDateTime expiresAt  = LocalDateTime.now().plus(Duration.ofSeconds(tokenDTO.getExpiresIn()));
-        LocalDateTime refreshTockenExpiresAt = LocalDateTime.now().plus(Duration.ofSeconds(tokenDTO.getRefreshTokenExpiresIn()));
+        LocalDateTime refreshTokenExpiresAt = LocalDateTime.now().plus(Duration.ofSeconds(tokenDTO.getRefreshTokenExpiresIn()));
 
         int ageRangeId=getIdFromKakaoAgeRangeString(kakaoUserDTO.getKakaoAccount().getAgeRange());
 
@@ -88,10 +88,10 @@ public class KakaoUserDTO { // kakao 사용자 정보 -  자세한 사항은 htt
                 .gender(gender)
                 .ageRangeId(ageRangeId)
                 .email(kakaoUserDTO.getKakaoAccount().getEmail())
-                .accessTocken(tokenDTO.getAccessToken())
+                .accessToken(tokenDTO.getAccessToken())
                 .expiresAt(expiresAt)
                 .refreshToken(tokenDTO.getRefreshToken())
-                .refreshTokenExpiresAt(refreshTockenExpiresAt)
+                .refreshTokenExpiresAt(refreshTokenExpiresAt)
                 .createdAt(createdAt)
                 .build();
     }

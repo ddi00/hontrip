@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @PropertySource("classpath:properties/user/kakao.properties")
-public class KakaoService {
+public class KakaoService { //카카오 oauth 인증 처리
     @Value("${kakao.client.id}")
     private String KAKAO_CLIENT_ID; //카카오 인증 ID
     @Value("${kakao.client.secret}")
@@ -28,6 +28,8 @@ public class KakaoService {
     private String KAKAO_AUTH_URL;  //카카오 인증 url
     @Value("${kakao.api.url}")
     private String KAKAO_API_URL;   //카카오 api url
+    @Value("${kakao.logout.redirect.url}")
+    private String KAKAO_LOGOUT_REDIRECT_URI;
 
     public String getKakaoLogin() {//카카오 인가코드 발급 url
         String kakaoAuthUri = KAKAO_AUTH_URL+"/oauth/authorize"
@@ -90,7 +92,7 @@ public class KakaoService {
         //Http 요청하기
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(
-                KAKAO_API_URL,      //전송 URL
+                KAKAO_API_URL+"/v2/user/me",      //전송 URL
                 HttpMethod.POST,    //전송 메서드
                 httpEntity, //header, body 데이터
                 String.class    //응답받을 값
@@ -101,4 +103,7 @@ public class KakaoService {
         return KakaoUserDTO.convertToUserInsertDTO(tokenDTO, kakaoUserDTO);
     }
 
+    public String getKakaoLogOut() {    //카카오 로그아웃 url 가져오기
+        return KAKAO_AUTH_URL+"/oauth/logout?client_id="+KAKAO_CLIENT_ID+"&logout_redirect_uri="+KAKAO_LOGOUT_REDIRECT_URI;
+    }
 }

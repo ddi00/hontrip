@@ -12,7 +12,7 @@
             access_token,expires_at,refresh_token,refresh_token_expires_at,created_at
         ) VALUES (
             #{provider},#{socialId},#{nickName},#{profileImage},#{gender},#{ageRangeId},#{email},
-            #{accessTocken},#{expiresAt},#{refreshToken},#{refreshTokenExpiresAt},#{createdAt}
+            #{accessToken},#{expiresAt},#{refreshToken},#{refreshTokenExpiresAt},#{createdAt}
         )
     </insert>
     <update id="updateMemberByAuth" parameterType="UserInsertDTO">
@@ -23,16 +23,28 @@
             age_range_id = #{ageRangeId},
             gender = #{gender},
             email = #{email},
-            access_token = #{accessTocken},
+            access_token = #{accessToken},
             expires_at = #{expiresAt},
             refresh_token = #{refreshToken},
             refresh_token_expires_at = #{refreshTokenExpiresAt},
             created_at = #{createdAt}
         WHERE id = #{id}
     </update>
-    <select id="userInfbyUpdated" resultType="UserInsertDTO">
+    <select id="userInfbyUpdated" resultType="userInsertDTO">
         SELECT * FROM user WHERE id = #{id}
     </select>
+    <select id="userProvider" resultType="String">
+        SELECT provider FROM user WHERE id = #{id}
+    </select>
+    <update id="userAccessTokenRemove" parameterType="Long">
+        update user
+        set
+            access_token = null,
+            expires_at = null,
+            refresh_token = null,
+            refresh_token_expires_at = null
+        where id=#{id}
+    </update>
 </mapper>
 
 

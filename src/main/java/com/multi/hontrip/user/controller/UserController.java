@@ -38,7 +38,7 @@ public class UserController {
 
     @GetMapping("/{provider}/callback")
     public String callback(@PathVariable("provider")String provider,
-                                 HttpServletRequest request) throws Exception{   //Oauth 인증 callback  처리
+                           HttpServletRequest request) throws Exception{   //소셜 로그인 Oauth 인증 callback  처리
         //인증 처리 - 네이버랑 카카오랑 callback값이 다름
         UserDTO member = userService.getUserInfByAuth(request,provider);
 
@@ -49,8 +49,27 @@ public class UserController {
         session.setAttribute("expireAt", member.getExpiresAt());
         session.setAttribute("refreshAt", member.getRefreshTokenExpiresAt());
 
-        // TODO 이전 요청 경로로 이동
-        String previousPath = "/";
+        return "redirect:/"; // TODO 이전 요청 경로로 이동
+    }
+
+    @GetMapping("/logout")
+    public String logOut(HttpSession session){  //소셜 logout처리 url 반환
+        Long userId = (Long)session.getAttribute("id");
+        if(userId==null){   //로그아웃은 user세션이 없으면 할 수 없음 TODO 나중에 로그인창으로
+            return "redirect:/";
+        }
+        return "redirect:"+userService.getUserLogOutUrl(userId);
+    }
+
+    @GetMapping("/{provider}/logout")
+    public String oauthLogout(@PathVariable("provider")String provider,
+                                 HttpSession session) throws Exception{   //Oauth 로그아웃 callback 처리 - 카카오는 이미 로그아웃 됨
+        //DB에 accessToken지우기
+        Long userId = (Long)session.getAttribute("id");
+        userService.logOut(userId);
+
+        //세션 만료시키기
+        session.invalidate();
         return "redirect:/";
     }
 }

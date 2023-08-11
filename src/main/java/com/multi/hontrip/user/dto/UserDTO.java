@@ -16,5 +16,6 @@ public class UserDTO {  //소셜에서 받아온 사용자 정보
     private String email;   //이메일
     private LocalDateTime expiresAt;    //만료일자
     private LocalDateTime refreshTokenExpiresAt;    //리프레시토큰 만료일자
+    private String logOutUrl;
 }
 

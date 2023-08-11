@@ -28,7 +28,14 @@ public class UserDAO {
     @Transactional
     public UserInsertDTO updateUserInfo(UserInsertDTO userInsertDTO) {    //user_id로 신규 정보만 update, 신규 정보 반환
         sqlSessionTemplate.update("userMapper.updateMemberByAuth",userInsertDTO);   //사용자 정보 update
-        UserInsertDTO updatedUserInsertDTO = sqlSessionTemplate.selectOne("userMapper.userInfbyUpdated");   // 사용자 정보 다시 가져오기
-        return updatedUserInsertDTO;   
+        return sqlSessionTemplate.selectOne("userMapper.userInfbyUpdated");   // 사용자 정보 다시 가져오기
+    }
+
+    public String getProviderById(Long userId) {  //provider 가져오기
+        return sqlSessionTemplate.selectOne("userMapper.userProvider",userId);
+    }
+
+    public void removeAccessToken(Long userId) {    // user 로그아웃시 access토큰 관련 정보 삭제
+        sqlSessionTemplate.update("userMapper.userAccessTokenRemove",userId);
     }
 }
