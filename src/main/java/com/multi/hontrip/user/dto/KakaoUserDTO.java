@@ -2,8 +2,14 @@ package com.multi.hontrip.user.dto;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Data
-public class KakaoUserDTO {
+public class KakaoUserDTO { // kakao 사용자 정보 -  자세한 사항은 https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api 문서 참조
     private Long id;
 
     @SerializedName("connected_at")
@@ -61,5 +67,70 @@ public class KakaoUserDTO {
         @SerializedName("gender_needs_agreement")
         private boolean genderNeedsAgreement;
         private String gender;
+    }
+
+    public static UserInsertDTO convertToUserInsertDTO(KakaoOauthTokenDTO tokenDTO,KakaoUserDTO kakaoUserDTO) {
+
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(kakaoUserDTO.getConnectedAt(), DateTimeFormatter.ISO_DATE_TIME);
+        LocalDateTime createdAt = zonedDateTime.toLocalDateTime();
+        LocalDateTime expiresAt  = LocalDateTime.now().plus(Duration.ofSeconds(tokenDTO.getExpiresIn()));
+        LocalDateTime refreshTockenExpiresAt = LocalDateTime.now().plus(Duration.ofSeconds(tokenDTO.getRefreshTokenExpiresIn()));
+
+        int ageRangeId=getIdFromKakaoAgeRangeString(kakaoUserDTO.getKakaoAccount().getAgeRange());
+
+        int gender = getGenderIdFromKakaoGender(kakaoUserDTO.getKakaoAccount().getGender());
+
+        return UserInsertDTO.builder()
+                .provider("kakao")
+                .socialId(kakaoUserDTO.getId())
+                .nickName(kakaoUserDTO.getProperties().getNickname())
+                .profileImage(kakaoUserDTO.getKakaoAccount().getProfile().getProfileImageUrl())
+                .gender(gender)
+                .ageRangeId(ageRangeId)
+                .email(kakaoUserDTO.getKakaoAccount().getEmail())
+                .accessTocken(tokenDTO.getAccessToken())
+                .expiresAt(expiresAt)
+                .refreshToken(tokenDTO.getRefreshToken())
+                .refreshTokenExpiresAt(refreshTockenExpiresAt)
+                .createdAt(createdAt)
+                .build();
+    }
+    private static int getGenderIdFromKakaoGender(String gender) { //성별 변환
+        // null이면 NONE("정보없음", 1), female이면  FEMALE("여성", 3);, male이면 MALE("남성", 2),
+        if ("female".equalsIgnoreCase(gender)) {
+            return Gender.FEMALE.getId();
+        } else if ("male".equalsIgnoreCase(gender)) {
+            return Gender.MALE.getId();
+        }else{
+            return Gender.NONE.getId();
+        }
+    }
+
+    public static int getIdFromKakaoAgeRangeString(String value) { //연령대 변환
+        if (value == null) {
+            return AgeRange.AGE_UNKNOWN.getId();
+        }
+        try {
+            int age = Integer.parseInt(value.split("~")[0]);
+            if (age >= 1 && age <= 9) {
+                return AgeRange.AGE_0_9.getId();
+            } else if (age >= 10 && age <= 19) {
+                return AgeRange.AGE_10_19.getId();
+            } else if (age >= 20 && age <= 29) {
+                return AgeRange.AGE_20_29.getId();
+            } else if (age >= 30 && age <= 39) {
+                return AgeRange.AGE_30_39.getId();
+            } else if (age >= 40 && age <= 49) {
+                return AgeRange.AGE_40_49.getId();
+            } else if (age >= 50 && age <= 59) {
+                return AgeRange.AGE_50_59.getId();
+            } else if (age >= 60) {
+                return AgeRange.AGE_60_PLUS.getId();
+            } else {    // 나이가 음수 등 형식에 맞지 않는 경우 처리
+                return AgeRange.AGE_UNKNOWN.getId();
+            }
+        } catch (NumberFormatException e) { // 문자열을 정수로 변환할 수 없는 경우 처리
+            return AgeRange.AGE_UNKNOWN.getId();
+        }
     }
 }

@@ -8,10 +8,16 @@
 		<typeAlias type="com.multi.hontrip.mate.dto.MateDTO" alias="mateDTO"></typeAlias>
 		<!-- userDTO -->
 		<typeAlias type="com.multi.hontrip.user.dto.UserDTO" alias="userDTO"></typeAlias>
+		<typeAlias type="com.multi.hontrip.user.dto.UserInsertDTO" alias="userInsertDTO"></typeAlias>
 	</typeAliases>
+	<typeHandlers>
+		<typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler" />
+	</typeHandlers>
+
 	<mappers>
 		<!-- SQL문 정의하는 파일들의 목록을 지정. 테이블당 한개 사용 -->
 		<mapper resource="mapper/mateMapper.xml" />
 		<mapper resource="mapper/userMapper.xml" />
 	</mappers>
+
 </configuration>
