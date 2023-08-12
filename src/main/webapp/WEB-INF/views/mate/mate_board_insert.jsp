@@ -1,12 +1,8 @@
-<%@ page import="com.multi.hontrip.mate.dto.Gender" %><%--
-  Created by IntelliJ IDEA.
-  User: ehska
-  Date: 2023-08-09
-  Time: 오후 1:08
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.multi.hontrip.mate.dto.Gender" %>
+<%@ page import="com.multi.hontrip.mate.dto.Region" %>
+<%@ page import="com.multi.hontrip.mate.dto.AgeRange" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>동행인 매칭 게시글 등록</title>
@@ -19,6 +15,24 @@
     <script type="text/javascript"
             src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script>
+        function ageRangeChecked() {
+
+            let checkedArr = [];
+
+            let checkboxes = document.querySelectorAll('input[type="checkbox"][name="age"]:checked');
+            for (let i = 0; i < checkboxes.length; i++) {
+                checkedArr.push(checkboxes[i].value);
+            }
+
+            let checkedStr = checkedArr[0];
+            for (let i = 1; i < checkedArr.length; i++) {
+                checkedStr += "," + checkedArr[i];
+            }
+
+            console.log(checkedStr)
+            $('#ageRangeId').attr('value', checkedStr);
+        }
+
         /*$(function () {
             $('#btn').click(function () {
                 $.ajax({
@@ -175,7 +189,13 @@
         <%--TODO: 유저아이디 숨기기 + 유저아이디 받아오기--%>
         유저아이디 <input hidden name="userId" value="1"> <br>
 
-        지역아이디 <input type="text" name="regionId" value="20"> <br>
+        <%--지역아이디 <input type="text" name="regionId" value="20"> <br>--%>
+        <select name="regionId">
+            <c:forEach items="${Region.values()}" var="region">
+                <option value="${region}">${region.regionStr}</option>
+            </c:forEach>
+        </select>
+
 
         모집인원 <input name="recruitNumber" value="1"> <br>
 
@@ -204,28 +224,26 @@
                     onChange={StartDateValueHandler}
             >
         </div>
-
         <div class="recruit">
-            <%--모집조건 - 성별 (남성, 여성, 아무나 중 택1)--%>
-            <input type="radio" id="male" value="${Gender.MALE}" name="gender"><label for="male">남성</label>
-            <input type="radio" id="female" value="${Gender.FEMALE}" name="gender" checked><label
-                for="female">여성</label>
-            <input type="radio" id="genderAll" value="${Gender.ALLGENDER}" name="gender"><label
-                for="genderAll">아무나</label>
-            <%--모집조건 - 연령대 (20,30,40,50,아무나 중복 선택 가능)--%>
-            <input type="checkbox" id="10" value="3" name="ageRangeId"><label for="10">10대</label>
-            <input type="checkbox" id="20" value="4" name="ageRangeId"><label for="20">20대</label>
-            <input type="checkbox" id="30" value="5" name="ageRangeId"><label for="30">30대</label>
-            <input type="checkbox" id="40" value="6" name="ageRangeId"><label for="40">40대</label>
-            <input type="checkbox" id="50" value="7" name="ageRangeId" checked><label for="50">50대</label>
-            <input type="checkbox" id="ageAll" value="8" name="ageRangeId"><label for="ageAll">아무나</label>
-        </div>
-        <%--<input type="file" name="thumbnail">
-    --%>
+            <c:forEach items="${Gender.values()}" var="gender">
+                <input type="radio" id="${gender.genderStr}" value="${gender}" name="gender"><label
+                    for="${gender.genderStr}">${gender.genderStr}</label></input>
+            </c:forEach>
 
-        <input type="file" name="file">
+            <div class="a">
+                <c:forEach items="${AgeRange.values()}" var="ageRange">
+                    <input type="checkbox" id="${ageRange}" value="${ageRange.ageRangeNum}" name="age"
+                           onclick="ageRangeChecked()"><label
+                        for="${ageRange}">${ageRange.ageRangeStr}</label></input>
+                </c:forEach>
+                <input hidden id="ageRangeId" name="ageRangeId">
+
+            </div>
+        </div>
+        <input type="file" name="file" required>
         <div class="form-container">
-            <input class="form-input" type="text" name="title" value="제발" placeholder="ex) 8/11 제주 월정리에서 같이 여행하실분 찾아요!!"
+            <input class="form-input" type="text" name="title" value="8/11 제주 월정리에서 같이 여행하실분"
+                   placeholder="ex) 8/11 제주 월정리에서 같이 여행하실분 찾아요!!"
                    required>
             <textarea class="form-input" name="content"
                       placeholder="같이 월정리 주변 여행하실분 계신가요? 사진찍는걸 좋아하고 바다 좋아하시는 분이었으면 좋겠어요"

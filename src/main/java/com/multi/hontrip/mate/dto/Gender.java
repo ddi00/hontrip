@@ -1,16 +1,22 @@
 package com.multi.hontrip.mate.dto;
 
 import com.multi.hontrip.mate.exception.EnumException;
-import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Getter
+
+@RequiredArgsConstructor
 public enum Gender {
-    MALE(0), FEMALE(1), ALLGENDER(2);
+    MALE(1, "남성"), FEMALE(2, "여성"), ALLGENDER(3, "아무나");
 
     private final int genderNum;
+    private final String genderStr;
 
-    Gender(int genderNum) {
-        this.genderNum = genderNum;
+    public int getGenderNum() {
+        return genderNum;
+    }
+
+    public String getGenderStr() {
+        return genderStr;
     }
 
     public static Gender valueOf(int genderNum) {
@@ -25,10 +31,5 @@ public enum Gender {
                 throw new EnumException("Unknown Gender Value" + genderNum);
         }
     }
-
-    public int getValue() {
-        return this.genderNum;
-    }
-
 
 }

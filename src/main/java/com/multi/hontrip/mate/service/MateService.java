@@ -6,4 +6,6 @@ import com.multi.hontrip.mate.dto.MateBoardInsertDTO;
 public interface MateService {
 
     public void insert(MateBoardInsertDTO mateBoardInsertDTO);
+
+    public MateBoardInsertDTO selectOne(int id);
 }

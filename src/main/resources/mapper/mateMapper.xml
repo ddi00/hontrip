@@ -4,15 +4,29 @@
     <insert id="insert" parameterType="mateBoardInsertDTO">
         insert into mate_board (user_id, region_id, age_range_id, title, content, thumbnail, start_date,
                                 end_date, recruit_number, gender)
-        values (#{userId}, #{regionId}, #{ageRangeId}, #{title}, #{content}, #{thumbnail}, #{startDate}, #{endDate},
-                #{recruitNumber}, #{gender, typeHandler = org.apache.ibatis.type.EnumOrdinalTypeHandler})
+        values (#{userId}, #{regionId},
+                #{ageRangeId},
+                #{title}, #{content}, #{thumbnail}, #{startDate}, #{endDate},
+                #{recruitNumber}, #{gender})
     </insert>
 
-    <!--<select id="selectAll" resultType="mateBoardInsertDTO">
-SELECT FROM mate_board
-userId, regionId, ageRangeId, title, content, thumbnale, startDate,
-endDate,recruitNumber, gender, createdAt, updatedAt, isFinish
-    </select>-->
+    <select id="selectOne" parameterType="int" resultType="mateBoardInsertDTO">
+        SELECT user_id        as userId,
+               region_id      as regionId,
+               age_range_id   as ageRangeId,
+               title,
+               content,
+               thumbnail,
+               start_date     as startDate,
+               end_date       as endDate,
+               recruit_number as recruitNumber,
+               gender,
+               created_at     as createdAt,
+               updated_at     as updatedAt,
+               is_finish      as isFinish
+        FROM mate_board
+        where id = #{id}
+    </select>
 </mapper>
 
 

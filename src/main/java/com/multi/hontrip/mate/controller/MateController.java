@@ -4,10 +4,8 @@ import com.multi.hontrip.mate.dto.MateBoardInsertDTO;
 import com.multi.hontrip.mate.service.MateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +20,7 @@ public class MateController {
     private MateService mateService;
 
 
-    /* 동행인게시판 글 작성 get,post 매핑*/
+    /* 동행인게시판 글 작성 get, post 매핑*/
     @GetMapping("insert")
     public String insert() {
         return "mate/mate_board_insert";
@@ -41,5 +39,15 @@ public class MateController {
         mateService.insert(mateBoardInsertDTO);
         return "redirect:../home.jsp";
     }
+
+
+    /* 동행인 상세 게시글  get, post 매핑*/
+    @GetMapping("{id}")
+    public String selectOne(@PathVariable("id") int id, Model model) {
+        MateBoardInsertDTO mateBoardInsertDTO = mateService.selectOne(id);
+        model.addAttribute("dto", mateBoardInsertDTO);
+        return "mate/mate_board_selectOne";
+    }
+
 
 }

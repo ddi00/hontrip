@@ -15,6 +15,12 @@ public class MateServiceImpl implements MateService {
 
     @Override
     public void insert(MateBoardInsertDTO mateBoardInsertDTO) {
-        mateDAO.mateBoardinsert(mateBoardInsertDTO);
+        mateDAO.mateBoardInsert(mateBoardInsertDTO);
+    }
+
+
+    @Override
+    public MateBoardInsertDTO selectOne(int id) {
+        return mateDAO.mateBoardSelectOne(id);
     }
 }

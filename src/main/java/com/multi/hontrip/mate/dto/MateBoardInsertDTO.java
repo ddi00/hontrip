@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 public class MateBoardInsertDTO {
 
 	private long userId;
-	private int regionId;
-	private int ageRangeId;
+	private Region regionId;
+	private String ageRangeId;
 	private String title;
 	private String content;
 	private String thumbnail;
@@ -22,4 +22,5 @@ public class MateBoardInsertDTO {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private boolean isFinish;
+
 }
