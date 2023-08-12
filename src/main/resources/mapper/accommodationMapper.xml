@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="accommodation">
+    <select id="one" parameterType="Long" resultType="AccommodationDTO">
+        select * from accommodation
+        where accommodation_id = #{accommodationId}
+    </select>
+    <select id="count" parameterType="Long" resultType="int">
+        select count(accommodation_id) from accommodation
+        where accommodation_id = ${accommodationId}
+    </select>
+    <select id="all" resultType="AccommodationDTO">
+        select * from accommodation
+    </select>
+</mapper>

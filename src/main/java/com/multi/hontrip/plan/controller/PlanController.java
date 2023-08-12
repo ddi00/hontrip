@@ -19,7 +19,7 @@ public class PlanController {
 
     @RequestMapping("/plan_form") // 여행일정 insert 폼을 보여줌
     public String showPlanForm(@ModelAttribute("planDTO") PlanDTO planDTO) {
-        return "plan/plan_form"; // "resources/templates/plan/plan_form.html" 템플릿 파일을 사용
+        return "plan/plan_form";
     }
 
     @RequestMapping(value = "/insert_plan", method = RequestMethod.POST) // plan_form에서 작성한 내용 insert

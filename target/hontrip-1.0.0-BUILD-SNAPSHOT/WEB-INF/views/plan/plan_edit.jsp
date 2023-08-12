@@ -5,6 +5,9 @@
   Time: 오후 5:08
   To change this template use File | Settings | File Templates.
 --%>
+
+<%--여행 일정 수정--%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -34,12 +37,13 @@
 
             <tr>
                 <td>Start Date</td>
-                <td><input type="date" id="startDate" name="startDate" value="${plan.startDate}" required></td>
+                <td><input type="date" id="startDate" name="startDate"
+                           value=<fmt:formatDate value="${plan.startDate}" pattern="yyyy-MM-dd" type="date"/>required>
+                </td>
             </tr>
-
             <tr>
                 <td>End Date</td>
-                <td><input type="date" id="endDate" name="endDate" value="${plan.endDate}" required></td>
+                <td><input type="date" id="endDate" name="endDate" value=<fmt:formatDate value="${plan.endDate}" pattern="yyyy-MM-dd" type="date"/> required></td>
             </tr>
 
             <tr>
