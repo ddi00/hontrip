@@ -22,4 +22,5 @@ public class PostInfoDTO {
     private int indentationNum;
     private String cmtCreatedAt;
     private String cmtUpdatedAt;
+
 }
