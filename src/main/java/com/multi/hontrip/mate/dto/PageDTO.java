@@ -14,7 +14,7 @@ public class PageDTO {
 	private String keyword;
 
 	public void setStartEnd(int page) {
-		start = 1 + (page -1) * 5;
+		start = 1 + (page - 1) * 5;
 		end = page * 5; //5의 배수
 		// page --> start 	~ 	end
 		// --------------------------
@@ -27,6 +27,6 @@ public class PageDTO {
 		//(3 * 5) - 4 ==> 3page --> 11
 		//(page * onePage ) - page
 	}
-	
+
 
 }
