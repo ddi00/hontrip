@@ -1,10 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mateBoard">
-	<insert id="insert" parameterType="mateBoardVO">
-		insert into mate_board (title, content, want_gender, want_age, region, start_date, finish_date,recruit_number)
-		values(#{title}, #{content}, #{wantGender},#{wantAge}, #{region},#{startDate},#{finishDate},#{recruitNumber})
+<mapper namespace="mateBbs">
+	<insert id="insert" parameterType="mateBoardInsertDTO">
+		insert into mate_board (user_id, region_id, age_range_id, title, content, thumbnail, start_date,
+								end_date, recruit_number, gender)
+		values (#{userId}, #{regionId},
+				#{ageRangeId},
+				#{title}, #{content}, #{thumbnail}, #{startDate}, #{endDate},
+				#{recruitNumber}, #{gender})
 	</insert>
+
+	<select id="selectOne" parameterType="int" resultType="mateBoardInsertDTO">
+        SELECT user_id        as userId,
+			   region_id      as regionId,
+			   age_range_id   as ageRangeId,
+			   title,
+			   content,
+			   thumbnail,
+			   start_date     as startDate,
+			   end_date       as endDate,
+			   recruit_number as recruitNumber,
+			   gender,
+			   created_at     as createdAt,
+			   updated_at     as updatedAt,
+			   is_finish      as isFinish
+		FROM mate_board
+		where id = #{id}
+	</select>
+
+	<select id="list" resultType="mateBoardListDTO">
+		SELECT
+		mb.id AS mateBoardId,
+		u.nickname AS nickname,
+		mb.content AS content,
+		mb.title AS title,
+		mb.thumbnail AS thumbnail,
+		mb.start_date AS startDate,
+		mb.end_date AS endDate,
+		ar.range_description AS ageRange
+		FROM
+		mate_board mb
+		JOIN user u ON mb.user_id = u.id
+		JOIN age_range ar ON mb.age_range_id = ar.id
+		<where>
+			<if test='searchType != null'>
+				<if test='searchType.equals("title")'>
+					AND title LIKE concat('%', #{keyword}, '%')
+				</if>
+				<if test='searchType.equals("content")'>
+					AND content LIKE concat('%', #{keyword}, '%')
+				</if>
+				<if test='searchType.equals("title_content")'>
+					AND title LIKE concat('%', #{keyword}, '%')
+					or content LIKE concat('%', #{keyword}, '%')
+				</if>
+				<if test='searchType.equals("nickname")'>
+					AND nickname LIKE concat('%', #{keyword}, '%')
+				</if>
+				<!--				<if test='searchType.equals("id")'>-->
+				<!--					AND mb.id BETWEEN #{start} AND #{end}-->
+				<!--				</if>-->
+			</if>
+		</where>
+		AND mb.id BETWEEN #{start} AND #{end}
+		ORDER BY
+		mb.id DESC;
+	</select>
+
+
+	<!--	<select id="list" resultType="mateBoardListDTO">-->
+	<!--		SELECT-->
+	<!--		mb.id AS mateBoardId,-->
+	<!--		u.nickname AS nickname,-->
+	<!--		mb.content AS content,-->
+	<!--		mb.title AS title,-->
+	<!--		mb.thumbnail AS thumbnail,-->
+	<!--		mb.start_date AS startDate,-->
+	<!--		mb.end_date AS endDate,-->
+	<!--		ar.range_description AS ageRange-->
+	<!--		FROM-->
+	<!--		mate_board mb-->
+	<!--		JOIN user u ON mb.user_id = u.id-->
+	<!--		JOIN age_range ar ON mb.age_range_id = ar.id-->
+	<!--		WHERE-->
+	<!--		mb.id BETWEEN #{start} AND #{end}-->
+	<!--		ORDER BY-->
+	<!--		mb.id DESC;-->
+	<!--	</select>-->
+
+	<select id="count" resultType="Integer">
+		select count(*)
+		from mate_board;
+	</select>
+
+	<select id="location" resultType="locationDTO">
+		SELECT id   as locationId,
+			   city as city
+		FROM location;
+	</select>
 </mapper>
 
 

@@ -7,6 +7,10 @@
     <typeAliases>
         <typeAlias type="com.multi.hontrip.mate.dto.MateBoardInsertDTO"
                    alias="mateBoardInsertDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.MateDTO" alias="mateDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.MateBoardListDTO" alias="mateBoardListDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.LocationDTO" alias="locationDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.PageDTO" alias="pageDTO"></typeAlias>
     </typeAliases>
 
     <typeHandlers>
@@ -19,7 +23,6 @@
     </typeHandlers>
 
     <mappers>
-        <!-- SQL문 정의하는 파일들의 목록을 지정. 테이블당 한개 사용 -->
         <mapper resource="mapper/mateMapper.xml"/>
     </mappers>
 </configuration>
