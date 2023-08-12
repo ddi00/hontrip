@@ -10,7 +10,7 @@ import org.json.JSONObject;
 public class ApiTest {
     public static void main(String[] args) {
         // 카카오 REST API 키
-        String kakaoApiKey = "d8cf7eddeac8408c087d168ac8ede50c";
+        String kakaoApiKey = "";
         // 카테고리 코드 (PM9: 약국, HP8: 병원)
         String categoryCodePharmacy = "PM9";
         String categoryCodeHospital = "HP8";

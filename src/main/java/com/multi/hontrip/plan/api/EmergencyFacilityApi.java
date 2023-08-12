@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 public class EmergencyFacilityApi {
     public static void main(String[] args) {
-        String kakaoApiKey = "d8cf7eddeac8408c087d168ac8ede50c";
+        String kakaoApiKey = "";
         String categoryCodePharmacy = "PM9"; // 약국 카테고리
         String categoryCodeHospital = "HP8"; // 병원 카테고리
         /*String centerX = "127.027632"; // 서울
@@ -94,9 +94,9 @@ public class EmergencyFacilityApi {
     }
 
     private static void saveToMySQL(List<EmergencyFacilityDTO> data) throws Exception {
-        String jdbcUrl = "jdbc:mysql://localhost:3306/hontrip?characterEncoding=UTF-8";
-        String dbUser = "copidingz";
-        String dbPassword = "qwer1234";
+        String jdbcUrl = "";
+        String dbUser = "";
+        String dbPassword = "";
 
         try (Connection conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword)) {
             for (EmergencyFacilityDTO dto : data) {

@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 public class ApiTest2 {
     public static void main(String[] args) {
-        String kakaoApiKey = "d8cf7eddeac8408c087d168ac8ede50c";
+        String kakaoApiKey = "";
         String categoryCodePharmacy = "PM9";
         String categoryCodeHospital = "HP8";
         String centerX = "127.027632";
@@ -72,9 +72,9 @@ public class ApiTest2 {
     }
 
     private static void saveToMySQL(List<JSONObject> data) throws Exception {
-        String jdbcUrl = "jdbc:mysql://localhost:3306/hontrip?characterEncoding=UTF-8";
-        String dbUser = "copidingz";
-        String dbPassword = "qwer1234";
+        String jdbcUrl = "";
+        String dbUser = "";
+        String dbPassword = "";
 
         try (Connection conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword)) {
             for (JSONObject item : data) {

@@ -7,7 +7,7 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 public class ApiTest5 {
-    private static final String KAKAO_MAP_API_KEY = "d8cf7eddeac8408c087d168ac8ede50c";
+    private static final String KAKAO_MAP_API_KEY = "";
     private static final String KAKAO_MAP_API_URL = "https://dapi.kakao.com/v2/local/search/keyword.json";
 
     public static void main(String[] args) {
