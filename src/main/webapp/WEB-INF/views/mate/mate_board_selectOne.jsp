@@ -79,8 +79,41 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
+        let applicationInProgress = false;
+
+        function cancel() {
+            $(".modal").fadeOut();
+            console.log(5)
+            /* applicationInProgress = false; // 취소 시 플래그 리셋*/
+        }
+
+        function send() {
+            //동행 신청 메세지이 공란이거나 띄어쓰기만 있을경우 -> 기본값인 "같이 여행가요"가 저장됨
+            if ($('#applicationMessage').val().trim() == "") {
+                $('#applicationMessage').val("같이 여행가요")
+            }
+            $.ajax({
+                type: "POST",
+                url: "insertMatchingAlarm",
+                data: {
+                    mateBoardId: ${dto.id},
+                    senderId: ${login},
+                    content: $("#applicationMessage").val()
+                },
+                success: function () {
+                    //동행 신청 메세지를 전송한 후, 모달을 끄고
+                    $(".modal").fadeOut();
+                    //동행인 신청 버튼 비활성화
+                    $('#application').attr('disabled', 'disabled');
+                }, complete: function () {
+                    applicationInProgress = false; // 요청 완료 시 플래그 리셋
+                }
+            })
+        }
+
         $(function () {
-            let login = "${login}"
+            let login = "${login}";
+            /*let applicationInProgress = false; // 플래그 추가*/
 
             //로그인 했고, 이미 지원한 경우 동행인 신청 버튼 비활성화
             if (login != "no") {
@@ -110,10 +143,8 @@
                 if (login == "no") {
                     alert("로그인 창")
                     //로그인 했을 경우
-                }
-
-                //로그인 했을 경우 신청자의 성별, 연령대를 가져온 후, 모집조건에 적합한지 체크한다
-                if (login != "no")
+                } else {
+                    //신청자의 성별, 연령대를 가져온 후, 모집조건에 적합한지 체크한다
                     $.ajax({
                         url: "findUserGenderAge",
                         data: {
@@ -124,35 +155,8 @@
                             //게시글 작성자가 원하는 연령대 리스트 생성
                             let ageRangeStrArr = <%= request.getAttribute("ageRangeJS") %>;
                             //모집조건에 부합하다면
-                            if (json.id == ${login} && json.gender == "${dto.gender.genderStr}" && ageRangeStrArr.includes(json.ageRange)) {
+                            if (json.id === ${login} && json.gender === "${dto.gender.genderStr}" && ageRangeStrArr.includes(json.ageRange)) {
                                 $(".modal.yes").fadeIn();
-                                //취소 버튼 누르면 모달창이 사라짐
-                                $("#cancel").on("click", function () {
-                                    $(".modal").fadeOut();
-                                });
-
-                                $("#send").on("click", function () {
-                                    //동행 신청 메세지이 공란이거나 띄어쓰기만 있을경우 -> 기본값인 "같이 여행가요"가 저장됨
-                                    if ($('#applicationMessage').val().trim() == "") {
-                                        $('#applicationMessage').val("같이 여행가요")
-                                    }
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "insertMatchingAlarm",
-                                        data: {
-                                            mateBoardId: ${dto.id},
-                                            senderId: ${login},
-                                            content: $("#applicationMessage").val()
-                                        },
-                                        success: function () {
-                                            //동행 신청 메세지를 전송한 후, 모달을 끄고
-                                            $(".modal").fadeOut();
-                                            //동행인 신청 버튼 비활성화
-                                            $('#application').attr('disabled', 'disabled');
-                                        }
-                                    })
-                                })
-
                                 //모집조건에 부합하지 않다면
                             } else {
                                 $(".modal.no").fadeIn();
@@ -166,6 +170,7 @@
                             console.log(e)
                         }
                     })//ajax
+                }
             })//application 버튼
         })
 
@@ -232,8 +237,8 @@
         동행 신청 메세지<br>
         <textarea id="applicationMessage" placeholder="같이 여행가요"
                   cols="50" rows="5" style="resize: none;"></textarea><br>
-        <button id="cancel">취소</button>
-        <button id="send">전송</button>
+        <button onclick="cancel()" id="cancel">취소</button>
+        <button onclick="send()" id="send">전송</button>
     </div>
 </div>
 

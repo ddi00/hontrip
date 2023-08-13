@@ -215,17 +215,23 @@
 		<dependency>
 			<groupId>org.imgscalr</groupId>
 			<artifactId>imgscalr-lib</artifactId>
-			<version>4.2</version>
-		</dependency>
+            <version>4.2</version>
+        </dependency>
 
-		<!-- Test -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.7</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+        <!-- Test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.7</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>

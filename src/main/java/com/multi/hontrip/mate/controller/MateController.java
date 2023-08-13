@@ -81,7 +81,6 @@ public class MateController {
     @ResponseBody
     public int checkApply(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
         int num = mateService.checkApply(mateMatchingAlarmDTO);
-        System.out.println(num);
         return mateService.checkApply(mateMatchingAlarmDTO);
     }
 
