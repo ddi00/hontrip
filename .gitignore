@@ -148,4 +148,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+
+#java
+target/
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,intellij+all,macos
