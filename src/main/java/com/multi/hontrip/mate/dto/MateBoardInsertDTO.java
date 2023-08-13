@@ -1,14 +1,13 @@
 package com.multi.hontrip.mate.dto;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
-@RequiredArgsConstructor
 public class MateBoardInsertDTO {
 
+	private long id;
 	private long userId;
 	private Region regionId;
 	private String ageRangeId;
@@ -23,4 +22,108 @@ public class MateBoardInsertDTO {
 	private LocalDateTime updatedAt;
 	private boolean isFinish;
 
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	public Region getRegionId() {
+		return regionId;
+	}
+
+	public void setRegionId(Region regionId) {
+		this.regionId = regionId;
+	}
+
+	public String getAgeRangeId() {
+		return ageRangeId;
+	}
+
+	public void setAgeRangeId(String ageRangeId) {
+		this.ageRangeId = ageRangeId;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public int getRecruitNumber() {
+		return recruitNumber;
+	}
+
+	public void setRecruitNumber(int recruitNumber) {
+		this.recruitNumber = recruitNumber;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public boolean isFinish() {
+		return isFinish;
+	}
+
+	public void setFinish(boolean finish) {
+		isFinish = finish;
+	}
 }

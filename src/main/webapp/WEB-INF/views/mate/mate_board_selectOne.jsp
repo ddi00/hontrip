@@ -4,6 +4,39 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<%
+    /*세션에서 유저아이디 불러옴 -> 없으면 no 있으면 유저아이디*/
+    /*if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
+        request.setAttribute("login", "no");
+    } else {
+        long userId = (long) session.getAttribute("id");
+        request.setAttribute("login", userId);
+    }*/
+    request.setAttribute("login", 3L);
+%>
+<%
+    /* c:forEach 에서 사용할 배열 -> ageRangeStr */
+    MateBoardInsertDTO mateBoardInsertDTO = (MateBoardInsertDTO) request.getAttribute("dto");
+    String[] ageRangeStr = mateBoardInsertDTO.getAgeRangeId().split(",");
+    for (int i = 0; i < ageRangeStr.length; i++) {
+        ageRangeStr[i] = AgeRange.valueOf(Integer.parseInt(ageRangeStr[i]));
+    }
+    request.setAttribute("ageRangeStr", ageRangeStr);
+
+    /* js에서 사용할 배열 문자열 -> ageRangeJS*/
+    String[] age = mateBoardInsertDTO.getAgeRangeId().split(",");
+    String ageRangeJS = "[";
+    for (int i = 0; i < age.length; i++) {
+        age[i] = AgeRange.valueOf(Integer.parseInt(age[i]));
+        ageRangeJS += "'" + age[i] + "'";
+        if (i < age.length - 1) {
+            ageRangeJS += ",";
+        }
+    }
+    ageRangeJS += "]";
+    request.setAttribute("ageRangeJS", ageRangeJS);
+%>
 <html>
 <head>
 
@@ -16,7 +49,127 @@
             color: #292929;
             font-size: 12px;
         }
+
+        .modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            top: 0;
+            left: 0;
+            display: none;
+        }
+
+        .modal_content {
+            width: 400px;
+            height: 200px;
+            background: #FFF;
+            border-radius: 10px;
+            position: relative;
+            top: 50%;
+            left: 50%;
+            margin-top: -100px;
+            margin-left: -200px;
+            text-align: center;
+            box-sizing: border-box;
+            line-height: 55px;
+            cursor: pointer;
+        }
+
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script>
+        $(function () {
+            let login = "${login}"
+
+            //로그인 했고, 이미 지원한 경우 동행인 신청 버튼 비활성화
+            if (login != "no") {
+                $.ajax({
+                    url: "checkApply",
+                    data: {
+                        senderId: ${login},
+                        mateBoardId: ${dto.id}
+                    },
+                    dataType: "json",
+                    success: function (result) {
+                        if (result === 1) {
+                            console.log(result)
+                            $('#application').attr('disabled', 'disabled');
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e)
+                    }
+                })
+            }
+
+            //동행인 신청 버튼 눌렀을때
+            $('#application').on("click", function () {
+
+                //로그인 안했을 경우 로그인창을 띄움
+                if (login == "no") {
+                    alert("로그인 창")
+                    //로그인 했을 경우
+                }
+
+                //로그인 했을 경우 신청자의 성별, 연령대를 가져온 후, 모집조건에 적합한지 체크한다
+                if (login != "no")
+                    $.ajax({
+                        url: "findUserGenderAge",
+                        data: {
+                            id:${login}
+                        },
+                        dataType: "json",
+                        success: function (json) {
+                            //게시글 작성자가 원하는 연령대 리스트 생성
+                            let ageRangeStrArr = <%= request.getAttribute("ageRangeJS") %>;
+                            //모집조건에 부합하다면
+                            if (json.id == ${login} && json.gender == "${dto.gender.genderStr}" && ageRangeStrArr.includes(json.ageRange)) {
+                                $(".modal.yes").fadeIn();
+                                //취소 버튼 누르면 모달창이 사라짐
+                                $("#cancel").on("click", function () {
+                                    $(".modal").fadeOut();
+                                });
+
+                                $("#send").on("click", function () {
+                                    //동행 신청 메세지이 공란이거나 띄어쓰기만 있을경우 -> 기본값인 "같이 여행가요"가 저장됨
+                                    if ($('#applicationMessage').val().trim() == "") {
+                                        $('#applicationMessage').val("같이 여행가요")
+                                    }
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "insertMatchingAlarm",
+                                        data: {
+                                            mateBoardId: ${dto.id},
+                                            senderId: ${login},
+                                            content: $("#applicationMessage").val()
+                                        },
+                                        success: function () {
+                                            //동행 신청 메세지를 전송한 후, 모달을 끄고
+                                            $(".modal").fadeOut();
+                                            //동행인 신청 버튼 비활성화
+                                            $('#application').attr('disabled', 'disabled');
+                                        }
+                                    })
+                                })
+
+                                //모집조건에 부합하지 않다면
+                            } else {
+                                $(".modal.no").fadeIn();
+                                $(".modal_content").click(function () {
+                                    $(".modal").fadeOut();
+                                    $('#application').attr('disabled', 'disabled');
+                                });
+                            }
+                        },
+                        error: function (e) {
+                            console.log(e)
+                        }
+                    })//ajax
+            })//application 버튼
+        })
+
+    </script>
 
 </head>
 <body>
@@ -42,7 +195,12 @@
     </tr>
 
     <tr>
-        <td><span style="font-weight: bold">원해요</span> #${dto.gender.genderStr} ${dto.ageRangeId}
+        <td><span style="font-weight: bold">원해요</span> #${dto.gender.genderStr}
+
+
+            <c:forEach items="${ageRangeStr}" var="age">
+                #${age}
+            </c:forEach>
             <button style="background-color: #FFA41B" id="application">동행 신청하기</button>
         </td>
     </tr>
@@ -56,20 +214,28 @@
     </tr>
 </table>
 
-<% MateBoardInsertDTO mateBoardInsertDTO = (MateBoardInsertDTO) request.getAttribute("dto");
-    String[] ageRangeArr = mateBoardInsertDTO.getAgeRangeId().split(",");
-    for (String age : ageRangeArr) {
-        AgeRange.valueOf(Integer.parseInt(age));
-    }
-%>
-
-<%--<c:forEach items="${ageRangeArr}" var="age">
-<%= AgeRange.valueOf(age)%>
-</c:forEach>--%>
 
 <input id="comment" type="text" placeholder="댓글을 적어주세요">
 <button>등록</button>
 
+
+<div class="modal no">
+    <div class="modal_content"
+         title="클릭하면 창이 닫힙니다.">
+        모집 조건에 맞지 않습니다.
+    </div>
+</div>
+
+<div class="modal yes">
+    <div class="modal_content"
+         title="클릭하면 창이 닫힙니다.">
+        동행 신청 메세지<br>
+        <textarea id="applicationMessage" placeholder="같이 여행가요"
+                  cols="50" rows="5" style="resize: none;"></textarea><br>
+        <button id="cancel">취소</button>
+        <button id="send">전송</button>
+    </div>
+</div>
 
 </body>
 </html>

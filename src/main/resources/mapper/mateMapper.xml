@@ -10,8 +10,14 @@
 				#{recruitNumber}, #{gender})
 	</insert>
 
-	<select id="selectOne" parameterType="int" resultType="mateBoardInsertDTO">
-        SELECT user_id        as userId,
+	<insert id="insertMateMatchingAlarm" parameterType="mateMatchingAlarmDTO">
+		insert into mate_matching_alarm (mate_board_id, sender_id, content)
+		values (#{mateBoardId}, #{senderId}, #{content})
+	</insert>
+
+	<select id="selectOne" parameterType="long" resultType="mateBoardInsertDTO">
+		SELECT id,
+			   user_id        as userId,
 			   region_id      as regionId,
 			   age_range_id   as ageRangeId,
 			   title,
@@ -26,6 +32,20 @@
 			   is_finish      as isFinish
 		FROM mate_board
 		where id = #{id}
+	</select>
+
+	<select id="findUserGenderAgeById" resultType="userGenderAgeDTO" parameterType="long">
+		select id,
+			   age_range_id as ageRange,
+			   gender
+		from user
+		where id = #{id}
+	</select>
+
+	<select id="checkApply" parameterType="mateMatchingAlarmDTO" resultType="int">
+		select exists (select *
+					   from mate_matching_alarm
+					   where sender_id = #{senderId} and mate_board_id = #{mateBoardId});
 	</select>
 
 	<select id="list" resultType="mateBoardListDTO">

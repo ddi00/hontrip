@@ -1,9 +1,8 @@
 package com.multi.hontrip.mate.controller;
 
-import com.multi.hontrip.mate.dto.LocationDTO;
-import com.multi.hontrip.mate.dto.MateBoardInsertDTO;
-import com.multi.hontrip.mate.dto.MateBoardListDTO;
-import com.multi.hontrip.mate.dto.PageDTO;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.multi.hontrip.mate.dto.*;
 import com.multi.hontrip.mate.service.MateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +29,62 @@ public class MateController {
         return "mate/mate_board_insert";
     }
 
+
+    @PostMapping("insert")
+    public String insert(@RequestParam("file") MultipartFile file,
+                         MateBoardInsertDTO mateBoardInsertDTO,
+                         HttpServletRequest request
+    ) throws IOException {
+        String savedFileName = file.getOriginalFilename();
+        mateBoardInsertDTO.setThumbnail(savedFileName);
+        String uploadPath = "D:\\hontrip\\src\\main\\webapp\\resources\\upload";
+        File target = new File(uploadPath + "/" + savedFileName);
+        file.transferTo(target);
+        mateService.insert(mateBoardInsertDTO);
+        return "redirect:../index.jsp";
+
+
+    }
+
+
+    /* 동행인 상세 게시글  get 매핑*/
+    @GetMapping("{id}")
+    public String selectOne(@PathVariable("id") long id, Model model) {
+        MateBoardInsertDTO mateBoardInsertDTO = mateService.selectOne(id);
+        model.addAttribute("dto", mateBoardInsertDTO);
+        return "mate/mate_board_selectOne";
+    }
+
+    /*produces="text/plain;charset=UTF-8" <- Gson().toJson(user) 할때 한글이 깨지는 현상을 방지하기 위해*/
+    /* 동행인 신청자의 조건 부합 여부를 확인하기 위해 -> 신청자의 성별과 연령대를 불러오는 메서드 */
+    @RequestMapping(value = "findUserGenderAge", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String findUserGenderAgeById(@RequestParam("id") long id) {
+        UserGenderAgeDTO userGenderAgeDTO = mateService.findUserGenderAgeById(id);
+        JsonObject user = new JsonObject();
+        user.addProperty("id", userGenderAgeDTO.getId());
+        user.addProperty("gender", userGenderAgeDTO.getGender().getGenderStr());
+        user.addProperty("ageRange", userGenderAgeDTO.getAgeRange().getAgeRangeStr());
+        return new Gson().toJson(user);
+    }
+
+
+    //return값이 필요한 이유 -> ajax에서 불렀을때 리턴값이 없으면 404뜸
+    @PostMapping("insertMatchingAlarm")
+    @ResponseBody
+    public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
+        return mateService.insertMatchingAlarm(mateMatchingAlarmDTO);
+    }
+
+
+    @GetMapping("checkApply")
+    @ResponseBody
+    public int checkApply(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
+        int num = mateService.checkApply(mateMatchingAlarmDTO);
+        System.out.println(num);
+        return mateService.checkApply(mateMatchingAlarmDTO);
+    }
+
     @RequestMapping("bbs_list")
     public void list(PageDTO pageDTO, Model model) {
         //start, end지점 구하기
@@ -50,32 +105,6 @@ public class MateController {
         List<LocationDTO> location = mateService.location();
         model.addAttribute("location", location);
     }
-
-    @PostMapping("insert")
-    public String insert(@RequestParam("file") MultipartFile file,
-                         MateBoardInsertDTO mateBoardInsertDTO,
-                         HttpServletRequest request
-    ) throws IOException {
-        String savedFileName = file.getOriginalFilename();
-        mateBoardInsertDTO.setThumbnail(savedFileName);
-        String uploadPath = "D:\\hontrip\\src\\main\\webapp\\resources\\upload";
-        File target = new File(uploadPath + "/" + savedFileName);
-        file.transferTo(target);
-        mateService.insert(mateBoardInsertDTO);
-        return "redirect:../home.jsp";
-
-
-    }
-
-
-    /* 동행인 상세 게시글  get, post 매핑*/
-    @GetMapping("{id}")
-    public String selectOne(@PathVariable("id") int id, Model model) {
-        MateBoardInsertDTO mateBoardInsertDTO = mateService.selectOne(id);
-        model.addAttribute("dto", mateBoardInsertDTO);
-        return "mate/mate_board_selectOne";
-    }
-
 
 //    @RequestMapping("bbs_one")
 //    public void one(int id, Model model) {
