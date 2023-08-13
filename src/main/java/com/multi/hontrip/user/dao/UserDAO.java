@@ -13,7 +13,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserDAO {
     private final SqlSessionTemplate sqlSessionTemplate;
-    public Long findIdByProviderAndSocialID(String provider, Long socialId) {   //카카오 인증정보로 기존 회원인지 확인, 없으면 null
+    public Long findIdByProviderAndSocialID(String provider, String socialId) {   //카카오 인증정보로 기존 회원인지 확인, 없으면 null
         Map<String, Object> params = new HashMap<>();   //파라미터 담기
         params.put("provider", provider);
         params.put("socialId", socialId);
@@ -28,7 +28,7 @@ public class UserDAO {
     @Transactional
     public UserInsertDTO updateUserInfo(UserInsertDTO userInsertDTO) {    //user_id로 신규 정보만 update, 신규 정보 반환
         sqlSessionTemplate.update("userMapper.updateMemberByAuth",userInsertDTO);   //사용자 정보 update
-        return sqlSessionTemplate.selectOne("userMapper.userInfbyUpdated");   // 사용자 정보 다시 가져오기
+        return sqlSessionTemplate.selectOne("userMapper.userInfobyUpdated");   // 사용자 정보 다시 가져오기
     }
 
     public String getProviderById(Long userId) {  //provider 가져오기

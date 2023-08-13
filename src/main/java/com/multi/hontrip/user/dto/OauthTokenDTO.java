@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class KakaoOauthTokenDTO {   //사용자 정보 접근 토큰
+public class OauthTokenDTO {   //사용자 정보 접근 토큰
     @SerializedName("token_type")
     private String tokenType;   //토큰 타입
     @SerializedName("access_token")

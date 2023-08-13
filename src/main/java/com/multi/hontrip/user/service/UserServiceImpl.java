@@ -5,6 +5,7 @@ import com.multi.hontrip.user.dto.LoginUrlData;
 import com.multi.hontrip.user.dto.UserDTO;
 import com.multi.hontrip.user.dto.UserInsertDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,15 +14,19 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements  UserService{
+public class UserServiceImpl implements  UserService{   //사용자 회원처리
 
     private final UserDAO userDAO;
-    private final KakaoService kakaoService;
+    @Qualifier("kakaoService")
+    private final OauthService kakaoService;
+    @Qualifier("naverService")
+    private final OauthService naverService;
 
     @Override
-    public List<LoginUrlData> getUrls() {   //로그인 가능한 소셜ouath주소 리스트로 저장
+    public List<LoginUrlData> getUrls(){   //로그인 가능한 소셜ouath주소 리스트로 저장
         List<LoginUrlData> urlList = new ArrayList<>();
-        urlList.add(new LoginUrlData("kakao",kakaoService.getKakaoLogin(),"/resources/img/user/kakao_login_medium_narrow.png"));    //카카오
+        urlList.add(new LoginUrlData("kakao",kakaoService.getLoginUrl(),"/resources/img/user/kakao_login_medium_narrow.png"));    //카카오
+        urlList.add(new LoginUrlData("naver",naverService.getLoginUrl(),"/resources/img/user/btnG_완성형.png"));   //네이버
         return urlList;
     }
 
@@ -30,8 +35,9 @@ public class UserServiceImpl implements  UserService{
         UserInsertDTO userInsertDTO =null;  //DB에 입력할 정보
         String logOutUrl = null;
         if(provider.equals("kakao")){   //카카오 인증인 경우
-            userInsertDTO=kakaoService.getKakaoInfo(request.getParameter("code"));  //카카오 인증 받아오기
-            logOutUrl = kakaoService.getKakaoLogOut();
+            userInsertDTO=kakaoService.getOauthInfo(request.getParameter("code"),null);  //카카오 인증 받아오기
+        }else if(provider.equals("naver")){
+            userInsertDTO=naverService.getOauthInfo(request.getParameter("code"),request.getParameter("state"));
         }
 
         // 기존 회원 판별
@@ -54,7 +60,9 @@ public class UserServiceImpl implements  UserService{
     public String getUserLogOutUrl(Long id) {       // id로 공급자 검색해서 로그아웃 url 반환
         String provider = userDAO.getProviderById(id);  // 공급자 검색
         if(provider.equals("kakao")) {
-            return kakaoService.getKakaoLogOut();   // kakao 로그아웃 url 반환
+            return kakaoService.getLogOutUrl();   // kakao 로그아웃 url 반환
+        }else if(provider.equals("naver")){
+            return naverService.getLogOutUrl();
         }
         return "/";
     }

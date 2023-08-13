@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class UserInsertDTO {  //DB에 입력할 소셜 인증 사용자 정보
     private Long id;    // 내부 회원 ID
     private String provider;    //Oauth 공급자
-    private Long socialId;    //Oauth 공급ID
+    private String socialId;    //Oauth 공급ID
     private String nickName;    //닉네임
     private String profileImage;    //프로필 이미지
     private int ageRangeId;        //연령대    - null일 수 있음

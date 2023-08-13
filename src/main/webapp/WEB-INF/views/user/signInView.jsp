@@ -11,8 +11,8 @@
 	<!-- 소셜로그인 버튼을 순서대로 뿌려준다 -->
 		<c:forEach items="${urls}" var="loginUrl">
 			<a href="${loginUrl.loginHref}">
-				<img src="<c:url value='${loginUrl.imgSrc}' />" alt="${loginUrl.provider} 로그인">
-			</a>
+				<img src="<c:url value='${loginUrl.imgSrc}'/>" width="183" alt="${loginUrl.provider} 로그인">
+			</a><br>
 		</c:forEach>
 </body>
 </html>

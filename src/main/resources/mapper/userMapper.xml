@@ -30,7 +30,7 @@
             created_at = #{createdAt}
         WHERE id = #{id}
     </update>
-    <select id="userInfbyUpdated" resultType="userInsertDTO">
+    <select id="userInfobyUpdated" resultType="userInsertDTO">
         SELECT * FROM user WHERE id = #{id}
     </select>
     <select id="userProvider" resultType="String">
