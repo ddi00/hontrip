@@ -67,6 +67,12 @@ public class MateController {
         return new Gson().toJson(user);
     }
 
+    @DeleteMapping("delete/{id}")
+    @ResponseBody
+    public int deleteMateBoard(@PathVariable("id") long id) {
+        return mateService.deleteMateBoard(id);
+    }
+
 
     //return값이 필요한 이유 -> ajax에서 불렀을때 리턴값이 없으면 404뜸
     @PostMapping("insertMatchingAlarm")

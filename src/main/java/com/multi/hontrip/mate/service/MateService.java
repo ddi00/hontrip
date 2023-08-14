@@ -10,6 +10,8 @@ public interface MateService {
 
     public MateBoardInsertDTO selectOne(long id);    //동행인 상세게시글 가져오기
 
+    public int deleteMateBoard(long id); //동행인 게시글 삭제하기
+
     public UserGenderAgeDTO findUserGenderAgeById(long id);  //동행 신청자의 성별과 연령대 가져오기
 
     public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO); //동행인 신청 메세지 작성하기

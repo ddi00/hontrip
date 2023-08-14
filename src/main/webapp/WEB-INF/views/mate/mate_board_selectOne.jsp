@@ -88,6 +88,23 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
+        function deleteMateBoard() {
+            $.ajax({
+                method: 'DELETE',
+                url: "delete/${dto.id}",
+                data: {
+                    id: "${dto.id}"
+                },
+                success: function (result) {
+                    if (result == 1) {
+                        location.href = "bbs_list"
+                    }
+                }, error: function (e) {
+                    console.log(e)
+                }
+            })
+        }
+
         let applicationInProgress = false;
 
         //동행인신청메세지 모달에서 취소버튼을 눌렀을때
@@ -233,7 +250,12 @@
     </tr>
 
     <tr>
-        <td>${dto.createdAt} <a href="#">수정</a> <a href="#">삭제</a></td>
+        <td>${dto.createdAt} 조회수
+            <c:if test="${dto.userId eq login}">
+                <button id="update">수정</button>
+                <button id="delete" onclick="deleteMateBoard()">삭제</button>
+            </c:if>
+        </td>
     </tr>
 </table>
 

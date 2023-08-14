@@ -26,6 +26,12 @@ public class MateServiceImpl implements MateService {
         return mateDAO.mateBoardSelectOne(id);
     }
 
+    //동행인 상세게시글 삭제하기
+    @Override
+    public int deleteMateBoard(long id) {
+        return mateDAO.deleteMateBoard(id);
+    }
+
     //동행 신청자의 성별과 연령대 가져오기
     @Override
     public UserGenderAgeDTO findUserGenderAgeById(long id) {

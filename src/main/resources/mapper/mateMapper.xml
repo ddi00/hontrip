@@ -119,6 +119,12 @@
 			   city as city
 		FROM location;
 	</select>
+
+	<delete id="deleteMateBoard" parameterType="long">
+		delete
+		from mate_board
+		where id = #{id}
+	</delete>
 </mapper>
 
 

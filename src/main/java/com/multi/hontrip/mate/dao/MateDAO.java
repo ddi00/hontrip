@@ -21,6 +21,10 @@ public class MateDAO {
         return my.selectOne("mateBbs.selectOne", id);
     }
 
+    public int deleteMateBoard(long id) {
+        return my.delete("mateBbs.deleteMateBoard", id);
+    }
+
     public UserGenderAgeDTO findUserGenderAgeById(long id) {
         return my.selectOne("mateBbs.findUserGenderAgeById", id);
     }
