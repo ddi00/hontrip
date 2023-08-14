@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300&display=swap');
+
+.social-login-area{
+
+}
+.social-login-area img{
+  width: 200px;
+  margin: 5px;
+}
+.kor-font{
+  font-family: '맑은 고딕','Malgun Gothic',나눔고딕,돋움,Dotum,굴림,Gulim,'Apple SD Gothic Neo',sans-serif !important;
+}
+.kor-font-small{
+  font-size: .7rem !important;
+  font-family: '맑은 고딕','Malgun Gothic',나눔고딕,돋움,Dotum,굴림,Gulim,'Apple SD Gothic Neo',sans-serif !important;
+}
+.color-red{
+  color: #FF9F1C;
+}

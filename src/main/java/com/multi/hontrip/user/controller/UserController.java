@@ -32,7 +32,7 @@ public class UserController {
         //모델에 로그인할 수 있는 url을 담아서 전달 - 네이버, 구글, 카카오...
         List<LoginUrlData> loginUrls = userService.getUrls();
         modelAndView.addObject("urls",loginUrls);
-        modelAndView.setViewName("/user/signInView");
+        modelAndView.setViewName("/user/signin-view");
         return modelAndView;
     }
 
