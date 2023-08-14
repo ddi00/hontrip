@@ -13,6 +13,6 @@
 <body>
 동행인 매칭<br>
 <a href="mate/insert">동행인 매칭 게시글 작성</a><br>
-<a href="mate/88">동행인 매칭 게시글 상세페이지</a>
+<a href="mate/106">동행인 매칭 게시글 상세페이지</a>
 </body>
 </html>

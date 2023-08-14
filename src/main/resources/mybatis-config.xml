@@ -24,6 +24,7 @@
                 handler="com.multi.hontrip.mate.dto.RegionTypeHandler"/>
         <typeHandler
                 handler="com.multi.hontrip.mate.dto.AgeRangeTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.LocalDateTimeTypeHandler"/>
     </typeHandlers>
 
     <mappers>

@@ -1,5 +1,6 @@
 <%@ page import="com.multi.hontrip.mate.dto.MateBoardInsertDTO" %>
 <%@ page import="com.multi.hontrip.mate.dto.AgeRange" %>
+<%@ page import="java.time.LocalDateTime" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -13,7 +14,7 @@
         long userId = (long) session.getAttribute("id");
         request.setAttribute("login", userId);
     }*/
-    request.setAttribute("login", 3L);
+    request.setAttribute("login", 4L);
 %>
 <%
     /* c:forEach 에서 사용할 배열 -> ageRangeStr */
@@ -81,14 +82,13 @@
     <script>
         let applicationInProgress = false;
 
+        //동행인신청메세지 모달에서 취소버튼을 눌렀을때
         function cancel() {
             $(".modal").fadeOut();
-            console.log(5)
-            /* applicationInProgress = false; // 취소 시 플래그 리셋*/
         }
 
+        //동행인신청메세지 모달에서 전송버튼을 눌렀을때
         function send() {
-            //동행 신청 메세지이 공란이거나 띄어쓰기만 있을경우 -> 기본값인 "같이 여행가요"가 저장됨
             if ($('#applicationMessage').val().trim() == "") {
                 $('#applicationMessage').val("같이 여행가요")
             }
@@ -155,7 +155,10 @@
                             //게시글 작성자가 원하는 연령대 리스트 생성
                             let ageRangeStrArr = <%= request.getAttribute("ageRangeJS") %>;
                             //모집조건에 부합하다면
-                            if (json.id === ${login} && json.gender === "${dto.gender.genderStr}" && ageRangeStrArr.includes(json.ageRange)) {
+                            //성별, 연령대 아무나 처리
+
+                            if (json.id === ${login} && (json.gender === "${dto.gender.genderStr}" || "${dto.gender.genderStr}" == "아무나")
+                                && (ageRangeStrArr.includes(json.ageRange) || ageRangeStrArr.includes("아무나"))) {
                                 $(".modal.yes").fadeIn();
                                 //모집조건에 부합하지 않다면
                             } else {
@@ -219,10 +222,8 @@
     </tr>
 </table>
 
-
 <input id="comment" type="text" placeholder="댓글을 적어주세요">
 <button>등록</button>
-
 
 <div class="modal no">
     <div class="modal_content"

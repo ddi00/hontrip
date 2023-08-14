@@ -41,9 +41,7 @@ public class MateController {
         File target = new File(uploadPath + "/" + savedFileName);
         file.transferTo(target);
         mateService.insert(mateBoardInsertDTO);
-        return "redirect:../index.jsp";
-
-
+        return "redirect:/mate/" + mateBoardInsertDTO.getId();
     }
 
 
