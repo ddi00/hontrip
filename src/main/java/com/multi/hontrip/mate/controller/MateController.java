@@ -49,6 +49,7 @@ public class MateController {
     @GetMapping("{id}")
     public String selectOne(@PathVariable("id") long id, Model model) {
         MateBoardInsertDTO mateBoardInsertDTO = mateService.selectOne(id);
+        System.out.println(mateBoardInsertDTO);
         model.addAttribute("dto", mateBoardInsertDTO);
         return "mate/mate_board_selectOne";
     }

@@ -19,24 +19,32 @@
 <%
     /* c:forEach 에서 사용할 배열 -> ageRangeStr */
     MateBoardInsertDTO mateBoardInsertDTO = (MateBoardInsertDTO) request.getAttribute("dto");
-    String[] ageRangeStr = mateBoardInsertDTO.getAgeRangeId().split(",");
-    for (int i = 0; i < ageRangeStr.length; i++) {
-        ageRangeStr[i] = AgeRange.valueOf(Integer.parseInt(ageRangeStr[i]));
-    }
-    request.setAttribute("ageRangeStr", ageRangeStr);
-
-    /* js에서 사용할 배열 문자열 -> ageRangeJS*/
-    String[] age = mateBoardInsertDTO.getAgeRangeId().split(",");
-    String ageRangeJS = "[";
-    for (int i = 0; i < age.length; i++) {
-        age[i] = AgeRange.valueOf(Integer.parseInt(age[i]));
-        ageRangeJS += "'" + age[i] + "'";
-        if (i < age.length - 1) {
-            ageRangeJS += ",";
+    if (!mateBoardInsertDTO.getAgeRangeId().isEmpty()) {
+        String[] ageRangeStr = mateBoardInsertDTO.getAgeRangeId().split(",");
+        for (int i = 0; i < ageRangeStr.length; i++) {
+            ageRangeStr[i] = AgeRange.valueOf(Integer.parseInt(ageRangeStr[i]));
         }
+        request.setAttribute("ageRangeStr", ageRangeStr);
+
+        /* js에서 사용할 배열 문자열 -> ageRangeJS*/
+        String[] age = mateBoardInsertDTO.getAgeRangeId().split(",");
+        String ageRangeJS = "[";
+        for (int i = 0; i < age.length; i++) {
+            age[i] = AgeRange.valueOf(Integer.parseInt(age[i]));
+            ageRangeJS += "'" + age[i] + "'";
+            if (i < age.length - 1) {
+                ageRangeJS += ",";
+            }
+        }
+        ageRangeJS += "]";
+        request.setAttribute("ageRangeJS", ageRangeJS);
+    } else {
+        //String[] ageRangeStr = {};
+        //request.setAttribute("ageRangeStr", ageRangeStr);
+        String ageRangeJS = "[]";
+        request.setAttribute("ageRangeJS", ageRangeJS);
+
     }
-    ageRangeJS += "]";
-    request.setAttribute("ageRangeJS", ageRangeJS);
 %>
 <html>
 <head>
@@ -115,8 +123,15 @@
             let login = "${login}";
             /*let applicationInProgress = false; // 플래그 추가*/
 
-            //로그인 했고, 이미 지원한 경우 동행인 신청 버튼 비활성화
+
+            //로그인 했고,
             if (login != "no") {
+                //본인이 작성한 글이면 버튼 감추기
+                if ("${dto.userId}" == login) {
+                    $('#application').hide();
+                }
+
+                //이미 지원한 경우 동행인 신청 버튼 비활성화
                 $.ajax({
                     url: "checkApply",
                     data: {
@@ -157,8 +172,8 @@
                             //모집조건에 부합하다면
                             //성별, 연령대 아무나 처리
 
-                            if (json.id === ${login} && (json.gender === "${dto.gender.genderStr}" || "${dto.gender.genderStr}" == "아무나")
-                                && (ageRangeStrArr.includes(json.ageRange) || ageRangeStrArr.includes("아무나"))) {
+                            if (json.id === ${login} && (json.gender === "${dto.gender.genderStr}" || "${dto.gender.genderStr}" == "성별무관")
+                                && (ageRangeStrArr.includes(json.ageRange) || ageRangeStrArr.includes("전연령") || ageRangeStrArr.length == 0)) {
                                 $(".modal.yes").fadeIn();
                                 //모집조건에 부합하지 않다면
                             } else {
@@ -204,11 +219,11 @@
 
     <tr>
         <td><span style="font-weight: bold">원해요</span> #${dto.gender.genderStr}
-
-
-            <c:forEach items="${ageRangeStr}" var="age">
-                #${age}
-            </c:forEach>
+            <c:if test="${not empty ageRangeStr}">
+                <c:forEach items="${ageRangeStr}" var="age">
+                    #${age}
+                </c:forEach>
+            </c:if>
             <button style="background-color: #FFA41B" id="application">동행 신청하기</button>
         </td>
     </tr>
@@ -242,6 +257,5 @@
         <button onclick="send()" id="send">전송</button>
     </div>
 </div>
-
 </body>
 </html>

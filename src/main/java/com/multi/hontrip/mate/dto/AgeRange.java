@@ -8,7 +8,7 @@ public enum AgeRange {
 
     TEENAGER(1, "10대"), TWENTIES(2, "20대"), THIRTIES(3, "30대"),
     FORTIES(4, "40대"), FIFTIES(5, "50대"), SIXTIES(6, "60대"), SEVENTIES(7, "70대"),
-    ALLAGE(0, "아무나");
+    ALLAGE(0, "전연령");
 
     private final int ageRangeNum;
     private final String ageRangeStr;

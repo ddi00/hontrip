@@ -3,7 +3,11 @@
 <%@ page import="com.multi.hontrip.mate.dto.AgeRange" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%
+    /*long userId = (long) session.getAttribute("id");
+    request.setAttribute("login", userId);*/
+    request.setAttribute("id", 4L);
+%>
 <html>
 <head>
     <title>동행인 매칭 게시글 등록</title>
@@ -16,11 +20,14 @@
     <script type="text/javascript"
             src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script>
+
         function ageRangeChecked() {
 
             let checkedArr = [];
 
             let checkboxes = document.querySelectorAll('input[type="checkbox"][name="age"]:checked');
+
+
             for (let i = 0; i < checkboxes.length; i++) {
                 checkedArr.push(checkboxes[i].value);
             }
@@ -31,7 +38,12 @@
             }
 
             console.log(checkedStr)
+            if (checkboxes.length === 0) {
+                checkedStr = ""
+            }
+
             $('#ageRangeId').attr('value', checkedStr);
+
         }
 
         /*$(function () {
@@ -188,7 +200,7 @@
 <form action="insert" method="post" enctype="multipart/form-data">
     <table>
         <%--TODO: 유저아이디 숨기기 + 유저아이디 받아오기--%>
-        유저아이디 <input hidden name="userId" value="1"> <br>
+        유저아이디 <input hidden name="userId" value=<%= request.getAttribute("id")%>> <br>
 
         <%--지역아이디 <input type="text" name="regionId" value="20"> <br>--%>
         <select name="regionId">
@@ -227,15 +239,22 @@
         </div>
         <div class="recruit">
             <c:forEach items="${Gender.values()}" var="gender">
-                <input type="radio" id="${gender.genderStr}" value="${gender}" name="gender"><label
+                <input type="radio" id="${gender.genderStr}" value="${gender}" name="gender" checked><label
                     for="${gender.genderStr}">${gender.genderStr}</label></input>
             </c:forEach>
 
             <div class="a">
                 <c:forEach items="${AgeRange.values()}" var="ageRange">
-                    <input type="checkbox" id="${ageRange}" value="${ageRange.ageRangeNum}" name="age"
-                           onclick="ageRangeChecked()"><label
-                        for="${ageRange}">${ageRange.ageRangeStr}</label></input>
+                    <c:if test="${ageRange.ageRangeStr eq '아무나'}">
+                        <input type="checkbox" id="${ageRange}" value="${ageRange.ageRangeNum}" name="age"
+                               onclick="ageRangeChecked()" checked><label
+                            for="${ageRange}">${ageRange.ageRangeStr}</label></input>
+                    </c:if>
+                    <c:if test="${ageRange.ageRangeStr ne '아무나'}">
+                        <input type="checkbox" id="${ageRange}" value="${ageRange.ageRangeNum}" name="age"
+                               onclick="ageRangeChecked()"><label
+                            for="${ageRange}">${ageRange.ageRangeStr}</label></input>
+                    </c:if>
                 </c:forEach>
                 <input hidden id="ageRangeId" name="ageRangeId">
 
@@ -251,7 +270,8 @@
                       rows="8" style="resize: none;" required>텍스트입력</textarea>
         </div>
 
-        <button id="complete">작성완료</button>
+        <button id="cancle" onclick="location.href='bbs_list?page=1'">취소</button>
+        <button type="submit" id="complete">작성완료</button>
 </form>
 </body>
 </html>
