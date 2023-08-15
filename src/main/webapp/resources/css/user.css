@@ -17,3 +17,8 @@
 .color-red{
   color: #FF9F1C;
 }
+
+.vertical-center {
+  display: flex !important;
+  align-items: center !important;
+}
