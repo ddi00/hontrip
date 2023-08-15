@@ -26,6 +26,8 @@
             }
 
             $('#ageRangeId').attr('value', "${dto.ageRangeId}");
+            $('#isFinish').val("${dto.isFinish}");
+            $('#regionId').val("${dto.regionId}");
         }
 
         function ageRangeChecked() {
@@ -50,6 +52,36 @@
             $('#gender').val(genderVal.value);
         }
 
+        function dateInit() {
+            let today = new Date();
+            let dd = today.getDate();
+            let mm = today.getMonth() + 1; // 0부터 시작하므로 1을 더해줍니다.
+            const yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            const fomattedToday = yyyy + '-' + mm + '-' + dd;
+            $('#startDate').prop("min", fomattedToday);
+            $('#startDate').prop("max", $('#endDate').val());
+            $('#endDate').prop("min", $('#startDate').val());
+        }
+
+        $(document).ready(function () {
+            dateInit();
+
+            $('#startDate').on('change', function () {
+                $('#endDate').prop("min", $(this).val());
+            });
+
+            $('#endDate').on('change', function () {
+                $('#startDate').prop("max", $(this).val());
+            });
+        });
+
         $(function () {
             $('#edit').on("click", function () {
                 if ($('#file')[0].files[0] == null) {
@@ -72,7 +104,8 @@
                             /*updatedAt: "<%= LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%>"*/
                         },
                         success: function () {
-                            alert("성공")
+                            location.href =
+                            ${dto.id}
                         },
                         error: function (e) {
                             console.log(e);
@@ -99,7 +132,8 @@
                         url: "edit",
                         data: formData,
                         success: function () {
-                            alert("성공")
+                            location.href =
+                            ${dto.id}
                         },
                         error: function (e) {
                             console.log(e);
@@ -259,24 +293,18 @@
                 id="startDate"
                 name="startDate"
                 type="date"
+                value="${dto.startDate}"
                 data-placeholder="날짜 선택"
                 required
-                aria-required="true"
-                value="${dto.startDate}"
-                className={styles.selectDay}
-                onChange={StartDateValueHandler}
         >
         -
         <input
                 id="endDate"
                 name="endDate"
                 type="date"
+                value="${dto.endDate}"
                 data-placeholder="날짜 선택"
                 required
-                aria-required="true"
-                value="${dto.endDate}"
-                className={styles.selectDay}
-                onChange={StartDateValueHandler}
         >
     </div>
     <div class="recruit">
@@ -309,11 +337,16 @@
         <textarea class="form-input" id="content" name="content"
                   rows="8" style="resize: none;" required>${dto.content}</textarea>
     </div>
-    모집확정여부 <input name="isFinish" id="isFinish" value="${dto.isFinish}">
+    모집확정여부
+    <select name="isFinish" id="isFinish">
+        <option value="0">모집중</option>
+        <option value="1">모집완료</option>
+    </select>
     <input hidden name="thumbnail" value="${dto.thumbnail}">
 
     <button id="cancel" onclick="location.href='bbs_list?page=1'">취소</button>
     <button id="edit">수정완료</button>
-    <%--</form>--%>
+
+<%--</form>--%>
 </body>
 </html>

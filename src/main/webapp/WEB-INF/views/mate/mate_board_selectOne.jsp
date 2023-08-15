@@ -14,7 +14,7 @@
         long userId = (long) session.getAttribute("id");
         request.setAttribute("login", userId);
     }*/
-    request.setAttribute("login", 2L);
+    request.setAttribute("login", 4L);
 %>
 <%
     /* c:forEach 에서 사용할 배열 -> ageRangeStr */
@@ -261,7 +261,7 @@
                 <span style="background-color: coral; margin:2px 2px; color:white;">모집중</span>
             </c:if>
             <c:if test="${dto.isFinish eq 1}">
-                <span style="background-color: coral; color:white;">모집끝</span>
+                <span style="background-color: coral; color:white;">모집완료</span>
             </c:if>
         </td>
     </tr>

@@ -22,52 +22,53 @@
     <script>
 
         function ageRangeChecked() {
-
             let checkedArr = [];
-
             let checkboxes = document.querySelectorAll('input[type="checkbox"][name="age"]:checked');
-
-
             for (let i = 0; i < checkboxes.length; i++) {
                 checkedArr.push(checkboxes[i].value);
             }
-
             let checkedStr = checkedArr[0];
             for (let i = 1; i < checkedArr.length; i++) {
                 checkedStr += "," + checkedArr[i];
             }
-
             console.log(checkedStr)
             if (checkboxes.length === 0) {
                 checkedStr = ""
             }
-
             $('#ageRangeId').attr('value', checkedStr);
-
         }
 
-        /*$(function () {
-            $('#btn').click(function () {
-                $.ajax({
-                    url: "insert",
-                    data: {
-                        userId: userId,
-                        regionId: regionId,
-                        gender: gender,
-                        ageRangeId: ageRangeId,
-                        startDate: startDate,
-                        endDate: endDate,
-                        title: title,
-                        content: content,
-                        recruitNumber: recruitNumber,
-                        thumbnail: thumbnail
-                    },
-                    success: function () {
-                        alert("작성완료!!!")
-                    }
-                })//ajax
-            })//btn
-        })//function*/
+        function dateInit() {
+            let today = new Date();
+            let dd = today.getDate();
+            let mm = today.getMonth() + 1; // 0부터 시작하므로 1을 더해줍니다.
+            const yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            const fomattedToday = yyyy + '-' + mm + '-' + dd;
+            $('#startDate').prop("min", fomattedToday);
+            $('#endDate').prop("min", fomattedToday);
+        }
+
+        $(document).ready(function () {
+            dateInit();
+
+            $('#startDate').on('change', function () {
+                $('#endDate').prop("min", $(this).val());
+                $('#endDate').prop("max", $('#endDate').val());
+            });
+
+            $('#endDate').on('change', function () {
+                $('#startDate').prop("max", $(this).val());
+            });
+        });
+
+
     </script>
     <style>
 
@@ -216,25 +217,19 @@
         <div class="tripDate">
             <span class="option">여행 기간</span>
             <input
+                    id="startDate"
                     name="startDate"
                     type="date"
                     data-placeholder="날짜 선택"
                     required
-                    aria-required="true"
-                    value="2023-08-11"
-                    className={styles.selectDay}
-                    onChange={StartDateValueHandler}
             >
             -
             <input
+                    id="endDate"
                     name="endDate"
                     type="date"
                     data-placeholder="날짜 선택"
                     required
-                    aria-required="true"
-                    value="2023-08-15"
-                    className={styles.selectDay}
-                    onChange={StartDateValueHandler}
             >
         </div>
         <div class="recruit">
@@ -272,7 +267,7 @@
             </div>
             <input hidden name="isFinish" value="0">
 
-            <button id="cancle" onclick="location.href='bbs_list?page=1'">취소</button>
+            <button id="cancel" onclick="location.href='bbs_list?page=1'">취소</button>
             <button type="submit" id="complete">작성완료</button>
 </form>
 </body>
