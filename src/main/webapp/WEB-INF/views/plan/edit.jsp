@@ -1,23 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Plan list</title>
+  <title></title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div>
   <br>
-  <form action="plan_update" method="post">
+  <form action="update" method="post">
     <table>
       <tr>
         <td> <input  type=hidden  id="id" name="id" value="${plan.id}" required></td>
       </tr>
       <tr>
         <td>user id</td>
-        <td> <input  type=text  id="userId" name="userId" value="${plan.userId}" required></td>
+        <td> <input  type=text  id="userId" name="userId" value="${plan.userId}" readonly></td>
       </tr>
 
       <tr>
@@ -46,7 +47,7 @@
       <tr>
         <td colspan=2>
           <input  type=submit  value="수정">
-          <input  type=reset   value="다시입력">
+          <input  type=reset   value="재입력">
         </td>
       </tr>
     </table>
