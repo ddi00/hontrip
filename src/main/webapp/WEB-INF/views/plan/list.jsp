@@ -10,7 +10,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<h1>일정 목록</h1>
+<h3>일정 목록</h3>
 <button type="button" id="createBtn" name="createBtn">
   <a href="form" role="button">생성</a>
 </button>

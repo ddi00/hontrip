@@ -10,7 +10,6 @@
 </head>
 <body>
 <div>
-  <br>
   <form action="update" method="post">
     <table>
       <tr>

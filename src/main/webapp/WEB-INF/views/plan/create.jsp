@@ -24,6 +24,5 @@
 
   <input type="submit" value="일정생성">
 </form>
-
 </body>
 </html>
