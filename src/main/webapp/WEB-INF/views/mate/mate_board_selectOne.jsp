@@ -14,7 +14,7 @@
         long userId = (long) session.getAttribute("id");
         request.setAttribute("login", userId);
     }*/
-    request.setAttribute("login", 4L);
+    request.setAttribute("login", 2L);
 %>
 <%
     /* c:forEach 에서 사용할 배열 -> ageRangeStr */
@@ -88,6 +88,31 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
+
+        let dtoData = {
+            id: "${dto.id}",
+            userId: "${dto.userId}",
+            regionId: "${dto.regionId}",
+            ageRangeId: "${dto.ageRangeId}",
+            title: "${dto.title}",
+            content: "${dto.content}",
+            thumbnail: "${dto.thumbnail}",
+            startDate: "${dto.startDate}",
+            endDate: "${dto.endDate}",
+            recruitNumber: "${dto.recruitNumber}",
+            gender: "${dto.gender}",
+            createdAt: "${dto.createdAt}",
+            updatedAt: "${dto.updatedAt}",
+            isFinish: "${dto.isFinish}"
+        }
+
+        function updateMateBoard() {
+            console.log("업데이트");
+            let queryParams = $.param(dtoData); // 데이터를 URL 파라미터 문자열로 변환
+            window.location.href = "edit?" + queryParams; // update 페이지로 이동
+        }
+
+
         function deleteMateBoard() {
             $.ajax({
                 method: 'DELETE',
@@ -231,6 +256,13 @@
                                                                                     pattern="yyyy-MM-dd"/>
             <fmt:formatDate value="${dateValue}" pattern="MM/dd"/>
             (위치 아이콘) ${dto.regionId.regionStr} (모집인원) ${dto.recruitNumber}명
+
+            <c:if test="${dto.isFinish eq 0}">
+                <span style="background-color: coral; margin:2px 2px; color:white;">모집중</span>
+            </c:if>
+            <c:if test="${dto.isFinish eq 1}">
+                <span style="background-color: coral; color:white;">모집끝</span>
+            </c:if>
         </td>
     </tr>
 
@@ -252,7 +284,9 @@
     <tr>
         <td>${dto.createdAt} 조회수
             <c:if test="${dto.userId eq login}">
-                <button id="update">수정</button>
+
+                <button id="edit" onclick="updateMateBoard()">수정</button>
+
                 <button id="delete" onclick="deleteMateBoard()">삭제</button>
             </c:if>
         </td>

@@ -21,7 +21,7 @@ public class MateBoardInsertDTO {
 	private Gender gender;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-	private boolean isFinish;
+	private int isFinish;
 
 	public long getId() {
 		return id;
@@ -127,11 +127,11 @@ public class MateBoardInsertDTO {
 		this.updatedAt = updatedAt;
 	}
 
-	public boolean isFinish() {
+	public int getIsFinish() {
 		return isFinish;
 	}
 
-	public void setFinish(boolean finish) {
-		isFinish = finish;
+	public void setIsFinish(int isFinish) {
+		this.isFinish = isFinish;
 	}
 }

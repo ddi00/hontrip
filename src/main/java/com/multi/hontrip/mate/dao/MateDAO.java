@@ -21,6 +21,10 @@ public class MateDAO {
         return my.selectOne("mateBbs.selectOne", id);
     }
 
+    public int updateMateBoard(MateBoardInsertDTO mateBoardInsertDTO) {
+        return my.update("mateBbs.updateMateBoard", mateBoardInsertDTO);
+    }
+
     public int deleteMateBoard(long id) {
         return my.delete("mateBbs.deleteMateBoard", id);
     }

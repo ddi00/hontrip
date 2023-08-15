@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("mate")
@@ -71,6 +72,28 @@ public class MateController {
     @ResponseBody
     public int deleteMateBoard(@PathVariable("id") long id) {
         return mateService.deleteMateBoard(id);
+    }
+
+    @GetMapping("edit")
+    public String updateMateBoard(@RequestParam Map<String, String> queryParams, Model model) {
+        model.addAttribute("dto", queryParams);
+        return "mate/mate_board_update";
+    }
+
+
+    @PostMapping("edit")
+    public String updateMateBoard(
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            MateBoardInsertDTO mateBoardInsertDTO) throws IOException {
+        if (file != null && !file.isEmpty()) {
+            String savedFileName = file.getOriginalFilename();
+            mateBoardInsertDTO.setThumbnail(savedFileName);
+            String uploadPath = "D:\\hontrip\\src\\main\\webapp\\resources\\upload";
+            File target = new File(uploadPath + "/" + savedFileName);
+            file.transferTo(target);
+        }
+        mateService.updateMateBoard(mateBoardInsertDTO);
+        return "redirect:/mate/" + mateBoardInsertDTO.getId();
     }
 
 

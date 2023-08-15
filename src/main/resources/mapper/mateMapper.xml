@@ -120,6 +120,21 @@
 		FROM location;
 	</select>
 
+	<update id="updateMateBoard" parameterType="mateBoardInsertDTO">
+		update mate_board
+		set region_id      = #{regionId},
+			age_range_id   = #{ageRangeId},
+			title          = #{title},
+			content        = #{content},
+			thumbnail      = #{thumbnail},
+			start_date     = #{startDate},
+			end_date       = #{endDate},
+			recruit_number = #{recruitNumber},
+			gender         = #{gender},
+			is_finish      = #{isFinish}
+		where id = #{id}
+	</update>
+
 	<delete id="deleteMateBoard" parameterType="long">
 		delete
 		from mate_board

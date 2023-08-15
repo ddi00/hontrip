@@ -258,20 +258,22 @@
                 </c:forEach>
                 <input hidden id="ageRangeId" name="ageRangeId">
 
+
             </div>
         </div>
-        <input type="file" name="file" required>
-        <div class="form-container">
-            <input class="form-input" type="text" name="title" value="8/11 제주 월정리에서 같이 여행하실분"
-                   placeholder="ex) 8/11 제주 월정리에서 같이 여행하실분 찾아요!!"
-                   required>
-            <textarea class="form-input" name="content"
-                      placeholder="같이 월정리 주변 여행하실분 계신가요? 사진찍는걸 좋아하고 바다 좋아하시는 분이었으면 좋겠어요"
-                      rows="8" style="resize: none;" required>텍스트입력</textarea>
-        </div>
+            <input type="file" name="file" required>
+            <div class="form-container">
+                <input class="form-input" type="text" name="title" value="8/11 제주 월정리에서 같이 여행하실분"
+                       placeholder="ex) 8/11 제주 월정리에서 같이 여행하실분 찾아요!!"
+                       required>
+                <textarea class="form-input" name="content"
+                          placeholder="같이 월정리 주변 여행하실분 계신가요? 사진찍는걸 좋아하고 바다 좋아하시는 분이었으면 좋겠어요"
+                          rows="8" style="resize: none;" required>텍스트입력</textarea>
+            </div>
+            <input hidden name="isFinish" value="0">
 
-        <button id="cancle" onclick="location.href='bbs_list?page=1'">취소</button>
-        <button type="submit" id="complete">작성완료</button>
+            <button id="cancle" onclick="location.href='bbs_list?page=1'">취소</button>
+            <button type="submit" id="complete">작성완료</button>
 </form>
 </body>
 </html>
