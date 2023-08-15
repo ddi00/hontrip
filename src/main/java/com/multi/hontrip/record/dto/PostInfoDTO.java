@@ -14,6 +14,7 @@ public class PostInfoDTO {
     private String thumbnail;
     private String createdAt;
     private String updatedAt;
+    private int isVisible;
     private int likeCount;
     private String cmtUserNickName;
     private String cmtContent;
@@ -22,5 +23,4 @@ public class PostInfoDTO {
     private int indentationNum;
     private String cmtCreatedAt;
     private String cmtUpdatedAt;
-
 }
