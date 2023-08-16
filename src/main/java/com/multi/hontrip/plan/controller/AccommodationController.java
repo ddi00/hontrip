@@ -29,7 +29,7 @@ public class AccommodationController {
     public String showAccommodationList(Model model) {
         List<AccommodationDTO> list = accommodationService.list();
         model.addAttribute("list", list);
-        return "plan/accommodation_list";
+        return "plan/accommodation/accommodation_list";
     }
 
     @RequestMapping(value = "/accommodation_filter_list", method = RequestMethod.POST) // 숙박시설 필터
@@ -62,7 +62,7 @@ public class AccommodationController {
         }
 
         model.addAttribute("list", list);
-        return "plan/accommodation_filter_list";
+        return "plan/accommodation/accommodation_filter_list";
     }
 
 }

@@ -29,7 +29,7 @@ public class FlightController {
     // 항공편 검색
     @GetMapping("/search_form")
     public String showFlightSearchForm(@ModelAttribute("FlightSearchDTO") FlightSearchDTO flightSearchDTO) {
-        return "flight/search_form"; // 항공편 검색 폼 반환
+        return "plan/flight/search_form"; // 항공편 검색 폼 반환
     }
 
     // 항공편 검색 목록
@@ -55,7 +55,7 @@ public class FlightController {
 
         // DB에서 출발 공항, 도착 공항, 출발일 조건에 맞는 데이터 select
         model.addAttribute("list", flightService.list(flightSearchDTO));
-        return "flight/search_list"; // 조건에 맞는 항공편 검색 목록 반환
+        return "plan/flight/search_list"; // 조건에 맞는 항공편 검색 목록 반환
     }
 
 }

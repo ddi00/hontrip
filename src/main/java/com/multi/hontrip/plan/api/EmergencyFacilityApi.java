@@ -17,7 +17,7 @@ import org.json.JSONObject;
 // 카카오맵 api로 응급시설(병원|약국)정보 호출해 DB에 응답을 저장
 public class EmergencyFacilityApi {
     public static void main(String[] args) {
-        String kakaoApiKey = "";
+        String kakaoApiKey = "b530eee810347036d9dcf01af51163b7";
         String categoryCodePharmacy = "PM9"; // 약국 카테고리
         String categoryCodeHospital = "HP8"; // 병원 카테고리
         /*String centerX = "127.027632"; // 서울

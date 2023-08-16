@@ -15,7 +15,7 @@ import java.sql.SQLException;
 
 // 카카오맵 api로 숙박정보 호출해 DB에 응답을 저장
 public class AccommodationApi {
-    private static final String KAKAO_MAP_API_KEY = "";
+    private static final String KAKAO_MAP_API_KEY = "b530eee810347036d9dcf01af51163b7";
     private static final String KAKAO_MAP_API_URL = "https://dapi.kakao.com/v2/local/search/keyword.json";
 
     public static void main(String[] args) {
