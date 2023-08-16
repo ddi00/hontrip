@@ -1,19 +1,11 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: CR_YOO
-  Date: 2023-08-10
-  Time: 오후 5:09
-  To change this template use File | Settings | File Templates.
---%>
-
-<%--일정 하나--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Plan list</title>
+  <title></title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>

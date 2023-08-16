@@ -20,10 +20,12 @@ public class AccommodationApi {
 
     public static void main(String[] args) {
         // 원하는 중심 좌표 (경도, 위도)와 반경 설정
-        String x = "126.9784"; // 예시: 서울 중심
-        String y = "37.5665";
+        /*String x = "126.9784"; // 예시: 서울 중심
+        String y = "37.5665";*/
         /*String x = "126.5422"; // 예시: 제주도 중심
         String y = "33.3647";*/
+        String x = "128.2095"; // 예시: 강원도 중심
+        String y = "37.5550";
         int radius = 20000; // 반경 20km
 
         String query = "숙박";
@@ -106,7 +108,9 @@ public class AccommodationApi {
         String username = "copidingz";
         String password = "qwer1234";
 
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url, username, password);
             // INSERT 쿼리 작성
             String insertQuery = "INSERT INTO accommodation (id, place_name, category_name, category_group_code, category_group_name, phone, address_name, road_address_name, x, y, place_url, distance) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -126,13 +130,24 @@ public class AccommodationApi {
                 preparedStatement.setString(11, accommodationDTO.getPlaceUrl());
                 preparedStatement.setString(12, accommodationDTO.getDistance());
 
-                // INSERT 쿼리 실행
-                int rowsAffected = preparedStatement.executeUpdate();
-                System.out.println("Inserted " + rowsAffected + " row(s) into accommodation table.");
+                try {
+                    preparedStatement.executeUpdate();
+                    System.out.println("Successfully inserted a row into the accommodation table.");
+                } catch (SQLException e) {
+                    // 중복된 id가 이미 존재할 경우 에러를 무시하고 다음 값 저장
+                    System.out.println("중복된 id 값이 이미 존재합니다. 다음 값으로 넘어갑니다.");
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
-
