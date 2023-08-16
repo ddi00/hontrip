@@ -13,11 +13,26 @@ public class EmergencyFacilityIdServiceImpl implements EmergencyFacilityService 
     EmergencyFacilityDAO emergencyFacilityDAO;
 
     @Override
-    public EmergencyFacilityDTO one(Long emergencyFacilityId) {
+    public EmergencyFacilityDTO one(Long emergencyFacilityId) { // 응급시설 하나만 보기
         return emergencyFacilityDAO.one(emergencyFacilityId);
-    } // 일정 하나만 보기
+    }
     @Override
     public List<EmergencyFacilityDTO> list() {
         return emergencyFacilityDAO.list();
-    } // 일정 list
+    } // 응급시설 리스트
+
+    @Override
+    public List<EmergencyFacilityDTO> filterByCategory(String categoryGroupName) { // 응급시설 카테고리 필터 (병원|약국)
+        return emergencyFacilityDAO.filterByCategory(categoryGroupName);
+    }
+
+    @Override
+    public List<EmergencyFacilityDTO> filterByAddress(String addressName) { // 응급시설 주소 필터
+        return emergencyFacilityDAO.filterByAddress(addressName);
+    }
+
+    @Override
+    public List<EmergencyFacilityDTO> filterByCategoryAndAddress(String categoryGroupName, String addressName) { // 응급시설 주소|카테고리 필터
+        return emergencyFacilityDAO.filterByCategoryAndAddress(categoryGroupName, addressName);
+    }
 }

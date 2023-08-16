@@ -5,9 +5,6 @@
   Time: 오후 5:30
   To change this template use File | Settings | File Templates.
 --%>
-
-<%--일정 리스트--%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

@@ -88,9 +88,9 @@ public class ApiTest6 {
                                        String categoryName, String phone, String addressName, String roadAddressName,
                                        String xCoord, String yCoord, String placeUrl, String distance) {
         // MySQL 연결 설정 (실제 설정에 맞게 수정 필요)
-        String url = "";
-        String username = "";
-        String password = "";
+        String url = "jdbc:mysql://localhost:3306/hontrip?characterEncoding=UTF-8";
+        String username = "copidingz";
+        String password = "qwer1234";
 
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             // INSERT 쿼리 작성

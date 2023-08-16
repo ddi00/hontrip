@@ -14,6 +14,7 @@ import com.multi.hontrip.plan.dto.EmergencyFacilityDTO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+// 카카오맵 api로 응급시설(병원|약국)정보 호출해 DB에 응답을 저장
 public class EmergencyFacilityApi {
     public static void main(String[] args) {
         String kakaoApiKey = "";
@@ -94,9 +95,9 @@ public class EmergencyFacilityApi {
     }
 
     private static void saveToMySQL(List<EmergencyFacilityDTO> data) throws Exception {
-        String jdbcUrl = "";
-        String dbUser = "";
-        String dbPassword = "";
+        String jdbcUrl = "jdbc:mysql://localhost:3306/hontrip?characterEncoding=UTF-8";
+        String dbUser = "copidingz";
+        String dbPassword = "qwer1234";
 
         try (Connection conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword)) {
             for (EmergencyFacilityDTO dto : data) {

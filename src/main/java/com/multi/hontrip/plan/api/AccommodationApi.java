@@ -13,16 +13,17 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+// 카카오맵 api로 숙박정보 호출해 DB에 응답을 저장
 public class AccommodationApi {
     private static final String KAKAO_MAP_API_KEY = "";
     private static final String KAKAO_MAP_API_URL = "https://dapi.kakao.com/v2/local/search/keyword.json";
 
     public static void main(String[] args) {
         // 원하는 중심 좌표 (경도, 위도)와 반경 설정
-        /*String x = "126.9784"; // 예시: 서울 중심
-        String y = "37.5665";*/
-        String x = "126.5422"; // 예시: 제주도 중심
-        String y = "33.3647";
+        String x = "126.9784"; // 예시: 서울 중심
+        String y = "37.5665";
+        /*String x = "126.5422"; // 예시: 제주도 중심
+        String y = "33.3647";*/
         int radius = 20000; // 반경 20km
 
         String query = "숙박";
@@ -101,9 +102,9 @@ public class AccommodationApi {
     // accommodation 테이블에 데이터를 저장하는 메서드
     private static void saveToDatabase(AccommodationDTO accommodationDTO) {
         // MySQL 연결 설정 (실제 설정에 맞게 수정 필요)
-        String url = "";
-        String username = "";
-        String password = "";
+        String url = "jdbc:mysql://localhost:3306/hontrip?characterEncoding=UTF-8";
+        String username = "copidingz";
+        String password = "qwer1234";
 
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             // INSERT 쿼리 작성

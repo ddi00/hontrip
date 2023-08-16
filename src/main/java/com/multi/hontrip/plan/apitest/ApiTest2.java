@@ -72,9 +72,9 @@ public class ApiTest2 {
     }
 
     private static void saveToMySQL(List<JSONObject> data) throws Exception {
-        String jdbcUrl = "";
-        String dbUser = "";
-        String dbPassword = "";
+        String jdbcUrl = "jdbc:mysql://localhost:3306/hontrip?characterEncoding=UTF-8";
+        String dbUser = "copidingz";
+        String dbPassword = "qwer1234";
 
         try (Connection conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword)) {
             for (JSONObject item : data) {
