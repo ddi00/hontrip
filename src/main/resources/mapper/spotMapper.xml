@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spot">
+	<insert id="insert" parameterType="SpotDTO"
+			useGeneratedKeys="true"
+			keyProperty="id">
+		insert into spot
+		values (null, #{contentId}, #{contentTypeId}, #{title}, #{address}, #{tel}, #{firstimage}, #{homepage}
+		,#{areacode}, #{sigungucode}, #{overview}, #{infoCenter}, #{opendate}, #{restdate}, #{expguid},
+		#{usetime}, #{parking})
+		on duplicate key update content_id = #{contentId}
+	</insert>
+	<select id="one" parameterType="Long" resultType="SpotDTO">
+		select * from spot
+		where id = #{id}
+	</select>
+	<select id="all" resultType="SpotDTO">
+		select * from spot
+	</select>
+
+</mapper>
