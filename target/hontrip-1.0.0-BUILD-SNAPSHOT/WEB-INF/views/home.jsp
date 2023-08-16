@@ -8,9 +8,28 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Home</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-home
+<h1>HonTrip</h1>
+
+<!-- 버튼 추가 -->
+<button id="goToPlanForm">여행일정생성</button>
+<button id="goToPlanList">일정리스트</button>
+
+<script>
+    $(document).ready(function() {
+        // "여행일정생성" 버튼 클릭 시
+        $("#goToPlanForm").click(function() {
+            window.location.href = "/hontrip/plan/plan_form";
+        });
+
+        // "일정리스트" 버튼 클릭 시
+        $("#goToPlanList").click(function() {
+            window.location.href = "/hontrip/plan/plan_list";
+        });
+    });
+</script>
 </body>
 </html>
