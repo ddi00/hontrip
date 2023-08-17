@@ -2,8 +2,10 @@ package com.multi.hontrip.record.controller;
 
 import com.multi.hontrip.record.dto.CommentDTO;
 import com.multi.hontrip.record.dto.CreatePostDTO;
+import com.multi.hontrip.record.dto.LocationDTO;
 import com.multi.hontrip.record.dto.PostInfoDTO;
 import com.multi.hontrip.record.service.CommentService;
+import com.multi.hontrip.record.service.LocationService;
 import com.multi.hontrip.record.service.RecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,16 +26,20 @@ public class RecordContorller {
 
     private final RecordService recordService;
     private final CommentService commentService;
+    private final LocationService locationService;
 
     @GetMapping("createpost")
-    public String uploadPostView() {
+    public String uploadPostView(Model model) {
+        List<LocationDTO> locationList = locationService.locationList();
+        model.addAttribute("locationList", locationList);
+        System.out.println(locationList);
         return "record/createpost";
     }
 
     @PostMapping("createpost") // 게시물 작성
     public String uploadPost(HttpServletRequest request,
-                           @RequestParam("file") MultipartFile file,
-                           CreatePostDTO createPostDTO) {
+                             @RequestParam("file") MultipartFile file,
+                             CreatePostDTO createPostDTO) {
         String uploadPath // file 저장 위치
                 = request.getSession().getServletContext().getRealPath("resources/img/recordImg");
         long postId = recordService.upLoadPost(uploadPath, file, createPostDTO);
@@ -41,7 +47,7 @@ public class RecordContorller {
     }
 
     @GetMapping("postinfo") // 게시물 상세 페이지
-    public void postInfo(@RequestParam("id") String id, Model model) {
+    public void postInfo(@RequestParam("id") long id, Model model) {
         PostInfoDTO postInfoDTO = recordService.selectPostInfo(id);
         List<CommentDTO> commentList = commentService.selectPostComment(id);
         model.addAttribute("postInfoDTO", postInfoDTO);
@@ -49,7 +55,7 @@ public class RecordContorller {
     }
 
     @GetMapping("updatepost") // 게시물 수정 페이지
-    public void updatePostInfoView(@RequestParam("id") String id, Model model) {
+    public void updatePostInfoView(@RequestParam("id") long id, Model model) {
         PostInfoDTO postInfoDTO = recordService.selectPostInfo(id);
         model.addAttribute("postInfoDTO", postInfoDTO);
     }
@@ -65,7 +71,7 @@ public class RecordContorller {
     }
 
     @GetMapping("deletepost")
-    public String deletePost(@RequestParam String id) {
+    public String deletePost(@RequestParam long id) {
         recordService.deletePostInfo(id);
         return "redirect:/index.jsp";
     }

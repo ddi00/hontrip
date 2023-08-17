@@ -11,8 +11,9 @@
 			alias="postInfoDTO"></typeAlias>
 		<typeAlias type="com.multi.hontrip.record.dto.CommentDTO"
 			alias="commentDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.record.dto.CreateCommentDTO"
-			alias="createCommentDTO"></typeAlias>
+		<typeAlias type="com.multi.hontrip.record.dto.LocationDTO"
+			alias="locationDTO"></typeAlias>
+
 	</typeAliases>
 	<mappers>
 		<!-- SQL문 정의하는 파일들의 목록을 지정. 테이블당 한개 사용 -->

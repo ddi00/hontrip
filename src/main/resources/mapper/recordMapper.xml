@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="record">
+	<select id="locationList" resultType="locationDTO">
+		SELECT * FROM location;
+	</select>
+
 	<insert id="createPost" parameterType="createPostDTO" keyProperty="id" useGeneratedKeys="true">
 		INSERT INTO record_board (user_id, location_id, title, content, is_visible, thumbnail)
 		VALUES (#{userId}, #{locationId}, #{title}, #{content}, #{isVisible}, #{thumbnail});
 	</insert>
 
-	<select id="selectPostInfo" parameterType="postInfoDTO" resultType="postInfoDTO" >
+	<select id="selectPostInfo" parameterType="long" resultType="postInfoDTO" >
 		SELECT
 		rb.id AS boardId,
 		loc.city As city,
@@ -42,12 +46,12 @@
 		WHERE id = #{id};
 	</delete>
 
-	<insert id="createComment" parameterType="createCommentDTO" keyProperty="id" useGeneratedKeys="true">
+	<insert id="createComment" parameterType="commentDTO" keyProperty="id" useGeneratedKeys="true">
 		INSERT INTO record_comment (comment_writer_id, record_id, content, comment_sequence, comments_sequence, indentation_number)
-		VALUES (#{cmtWriterId}, #{recordId}, #{content}, #{cmtSequence}, #{cmtsSequence}, #{indentationNum});
+		VALUES (#{cmtWriterId}, #{recordId}, #{cmtContent}, #{cmtSequence}, #{cmtsSequence}, #{indentationNum});
 	</insert>
 
-	<select id="commentList" parameterType="commentDTO" resultType="commentDTO">
+	<select id="commentList" parameterType="long" resultType="commentDTO">
 		select
 		rc.id AS cmtid,
 		u.nickname AS cmtUserNickName,

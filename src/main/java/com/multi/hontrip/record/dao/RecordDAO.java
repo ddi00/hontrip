@@ -16,7 +16,7 @@ public class RecordDAO {
         sqlSessionTemplate.insert("record.createPost", createPostDTO);
     }
 
-    public PostInfoDTO selectPost(String id) {
+    public PostInfoDTO selectPost(long id) {
         return sqlSessionTemplate.selectOne("record.selectPostInfo", id);
     }
 
@@ -24,7 +24,7 @@ public class RecordDAO {
         sqlSessionTemplate.update("record.updatePostInfo", createPostDTO);
     }
 
-    public void deletePost(String id) {
+    public void deletePost(long id) {
         sqlSessionTemplate.delete("record.deletePost", id);
     }
 }

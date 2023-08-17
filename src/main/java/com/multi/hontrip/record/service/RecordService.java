@@ -29,7 +29,7 @@ public class RecordService {
         return createPostDTO.getId();
     }
 
-    public PostInfoDTO selectPostInfo(String id) {
+    public PostInfoDTO selectPostInfo(long id) {
         return recordDAO.selectPost(id);
     }
 
@@ -47,7 +47,7 @@ public class RecordService {
         return createPostDTO.getId();
     }
 
-    public void deletePostInfo(String id) {
+    public void deletePostInfo(long id) {
         recordDAO.deletePost(id);
     }
 }
