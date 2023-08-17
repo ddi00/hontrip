@@ -24,12 +24,12 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-
+		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-<!-- 한글필터	-->
+    <!-- 한글필터	-->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
