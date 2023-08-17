@@ -1,6 +1,7 @@
 package com.multi.hontrip.mate.dao;
 
 import com.multi.hontrip.mate.dto.LocationDTO;
+import com.multi.hontrip.mate.dto.MateBoardInsertDTO;
 import com.multi.hontrip.mate.dto.MateBoardListDTO;
 import com.multi.hontrip.mate.dto.PageDTO;
 import org.springframework.stereotype.Repository;
@@ -31,5 +32,11 @@ public class MateDAO {
         return my.selectList("mateBbs.location");
     }
 
+    public void mateBoardInsert(MateBoardInsertDTO mateBoardInsertDTO) {
+        my.insert("mateBbs.insert", mateBoardInsertDTO);
+    }
 
+    public MateBoardInsertDTO mateBoardSelectOne(int id) {
+        return my.selectOne("mateBbs.selectOne", id);
+    }
 }
