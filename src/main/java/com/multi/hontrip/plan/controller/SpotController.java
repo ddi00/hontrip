@@ -17,30 +17,26 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
 @Controller
-@RequestMapping("/plan/spot")
+@RequestMapping("plan/spot")
 public class SpotController {
 
+    private final SpotService spotService;
     @Autowired
-    private SpotService spotService;
+    public SpotController(SpotService spotService){
+        this.spotService = spotService;
+    }
 
     // 여행지 검색
-    @GetMapping("/search_form")
+    @GetMapping("search_form")
     public String showSpotSearchForm(@ModelAttribute("SpotSearchDTO")SpotSearchDTO spotSearchDTO){
         return "plan/spot/search_form"; // 여행지 검색 폼 반환
     }
 
     // 여행지 검색 목록 - 지역명으로 검색 (키워드 검색 구현 예정)
-    @PostMapping("/search")
+    @PostMapping("search")
     public String SearchSpot(@ModelAttribute("SpotSearchDTO") SpotSearchDTO spotSearchDTO, Model model)
             throws ParserConfigurationException, SAXException, IOException {
-        SpotParser spotParser = new SpotParser();
-        List<SpotDTO> list = spotParser.parseData(spotSearchDTO.getAreaName());
-
-        // DB 추가
-        for (SpotDTO spotDTO : list) {
-            spotService.insert(spotDTO);
-        }
-
+        spotService.parseData(spotSearchDTO);
         model.addAttribute("areaName", spotSearchDTO.getAreaName());
         // DB에서 조건에 맞는 데이터 select
         model.addAttribute("list", spotService.list(spotSearchDTO));
