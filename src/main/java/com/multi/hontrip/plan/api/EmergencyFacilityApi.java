@@ -21,10 +21,12 @@ public class EmergencyFacilityApi {
         String kakaoApiKey = "";
         String categoryCodePharmacy = "PM9"; // 약국 카테고리
         String categoryCodeHospital = "HP8"; // 병원 카테고리
-        /*String centerX = "127.027632"; // 서울
-        String centerY = "37.497175";*/
-        String centerX = "126.5422"; // 예시: 제주도 중심
-        String centerY = "33.3647";
+        String centerX = "127.027632"; // 서울
+        String centerY = "37.497175";
+        /*String centerX = "126.5422"; // 예시: 제주도 중심
+        String centerY = "33.3647";*/
+        /*String centerX = "128.2095"; // 예시: 강원도 중심
+        String centerY = "37.5550";*/
         int radius = 20000; // 범위 20km
 
         try {
@@ -99,11 +101,22 @@ public class EmergencyFacilityApi {
         String jdbcUrl = "jdbc:mysql://localhost:3306/hontrip?characterEncoding=UTF-8";
         String dbUser = "copidingz";
         String dbPassword = "qwer1234";
+
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword);
 
             for (EmergencyFacilityDTO dto : data) {
+                // 만약 카테고리 이름이 아래의 경우 해당 정보를 저장하지 않고 건너뛰기
+                if ("의료,건강 > 병원 > 노인,요양병원".equals(dto.getCategoryName()) ||
+                        "의료,건강 > 병원 > 한방병원".equals(dto.getCategoryName()) ||
+                        "의료,건강 > 병원 > 정신건강의학과".equals(dto.getCategoryName()) ||
+                        "의료,건강 > 병원 > 성형외과".equals(dto.getCategoryName()) ||
+                        "의료,건강 > 병원 > 피부과".equals(dto.getCategoryName()) ||
+                        dto.getCategoryName().startsWith("의료,건강 > 병원 > 피부과 >")) {
+                    continue;
+                }
+
                 String insertQuery = "INSERT INTO emergency_facility (id, place_name, category_name, category_group_code, category_group_name, phone, address_name, road_address_name, x, y, place_url, distance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(insertQuery)) {
@@ -120,7 +133,13 @@ public class EmergencyFacilityApi {
                     preparedStatement.setString(11, dto.getPlaceUrl());
                     preparedStatement.setString(12, dto.getDistance());
 
-                    preparedStatement.executeUpdate();
+                    try {
+                        preparedStatement.executeUpdate();
+                        System.out.println("Successfully inserted a row into the accommodation table.");
+                    } catch (SQLException e) {
+                        // 중복된 id가 이미 존재할 경우 에러를 무시하고 다음 값 저장
+                        System.out.println("중복된 id 값이 이미 존재합니다. 다음 값으로 넘어갑니다.");
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -136,4 +155,3 @@ public class EmergencyFacilityApi {
         }
     }
 }
-
