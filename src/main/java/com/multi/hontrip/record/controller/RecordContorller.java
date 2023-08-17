@@ -32,8 +32,7 @@ public class RecordContorller {
     public String uploadPostView(Model model) {
         List<LocationDTO> locationList = locationService.locationList();
         model.addAttribute("locationList", locationList);
-        System.out.println(locationList);
-        return "record/createpost";
+        return "/record/createpost";
     }
 
     @PostMapping("createpost") // 게시물 작성
