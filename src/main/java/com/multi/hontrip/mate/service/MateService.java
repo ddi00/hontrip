@@ -1,9 +1,6 @@
 package com.multi.hontrip.mate.service;
 
-import com.multi.hontrip.mate.dto.LocationDTO;
-import com.multi.hontrip.mate.dto.MateBoardListDTO;
-import com.multi.hontrip.mate.dto.MateCommentDTO;
-import com.multi.hontrip.mate.dto.PageDTO;
+import com.multi.hontrip.mate.dto.*;
 
 import java.util.List;
 
@@ -21,5 +18,7 @@ public interface MateService {
 
     int pages(int count); //전체 페이지 수 구하기
 
+    public void insert(MateBoardInsertDTO mateBoardInsertDTO);
 
+    public MateBoardInsertDTO selectOne(int id);
 }
