@@ -37,7 +37,8 @@ public class FlightController {
     public String SearchFlight(@ModelAttribute("FlightSearchDTO") FlightSearchDTO flightSearchDTO, Model model)
             throws ParserConfigurationException, SAXException, IOException{
         FlightParser flightParser = new FlightParser();
-        List<FlightDTO> list = flightParser.parsingData(flightSearchDTO.getDepAirportName(), flightSearchDTO.getArrAirportName(), flightSearchDTO.getDepDate());
+        List<FlightDTO> list = flightParser.parseData(flightSearchDTO.getDepAirportName(), flightSearchDTO.getArrAirportName(), flightSearchDTO.getDepDate());
+
         // DB 추가
         for (FlightDTO flightDTO : list) {
             flightService.insert(flightDTO);

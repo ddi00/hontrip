@@ -13,26 +13,26 @@ import java.util.List;
 
 // 카카오맵 api로 받아온 숙박시설 정보 보여주는 컨트롤러
 @Controller
-@RequestMapping("/plan")
+@RequestMapping("/plan/accommodation")
 public class AccommodationController {
 
     @Autowired
     AccommodationService accommodationService;
 
-    @RequestMapping("/accommodation_one") // 숙박시설 1개만 보기
+    @RequestMapping("/one") // 숙박시설 1개만 보기
     public void one(Long accommodationId, Model model) {
         AccommodationDTO plan = accommodationService.one(accommodationId);
         model.addAttribute("plan", plan);
     }
 
-    @RequestMapping(value = "/accommodation_list", method = RequestMethod.GET) // 숙박시설 리스트
+    @RequestMapping(value = "/list", method = RequestMethod.GET) // 숙박시설 리스트
     public String showAccommodationList(Model model) {
         List<AccommodationDTO> list = accommodationService.list();
         model.addAttribute("list", list);
-        return "plan/accommodation/accommodation_list";
+        return "plan/accommodation/list";
     }
 
-    @RequestMapping(value = "/accommodation_filter_list", method = RequestMethod.POST) // 숙박시설 필터
+    @RequestMapping(value = "/filter_list", method = RequestMethod.POST) // 숙박시설 필터
     public String filterList(
             @RequestParam(name = "addressName", required = false) String addressName,
             @RequestParam(name = "placeName", required = false) String placeName,
@@ -62,7 +62,7 @@ public class AccommodationController {
         }
 
         model.addAttribute("list", list);
-        return "plan/accommodation/accommodation_filter_list";
+        return "plan/accommodation/filter_list";
     }
 
 }

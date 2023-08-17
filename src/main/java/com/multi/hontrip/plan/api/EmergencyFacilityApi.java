@@ -7,6 +7,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import org.json.JSONObject;
 // 카카오맵 api로 응급시설(병원|약국)정보 호출해 DB에 응답을 저장
 public class EmergencyFacilityApi {
     public static void main(String[] args) {
-        String kakaoApiKey = "b530eee810347036d9dcf01af51163b7";
+        String kakaoApiKey = "";
         String categoryCodePharmacy = "PM9"; // 약국 카테고리
         String categoryCodeHospital = "HP8"; // 병원 카테고리
         /*String centerX = "127.027632"; // 서울
@@ -98,8 +99,10 @@ public class EmergencyFacilityApi {
         String jdbcUrl = "jdbc:mysql://localhost:3306/hontrip?characterEncoding=UTF-8";
         String dbUser = "copidingz";
         String dbPassword = "qwer1234";
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword);
 
-        try (Connection conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword)) {
             for (EmergencyFacilityDTO dto : data) {
                 String insertQuery = "INSERT INTO emergency_facility (id, place_name, category_name, category_group_code, category_group_name, phone, address_name, road_address_name, x, y, place_url, distance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -120,6 +123,17 @@ public class EmergencyFacilityApi {
                     preparedStatement.executeUpdate();
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
+

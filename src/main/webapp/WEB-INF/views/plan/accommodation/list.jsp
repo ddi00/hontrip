@@ -18,7 +18,7 @@
 <h1>숙소 목록</h1>
 <%--주소와 이름으로 검색 부분 나중에 부트스트랩으로 하나로 합치기--%>
 
-<form method="post" action="${pageContext.request.contextPath}/plan/accommodation_filter_list">
+<form method="post" action="${pageContext.request.contextPath}/plan/accommodation/filter_list">
   주소 입력: <input type="text" name="addressName" value="">
   이름 입력: <input type="text" name="placeName" value="">
   <button type="submit" name="filterType" value="address_place">주소와 이름으로 검색</button>

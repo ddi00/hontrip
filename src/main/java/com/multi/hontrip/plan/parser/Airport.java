@@ -1,5 +1,6 @@
 package com.multi.hontrip.plan.parser;
 
+// 항공편 조회 시 공항명 - 공항 id 맵핑 위한 enum class
 public enum Airport {
     KIMPO ("김포", "NAARKSS"),
     INCHEON ("인천", "NAARKSI"),
@@ -20,7 +21,7 @@ public enum Airport {
     private final String airportName; // 공항명
     private final String airportId; // 공항 ID
 
-    private Airport(String airportName, String airportId) {
+    Airport(String airportName, String airportId) {
         this.airportName = airportName;
         this.airportId = airportId;
     }

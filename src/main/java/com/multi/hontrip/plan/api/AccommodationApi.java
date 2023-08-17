@@ -15,7 +15,7 @@ import java.sql.SQLException;
 
 // 카카오맵 api로 숙박정보 호출해 DB에 응답을 저장
 public class AccommodationApi {
-    private static final String KAKAO_MAP_API_KEY = "b530eee810347036d9dcf01af51163b7";
+    private static final String KAKAO_MAP_API_KEY = "";
     private static final String KAKAO_MAP_API_URL = "https://dapi.kakao.com/v2/local/search/keyword.json";
 
     public static void main(String[] args) {
@@ -106,7 +106,9 @@ public class AccommodationApi {
         String username = "copidingz";
         String password = "qwer1234";
 
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url, username, password);
             // INSERT 쿼리 작성
             String insertQuery = "INSERT INTO accommodation (id, place_name, category_name, category_group_code, category_group_name, phone, address_name, road_address_name, x, y, place_url, distance) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -132,7 +134,16 @@ public class AccommodationApi {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
+
 

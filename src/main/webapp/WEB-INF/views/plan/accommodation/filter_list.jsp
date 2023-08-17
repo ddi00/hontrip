@@ -14,8 +14,7 @@
 </head>
 <body>
 <h1>필터링된 숙박시설 목록</h1>
-<button onclick="location.href='/hontrip/plan/accommodation_list'">전체 숙박시설 보기</button>
-<form method="post" action="${pageContext.request.contextPath}/plan/accommodation_filter_category_list">
+<button onclick="location.href='/hontrip/plan/accommodation/list'">전체 숙박시설 보기</button>
 
 <ul>
     <c:forEach items="${list}" var="accommodation">
