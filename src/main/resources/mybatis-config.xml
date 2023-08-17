@@ -12,7 +12,8 @@
         <typeAlias type="com.multi.hontrip.mate.dto.PageDTO" alias="pageDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.user.dto.UserDTO" alias="userDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.user.dto.UserInsertDTO" alias="userInsertDTO"></typeAlias>
-    </typeAliases>
+		<typeAlias type="com.multi.hontrip.mate.dto.MateCommentDTO" alias="mateCommentDTO"></typeAlias>
+	</typeAliases>
 
     <typeHandlers>
         <typeHandler handler="com.multi.hontrip.mate.dto.GenderTypeHandler"/>
@@ -25,5 +26,4 @@
 		<mapper resource="mapper/mateMapper.xml" />
 		<mapper resource="mapper/userMapper.xml" />
 	</mappers>
-
 </configuration>
