@@ -9,8 +9,8 @@
     <link rel="shortcut icon" href="<%= request.getContextPath() %>/resources/assets/img/favicon.png">
     <link rel="stylesheet" href="<c:url value="/resources/assets/css/plugins.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/assets/css/style.css"/>">
-    <link rel="stylesheet" href="<c:url value="/resources/assets/css/mate_board_insert.css"/>">
-    <link rel="stylesheet" href="<c:url value="/resources/assets/css/user.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/mate_board_insert.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/user.css"/>">
     <link rel="preload" href="<c:url value="/resources/assets/css/fonts/urbanist.css"/>"as="style" onload="this.rel='stylesheet'">
 </head>
 <body>
@@ -26,6 +26,6 @@
     </div>
     <script src="<c:url value="/resources/assets/js/plugins.js"/>"/>
     <script src="<c:url value="/resources/assets/js/theme.js"/>"/>
-    <script src="<c:url value="/resources/assets/js/jquery-3.7.0.js"/>"/>
+    <script src="<c:url value="/resources/js/jquery-3.7.0.js"/>"/>
 </body>
 </html>
