@@ -39,9 +39,9 @@
 # .idea/compiler.xml
 # .idea/jarRepositories.xml
 # .idea/modules.xml
-.idea/*.iml
+# .idea/*.iml
 # .idea/modules
-*.iml
+# *.iml
 # *.ipr
 
 # CMake
@@ -148,7 +148,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/windows,intellij+all,macos
+# target
+target
 
-# IntelliJ project files
-target/*
+# End of https://www.toptal.com/developers/gitignore/api/windows,intellij+all,macos
