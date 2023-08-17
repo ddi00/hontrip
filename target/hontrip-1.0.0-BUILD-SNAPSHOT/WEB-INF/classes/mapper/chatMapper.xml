@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mateBoard">
-	<insert id="insert" parameterType="mateBoardVO">
-		insert into mate_board (title, content, want_gender, want_age, region, start_date, finish_date,recruit_number)
-		values(#{title}, #{content}, #{wantGender},#{wantAge}, #{region},#{startDate},#{finishDate},#{recruitNumber})
-	</insert>
+
 </mapper>
 
 

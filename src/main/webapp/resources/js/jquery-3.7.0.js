@@ -8,39 +8,39 @@
  *
  * Date: 2023-05-11T18:29Z
  */
-( function( global, factory ) {
+(function (global, factory) {
 
-	"use strict";
+    "use strict";
 
-	if ( typeof module === "object" && typeof module.exports === "object" ) {
+    if (typeof module === "object" && typeof module.exports === "object") {
 
-		// For CommonJS and CommonJS-like environments where a proper `window`
-		// is present, execute the factory and get jQuery.
-		// For environments that do not have a `window` with a `document`
-		// (such as Node.js), expose a factory as module.exports.
-		// This accentuates the need for the creation of a real `window`.
-		// e.g. var jQuery = require("jquery")(window);
-		// See ticket trac-14549 for more info.
-		module.exports = global.document ?
-			factory( global, true ) :
-			function( w ) {
-				if ( !w.document ) {
-					throw new Error( "jQuery requires a window with a document" );
-				}
-				return factory( w );
-			};
-	} else {
-		factory( global );
-	}
+        // For CommonJS and CommonJS-like environments where a proper `window`
+        // is present, execute the factory and get jQuery.
+        // For environments that do not have a `window` with a `document`
+        // (such as Node.js), expose a factory as module.exports.
+        // This accentuates the need for the creation of a real `window`.
+        // e.g. var jQuery = require("jquery")(window);
+        // See ticket trac-14549 for more info.
+        module.exports = global.document ?
+            factory(global, true) :
+            function (w) {
+                if (!w.document) {
+                    throw new Error("jQuery requires a window with a document");
+                }
+                return factory(w);
+            };
+    } else {
+        factory(global);
+    }
 
 // Pass this if window is not defined yet
-} )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
+})(typeof window !== "undefined" ? window : this, function (window, noGlobal) {
 
 // Edge <= 12 - 13+, Firefox <=18 - 45+, IE 10 - 11, Safari 5.1 - 9+, iOS 6 - 9.1
 // throw exceptions when non-strict code (e.g., ASP.NET 4.5) accesses strict mode
 // arguments.callee.caller (trac-13335). But as of jQuery 3.0 (2016), strict mode should be common
 // enough that all such attempts are guarded in a try block.
-"use strict";
+    "use strict";
 
 var arr = [];
 
@@ -597,179 +597,176 @@ jQuery.contains = function( a, b ) {
 
 
 
-
 // CSS string/identifier serialization
 // https://drafts.csswg.org/cssom/#common-serializing-idioms
-var rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\x80-\uFFFF\w-]/g;
+    var rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\x80-\uFFFF\w-]/g;
 
-function fcssescape( ch, asCodePoint ) {
-	if ( asCodePoint ) {
+    function fcssescape(ch, asCodePoint) {
+        if (asCodePoint) {
 
-		// U+0000 NULL becomes U+FFFD REPLACEMENT CHARACTER
-		if ( ch === "\0" ) {
-			return "\uFFFD";
-		}
+            // U+0000 NULL becomes U+FFFD REPLACEMENT CHARACTER
+            if (ch === "\0") {
+                return "\uFFFD";
+            }
 
-		// Control characters and (dependent upon position) numbers get escaped as code points
-		return ch.slice( 0, -1 ) + "\\" + ch.charCodeAt( ch.length - 1 ).toString( 16 ) + " ";
-	}
+            // Control characters and (dependent upon position) numbers get escaped as code points
+            return ch.slice(0, -1) + "\\" + ch.charCodeAt(ch.length - 1).toString(16) + " ";
+        }
 
-	// Other potentially-special ASCII characters get backslash-escaped
-	return "\\" + ch;
-}
+        // Other potentially-special ASCII characters get backslash-escaped
+        return "\\" + ch;
+    }
 
-jQuery.escapeSelector = function( sel ) {
-	return ( sel + "" ).replace( rcssescape, fcssescape );
-};
-
-
+    jQuery.escapeSelector = function (sel) {
+        return (sel + "").replace(rcssescape, fcssescape);
+    };
 
 
-var preferredDoc = document,
-	pushNative = push;
+    var preferredDoc = document,
+        pushNative = push;
 
-( function() {
+    (function () {
 
-var i,
-	Expr,
-	outermostContext,
-	sortInput,
-	hasDuplicate,
-	push = pushNative,
+        var i,
+            Expr,
+            outermostContext,
+            sortInput,
+            hasDuplicate,
+            push = pushNative,
 
-	// Local document vars
-	document,
-	documentElement,
-	documentIsHTML,
-	rbuggyQSA,
-	matches,
+            // Local document vars
+            document,
+            documentElement,
+            documentIsHTML,
+            rbuggyQSA,
+            matches,
 
-	// Instance-specific data
-	expando = jQuery.expando,
-	dirruns = 0,
-	done = 0,
-	classCache = createCache(),
-	tokenCache = createCache(),
-	compilerCache = createCache(),
-	nonnativeSelectorCache = createCache(),
-	sortOrder = function( a, b ) {
-		if ( a === b ) {
-			hasDuplicate = true;
-		}
-		return 0;
-	},
+            // Instance-specific data
+            expando = jQuery.expando,
+            dirruns = 0,
+            done = 0,
+            classCache = createCache(),
+            tokenCache = createCache(),
+            compilerCache = createCache(),
+            nonnativeSelectorCache = createCache(),
+            sortOrder = function (a, b) {
+                if (a === b) {
+                    hasDuplicate = true;
+                }
+                return 0;
+            },
 
-	booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|" +
-		"loop|multiple|open|readonly|required|scoped",
+            booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|" +
+                "loop|multiple|open|readonly|required|scoped",
 
-	// Regular expressions
+            // Regular expressions
 
-	// https://www.w3.org/TR/css-syntax-3/#ident-token-diagram
-	identifier = "(?:\\\\[\\da-fA-F]{1,6}" + whitespace +
-		"?|\\\\[^\\r\\n\\f]|[\\w-]|[^\0-\\x7f])+",
+            // https://www.w3.org/TR/css-syntax-3/#ident-token-diagram
+            identifier = "(?:\\\\[\\da-fA-F]{1,6}" + whitespace +
+                "?|\\\\[^\\r\\n\\f]|[\\w-]|[^\0-\\x7f])+",
 
-	// Attribute selectors: https://www.w3.org/TR/selectors/#attribute-selectors
-	attributes = "\\[" + whitespace + "*(" + identifier + ")(?:" + whitespace +
+            // Attribute selectors: https://www.w3.org/TR/selectors/#attribute-selectors
+            attributes = "\\[" + whitespace + "*(" + identifier + ")(?:" + whitespace +
 
-		// Operator (capture 2)
-		"*([*^$|!~]?=)" + whitespace +
+                // Operator (capture 2)
+                "*([*^$|!~]?=)" + whitespace +
 
-		// "Attribute values must be CSS identifiers [capture 5] or strings [capture 3 or capture 4]"
-		"*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|(" + identifier + "))|)" +
-		whitespace + "*\\]",
+                // "Attribute values must be CSS identifiers [capture 5] or strings [capture 3 or capture 4]"
+                "*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|(" + identifier + "))|)" +
+                whitespace + "*\\]",
 
-	pseudos = ":(" + identifier + ")(?:\\((" +
+            pseudos = ":(" + identifier + ")(?:\\((" +
 
-		// To reduce the number of selectors needing tokenize in the preFilter, prefer arguments:
-		// 1. quoted (capture 3; capture 4 or capture 5)
-		"('((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\")|" +
+                // To reduce the number of selectors needing tokenize in the preFilter, prefer arguments:
+                // 1. quoted (capture 3; capture 4 or capture 5)
+                "('((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\")|" +
 
-		// 2. simple (capture 6)
-		"((?:\\\\.|[^\\\\()[\\]]|" + attributes + ")*)|" +
+                // 2. simple (capture 6)
+                "((?:\\\\.|[^\\\\()[\\]]|" + attributes + ")*)|" +
 
-		// 3. anything else (capture 2)
-		".*" +
-		")\\)|)",
+                // 3. anything else (capture 2)
+                ".*" +
+                ")\\)|)",
 
-	// Leading and non-escaped trailing whitespace, capturing some non-whitespace characters preceding the latter
-	rwhitespace = new RegExp( whitespace + "+", "g" ),
+            // Leading and non-escaped trailing whitespace, capturing some non-whitespace characters preceding the latter
+            rwhitespace = new RegExp(whitespace + "+", "g"),
 
-	rcomma = new RegExp( "^" + whitespace + "*," + whitespace + "*" ),
-	rleadingCombinator = new RegExp( "^" + whitespace + "*([>+~]|" + whitespace + ")" +
-		whitespace + "*" ),
-	rdescend = new RegExp( whitespace + "|>" ),
+            rcomma = new RegExp("^" + whitespace + "*," + whitespace + "*"),
+            rleadingCombinator = new RegExp("^" + whitespace + "*([>+~]|" + whitespace + ")" +
+                whitespace + "*"),
+            rdescend = new RegExp(whitespace + "|>"),
 
-	rpseudo = new RegExp( pseudos ),
-	ridentifier = new RegExp( "^" + identifier + "$" ),
+            rpseudo = new RegExp(pseudos),
+            ridentifier = new RegExp("^" + identifier + "$"),
 
-	matchExpr = {
-		ID: new RegExp( "^#(" + identifier + ")" ),
-		CLASS: new RegExp( "^\\.(" + identifier + ")" ),
-		TAG: new RegExp( "^(" + identifier + "|[*])" ),
-		ATTR: new RegExp( "^" + attributes ),
-		PSEUDO: new RegExp( "^" + pseudos ),
-		CHILD: new RegExp(
-			"^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\(" +
-				whitespace + "*(even|odd|(([+-]|)(\\d*)n|)" + whitespace + "*(?:([+-]|)" +
-				whitespace + "*(\\d+)|))" + whitespace + "*\\)|)", "i" ),
-		bool: new RegExp( "^(?:" + booleans + ")$", "i" ),
+            matchExpr = {
+                ID: new RegExp("^#(" + identifier + ")"),
+                CLASS: new RegExp("^\\.(" + identifier + ")"),
+                TAG: new RegExp("^(" + identifier + "|[*])"),
+                ATTR: new RegExp("^" + attributes),
+                PSEUDO: new RegExp("^" + pseudos),
+                CHILD: new RegExp(
+                    "^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\(" +
+                    whitespace + "*(even|odd|(([+-]|)(\\d*)n|)" + whitespace + "*(?:([+-]|)" +
+                    whitespace + "*(\\d+)|))" + whitespace + "*\\)|)", "i"),
+                bool: new RegExp("^(?:" + booleans + ")$", "i"),
 
-		// For use in libraries implementing .is()
-		// We use this for POS matching in `select`
-		needsContext: new RegExp( "^" + whitespace +
-			"*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\(" + whitespace +
-			"*((?:-\\d)?\\d*)" + whitespace + "*\\)|)(?=[^-]|$)", "i" )
-	},
+                // For use in libraries implementing .is()
+                // We use this for POS matching in `select`
+                needsContext: new RegExp("^" + whitespace +
+                    "*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\(" + whitespace +
+                    "*((?:-\\d)?\\d*)" + whitespace + "*\\)|)(?=[^-]|$)", "i")
+            },
 
-	rinputs = /^(?:input|select|textarea|button)$/i,
-	rheader = /^h\d$/i,
+            rinputs = /^(?:input|select|textarea|button)$/i,
+            rheader = /^h\d$/i,
 
-	// Easily-parseable/retrievable ID or TAG or CLASS selectors
-	rquickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,
+            // Easily-parseable/retrievable ID or TAG or CLASS selectors
+            rquickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,
 
-	rsibling = /[+~]/,
+            rsibling = /[+~]/,
 
-	// CSS escapes
-	// https://www.w3.org/TR/CSS21/syndata.html#escaped-characters
-	runescape = new RegExp( "\\\\[\\da-fA-F]{1,6}" + whitespace +
-		"?|\\\\([^\\r\\n\\f])", "g" ),
-	funescape = function( escape, nonHex ) {
-		var high = "0x" + escape.slice( 1 ) - 0x10000;
+            // CSS escapes
+            // https://www.w3.org/TR/CSS21/syndata.html#escaped-characters
+            runescape = new RegExp("\\\\[\\da-fA-F]{1,6}" + whitespace +
+                "?|\\\\([^\\r\\n\\f])", "g"),
+            funescape = function (escape, nonHex) {
+                var high = "0x" + escape.slice(1) - 0x10000;
 
-		if ( nonHex ) {
+                if (nonHex) {
 
-			// Strip the backslash prefix from a non-hex escape sequence
-			return nonHex;
-		}
+                    // Strip the backslash prefix from a non-hex escape sequence
+                    return nonHex;
+                }
 
-		// Replace a hexadecimal escape sequence with the encoded Unicode code point
-		// Support: IE <=11+
-		// For values outside the Basic Multilingual Plane (BMP), manually construct a
-		// surrogate pair
-		return high < 0 ?
-			String.fromCharCode( high + 0x10000 ) :
-			String.fromCharCode( high >> 10 | 0xD800, high & 0x3FF | 0xDC00 );
-	},
+                // Replace a hexadecimal escape sequence with the encoded Unicode code point
+                // Support: IE <=11+
+                // For values outside the Basic Multilingual Plane (BMP), manually construct a
+                // surrogate pair
+                return high < 0 ?
+                    String.fromCharCode(high + 0x10000) :
+                    String.fromCharCode(high >> 10 | 0xD800, high & 0x3FF | 0xDC00);
+            },
 
-	// Used for iframes; see `setDocument`.
-	// Support: IE 9 - 11+, Edge 12 - 18+
-	// Removing the function wrapper causes a "Permission Denied"
-	// error in IE/Edge.
-	unloadHandler = function() {
-		setDocument();
-	},
+            // Used for iframes; see `setDocument`.
+            // Support: IE 9 - 11+, Edge 12 - 18+
+            // Removing the function wrapper causes a "Permission Denied"
+            // error in IE/Edge.
+            unloadHandler = function () {
+                setDocument();
+            },
 
-	inDisabledFieldset = addCombinator(
-		function( elem ) {
-			return elem.disabled === true && nodeName( elem, "fieldset" );
-		},
-		{ dir: "parentNode", next: "legend" }
-	);
+            inDisabledFieldset = addCombinator(
+                function (elem) {
+                    return elem.disabled === true && nodeName(elem, "fieldset");
+                },
+                {dir: "parentNode", next: "legend"}
+            );
 
 // Support: IE <=9 only
 // Accessing document.activeElement can throw unexpectedly
 // https://bugs.jquery.com/ticket/13393
-function safeActiveElement() {
+        function safeActiveElement() {
 	try {
 		return document.activeElement;
 	} catch ( err ) { }
@@ -2675,7 +2672,7 @@ function select( selector, context, results, seed ) {
 
 // Support: Android <=4.0 - 4.1+
 // Sort stability
-support.sortStable = expando.split( "" ).sort( sortOrder ).join( "" ) === expando;
+        support.sortStable = expando.split( "" ).sort( sortOrder ).join( "" ) === expando;
 
 // Initialize against the default document
 setDocument();
@@ -2697,7 +2694,7 @@ jQuery.unique = jQuery.uniqueSort;
 // These have always been private, but they used to be documented
 // as part of Sizzle so let's maintain them in the 3.x line
 // for backwards compatibility purposes.
-find.compile = compile;
+        find.compile = compile;
 find.select = select;
 find.setDocument = setDocument;
 
@@ -2839,7 +2836,7 @@ jQuery.fn.extend( {
 
 
 // A central reference to the root jQuery(document)
-var rootjQuery,
+    var rootjQuery,
 
 	// A simple way to check for HTML strings
 	// Prioritize #id over <tag> to avoid XSS via location.hash (trac-9521)
@@ -3167,780 +3164,794 @@ function createOptions( options ) {
  *	stopOnFalse:	interrupt callings when a callback returns false
  *
  */
-jQuery.Callbacks = function( options ) {
-
-	// Convert options from String-formatted to Object-formatted if needed
-	// (we check in cache first)
-	options = typeof options === "string" ?
-		createOptions( options ) :
-		jQuery.extend( {}, options );
-
-	var // Flag to know if list is currently firing
-		firing,
-
-		// Last fire value for non-forgettable lists
-		memory,
-
-		// Flag to know if list was already fired
-		fired,
-
-		// Flag to prevent firing
-		locked,
-
-		// Actual callback list
-		list = [],
-
-		// Queue of execution data for repeatable lists
-		queue = [],
-
-		// Index of currently firing callback (modified by add/remove as needed)
-		firingIndex = -1,
-
-		// Fire callbacks
-		fire = function() {
-
-			// Enforce single-firing
-			locked = locked || options.once;
-
-			// Execute callbacks for all pending executions,
-			// respecting firingIndex overrides and runtime changes
-			fired = firing = true;
-			for ( ; queue.length; firingIndex = -1 ) {
-				memory = queue.shift();
-				while ( ++firingIndex < list.length ) {
-
-					// Run callback and check for early termination
-					if ( list[ firingIndex ].apply( memory[ 0 ], memory[ 1 ] ) === false &&
-						options.stopOnFalse ) {
-
-						// Jump to end and forget the data so .add doesn't re-fire
-						firingIndex = list.length;
-						memory = false;
-					}
-				}
-			}
-
-			// Forget the data if we're done with it
-			if ( !options.memory ) {
-				memory = false;
-			}
-
-			firing = false;
-
-			// Clean up if we're done firing for good
-			if ( locked ) {
-
-				// Keep an empty list if we have data for future add calls
-				if ( memory ) {
-					list = [];
-
-				// Otherwise, this object is spent
-				} else {
-					list = "";
-				}
-			}
-		},
-
-		// Actual Callbacks object
-		self = {
-
-			// Add a callback or a collection of callbacks to the list
-			add: function() {
-				if ( list ) {
-
-					// If we have memory from a past run, we should fire after adding
-					if ( memory && !firing ) {
-						firingIndex = list.length - 1;
-						queue.push( memory );
-					}
-
-					( function add( args ) {
-						jQuery.each( args, function( _, arg ) {
-							if ( isFunction( arg ) ) {
-								if ( !options.unique || !self.has( arg ) ) {
-									list.push( arg );
-								}
-							} else if ( arg && arg.length && toType( arg ) !== "string" ) {
-
-								// Inspect recursively
-								add( arg );
-							}
-						} );
-					} )( arguments );
-
-					if ( memory && !firing ) {
-						fire();
-					}
-				}
-				return this;
-			},
-
-			// Remove a callback from the list
-			remove: function() {
-				jQuery.each( arguments, function( _, arg ) {
-					var index;
-					while ( ( index = jQuery.inArray( arg, list, index ) ) > -1 ) {
-						list.splice( index, 1 );
-
-						// Handle firing indexes
-						if ( index <= firingIndex ) {
-							firingIndex--;
-						}
-					}
-				} );
-				return this;
-			},
-
-			// Check if a given callback is in the list.
-			// If no argument is given, return whether or not list has callbacks attached.
-			has: function( fn ) {
-				return fn ?
-					jQuery.inArray( fn, list ) > -1 :
-					list.length > 0;
-			},
-
-			// Remove all callbacks from the list
-			empty: function() {
-				if ( list ) {
-					list = [];
-				}
-				return this;
-			},
-
-			// Disable .fire and .add
-			// Abort any current/pending executions
-			// Clear all callbacks and values
-			disable: function() {
-				locked = queue = [];
-				list = memory = "";
-				return this;
-			},
-			disabled: function() {
-				return !list;
-			},
-
-			// Disable .fire
-			// Also disable .add unless we have memory (since it would have no effect)
-			// Abort any pending executions
-			lock: function() {
-				locked = queue = [];
-				if ( !memory && !firing ) {
-					list = memory = "";
-				}
-				return this;
-			},
-			locked: function() {
-				return !!locked;
-			},
-
-			// Call all callbacks with the given context and arguments
-			fireWith: function( context, args ) {
-				if ( !locked ) {
-					args = args || [];
-					args = [ context, args.slice ? args.slice() : args ];
-					queue.push( args );
-					if ( !firing ) {
-						fire();
-					}
-				}
-				return this;
-			},
-
-			// Call all the callbacks with the given arguments
-			fire: function() {
-				self.fireWith( this, arguments );
-				return this;
-			},
-
-			// To know if the callbacks have already been called at least once
-			fired: function() {
-				return !!fired;
-			}
-		};
-
-	return self;
-};
-
-
-function Identity( v ) {
-	return v;
-}
-function Thrower( ex ) {
-	throw ex;
-}
-
-function adoptValue( value, resolve, reject, noValue ) {
-	var method;
-
-	try {
-
-		// Check for promise aspect first to privilege synchronous behavior
-		if ( value && isFunction( ( method = value.promise ) ) ) {
-			method.call( value ).done( resolve ).fail( reject );
-
-		// Other thenables
-		} else if ( value && isFunction( ( method = value.then ) ) ) {
-			method.call( value, resolve, reject );
-
-		// Other non-thenables
-		} else {
-
-			// Control `resolve` arguments by letting Array#slice cast boolean `noValue` to integer:
-			// * false: [ value ].slice( 0 ) => resolve( value )
-			// * true: [ value ].slice( 1 ) => resolve()
-			resolve.apply( undefined, [ value ].slice( noValue ) );
-		}
-
-	// For Promises/A+, convert exceptions into rejections
-	// Since jQuery.when doesn't unwrap thenables, we can skip the extra checks appearing in
-	// Deferred#then to conditionally suppress rejection.
-	} catch ( value ) {
-
-		// Support: Android 4.0 only
-		// Strict mode functions invoked without .call/.apply get global-object context
-		reject.apply( undefined, [ value ] );
-	}
-}
-
-jQuery.extend( {
-
-	Deferred: function( func ) {
-		var tuples = [
-
-				// action, add listener, callbacks,
-				// ... .then handlers, argument index, [final state]
-				[ "notify", "progress", jQuery.Callbacks( "memory" ),
-					jQuery.Callbacks( "memory" ), 2 ],
-				[ "resolve", "done", jQuery.Callbacks( "once memory" ),
-					jQuery.Callbacks( "once memory" ), 0, "resolved" ],
-				[ "reject", "fail", jQuery.Callbacks( "once memory" ),
-					jQuery.Callbacks( "once memory" ), 1, "rejected" ]
-			],
-			state = "pending",
-			promise = {
-				state: function() {
-					return state;
-				},
-				always: function() {
-					deferred.done( arguments ).fail( arguments );
-					return this;
-				},
-				"catch": function( fn ) {
-					return promise.then( null, fn );
-				},
-
-				// Keep pipe for back-compat
-				pipe: function( /* fnDone, fnFail, fnProgress */ ) {
-					var fns = arguments;
-
-					return jQuery.Deferred( function( newDefer ) {
-						jQuery.each( tuples, function( _i, tuple ) {
-
-							// Map tuples (progress, done, fail) to arguments (done, fail, progress)
-							var fn = isFunction( fns[ tuple[ 4 ] ] ) && fns[ tuple[ 4 ] ];
-
-							// deferred.progress(function() { bind to newDefer or newDefer.notify })
-							// deferred.done(function() { bind to newDefer or newDefer.resolve })
-							// deferred.fail(function() { bind to newDefer or newDefer.reject })
-							deferred[ tuple[ 1 ] ]( function() {
-								var returned = fn && fn.apply( this, arguments );
-								if ( returned && isFunction( returned.promise ) ) {
-									returned.promise()
-										.progress( newDefer.notify )
-										.done( newDefer.resolve )
-										.fail( newDefer.reject );
-								} else {
-									newDefer[ tuple[ 0 ] + "With" ](
-										this,
-										fn ? [ returned ] : arguments
-									);
-								}
-							} );
-						} );
-						fns = null;
-					} ).promise();
-				},
-				then: function( onFulfilled, onRejected, onProgress ) {
-					var maxDepth = 0;
-					function resolve( depth, deferred, handler, special ) {
-						return function() {
-							var that = this,
-								args = arguments,
-								mightThrow = function() {
-									var returned, then;
-
-									// Support: Promises/A+ section 2.3.3.3.3
-									// https://promisesaplus.com/#point-59
-									// Ignore double-resolution attempts
-									if ( depth < maxDepth ) {
-										return;
-									}
-
-									returned = handler.apply( that, args );
-
-									// Support: Promises/A+ section 2.3.1
-									// https://promisesaplus.com/#point-48
-									if ( returned === deferred.promise() ) {
-										throw new TypeError( "Thenable self-resolution" );
-									}
-
-									// Support: Promises/A+ sections 2.3.3.1, 3.5
-									// https://promisesaplus.com/#point-54
-									// https://promisesaplus.com/#point-75
-									// Retrieve `then` only once
-									then = returned &&
-
-										// Support: Promises/A+ section 2.3.4
-										// https://promisesaplus.com/#point-64
-										// Only check objects and functions for thenability
-										( typeof returned === "object" ||
-											typeof returned === "function" ) &&
-										returned.then;
-
-									// Handle a returned thenable
-									if ( isFunction( then ) ) {
-
-										// Special processors (notify) just wait for resolution
-										if ( special ) {
-											then.call(
-												returned,
-												resolve( maxDepth, deferred, Identity, special ),
-												resolve( maxDepth, deferred, Thrower, special )
-											);
-
-										// Normal processors (resolve) also hook into progress
-										} else {
-
-											// ...and disregard older resolution values
-											maxDepth++;
-
-											then.call(
-												returned,
-												resolve( maxDepth, deferred, Identity, special ),
-												resolve( maxDepth, deferred, Thrower, special ),
-												resolve( maxDepth, deferred, Identity,
-													deferred.notifyWith )
-											);
-										}
-
-									// Handle all other returned values
-									} else {
-
-										// Only substitute handlers pass on context
-										// and multiple values (non-spec behavior)
-										if ( handler !== Identity ) {
-											that = undefined;
-											args = [ returned ];
-										}
-
-										// Process the value(s)
-										// Default process is resolve
-										( special || deferred.resolveWith )( that, args );
-									}
-								},
-
-								// Only normal processors (resolve) catch and reject exceptions
-								process = special ?
-									mightThrow :
-									function() {
-										try {
-											mightThrow();
-										} catch ( e ) {
-
-											if ( jQuery.Deferred.exceptionHook ) {
-												jQuery.Deferred.exceptionHook( e,
-													process.error );
-											}
-
-											// Support: Promises/A+ section 2.3.3.3.4.1
-											// https://promisesaplus.com/#point-61
-											// Ignore post-resolution exceptions
-											if ( depth + 1 >= maxDepth ) {
-
-												// Only substitute handlers pass on context
-												// and multiple values (non-spec behavior)
-												if ( handler !== Thrower ) {
-													that = undefined;
-													args = [ e ];
-												}
-
-												deferred.rejectWith( that, args );
-											}
-										}
-									};
-
-							// Support: Promises/A+ section 2.3.3.3.1
-							// https://promisesaplus.com/#point-57
-							// Re-resolve promises immediately to dodge false rejection from
-							// subsequent errors
-							if ( depth ) {
-								process();
-							} else {
-
-								// Call an optional hook to record the error, in case of exception
-								// since it's otherwise lost when execution goes async
-								if ( jQuery.Deferred.getErrorHook ) {
-									process.error = jQuery.Deferred.getErrorHook();
-
-								// The deprecated alias of the above. While the name suggests
-								// returning the stack, not an error instance, jQuery just passes
-								// it directly to `console.warn` so both will work; an instance
-								// just better cooperates with source maps.
-								} else if ( jQuery.Deferred.getStackHook ) {
-									process.error = jQuery.Deferred.getStackHook();
-								}
-								window.setTimeout( process );
-							}
-						};
-					}
-
-					return jQuery.Deferred( function( newDefer ) {
-
-						// progress_handlers.add( ... )
-						tuples[ 0 ][ 3 ].add(
-							resolve(
-								0,
-								newDefer,
-								isFunction( onProgress ) ?
-									onProgress :
-									Identity,
-								newDefer.notifyWith
-							)
-						);
-
-						// fulfilled_handlers.add( ... )
-						tuples[ 1 ][ 3 ].add(
-							resolve(
-								0,
-								newDefer,
-								isFunction( onFulfilled ) ?
-									onFulfilled :
-									Identity
-							)
-						);
-
-						// rejected_handlers.add( ... )
-						tuples[ 2 ][ 3 ].add(
-							resolve(
-								0,
-								newDefer,
-								isFunction( onRejected ) ?
-									onRejected :
-									Thrower
-							)
-						);
-					} ).promise();
-				},
-
-				// Get a promise for this deferred
-				// If obj is provided, the promise aspect is added to the object
-				promise: function( obj ) {
-					return obj != null ? jQuery.extend( obj, promise ) : promise;
-				}
-			},
-			deferred = {};
-
-		// Add list-specific methods
-		jQuery.each( tuples, function( i, tuple ) {
-			var list = tuple[ 2 ],
-				stateString = tuple[ 5 ];
-
-			// promise.progress = list.add
-			// promise.done = list.add
-			// promise.fail = list.add
-			promise[ tuple[ 1 ] ] = list.add;
-
-			// Handle state
-			if ( stateString ) {
-				list.add(
-					function() {
-
-						// state = "resolved" (i.e., fulfilled)
-						// state = "rejected"
-						state = stateString;
-					},
-
-					// rejected_callbacks.disable
-					// fulfilled_callbacks.disable
-					tuples[ 3 - i ][ 2 ].disable,
-
-					// rejected_handlers.disable
-					// fulfilled_handlers.disable
-					tuples[ 3 - i ][ 3 ].disable,
-
-					// progress_callbacks.lock
-					tuples[ 0 ][ 2 ].lock,
-
-					// progress_handlers.lock
-					tuples[ 0 ][ 3 ].lock
-				);
-			}
-
-			// progress_handlers.fire
-			// fulfilled_handlers.fire
-			// rejected_handlers.fire
-			list.add( tuple[ 3 ].fire );
-
-			// deferred.notify = function() { deferred.notifyWith(...) }
-			// deferred.resolve = function() { deferred.resolveWith(...) }
-			// deferred.reject = function() { deferred.rejectWith(...) }
-			deferred[ tuple[ 0 ] ] = function() {
-				deferred[ tuple[ 0 ] + "With" ]( this === deferred ? undefined : this, arguments );
-				return this;
-			};
-
-			// deferred.notifyWith = list.fireWith
-			// deferred.resolveWith = list.fireWith
-			// deferred.rejectWith = list.fireWith
-			deferred[ tuple[ 0 ] + "With" ] = list.fireWith;
-		} );
-
-		// Make the deferred a promise
-		promise.promise( deferred );
-
-		// Call given func if any
-		if ( func ) {
-			func.call( deferred, deferred );
-		}
-
-		// All done!
-		return deferred;
-	},
-
-	// Deferred helper
-	when: function( singleValue ) {
-		var
-
-			// count of uncompleted subordinates
-			remaining = arguments.length,
-
-			// count of unprocessed arguments
-			i = remaining,
-
-			// subordinate fulfillment data
-			resolveContexts = Array( i ),
-			resolveValues = slice.call( arguments ),
-
-			// the primary Deferred
-			primary = jQuery.Deferred(),
-
-			// subordinate callback factory
-			updateFunc = function( i ) {
-				return function( value ) {
-					resolveContexts[ i ] = this;
-					resolveValues[ i ] = arguments.length > 1 ? slice.call( arguments ) : value;
-					if ( !( --remaining ) ) {
-						primary.resolveWith( resolveContexts, resolveValues );
-					}
-				};
-			};
-
-		// Single- and empty arguments are adopted like Promise.resolve
-		if ( remaining <= 1 ) {
-			adoptValue( singleValue, primary.done( updateFunc( i ) ).resolve, primary.reject,
-				!remaining );
-
-			// Use .then() to unwrap secondary thenables (cf. gh-3000)
-			if ( primary.state() === "pending" ||
-				isFunction( resolveValues[ i ] && resolveValues[ i ].then ) ) {
-
-				return primary.then();
-			}
-		}
-
-		// Multiple arguments are aggregated like Promise.all array elements
-		while ( i-- ) {
-			adoptValue( resolveValues[ i ], updateFunc( i ), primary.reject );
-		}
-
-		return primary.promise();
-	}
-} );
+    jQuery.Callbacks = function( options ) {
+
+        // Convert options from String-formatted to Object-formatted if needed
+        // (we check in cache first)
+        options = typeof options === "string" ?
+            createOptions(options) :
+            jQuery.extend({}, options);
+
+        var // Flag to know if list is currently firing
+            firing,
+
+            // Last fire value for non-forgettable lists
+            memory,
+
+            // Flag to know if list was already fired
+            fired,
+
+            // Flag to prevent firing
+            locked,
+
+            // Actual callback list
+            list = [],
+
+            // Queue of execution data for repeatable lists
+            queue = [],
+
+            // Index of currently firing callback (modified by add/remove as needed)
+            firingIndex = -1,
+
+            // Fire callbacks
+            fire = function () {
+
+                // Enforce single-firing
+                locked = locked || options.once;
+
+                // Execute callbacks for all pending executions,
+                // respecting firingIndex overrides and runtime changes
+                fired = firing = true;
+                for (; queue.length; firingIndex = -1) {
+                    memory = queue.shift();
+                    while (++firingIndex < list.length) {
+
+                        // Run callback and check for early termination
+                        if (list[firingIndex].apply(memory[0], memory[1]) === false &&
+                            options.stopOnFalse) {
+
+                            // Jump to end and forget the data so .add doesn't re-fire
+                            firingIndex = list.length;
+                            memory = false;
+                        }
+                    }
+                }
+
+                // Forget the data if we're done with it
+                if (!options.memory) {
+                    memory = false;
+                }
+
+                firing = false;
+
+                // Clean up if we're done firing for good
+                if (locked) {
+
+                    // Keep an empty list if we have data for future add calls
+                    if (memory) {
+                        list = [];
+
+                        // Otherwise, this object is spent
+                    } else {
+                        list = "";
+                    }
+                }
+            },
+
+            // Actual Callbacks object
+            self = {
+
+                // Add a callback or a collection of callbacks to the list
+                add: function () {
+                    if (list) {
+
+                        // If we have memory from a past run, we should fire after adding
+                        if (memory && !firing) {
+                            firingIndex = list.length - 1;
+                            queue.push(memory);
+                        }
+
+                        (function add(args) {
+                            jQuery.each(args, function (_, arg) {
+                                if (isFunction(arg)) {
+                                    if (!options.unique || !self.has(arg)) {
+                                        list.push(arg);
+                                    }
+                                } else if (arg && arg.length && toType(arg) !== "string") {
+
+                                    // Inspect recursively
+                                    add(arg);
+                                }
+                            });
+                        })(arguments);
+
+                        if (memory && !firing) {
+                            fire();
+                        }
+                    }
+                    return this;
+                },
+
+                // Remove a callback from the list
+                remove: function () {
+                    jQuery.each(arguments, function (_, arg) {
+                        var index;
+                        while ((index = jQuery.inArray(arg, list, index)) > -1) {
+                            list.splice(index, 1);
+
+                            // Handle firing indexes
+                            if (index <= firingIndex) {
+                                firingIndex--;
+                            }
+                        }
+                    });
+                    return this;
+                },
+
+                // Check if a given callback is in the list.
+                // If no argument is given, return whether or not list has callbacks attached.
+                has: function (fn) {
+                    return fn ?
+                        jQuery.inArray(fn, list) > -1 :
+                        list.length > 0;
+                },
+
+                // Remove all callbacks from the list
+                empty: function () {
+                    if (list) {
+                        list = [];
+                    }
+                    return this;
+                },
+
+                // Disable .fire and .add
+                // Abort any current/pending executions
+                // Clear all callbacks and values
+                disable: function () {
+                    locked = queue = [];
+                    list = memory = "";
+                    return this;
+                },
+                disabled: function () {
+                    return !list;
+                },
+
+                // Disable .fire
+                // Also disable .add unless we have memory (since it would have no effect)
+                // Abort any pending executions
+                lock: function () {
+                    locked = queue = [];
+                    if (!memory && !firing) {
+                        list = memory = "";
+                    }
+                    return this;
+                },
+                locked: function () {
+                    return !!locked;
+                },
+
+                // Call all callbacks with the given context and arguments
+                fireWith: function (context, args) {
+                    if (!locked) {
+                        args = args || [];
+                        args = [context, args.slice ? args.slice() : args];
+                        queue.push(args);
+                        if (!firing) {
+                            fire();
+                        }
+                    }
+                    return this;
+                },
+
+                // Call all the callbacks with the given arguments
+                fire: function () {
+                    self.fireWith(this, arguments);
+                    return this;
+                },
+
+                // To know if the callbacks have already been called at least once
+                fired: function () {
+                    return !!fired;
+                }
+            };
+
+        return self;
+    };
+
+
+    function Identity(v) {
+        return v;
+    }
+
+    function Thrower(ex) {
+        throw ex;
+    }
+
+    function adoptValue(value, resolve, reject, noValue) {
+        var method;
+
+        try {
+
+            // Check for promise aspect first to privilege synchronous behavior
+            if (value && isFunction((method = value.promise))) {
+                method.call(value).done(resolve).fail(reject);
+
+                // Other thenables
+            } else if (value && isFunction((method = value.then))) {
+                method.call(value, resolve, reject);
+
+                // Other non-thenables
+            } else {
+
+                // Control `resolve` arguments by letting Array#slice cast boolean `noValue` to integer:
+                // * false: [ value ].slice( 0 ) => resolve( value )
+                // * true: [ value ].slice( 1 ) => resolve()
+                resolve.apply(undefined, [value].slice(noValue));
+            }
+
+            // For Promises/A+, convert exceptions into rejections
+            // Since jQuery.when doesn't unwrap thenables, we can skip the extra checks appearing in
+            // Deferred#then to conditionally suppress rejection.
+        } catch (value) {
+
+            // Support: Android 4.0 only
+            // Strict mode functions invoked without .call/.apply get global-object context
+            reject.apply(undefined, [value]);
+        }
+    }
+
+    jQuery.extend({
+
+        Deferred: function (func) {
+            var tuples = [
+
+                    // action, add listener, callbacks,
+                    // ... .then handlers, argument index, [final state]
+                    ["notify", "progress", jQuery.Callbacks("memory"),
+                        jQuery.Callbacks("memory"), 2],
+                    ["resolve", "done", jQuery.Callbacks("once memory"),
+                        jQuery.Callbacks("once memory"), 0, "resolved"],
+                    ["reject", "fail", jQuery.Callbacks("once memory"),
+                        jQuery.Callbacks("once memory"), 1, "rejected"]
+                ],
+                state = "pending",
+                promise = {
+                    state: function () {
+                        return state;
+                    },
+                    always: function () {
+                        deferred.done(arguments).fail(arguments);
+                        return this;
+                    },
+                    "catch": function (fn) {
+                        return promise.then(null, fn);
+                    },
+
+                    // Keep pipe for back-compat
+                    pipe: function ( /* fnDone, fnFail, fnProgress */) {
+                        var fns = arguments;
+
+                        return jQuery.Deferred(function (newDefer) {
+                            jQuery.each(tuples, function (_i, tuple) {
+
+                                // Map tuples (progress, done, fail) to arguments (done, fail, progress)
+                                var fn = isFunction(fns[tuple[4]]) && fns[tuple[4]];
+
+                                // deferred.progress(function() { bind to newDefer or newDefer.notify })
+                                // deferred.done(function() { bind to newDefer or newDefer.resolve })
+                                // deferred.fail(function() { bind to newDefer or newDefer.reject })
+                                deferred[tuple[1]](function () {
+                                    var returned = fn && fn.apply(this, arguments);
+                                    if (returned && isFunction(returned.promise)) {
+                                        returned.promise()
+                                            .progress(newDefer.notify)
+                                            .done(newDefer.resolve)
+                                            .fail(newDefer.reject);
+                                    } else {
+                                        newDefer[tuple[0] + "With"](
+                                            this,
+                                            fn ? [returned] : arguments
+                                        );
+                                    }
+                                });
+                            });
+                            fns = null;
+                        }).promise();
+                    },
+                    then: function (onFulfilled, onRejected, onProgress) {
+                        var maxDepth = 0;
+
+                        function resolve(depth, deferred, handler, special) {
+                            return function () {
+                                var that = this,
+                                    args = arguments,
+                                    mightThrow = function () {
+                                        var returned, then;
+
+                                        // Support: Promises/A+ section 2.3.3.3.3
+                                        // https://promisesaplus.com/#point-59
+                                        // Ignore double-resolution attempts
+                                        if (depth < maxDepth) {
+                                            return;
+                                        }
+
+                                        returned = handler.apply(that, args);
+
+                                        // Support: Promises/A+ section 2.3.1
+                                        // https://promisesaplus.com/#point-48
+                                        if (returned === deferred.promise()) {
+                                            throw new TypeError("Thenable self-resolution");
+                                        }
+
+                                        // Support: Promises/A+ sections 2.3.3.1, 3.5
+                                        // https://promisesaplus.com/#point-54
+                                        // https://promisesaplus.com/#point-75
+                                        // Retrieve `then` only once
+                                        then = returned &&
+
+                                            // Support: Promises/A+ section 2.3.4
+                                            // https://promisesaplus.com/#point-64
+                                            // Only check objects and functions for thenability
+                                            (typeof returned === "object" ||
+                                                typeof returned === "function") &&
+                                            returned.then;
+
+                                        // Handle a returned thenable
+                                        if (isFunction(then)) {
+
+                                            // Special processors (notify) just wait for resolution
+                                            if (special) {
+                                                then.call(
+                                                    returned,
+                                                    resolve(maxDepth, deferred, Identity, special),
+                                                    resolve(maxDepth, deferred, Thrower, special)
+                                                );
+
+                                                // Normal processors (resolve) also hook into progress
+                                            } else {
+
+                                                // ...and disregard older resolution values
+                                                maxDepth++;
+
+                                                then.call(
+                                                    returned,
+                                                    resolve(maxDepth, deferred, Identity, special),
+                                                    resolve(maxDepth, deferred, Thrower, special),
+                                                    resolve(maxDepth, deferred, Identity,
+                                                        deferred.notifyWith)
+                                                );
+                                            }
+
+                                            // Handle all other returned values
+                                        } else {
+
+                                            // Only substitute handlers pass on context
+                                            // and multiple values (non-spec behavior)
+                                            if (handler !== Identity) {
+                                                that = undefined;
+                                                args = [returned];
+                                            }
+
+                                            // Process the value(s)
+                                            // Default process is resolve
+                                            (special || deferred.resolveWith)(that, args);
+                                        }
+                                    },
+
+                                    // Only normal processors (resolve) catch and reject exceptions
+                                    process = special ?
+                                        mightThrow :
+                                        function () {
+                                            try {
+                                                mightThrow();
+                                            } catch (e) {
+
+                                                if (jQuery.Deferred.exceptionHook) {
+                                                    jQuery.Deferred.exceptionHook(e,
+                                                        process.error);
+                                                }
+
+                                                // Support: Promises/A+ section 2.3.3.3.4.1
+                                                // https://promisesaplus.com/#point-61
+                                                // Ignore post-resolution exceptions
+                                                if (depth + 1 >= maxDepth) {
+
+                                                    // Only substitute handlers pass on context
+                                                    // and multiple values (non-spec behavior)
+                                                    if (handler !== Thrower) {
+                                                        that = undefined;
+                                                        args = [e];
+                                                    }
+
+                                                    deferred.rejectWith(that, args);
+                                                }
+                                            }
+                                        };
+
+                                // Support: Promises/A+ section 2.3.3.3.1
+                                // https://promisesaplus.com/#point-57
+                                // Re-resolve promises immediately to dodge false rejection from
+                                // subsequent errors
+                                if (depth) {
+                                    process();
+                                } else {
+
+                                    // Call an optional hook to record the error, in case of exception
+                                    // since it's otherwise lost when execution goes async
+                                    if (jQuery.Deferred.getErrorHook) {
+                                        process.error = jQuery.Deferred.getErrorHook();
+
+                                        // The deprecated alias of the above. While the name suggests
+                                        // returning the stack, not an error instance, jQuery just passes
+                                        // it directly to `console.warn` so both will work; an instance
+                                        // just better cooperates with source maps.
+                                    } else if (jQuery.Deferred.getStackHook) {
+                                        process.error = jQuery.Deferred.getStackHook();
+                                    }
+                                    window.setTimeout(process);
+                                }
+                            };
+                        }
+
+                        return jQuery.Deferred(function (newDefer) {
+
+                            // progress_handlers.add( ... )
+                            tuples[0][3].add(
+                                resolve(
+                                    0,
+                                    newDefer,
+                                    isFunction(onProgress) ?
+                                        onProgress :
+                                        Identity,
+                                    newDefer.notifyWith
+                                )
+                            );
+
+                            // fulfilled_handlers.add( ... )
+                            tuples[1][3].add(
+                                resolve(
+                                    0,
+                                    newDefer,
+                                    isFunction(onFulfilled) ?
+                                        onFulfilled :
+                                        Identity
+                                )
+                            );
+
+                            // rejected_handlers.add( ... )
+                            tuples[2][3].add(
+                                resolve(
+                                    0,
+                                    newDefer,
+                                    isFunction(onRejected) ?
+                                        onRejected :
+                                        Thrower
+                                )
+                            );
+                        }).promise();
+                    },
+
+                    // Get a promise for this deferred
+                    // If obj is provided, the promise aspect is added to the object
+                    promise: function (obj) {
+                        return obj != null ? jQuery.extend(obj, promise) : promise;
+                    }
+                },
+                deferred = {};
+
+            // Add list-specific methods
+            jQuery.each(tuples, function (i, tuple) {
+                var list = tuple[2],
+                    stateString = tuple[5];
+
+                // promise.progress = list.add
+                // promise.done = list.add
+                // promise.fail = list.add
+                promise[tuple[1]] = list.add;
+
+                // Handle state
+                if (stateString) {
+                    list.add(
+                        function () {
+
+                            // state = "resolved" (i.e., fulfilled)
+                            // state = "rejected"
+                            state = stateString;
+                        },
+
+                        // rejected_callbacks.disable
+                        // fulfilled_callbacks.disable
+                        tuples[3 - i][2].disable,
+
+                        // rejected_handlers.disable
+                        // fulfilled_handlers.disable
+                        tuples[3 - i][3].disable,
+
+                        // progress_callbacks.lock
+                        tuples[0][2].lock,
+
+                        // progress_handlers.lock
+                        tuples[0][3].lock
+                    );
+                }
+
+                // progress_handlers.fire
+                // fulfilled_handlers.fire
+                // rejected_handlers.fire
+                list.add(tuple[3].fire);
+
+                // deferred.notify = function() { deferred.notifyWith(...) }
+                // deferred.resolve = function() { deferred.resolveWith(...) }
+                // deferred.reject = function() { deferred.rejectWith(...) }
+                deferred[tuple[0]] = function () {
+                    deferred[tuple[0] + "With"](this === deferred ? undefined : this, arguments);
+                    return this;
+                };
+
+                // deferred.notifyWith = list.fireWith
+                // deferred.resolveWith = list.fireWith
+                // deferred.rejectWith = list.fireWith
+                deferred[tuple[0] + "With"] = list.fireWith;
+            });
+
+            // Make the deferred a promise
+            promise.promise(deferred);
+
+            // Call given func if any
+            if (func) {
+                func.call(deferred, deferred);
+            }
+
+            // All done!
+            return deferred;
+        },
+
+        // Deferred helper
+        when: function (singleValue) {
+            var
+
+                // count of uncompleted subordinates
+                remaining = arguments.length,
+
+                // count of unprocessed arguments
+                i = remaining,
+
+                // subordinate fulfillment data
+                resolveContexts = Array(i),
+                resolveValues = slice.call(arguments),
+
+                // the primary Deferred
+                primary = jQuery.Deferred(),
+
+                // subordinate callback factory
+                updateFunc = function (i) {
+                    return function (value) {
+                        resolveContexts[i] = this;
+                        resolveValues[i] = arguments.length > 1 ? slice.call(arguments) : value;
+                        if (!(--remaining)) {
+                            primary.resolveWith(resolveContexts, resolveValues);
+                        }
+                    };
+                };
+
+            // Single- and empty arguments are adopted like Promise.resolve
+            if (remaining <= 1) {
+                adoptValue(singleValue, primary.done(updateFunc(i)).resolve, primary.reject,
+                    !remaining);
+
+                // Use .then() to unwrap secondary thenables (cf. gh-3000)
+                if (primary.state() === "pending" ||
+                    isFunction(resolveValues[i] && resolveValues[i].then)) {
+
+                    return primary.then();
+                }
+            }
+
+            // Multiple arguments are aggregated like Promise.all array elements
+            while (i--) {
+                adoptValue(resolveValues[i], updateFunc(i), primary.reject);
+            }
+
+            return primary.promise();
+        }
+    });
 
 
 // These usually indicate a programmer mistake during development,
 // warn about them ASAP rather than swallowing them by default.
-var rerrorNames = /^(Eval|Internal|Range|Reference|Syntax|Type|URI)Error$/;
+    var rerrorNames = /^(Eval|Internal|Range|Reference|Syntax|Type|URI)Error$/;
 
 // If `jQuery.Deferred.getErrorHook` is defined, `asyncError` is an error
 // captured before the async barrier to get the original error cause
 // which may otherwise be hidden.
-jQuery.Deferred.exceptionHook = function( error, asyncError ) {
+    jQuery.Deferred.exceptionHook = function( error, asyncError ) {
 
-	// Support: IE 8 - 9 only
-	// Console exists when dev tools are open, which can happen at any time
-	if ( window.console && window.console.warn && error && rerrorNames.test( error.name ) ) {
-		window.console.warn( "jQuery.Deferred exception: " + error.message,
-			error.stack, asyncError );
-	}
-};
-
-
+        // Support: IE 8 - 9 only
+        // Console exists when dev tools are open, which can happen at any time
+        if (window.console && window.console.warn && error && rerrorNames.test(error.name)) {
+            window.console.warn("jQuery.Deferred exception: " + error.message,
+                error.stack, asyncError);
+        }
+    };
 
 
-jQuery.readyException = function( error ) {
-	window.setTimeout( function() {
-		throw error;
-	} );
-};
-
-
+    jQuery.readyException = function (error) {
+        window.setTimeout(function () {
+            throw error;
+        });
+    };
 
 
 // The deferred used on DOM ready
-var readyList = jQuery.Deferred();
+    var readyList = jQuery.Deferred();
 
-jQuery.fn.ready = function( fn ) {
+    jQuery.fn.ready = function (fn) {
 
-	readyList
-		.then( fn )
+        readyList
+            .then(fn)
 
-		// Wrap jQuery.readyException in a function so that the lookup
-		// happens at the time of error handling instead of callback
-		// registration.
-		.catch( function( error ) {
-			jQuery.readyException( error );
-		} );
+            // Wrap jQuery.readyException in a function so that the lookup
+            // happens at the time of error handling instead of callback
+            // registration.
+            .catch(function (error) {
+                jQuery.readyException(error);
+            });
 
-	return this;
-};
+        return this;
+    };
 
-jQuery.extend( {
+    jQuery.extend({
 
-	// Is the DOM ready to be used? Set to true once it occurs.
-	isReady: false,
+        // Is the DOM ready to be used? Set to true once it occurs.
+        isReady: false,
 
-	// A counter to track how many items to wait for before
-	// the ready event fires. See trac-6781
-	readyWait: 1,
+        // A counter to track how many items to wait for before
+        // the ready event fires. See trac-6781
+        readyWait: 1,
 
-	// Handle when the DOM is ready
-	ready: function( wait ) {
+        // Handle when the DOM is ready
+        ready: function (wait) {
 
-		// Abort if there are pending holds or we're already ready
-		if ( wait === true ? --jQuery.readyWait : jQuery.isReady ) {
-			return;
-		}
+            // Abort if there are pending holds or we're already ready
+            if (wait === true ? --jQuery.readyWait : jQuery.isReady) {
+                return;
+            }
 
-		// Remember that the DOM is ready
-		jQuery.isReady = true;
+            // Remember that the DOM is ready
+            jQuery.isReady = true;
 
-		// If a normal DOM Ready event fired, decrement, and wait if need be
-		if ( wait !== true && --jQuery.readyWait > 0 ) {
-			return;
-		}
+            // If a normal DOM Ready event fired, decrement, and wait if need be
+            if (wait !== true && --jQuery.readyWait > 0) {
+                return;
+            }
 
-		// If there are functions bound, to execute
-		readyList.resolveWith( document, [ jQuery ] );
-	}
-} );
+            // If there are functions bound, to execute
+            readyList.resolveWith(document, [jQuery]);
+        }
+    });
 
-jQuery.ready.then = readyList.then;
+    jQuery.ready.then = readyList.then;
 
 // The ready event handler and self cleanup method
-function completed() {
-	document.removeEventListener( "DOMContentLoaded", completed );
-	window.removeEventListener( "load", completed );
-	jQuery.ready();
-}
+    function completed() {
+        document.removeEventListener("DOMContentLoaded", completed);
+        window.removeEventListener("load", completed);
+        jQuery.ready();
+    }
 
 // Catch cases where $(document).ready() is called
 // after the browser event has already occurred.
 // Support: IE <=9 - 10 only
 // Older IE sometimes signals "interactive" too soon
-if ( document.readyState === "complete" ||
+    if ( document.readyState === "complete" ||
 	( document.readyState !== "loading" && !document.documentElement.doScroll ) ) {
 
-	// Handle it asynchronously to allow scripts the opportunity to delay ready
-	window.setTimeout( jQuery.ready );
+        // Handle it asynchronously to allow scripts the opportunity to delay ready
+        window.setTimeout(jQuery.ready);
 
-} else {
+    } else {
 
-	// Use the handy event callback
-	document.addEventListener( "DOMContentLoaded", completed );
+        // Use the handy event callback
+        document.addEventListener("DOMContentLoaded", completed);
 
-	// A fallback to window.onload, that will always work
-	window.addEventListener( "load", completed );
-}
+        // A fallback to window.onload, that will always work
+        window.addEventListener("load", completed);
+    }
 
 
+=======
+    if (document.readyState === "complete" ||
+        (document.readyState !== "loading" && !document.documentElement.doScroll)) {
+
+        // Handle it asynchronously to allow scripts the opportunity to delay ready
+        window.setTimeout(jQuery.ready);
+
+    } else {
+
+        // Use the handy event callback
+        document.addEventListener("DOMContentLoaded", completed);
+
+        // A fallback to window.onload, that will always work
+        window.addEventListener("load", completed);
+    }
+>>>>>>> develop/version1
 
 
 // Multifunctional method to get and set values of a collection
 // The value/s can optionally be executed if it's a function
-var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
+    var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 	var i = 0,
 		len = elems.length,
 		bulk = key == null;
 
-	// Sets many values
-	if ( toType( key ) === "object" ) {
-		chainable = true;
-		for ( i in key ) {
-			access( elems, fn, i, key[ i ], true, emptyGet, raw );
-		}
+        // Sets many values
+        if (toType(key) === "object") {
+            chainable = true;
+            for (i in key) {
+                access(elems, fn, i, key[i], true, emptyGet, raw);
+            }
 
-	// Sets one value
-	} else if ( value !== undefined ) {
-		chainable = true;
+            // Sets one value
+        } else if (value !== undefined) {
+            chainable = true;
 
-		if ( !isFunction( value ) ) {
-			raw = true;
-		}
+            if (!isFunction(value)) {
+                raw = true;
+            }
 
-		if ( bulk ) {
+            if (bulk) {
 
-			// Bulk operations run against the entire set
-			if ( raw ) {
-				fn.call( elems, value );
-				fn = null;
+                // Bulk operations run against the entire set
+                if (raw) {
+                    fn.call(elems, value);
+                    fn = null;
 
-			// ...except when executing function values
-			} else {
-				bulk = fn;
-				fn = function( elem, _key, value ) {
-					return bulk.call( jQuery( elem ), value );
-				};
-			}
-		}
+                    // ...except when executing function values
+                } else {
+                    bulk = fn;
+                    fn = function (elem, _key, value) {
+                        return bulk.call(jQuery(elem), value);
+                    };
+                }
+            }
 
-		if ( fn ) {
-			for ( ; i < len; i++ ) {
-				fn(
-					elems[ i ], key, raw ?
-						value :
-						value.call( elems[ i ], i, fn( elems[ i ], key ) )
-				);
-			}
-		}
-	}
+            if (fn) {
+                for (; i < len; i++) {
+                    fn(
+                        elems[i], key, raw ?
+                            value :
+                            value.call(elems[i], i, fn(elems[i], key))
+                    );
+                }
+            }
+        }
 
-	if ( chainable ) {
-		return elems;
-	}
+        if (chainable) {
+            return elems;
+        }
 
-	// Gets
-	if ( bulk ) {
-		return fn.call( elems );
-	}
+        // Gets
+        if (bulk) {
+            return fn.call(elems);
+        }
 
-	return len ? fn( elems[ 0 ], key ) : emptyGet;
-};
+        return len ? fn(elems[0], key) : emptyGet;
+    };
 
 
 // Matches dashed string for camelizing
-var rmsPrefix = /^-ms-/,
-	rdashAlpha = /-([a-z])/g;
+    var rmsPrefix = /^-ms-/,
+        rdashAlpha = /-([a-z])/g;
 
 // Used by camelCase as callback to replace()
-function fcamelCase( _all, letter ) {
-	return letter.toUpperCase();
-}
+    function fcamelCase(_all, letter) {
+        return letter.toUpperCase();
+    }
 
 // Convert dashed to camelCase; used by the css and data modules
 // Support: IE <=9 - 11, Edge 12 - 15
 // Microsoft forgot to hump their vendor prefix (trac-9572)
-function camelCase( string ) {
+    function camelCase( string ) {
 	return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
 }
 var acceptData = function( owner ) {
@@ -4112,7 +4123,6 @@ var dataPriv = new Data();
 var dataUser = new Data();
 
 
-
 //	Implementation Summary
 //
 //	1. Enforce API surface and semantic compatibility with 1.9.x branch
@@ -4123,7 +4133,7 @@ var dataUser = new Data();
 //	5. Avoid exposing implementation details on user objects (eg. expando properties)
 //	6. Provide a clear path for implementation upgrade to WeakMap in 2014
 
-var rbrace = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
+    var rbrace = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
 	rmultiDash = /[A-Z]/g;
 
 function getData( data ) {
@@ -5315,7 +5325,7 @@ jQuery.event = {
 // synthetic events by interrupting progress until reinvoked in response to
 // *native* events that it fires directly, ensuring that state changes have
 // already occurred before other listeners are invoked.
-function leverageNative( el, type, isSetup ) {
+    function leverageNative( el, type, isSetup ) {
 
 	// Missing `isSetup` indicates a trigger call, which must force setup through jQuery.event.add
 	if ( !isSetup ) {
@@ -5692,7 +5702,7 @@ jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateTyp
 // Safari sends mouseenter too often; see:
 // https://bugs.chromium.org/p/chromium/issues/detail?id=470258
 // for the description of the bug (it existed in older Chrome versions as well).
-jQuery.each( {
+    jQuery.each( {
 	mouseenter: "mouseover",
 	mouseleave: "mouseout",
 	pointerenter: "pointerover",
@@ -8075,7 +8085,7 @@ jQuery.extend( {
 // when in an optgroup
 // eslint rule "no-unused-expressions" is disabled for this code
 // since it considers such accessions noop
-if ( !support.optSelected ) {
+    if ( !support.optSelected ) {
 	jQuery.propHooks.selected = {
 		get: function( elem ) {
 
@@ -8856,79 +8866,79 @@ var
 	 */
 	transports = {},
 
-	// Avoid comment-prolog char sequence (trac-10098); must appease lint and evade compression
-	allTypes = "*/".concat( "*" ),
+        // Avoid comment-prolog char sequence (trac-10098); must appease lint and evade compression
+        allTypes = "*/".concat("*"),
 
-	// Anchor tag for parsing the document origin
-	originAnchor = document.createElement( "a" );
+        // Anchor tag for parsing the document origin
+        originAnchor = document.createElement("a");
 
-originAnchor.href = location.href;
+    originAnchor.href = location.href;
 
 // Base "constructor" for jQuery.ajaxPrefilter and jQuery.ajaxTransport
-function addToPrefiltersOrTransports( structure ) {
+    function addToPrefiltersOrTransports(structure) {
 
-	// dataTypeExpression is optional and defaults to "*"
-	return function( dataTypeExpression, func ) {
+        // dataTypeExpression is optional and defaults to "*"
+        return function (dataTypeExpression, func) {
 
-		if ( typeof dataTypeExpression !== "string" ) {
-			func = dataTypeExpression;
-			dataTypeExpression = "*";
-		}
+            if (typeof dataTypeExpression !== "string") {
+                func = dataTypeExpression;
+                dataTypeExpression = "*";
+            }
 
-		var dataType,
-			i = 0,
-			dataTypes = dataTypeExpression.toLowerCase().match( rnothtmlwhite ) || [];
+            var dataType,
+                i = 0,
+                dataTypes = dataTypeExpression.toLowerCase().match(rnothtmlwhite) || [];
 
-		if ( isFunction( func ) ) {
+            if (isFunction(func)) {
 
-			// For each dataType in the dataTypeExpression
-			while ( ( dataType = dataTypes[ i++ ] ) ) {
+                // For each dataType in the dataTypeExpression
+                while ((dataType = dataTypes[i++])) {
 
-				// Prepend if requested
-				if ( dataType[ 0 ] === "+" ) {
-					dataType = dataType.slice( 1 ) || "*";
-					( structure[ dataType ] = structure[ dataType ] || [] ).unshift( func );
+                    // Prepend if requested
+                    if (dataType[0] === "+") {
+                        dataType = dataType.slice(1) || "*";
+                        (structure[dataType] = structure[dataType] || []).unshift(func);
 
-				// Otherwise append
-				} else {
-					( structure[ dataType ] = structure[ dataType ] || [] ).push( func );
-				}
-			}
-		}
-	};
-}
+                        // Otherwise append
+                    } else {
+                        (structure[dataType] = structure[dataType] || []).push(func);
+                    }
+                }
+            }
+        };
+    }
 
 // Base inspection function for prefilters and transports
-function inspectPrefiltersOrTransports( structure, options, originalOptions, jqXHR ) {
+    function inspectPrefiltersOrTransports(structure, options, originalOptions, jqXHR) {
 
-	var inspected = {},
-		seekingTransport = ( structure === transports );
+        var inspected = {},
+            seekingTransport = (structure === transports);
 
-	function inspect( dataType ) {
-		var selected;
-		inspected[ dataType ] = true;
-		jQuery.each( structure[ dataType ] || [], function( _, prefilterOrFactory ) {
-			var dataTypeOrTransport = prefilterOrFactory( options, originalOptions, jqXHR );
-			if ( typeof dataTypeOrTransport === "string" &&
-				!seekingTransport && !inspected[ dataTypeOrTransport ] ) {
+        function inspect(dataType) {
+            var selected;
+            inspected[dataType] = true;
+            jQuery.each(structure[dataType] || [], function (_, prefilterOrFactory) {
+                var dataTypeOrTransport = prefilterOrFactory(options, originalOptions, jqXHR);
+                if (typeof dataTypeOrTransport === "string" &&
+                    !seekingTransport && !inspected[dataTypeOrTransport]) {
 
-				options.dataTypes.unshift( dataTypeOrTransport );
-				inspect( dataTypeOrTransport );
-				return false;
-			} else if ( seekingTransport ) {
-				return !( selected = dataTypeOrTransport );
-			}
-		} );
-		return selected;
-	}
+                    options.dataTypes.unshift(dataTypeOrTransport);
+                    inspect(dataTypeOrTransport);
+                    return false;
+                } else if (seekingTransport) {
+                    return !(selected = dataTypeOrTransport);
+                }
+            });
+            return selected;
+        }
 
-	return inspect( options.dataTypes[ 0 ] ) || !inspected[ "*" ] && inspect( "*" );
-}
+        return inspect(options.dataTypes[0]) || !inspected["*"] && inspect("*");
+    }
 
 // A special extend for ajax options
 // that takes "flat" options (not to be deep extended)
 // Fixes trac-9887
-function ajaxExtend( target, src ) {
+    function ajaxExtend( target, src ) {
 	var key, deep,
 		flatOptions = jQuery.ajaxSettings.flatOptions || {};
 
@@ -10111,13 +10121,12 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
 
 
-
 // Support: Safari 8 only
 // In Safari 8 documents created via document.implementation.createHTMLDocument
 // collapse sibling forms: the second one becomes a child of the first one.
 // Because of that, this security measure has to be disabled in Safari 8.
 // https://bugs.webkit.org/show_bug.cgi?id=137337
-support.createHTMLDocument = ( function() {
+    support.createHTMLDocument = ( function() {
 	var body = document.implementation.createHTMLDocument( "" ).body;
 	body.innerHTML = "<form></form><form></form>";
 	return body.childNodes.length === 2;
@@ -10128,7 +10137,7 @@ support.createHTMLDocument = ( function() {
 // context (optional): If specified, the fragment will be created in this context,
 // defaults to document
 // keepScripts (optional): If true, will include scripts passed in the html string
-jQuery.parseHTML = function( data, context, keepScripts ) {
+    jQuery.parseHTML = function( data, context, keepScripts ) {
 	if ( typeof data !== "string" ) {
 		return [];
 	}
@@ -10447,205 +10456,389 @@ jQuery.each( { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function( 
 // Blink bug: https://bugs.chromium.org/p/chromium/issues/detail?id=589347
 // getComputedStyle returns percent when specified for top/left/bottom/right;
 // rather than make the css module depend on the offset module, just check for it here
-jQuery.each( [ "top", "left" ], function( _i, prop ) {
+    jQuery.each( [ "top", "left" ], function( _i, prop ) {
 	jQuery.cssHooks[ prop ] = addGetHookIf( support.pixelPosition,
 		function( elem, computed ) {
 			if ( computed ) {
 				computed = curCSS( elem, prop );
 
-				// If curCSS returns percentage, fallback to offset
-				return rnumnonpx.test( computed ) ?
-					jQuery( elem ).position()[ prop ] + "px" :
-					computed;
-			}
-		}
-	);
-} );
+                    // If curCSS returns percentage, fallback to offset
+                    return rnumnonpx.test(computed) ?
+                        jQuery(elem).position()[prop] + "px" :
+                        computed;
+                }
+            }
+        );
+    });
 
 
 // Create innerHeight, innerWidth, height, width, outerHeight and outerWidth methods
-jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
-	jQuery.each( {
-		padding: "inner" + name,
-		content: type,
-		"": "outer" + name
-	}, function( defaultExtra, funcName ) {
+    jQuery.each({Height: "height", Width: "width"}, function (name, type) {
+        jQuery.each({
+            padding: "inner" + name,
+            content: type,
+            "": "outer" + name
+        }, function (defaultExtra, funcName) {
 
-		// Margin is only for outerHeight, outerWidth
-		jQuery.fn[ funcName ] = function( margin, value ) {
-			var chainable = arguments.length && ( defaultExtra || typeof margin !== "boolean" ),
-				extra = defaultExtra || ( margin === true || value === true ? "margin" : "border" );
+            // Margin is only for outerHeight, outerWidth
+            jQuery.fn[funcName] = function (margin, value) {
+                var chainable = arguments.length && (defaultExtra || typeof margin !== "boolean"),
+                    extra = defaultExtra || (margin === true || value === true ? "margin" : "border");
 
-			return access( this, function( elem, type, value ) {
-				var doc;
+                return access(this, function (elem, type, value) {
+                    var doc;
 
-				if ( isWindow( elem ) ) {
+                    if (isWindow(elem)) {
 
-					// $( window ).outerWidth/Height return w/h including scrollbars (gh-1729)
-					return funcName.indexOf( "outer" ) === 0 ?
-						elem[ "inner" + name ] :
-						elem.document.documentElement[ "client" + name ];
-				}
+                        // $( window ).outerWidth/Height return w/h including scrollbars (gh-1729)
+                        return funcName.indexOf("outer") === 0 ?
+                            elem["inner" + name] :
+                            elem.document.documentElement["client" + name];
+                    }
 
-				// Get document width or height
-				if ( elem.nodeType === 9 ) {
-					doc = elem.documentElement;
+                    // Get document width or height
+                    if (elem.nodeType === 9) {
+                        doc = elem.documentElement;
 
-					// Either scroll[Width/Height] or offset[Width/Height] or client[Width/Height],
-					// whichever is greatest
-					return Math.max(
-						elem.body[ "scroll" + name ], doc[ "scroll" + name ],
-						elem.body[ "offset" + name ], doc[ "offset" + name ],
-						doc[ "client" + name ]
-					);
-				}
+                        // Either scroll[Width/Height] or offset[Width/Height] or client[Width/Height],
+                        // whichever is greatest
+                        return Math.max(
+                            elem.body["scroll" + name], doc["scroll" + name],
+                            elem.body["offset" + name], doc["offset" + name],
+                            doc["client" + name]
+                        );
+                    }
 
-				return value === undefined ?
+                    return value === undefined ?
 
-					// Get width or height on the element, requesting but not forcing parseFloat
-					jQuery.css( elem, type, extra ) :
+                        // Get width or height on the element, requesting but not forcing parseFloat
+                        jQuery.css(elem, type, extra) :
 
-					// Set width or height on the element
-					jQuery.style( elem, type, value, extra );
-			}, type, chainable ? margin : undefined, chainable );
-		};
-	} );
-} );
-
-
-jQuery.each( [
-	"ajaxStart",
-	"ajaxStop",
-	"ajaxComplete",
-	"ajaxError",
-	"ajaxSuccess",
-	"ajaxSend"
-], function( _i, type ) {
-	jQuery.fn[ type ] = function( fn ) {
-		return this.on( type, fn );
-	};
-} );
+                        // Set width or height on the element
+                        jQuery.style(elem, type, value, extra);
+                }, type, chainable ? margin : undefined, chainable);
+            };
+        });
+    });
 
 
+    jQuery.each([
+        "ajaxStart",
+        "ajaxStop",
+        "ajaxComplete",
+        "ajaxError",
+        "ajaxSuccess",
+        "ajaxSend"
+    ], function (_i, type) {
+        jQuery.fn[type] = function (fn) {
+            return this.on(type, fn);
+        };
+    });
 
 
-jQuery.fn.extend( {
+    jQuery.fn.extend({
 
-	bind: function( types, data, fn ) {
-		return this.on( types, null, data, fn );
-	},
-	unbind: function( types, fn ) {
-		return this.off( types, null, fn );
-	},
+        bind: function (types, data, fn) {
+            return this.on(types, null, data, fn);
+        },
+        unbind: function (types, fn) {
+            return this.off(types, null, fn);
+        },
 
-	delegate: function( selector, types, data, fn ) {
-		return this.on( types, selector, data, fn );
-	},
-	undelegate: function( selector, types, fn ) {
+        delegate: function (selector, types, data, fn) {
+            return this.on(types, selector, data, fn);
+        },
+        undelegate: function (selector, types, fn) {
 
-		// ( namespace ) or ( selector, types [, fn] )
-		return arguments.length === 1 ?
-			this.off( selector, "**" ) :
-			this.off( types, selector || "**", fn );
-	},
+            // ( namespace ) or ( selector, types [, fn] )
+            return arguments.length === 1 ?
+                this.off(selector, "**") :
+                this.off(types, selector || "**", fn);
+        },
 
-	hover: function( fnOver, fnOut ) {
-		return this.mouseenter( fnOver ).mouseleave( fnOut || fnOver );
-	}
-} );
+        hover: function (fnOver, fnOut) {
+            return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);
+        }
+    });
 
-jQuery.each(
-	( "blur focus focusin focusout resize scroll click dblclick " +
-	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
-	"change select submit keydown keypress keyup contextmenu" ).split( " " ),
-	function( _i, name ) {
+    jQuery.each(
+        ("blur focus focusin focusout resize scroll click dblclick " +
+            "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
+            "change select submit keydown keypress keyup contextmenu").split(" "),
+        function (_i, name) {
 
-		// Handle event binding
-		jQuery.fn[ name ] = function( data, fn ) {
-			return arguments.length > 0 ?
-				this.on( name, null, data, fn ) :
-				this.trigger( name );
-		};
-	}
-);
+            // Handle event binding
+            jQuery.fn[name] = function (data, fn) {
+                return arguments.length > 0 ?
+                    this.on(name, null, data, fn) :
+                    this.trigger(name);
+            };
+        }
+    );
 
 
+=======
+    jQuery.each(["top", "left"], function (_i, prop) {
+        jQuery.cssHooks[prop] = addGetHookIf(support.pixelPosition,
+            function (elem, computed) {
+                if (computed) {
+                    computed = curCSS(elem, prop);
+
+                    // If curCSS returns percentage, fallback to offset
+                    return rnumnonpx.test(computed) ?
+                        jQuery(elem).position()[prop] + "px" :
+                        computed;
+                }
+            }
+        );
+    });
+
+
+// Create innerHeight, innerWidth, height, width, outerHeight and outerWidth methods
+    jQuery.each({Height: "height", Width: "width"}, function (name, type) {
+        jQuery.each({
+            padding: "inner" + name,
+            content: type,
+            "": "outer" + name
+        }, function (defaultExtra, funcName) {
+
+            // Margin is only for outerHeight, outerWidth
+            jQuery.fn[funcName] = function (margin, value) {
+                var chainable = arguments.length && (defaultExtra || typeof margin !== "boolean"),
+                    extra = defaultExtra || (margin === true || value === true ? "margin" : "border");
+
+                return access(this, function (elem, type, value) {
+                    var doc;
+
+                    if (isWindow(elem)) {
+
+                        // $( window ).outerWidth/Height return w/h including scrollbars (gh-1729)
+                        return funcName.indexOf("outer") === 0 ?
+                            elem["inner" + name] :
+                            elem.document.documentElement["client" + name];
+                    }
+
+                    // Get document width or height
+                    if (elem.nodeType === 9) {
+                        doc = elem.documentElement;
+
+                        // Either scroll[Width/Height] or offset[Width/Height] or client[Width/Height],
+                        // whichever is greatest
+                        return Math.max(
+                            elem.body["scroll" + name], doc["scroll" + name],
+                            elem.body["offset" + name], doc["offset" + name],
+                            doc["client" + name]
+                        );
+                    }
+
+                    return value === undefined ?
+
+                        // Get width or height on the element, requesting but not forcing parseFloat
+                        jQuery.css(elem, type, extra) :
+
+                        // Set width or height on the element
+                        jQuery.style(elem, type, value, extra);
+                }, type, chainable ? margin : undefined, chainable);
+            };
+        });
+    });
+
+
+    jQuery.each([
+        "ajaxStart",
+        "ajaxStop",
+        "ajaxComplete",
+        "ajaxError",
+        "ajaxSuccess",
+        "ajaxSend"
+    ], function (_i, type) {
+        jQuery.fn[type] = function (fn) {
+            return this.on(type, fn);
+        };
+    });
+
+
+    jQuery.fn.extend({
+
+        bind: function (types, data, fn) {
+            return this.on(types, null, data, fn);
+        },
+        unbind: function (types, fn) {
+            return this.off(types, null, fn);
+        },
+
+        delegate: function (selector, types, data, fn) {
+            return this.on(types, selector, data, fn);
+        },
+        undelegate: function (selector, types, fn) {
+
+            // ( namespace ) or ( selector, types [, fn] )
+            return arguments.length === 1 ?
+                this.off(selector, "**") :
+                this.off(types, selector || "**", fn);
+        },
+
+        hover: function (fnOver, fnOut) {
+            return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);
+        }
+    });
+
+    jQuery.each(
+        ("blur focus focusin focusout resize scroll click dblclick " +
+            "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
+            "change select submit keydown keypress keyup contextmenu").split(" "),
+        function (_i, name) {
+
+            // Handle event binding
+            jQuery.fn[name] = function (data, fn) {
+                return arguments.length > 0 ?
+                    this.on(name, null, data, fn) :
+                    this.trigger(name);
+            };
+        }
+    );
+>>>>>>> develop/version1
 
 
 // Support: Android <=4.0 only
 // Make sure we trim BOM and NBSP
 // Require that the "whitespace run" starts from a non-whitespace
 // to avoid O(N^2) behavior when the engine would try matching "\s+$" at each space position.
-var rtrim = /^[\s\uFEFF\xA0]+|([^\s\uFEFF\xA0])[\s\uFEFF\xA0]+$/g;
+    var rtrim = /^[\s\uFEFF\xA0]+|([^\s\uFEFF\xA0])[\s\uFEFF\xA0]+$/g;
 
 // Bind a function to a context, optionally partially applying any
 // arguments.
 // jQuery.proxy is deprecated to promote standards (specifically Function#bind)
 // However, it is not slated for removal any time soon
-jQuery.proxy = function( fn, context ) {
+    jQuery.proxy = function( fn, context ) {
 	var tmp, args, proxy;
 
-	if ( typeof context === "string" ) {
-		tmp = fn[ context ];
-		context = fn;
-		fn = tmp;
-	}
+        if (typeof context === "string") {
+            tmp = fn[context];
+            context = fn;
+            fn = tmp;
+        }
 
-	// Quick check to determine if target is callable, in the spec
-	// this throws a TypeError, but we will just return undefined.
-	if ( !isFunction( fn ) ) {
-		return undefined;
-	}
+        // Quick check to determine if target is callable, in the spec
+        // this throws a TypeError, but we will just return undefined.
+        if (!isFunction(fn)) {
+            return undefined;
+        }
 
-	// Simulated bind
-	args = slice.call( arguments, 2 );
-	proxy = function() {
-		return fn.apply( context || this, args.concat( slice.call( arguments ) ) );
-	};
+        // Simulated bind
+        args = slice.call(arguments, 2);
+        proxy = function () {
+            return fn.apply(context || this, args.concat(slice.call(arguments)));
+        };
 
-	// Set the guid of unique handler to the same of original handler, so it can be removed
-	proxy.guid = fn.guid = fn.guid || jQuery.guid++;
+        // Set the guid of unique handler to the same of original handler, so it can be removed
+        proxy.guid = fn.guid = fn.guid || jQuery.guid++;
 
-	return proxy;
-};
+        return proxy;
+    };
 
-jQuery.holdReady = function( hold ) {
-	if ( hold ) {
-		jQuery.readyWait++;
-	} else {
-		jQuery.ready( true );
-	}
-};
-jQuery.isArray = Array.isArray;
-jQuery.parseJSON = JSON.parse;
-jQuery.nodeName = nodeName;
-jQuery.isFunction = isFunction;
-jQuery.isWindow = isWindow;
-jQuery.camelCase = camelCase;
-jQuery.type = toType;
+    jQuery.holdReady = function (hold) {
+        if (hold) {
+            jQuery.readyWait++;
+        } else {
+            jQuery.ready(true);
+        }
+    };
+    jQuery.isArray = Array.isArray;
+    jQuery.parseJSON = JSON.parse;
+    jQuery.nodeName = nodeName;
+    jQuery.isFunction = isFunction;
+    jQuery.isWindow = isWindow;
+    jQuery.camelCase = camelCase;
+    jQuery.type = toType;
 
-jQuery.now = Date.now;
+    jQuery.now = Date.now;
 
-jQuery.isNumeric = function( obj ) {
+    jQuery.isNumeric = function (obj) {
 
-	// As of jQuery 3.0, isNumeric is limited to
-	// strings and numbers (primitives or objects)
-	// that can be coerced to finite numbers (gh-2662)
-	var type = jQuery.type( obj );
-	return ( type === "number" || type === "string" ) &&
+        // As of jQuery 3.0, isNumeric is limited to
+        // strings and numbers (primitives or objects)
+        // that can be coerced to finite numbers (gh-2662)
+        var type = jQuery.type(obj);
+        return (type === "number" || type === "string") &&
 
-		// parseFloat NaNs numeric-cast false positives ("")
-		// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
-		// subtraction forces infinities to NaN
-		!isNaN( obj - parseFloat( obj ) );
-};
+            // parseFloat NaNs numeric-cast false positives ("")
+            // ...but misinterprets leading-number strings, particularly hex literals ("0x...")
+            // subtraction forces infinities to NaN
+            !isNaN(obj - parseFloat(obj));
+    };
 
-jQuery.trim = function( text ) {
-	return text == null ?
-		"" :
-		( text + "" ).replace( rtrim, "$1" );
-};
+    jQuery.trim = function (text) {
+        return text == null ?
+            "" :
+            (text + "").replace(rtrim, "$1");
+    };
 
+=======
+    jQuery.proxy = function (fn, context) {
+        var tmp, args, proxy;
+
+        if (typeof context === "string") {
+            tmp = fn[context];
+            context = fn;
+            fn = tmp;
+        }
+
+        // Quick check to determine if target is callable, in the spec
+        // this throws a TypeError, but we will just return undefined.
+        if (!isFunction(fn)) {
+            return undefined;
+        }
+
+        // Simulated bind
+        args = slice.call(arguments, 2);
+        proxy = function () {
+            return fn.apply(context || this, args.concat(slice.call(arguments)));
+        };
+
+        // Set the guid of unique handler to the same of original handler, so it can be removed
+        proxy.guid = fn.guid = fn.guid || jQuery.guid++;
+
+        return proxy;
+    };
+
+    jQuery.holdReady = function (hold) {
+        if (hold) {
+            jQuery.readyWait++;
+        } else {
+            jQuery.ready(true);
+        }
+    };
+    jQuery.isArray = Array.isArray;
+    jQuery.parseJSON = JSON.parse;
+    jQuery.nodeName = nodeName;
+    jQuery.isFunction = isFunction;
+    jQuery.isWindow = isWindow;
+    jQuery.camelCase = camelCase;
+    jQuery.type = toType;
+
+    jQuery.now = Date.now;
+
+    jQuery.isNumeric = function (obj) {
+
+        // As of jQuery 3.0, isNumeric is limited to
+        // strings and numbers (primitives or objects)
+        // that can be coerced to finite numbers (gh-2662)
+        var type = jQuery.type(obj);
+        return (type === "number" || type === "string") &&
+
+            // parseFloat NaNs numeric-cast false positives ("")
+            // ...but misinterprets leading-number strings, particularly hex literals ("0x...")
+            // subtraction forces infinities to NaN
+            !isNaN(obj - parseFloat(obj));
+    };
+
+    jQuery.trim = function (text) {
+        return text == null ?
+            "" :
+            (text + "").replace(rtrim, "$1");
+    };
+>>>>>>> develop/version1
 
 
 // Register as a named AMD module, since jQuery can be concatenated with other
@@ -10661,7 +10854,7 @@ jQuery.trim = function( text ) {
 // AMD loader is present. jQuery is a special case. For more information, see
 // https://github.com/jrburke/requirejs/wiki/Updating-existing-libraries#wiki-anon
 
-if ( typeof define === "function" && define.amd ) {
+    if ( typeof define === "function" && define.amd ) {
 	define( "jquery", [], function() {
 		return jQuery;
 	} );
@@ -10693,12 +10886,10 @@ jQuery.noConflict = function( deep ) {
 // Expose jQuery and $ identifiers, even in AMD
 // (trac-7102#comment:10, https://github.com/jquery/jquery/pull/557)
 // and CommonJS for browser emulators (trac-13566)
-if ( typeof noGlobal === "undefined" ) {
+    if ( typeof noGlobal === "undefined" ) {
 	window.jQuery = window.$ = jQuery;
 }
 
 
-
-
-return jQuery;
-} );
+    return jQuery;
+});
