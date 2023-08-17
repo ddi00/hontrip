@@ -16,18 +16,20 @@ public class MateDAO {
 
     public List<MateBoardListDTO> list(PageDTO pageDTO) {
 
-        return my.selectList("bbs.list", pageDTO);
-    }
-    public int count() {
-        return my.selectOne("bbs.count");
+        return my.selectList("mateBbs.list", pageDTO);
     }
 
-    public List<LocationDTO> location(){
-        return my.selectList("bbs.location");
+    public MateBoardListDTO one(long mateBoardId) {
+        return my.selectOne("mateBbs.one", mateBoardId);
     }
 
-//    //게시물 1개 검색
-//    public BbsDTO one(int id) {
-//        return my.selectOne("bbs.one", id);
-//    }
+    public int count(PageDTO pageDTO) {
+        return my.selectOne("mateBbs.count", pageDTO);
+    }
+
+    public List<LocationDTO> location() {
+        return my.selectList("mateBbs.location");
+    }
+
+
 }

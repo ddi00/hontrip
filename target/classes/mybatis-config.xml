@@ -8,6 +8,7 @@
 		<typeAlias type="com.multi.hontrip.mate.dto.MateBoardListDTO" alias="mateBoardListDTO"></typeAlias>
 		<typeAlias type="com.multi.hontrip.mate.dto.LocationDTO" alias="locationDTO"></typeAlias>
 		<typeAlias type="com.multi.hontrip.mate.dto.PageDTO" alias="pageDTO"></typeAlias>
+		<typeAlias type="com.multi.hontrip.mate.dto.MateCommentDTO" alias="mateCommentDTO"></typeAlias>
 	</typeAliases>
 
 

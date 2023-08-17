@@ -8,7 +8,7 @@
 <script type="text/javascript" src="resources/js/jquery-3.7.0.js" ></script>
 </head>
 <body>
-<a href="bbs_list?page=1">
+<a href="mate/bbs_list?page=1">
     <button class = "bbs_list">
     게시물 전체 목록
     </button>
