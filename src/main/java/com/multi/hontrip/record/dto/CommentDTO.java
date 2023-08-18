@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CommentDTO {
-    private long cmtid;
+    private long cmtId;
     private long cmtWriterId;
     private long recordId;
     private String cmtUserNickName;

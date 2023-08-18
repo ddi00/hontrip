@@ -46,11 +46,12 @@ public class RecordContorller {
     }
 
     @GetMapping("postinfo") // 게시물 상세 페이지
-    public void postInfo(@RequestParam("id") long id, Model model) {
+    public String postInfo(@RequestParam("id") long id, Model model) {
         PostInfoDTO postInfoDTO = recordService.selectPostInfo(id);
         List<CommentDTO> commentList = commentService.selectPostComment(id);
         model.addAttribute("postInfoDTO", postInfoDTO);
         model.addAttribute("commentList", commentList);
+        return "/record/postinfo";
     }
 
     @GetMapping("updatepost") // 게시물 수정 페이지
@@ -65,14 +66,14 @@ public class RecordContorller {
                                  CreatePostDTO createPostDTO) {
         String uploadPath // file 저장 위치
                 = request.getSession().getServletContext().getRealPath("resources/img/recordImg");
-        long postId = recordService.updatePostInfo(uploadPath, file, createPostDTO);
+        long postId = recordService.updatePostInfo(uploadPath, file, createPostDTO); // postId값 반환
         return "redirect:/record/postinfo?id=" + postId;
     }
 
     @GetMapping("deletepost")
     public String deletePost(@RequestParam long id) {
         recordService.deletePostInfo(id);
-        return "redirect:/index.jsp";
+        return "redirect:/record/createpost";
     }
 }
 

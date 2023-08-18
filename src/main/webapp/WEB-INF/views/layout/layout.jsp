@@ -9,9 +9,13 @@
     <link rel="shortcut icon" href="<%= request.getContextPath() %>/resources/assets/img/favicon.png">
     <link rel="stylesheet" href="<c:url value="/resources/assets/css/plugins.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/assets/css/style.css"/>">
-    <link rel="stylesheet" href="<c:url value="/resources/assets/css/mate_board_insert.css"/>">
-    <link rel="stylesheet" href="<c:url value="/resources/assets/css/user.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/mate_board_insert.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/user.css"/>">
     <link rel="preload" href="<c:url value="/resources/assets/css/fonts/urbanist.css"/>"as="style" onload="this.rel='stylesheet'">
+    <script type="text/javascript" src="<c:url value="/resources/assets/js/plugins.js"/>" defer></script>
+    <script type="text/javascript" src="<c:url value="/resources/assets/js/theme.js"/>" defer></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.7.0.js"/>" defer></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/chat.js"/>" defer></script>
 </head>
 <body>
     <div class="content-wrapper">
@@ -24,7 +28,5 @@
             <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
         </svg>
     </div>
-    <script src="<c:url value="/resources/assets/js/plugins.js"/>"/>
-    <script src="<c:url value="/resources/assets/js/theme.js"/>"/>
 </body>
 </html>
