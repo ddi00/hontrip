@@ -1,21 +1,27 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <title>여행지 검색</title>
+  <style>
+    .btn-custom {
+      background-color: #FF9F1C;
+      border-color: #FF9F1C;
+    }
+  </style>
 </head>
 <body>
-<a href="/hontrip" role="button" class="btn btn-light mx-4 mt-4">홈</a>
 <div class="container-fluid container my-5 w-50 p-3">
+  <h2>여행지 검색</h2><br>
   <h4>지역명으로 검색</h4>
-  <form id="mySpot" action="search" method="post">
-    <label name="areaName">지역명</label>
-    <input type="text" id="areaName" name="areaName">
-    <input type="submit" value="여행지 검색" class="btn btn-primary">
+  <form id="searchSpotWithAreaName" action="search-area" method="post">
+    <input type="text" id="areaName" name="areaName" class="form-control">
+    <input type="submit" value="검색" class="btn btn-yellow rounded-pill mt-3">
+  </form>
+
+  <h4>키워드 검색</h4>
+  <form id="searchSpotWithKeyword" action="search-keyword" method="post">
+    <input type="text" id="title" name="title" class="form-control">
+    <input type="submit" value="검색" class="btn btn-custom rounded-pill mt-3">
   </form>
 </div>
 </body>

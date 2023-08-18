@@ -10,13 +10,23 @@
 		#{usetime}, #{parking})
 		on duplicate key update content_id = #{contentId}
 	</insert>
-	<select id="one" parameterType="Long" resultType="SpotDTO">
+	<update id="update" parameterType="SpotDTO">
+		update spot
+		set homepage = #{homepage}, overview = #{overview}, info_center = #{infoCenter}, open_date = #{openDate}, rest_date = #{restDate}, exp_guide = #{expguide},
+			usetime = #{usetime}, parking = #{parking}
+		where content_id = #{contentId}
+	</update>
+	<select id="one" parameterType="String" resultType="SpotDTO">
 		select * from spot
-		where id = #{id}
+		where content_id = #{contentId}
 	</select>
-	<select id="list" parameterType="String" resultType="SpotDTO">
+	<select id="areaList" parameterType="String" resultType="SpotDTO">
 		select * from spot
 		where areacode = #{areaCode};
+	</select>
+	<select id="keywordList" parameterType="String" resultType="SpotDTO">
+		select * from spot
+		where title LIKE CONCAT('%', #{keyword}, '%')
 	</select>
 	<select id="all" resultType="SpotDTO">
 		select * from spot

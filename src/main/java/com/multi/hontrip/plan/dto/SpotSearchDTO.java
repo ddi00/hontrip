@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class SpotSearchDTO {
 
+    private String contentId;       // 여행지 콘텐츠 id
     private String contentTypeId;   // 여행지 타입 id
     private String title;           // 여행지명
     private String areaName;        // 지역명

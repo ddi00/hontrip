@@ -26,7 +26,7 @@ import java.util.List;
 @Component
 public class FlightParser {
 
-    private static final String SERVICE_KEY = "LoY3kyOBZldgm9ecrZSOwOA0XOkV4H5yDATpyTaUXVA5wQJD8VA%2B1js0fqWg3G0JlQGpW41LOGFsKGKdcj4EkQ%3D%3D"; // 서비스키 발급 필요
+    private static final String SERVICE_KEY = ""; // 서비스키 발급 필요
 
     //태그 값 얻는 메소드
     private static String getTagValue(String tag, Element element) {
@@ -38,24 +38,34 @@ public class FlightParser {
         return nodeValue.getNodeValue();
     }
 
-    // 데이터 파싱 메소드
+    // 사용자 입력 공항명(한글) - 공항 ID 맵핑하기 위한 메소드
+    public static String findAirportIdByAirportName(String airportName) {
+        for (Airport airport : Airport.values()) {
+            if (airport.getAirportName().equals(airportName)) {
+                return airport.getAirportId();
+            }
+        }
+        return null;
+    }
+
+    // 항공편 api 호출 및 데이터 파싱
     public List<FlightDTO> parseData(String depAirport, String arrAirport, Date depDate) throws IOException, ParserConfigurationException, SAXException {
         List<FlightDTO> list = new ArrayList<>();
-        String parsingUrl = ""; // Parsing할 URL
+        String parsingUrl = "";
 
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         String departure_date = format.format(depDate); // 출발일 yyyyMMdd 형식으로 formatting
-        // Airport enum
-        Airport departure_airport = Airport.valueOf(depAirport);
-        Airport arrival_airport = Airport.valueOf(arrAirport);
+
+        String departure_airport_id = findAirportIdByAirportName(depAirport);
+        String arrival_airport_id = findAirportIdByAirportName(arrAirport);
 
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1613000/DmstcFlightNvgInfoService/getFlightOpratInfoList"); // URL
         urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + SERVICE_KEY); // Service Key
         urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); // 페이지번호
         urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("200", "UTF-8")); // 한 페이지 결과 수
         urlBuilder.append("&" + URLEncoder.encode("_type", "UTF-8") + "=" + URLEncoder.encode("xml", "UTF-8")); // 데이터 타입
-        urlBuilder.append("&" + URLEncoder.encode("depAirportId", "UTF-8") + "=" + URLEncoder.encode(departure_airport.getAirportId(), "UTF-8")); // 출발공항 ID
-        urlBuilder.append("&" + URLEncoder.encode("arrAirportId", "UTF-8") + "=" + URLEncoder.encode(arrival_airport.getAirportId(), "UTF-8")); // 도착공항 ID
+        urlBuilder.append("&" + URLEncoder.encode("depAirportId", "UTF-8") + "=" + URLEncoder.encode(departure_airport_id, "UTF-8")); // 출발공항 ID
+        urlBuilder.append("&" + URLEncoder.encode("arrAirportId", "UTF-8") + "=" + URLEncoder.encode(arrival_airport_id, "UTF-8")); // 도착공항 ID
         urlBuilder.append("&" + URLEncoder.encode("depPlandTime", "UTF-8") + "=" + URLEncoder.encode(departure_date, "UTF-8")); //출발일(YYYYMMDD)
         //urlBuilder.append("&" + URLEncoder.encode("airlineId", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); // 항공사 ID - 미지정시 전체 항공사 대상
 
@@ -64,21 +74,7 @@ public class FlightParser {
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
         System.out.println("Response code: " + conn.getResponseCode());
-
-//        BufferedReader rd;
-//        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-//            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//        } else {
-//            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-//        }
-//        StringBuilder sb = new StringBuilder();
-//        String line;
-//        while ((line = rd.readLine()) != null) {
-//            sb.append(line);
-//        }
-//        rd.close();
         conn.disconnect();
-        //System.out.println(sb.toString());
 
         parsingUrl = url.toString();
         System.out.println(parsingUrl);
@@ -90,11 +86,10 @@ public class FlightParser {
         Document doc = docBuilder.parse(parsingUrl);
 
         // root tag
-        doc.getDocumentElement().normalize();
-        //System.out.println("Root element: " + doc.getDocumentElement().getNodeName()); // Root element: result
+        doc.getDocumentElement().normalize(); // xml 루트 요소 정규화
 
         NodeList nodeList = doc.getElementsByTagName("item");   // 태그명 item
-        System.out.println("number of parsing items : " + nodeList.getLength());
+        System.out.println("the number of parsing items : " + nodeList.getLength());
 
         try {
             // 파싱 대상 수만큼 for문 반복

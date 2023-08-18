@@ -1,6 +1,5 @@
 package com.multi.hontrip.plan.service;
 
-
 import com.multi.hontrip.plan.dao.PlanDAO;
 import com.multi.hontrip.plan.dto.PlanDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,11 @@ import java.util.List;
 
 @Service
 public class PlanServiceImpl implements PlanService{
+    private PlanDAO planDAO;
     @Autowired
-    PlanDAO planDAO;
+    public  PlanServiceImpl(PlanDAO planDAO){
+        this.planDAO = planDAO;
+    };
 
     @Override
     public void insert(PlanDTO planDTO) {
@@ -37,6 +39,4 @@ public class PlanServiceImpl implements PlanService{
     public List<PlanDTO> list() {
         return planDAO.list();
     } // 일정 list
-
-
 }

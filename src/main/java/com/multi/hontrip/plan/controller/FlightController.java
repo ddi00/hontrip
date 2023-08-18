@@ -3,24 +3,22 @@ package com.multi.hontrip.plan.controller;
 import com.multi.hontrip.plan.dto.FlightDTO;
 import com.multi.hontrip.plan.dto.FlightSearchDTO;
 import com.multi.hontrip.plan.parser.Airport;
-import com.multi.hontrip.plan.parser.FlightParser;
 import com.multi.hontrip.plan.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("plan/flight")
+@RequestMapping("/plan/flight")
 public class FlightController {
 
     private final FlightService flightService;
@@ -30,30 +28,106 @@ public class FlightController {
     }
 
     // 항공편 검색
-    @GetMapping("search_form")
+    @GetMapping("/search_form")
     public String showFlightSearchForm(@ModelAttribute("FlightSearchDTO") FlightSearchDTO flightSearchDTO) {
-        return "plan/flight/search_form"; // 항공편 검색 폼 반환
+        return "/plan/flight/search_form"; // 항공편 검색 폼 반환
     }
 
     // 항공편 검색 목록
-    @PostMapping("search")
+    @PostMapping("/search")
     public String SearchFlight(@ModelAttribute("FlightSearchDTO") FlightSearchDTO flightSearchDTO, Model model)
-            throws ParserConfigurationException, SAXException, IOException{
-        flightService.parseData(flightSearchDTO);
+            throws ParserConfigurationException, SAXException, IOException, ParseException {
+        final int PAGE_ROW_COUNT = 10;
+        int pageNum = 1;
+        int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT;
+        int endRowNum = pageNum * PAGE_ROW_COUNT;
+        int rowCount = PAGE_ROW_COUNT;
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy년 MM월 dd일");
-        String departure_date = format.format(flightSearchDTO.getDepDate());
         // Airport enum
         Airport departure_airport = Airport.valueOf(flightSearchDTO.getDepAirportName());
         Airport arrival_airport = Airport.valueOf(flightSearchDTO.getArrAirportName());
 
-        model.addAttribute("depAirportName", departure_airport.getAirportName());
-        model.addAttribute("arrAirportName", arrival_airport.getAirportName());
-        model.addAttribute("depDate", departure_date); // 출발일 yyyyMMdd 형식으로 formatting
+        String departure_airport_name = departure_airport.getAirportName();
+        String arrival_airport_name = arrival_airport.getAirportName();
 
+        // KIMPO -> 김포
+        flightSearchDTO.setDepAirportName(departure_airport_name);
+        flightSearchDTO.setArrAirportName(arrival_airport_name);
+
+        flightService.parseData(flightSearchDTO);
+
+        // 뷰로 보내기 위함..
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String departure_date = format.format(flightSearchDTO.getDepDate());
+
+        model.addAttribute("depAirportName", departure_airport_name);
+        model.addAttribute("arrAirportName", arrival_airport_name);
+        model.addAttribute("depDate", departure_date);
+
+        flightSearchDTO.setStartRowNum(startRowNum);
+        flightSearchDTO.setEndRowNum(endRowNum);
+        flightSearchDTO.setRowCount(rowCount);
+
+        List<FlightDTO> list = flightService.listFlight(flightSearchDTO);
+
+        // 검색 대상 항공편 수
+        int totalRow = flightService.countFlight(flightSearchDTO);
+        // 전체 페이지 수
+        int totalPageCount = (int) Math.ceil(totalRow / (double) PAGE_ROW_COUNT);
+
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("totalRow", totalRow);
+        model.addAttribute("pageNum", pageNum);
         // DB에서 출발 공항, 도착 공항, 출발일 조건에 맞는 데이터 select
-        model.addAttribute("list", flightService.list(flightSearchDTO));
-        return "plan/flight/search_list"; // 조건에 맞는 항공편 검색 목록 반환
+        model.addAttribute("list", list);
+        return "/plan/flight/search_list"; // 조건에 맞는 항공편 검색 목록 반환
     }
+    
+    // 로딩으로 불러오는 목록
+    @RequestMapping("/search-page")
+    public String searchWithPaging(@RequestParam int pageNum,
+                                 @RequestParam String depAirportName,
+                                 @RequestParam String arrAirportName,
+                                 @RequestParam String depDate,
+                                 Model model) throws ParseException {
 
+        final int PAGE_ROW_COUNT = 10; // 한 페이지에 표시할 개수
+
+        int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT;
+        int endRowNum = pageNum * PAGE_ROW_COUNT;
+        int rowCount = PAGE_ROW_COUNT;
+
+        FlightSearchDTO flightSearchDTO = new FlightSearchDTO();
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd"); // Date 로 바꿀 String 의 형식
+        Date departure_date = format.parse(depDate);
+        flightSearchDTO.setDepDate(departure_date);
+
+        flightSearchDTO.setDepAirportName(depAirportName);
+        flightSearchDTO.setArrAirportName(arrAirportName);
+
+
+//        model.addAttribute("depAirportName", depAirportName);
+//        model.addAttribute("arrAirportName", arrAirportName);
+//        model.addAttribute("depDate", depDate);
+
+        flightSearchDTO.setStartRowNum(startRowNum);
+        flightSearchDTO.setEndRowNum(endRowNum);
+        flightSearchDTO.setRowCount(rowCount);
+
+        List<FlightDTO> list = flightService.loadList(flightSearchDTO);
+
+        // 검색 대상 항공편 수
+        int totalRow = flightService.countFlight(flightSearchDTO);
+        // 전체 페이지 수
+        int totalPageCount = (int) Math.ceil(totalRow / (double) PAGE_ROW_COUNT);
+
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("totalRow", totalRow);
+        model.addAttribute("pageNum", pageNum);
+
+        model.addAttribute("list", list);
+
+        return "/plan/flight/search_list_page";
+    }
 }
