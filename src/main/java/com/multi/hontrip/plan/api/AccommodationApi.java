@@ -1,19 +1,22 @@
 package com.multi.hontrip.plan.api;
 
+
 import com.multi.hontrip.plan.dto.AccommodationDTO;
+import org.json.JSONException;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import java.sql.Connection;
+import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 // 카카오맵 api로 숙박정보 호출해 DB에 응답을 저장
+
+
+
 public class AccommodationApi {
     private static final String KAKAO_MAP_API_KEY = "";
     private static final String KAKAO_MAP_API_URL = "https://dapi.kakao.com/v2/local/search/keyword.json";
@@ -56,47 +59,42 @@ public class AccommodationApi {
     // JSON 응답을 파싱하고 필요한 필드 값을 데이터베이스에 저장하는 메서드
     private static void parseAndSaveToDatabase(String responseBody) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode rootNode = objectMapper.readTree(responseBody);
+            JSONArray documents = new JSONArray(responseBody);
 
-            // documents 배열에서 필드 값을 추출하여 데이터베이스에 저장
-            JsonNode documentsNode = rootNode.get("documents");
-            if (documentsNode.isArray()) {
-                for (JsonNode documentNode : documentsNode) {
-                    // 필요한 필드 값을 추출
-                    String placeName = documentNode.get("place_name").asText();
-                    String addressName = documentNode.get("address_name").asText();
-                    String categoryGroupCode = documentNode.get("category_group_code").asText();
-                    String categoryGroupName = documentNode.get("category_group_name").asText();
-                    String categoryName = documentNode.get("category_name").asText();
-                    String distance = documentNode.get("distance").asText();
-                    String id = documentNode.get("id").asText();
-                    String phone = documentNode.get("phone").asText();
-                    String placeUrl = documentNode.get("place_url").asText();
-                    String roadAddressName = documentNode.get("road_address_name").asText();
-                    String xCoord = documentNode.get("x").asText();
-                    String yCoord = documentNode.get("y").asText();
+            for (int i = 0; i < documents.length(); i++) {
+                JSONObject document = documents.getJSONObject(i);
 
-                    // 데이터베이스에 저장
-                    AccommodationDTO accommodationDTO = new AccommodationDTO();
-                    accommodationDTO.setId(id);
-                    accommodationDTO.setPlaceName(placeName);
-                    accommodationDTO.setCategoryGroupName(categoryGroupName);
-                    accommodationDTO.setCategoryGroupCode(categoryGroupCode);
-                    accommodationDTO.setCategoryName(categoryName);
-                    accommodationDTO.setPhone(phone);
-                    accommodationDTO.setAddressName(addressName);
-                    accommodationDTO.setRoadAddressName(roadAddressName);
-                    accommodationDTO.setX(xCoord);
-                    accommodationDTO.setY(yCoord);
-                    accommodationDTO.setPlaceUrl(placeUrl);
-                    accommodationDTO.setDistance(distance);
-                    saveToDatabase(accommodationDTO);
-                }
-            } else {
-                System.out.println("No documents found.");
+                // 필요한 필드 값을 추출
+                String placeName = document.getString("place_name");
+                String addressName = document.getString("address_name");
+                String categoryGroupCode = document.getString("category_group_code");
+                String categoryGroupName = document.getString("category_group_name");
+                String categoryName = document.getString("category_name");
+                String distance = document.getString("distance");
+                String id = document.getString("id");
+                String phone = document.optString("phone", "");
+                String placeUrl = document.optString("place_url", "");
+                String roadAddressName = document.optString("road_address_name", "");
+                String xCoord = document.getString("x");
+                String yCoord = document.getString("y");
+
+                // 데이터베이스에 저장
+                AccommodationDTO accommodationDTO = new AccommodationDTO();
+                accommodationDTO.setId(id);
+                accommodationDTO.setPlaceName(placeName);
+                accommodationDTO.setCategoryGroupName(categoryGroupName);
+                accommodationDTO.setCategoryGroupCode(categoryGroupCode);
+                accommodationDTO.setCategoryName(categoryName);
+                accommodationDTO.setPhone(phone);
+                accommodationDTO.setAddressName(addressName);
+                accommodationDTO.setRoadAddressName(roadAddressName);
+                accommodationDTO.setX(xCoord);
+                accommodationDTO.setY(yCoord);
+                accommodationDTO.setPlaceUrl(placeUrl);
+                accommodationDTO.setDistance(distance);
+                saveToDatabase(accommodationDTO);
             }
-        } catch (IOException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -151,3 +149,4 @@ public class AccommodationApi {
         }
     }
 }
+

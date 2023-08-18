@@ -29,7 +29,7 @@ public class AccommodationController {
     public String showAccommodationList(Model model) {
         List<AccommodationDTO> list = accommodationService.list();
         model.addAttribute("list", list);
-        return "plan/accommodation/list";
+        return "/plan/accommodation/list";
     }
 
     @RequestMapping(value = "/filter_list", method = RequestMethod.POST) // 숙박시설 필터
@@ -37,18 +37,24 @@ public class AccommodationController {
             @RequestParam(name = "addressName", required = false) String addressName,
             @RequestParam(name = "placeName", required = false) String placeName,
             @RequestParam(name = "categoryName", required = false) String categoryName,
-            @RequestParam(name = "filterType", required = false) String filterType,
+            @RequestParam(name = "filterType", required = false) String filterType, // 필터 타입 추가
             Model model
     ) {
         List<AccommodationDTO> list;
 
-        if ("address_place".equals(filterType) && addressName != null && placeName != null) {
+/*if (placeName != null && addressName != null && categoryName != null) {
+    // 주소와 카테고리로 동시에 필터링
+    list = accommodationService.filterByCategoryAndPlaceNameAndAddress(placeName, addressName, categoryName);
+} else*/ if ("address_place".equals(filterType) && addressName != null && placeName != null) {
             // 주소와 이름으로 동시에 필터링
             list = accommodationService.filterByAddressAndPlaceName(addressName, placeName);
         } else if (addressName != null && categoryName != null) {
             // 주소와 카테고리로 동시에 필터링
             list = accommodationService.filterByAddressAndCategoryName(addressName, categoryName);
-        } else if ("address".equals(filterType) && addressName != null) {
+        } /*else if (placeName != null && categoryName != null) {
+            // 이름과 카테고리로 동시에 필터링
+            list = accommodationService.filterByPlaceNameAndCategoryName(placeName, categoryName);
+        }*/else if ("address".equals(filterType) && addressName != null) {
             // 주소로 필터링
             list = accommodationService.filterByAddress(addressName);
         } else if ("place_name".equals(filterType) && placeName != null) {
@@ -62,7 +68,7 @@ public class AccommodationController {
         }
 
         model.addAttribute("list", list);
-        return "plan/accommodation/filter_list";
+        return "/plan/accommodation/filter_list";
     }
 
 }

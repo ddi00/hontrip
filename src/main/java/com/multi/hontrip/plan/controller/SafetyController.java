@@ -10,6 +10,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,16 +30,21 @@ public class SafetyController {
 
     @GetMapping("/safety_search") // 유저가 지역 검색
     public String searchForm() {
-        return "plan/safety_search";
+        return "/plan/safety_search";
     }
 
-    @GetMapping("/safety_result") // 검색한 지역 내 api 호출해서 재난문자 보여줌
+    @GetMapping("/safety_result")
     public String searchResult(@RequestParam("locationName") String locationName, Model model) {
         try {
             String encodedLocationName = URLEncoder.encode(locationName, "UTF-8");
+
+            // 현재 날짜를 가져옴
+            LocalDate currentDate = LocalDate.now();
+            String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+
             String apiUrl = BASE_URL + "?ServiceKey=" + SERVICE_KEY + "&type=" + API_TYPE +
                     "&pageNo=" + PAGE_NO + "&numOfRows=" + NUM_OF_ROWS +
-                    "&location_name=" + encodedLocationName;
+                    "&location_name=" + encodedLocationName + "&create_date=" + formattedDate;
 
             URL url = new URL(apiUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -55,40 +62,34 @@ public class SafetyController {
                 connection.disconnect();
             }
 
-            // JSON 데이터를 Map으로 파싱하여 리턴
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Object> result = objectMapper.readValue(responseContent.toString(), Map.class);
 
-            // Model에 데이터 추가
             model.addAttribute("locationName", locationName);
             model.addAttribute("result", result.get("DisasterMsg2"));
 
-            return "plan/safety_result"; // result.jsp로 리턴
+            return "/plan/safety_result";
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            // 예외 처리 필요
             model.addAttribute("error", "입력값 처리 중 에러 발생");
-            return "error"; // 에러 페이지로 리턴
+            return "/error";
         } catch (Exception e) {
             e.printStackTrace();
-            // 예외 처리 필요
             model.addAttribute("error", "API 호출 중 에러 발생");
-            return "error"; // 에러 페이지로 리턴
+            return "/error";
         }
     }
 
-    // 컨트롤러 내에서의 예외 처리
     @ExceptionHandler(UnsupportedEncodingException.class)
     public String handleUnsupportedEncodingException(Model model) {
         model.addAttribute("error", "입력값 처리 중 에러 발생");
-        return "error"; // 에러 페이지로 리턴
+        return "/error";
     }
 
     @ExceptionHandler(Exception.class)
     public String handleException(Exception e, Model model) {
         e.printStackTrace();
         model.addAttribute("error", "API 호출 중 에러 발생");
-        return "error"; // 에러 페이지로 리턴
+        return "/error";
     }
 }
-

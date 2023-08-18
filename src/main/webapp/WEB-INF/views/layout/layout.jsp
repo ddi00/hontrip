@@ -7,11 +7,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="<%= request.getContextPath() %>/resources/assets/img/favicon.png">
-    <link rel="stylesheet" href="<c:url value="/resources/css/plugins.css"/>">
-    <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/assets/css/plugins.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/assets/css/style.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/mate_board_insert.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/user.css"/>">
-    <link rel="preload" href="<c:url value="/resources/css/fonts/urbanist.css"/>"as="style" onload="this.rel='stylesheet'">
+    <link rel="preload" href="<c:url value="/resources/assets/css/fonts/urbanist.css"/>"as="style" onload="this.rel='stylesheet'">
 </head>
 <body>
     <div class="content-wrapper">

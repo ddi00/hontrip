@@ -15,7 +15,7 @@
     </select>
     <select id="filterByCategory" resultType="EmergencyFacilityDTO">
         SELECT * FROM emergency_facility
-        WHERE category_group_name = #{categoryGroupName}
+        WHERE category_group_name LIKE CONCAT('%', #{categoryGroupName}, '%')
     </select>
 
     <select id="filterByAddress" resultType="EmergencyFacilityDTO">
@@ -24,7 +24,8 @@
     </select>
     <select id="filterByCategoryAndAddress" resultType="EmergencyFacilityDTO">
         SELECT * FROM emergency_facility
-        WHERE category_group_name = #{categoryGroupName}
+        WHERE category_group_name LIKE CONCAT('%', #{categoryGroupName}, '%')
           AND address_name LIKE CONCAT('%', #{addressName}, '%')
     </select>
+
 </mapper>

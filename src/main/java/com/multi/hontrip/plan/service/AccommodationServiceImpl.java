@@ -48,4 +48,17 @@ public class AccommodationServiceImpl implements AccommodationService {
     public List<AccommodationDTO> filterByAddressAndCategoryName(String addressName, String categoryName) { // 숙박시설 주소|카테고리 필터
         return accommodationDAO.filterByAddressAndCategoryName(addressName, categoryName);
     }
+
+  /*  @Override
+    public List<AccommodationDTO> filterByPlaceNameAndCategoryName(String placeName, String categoryName) { // 숙박시설 주소|카테고리 필터
+        return accommodationDAO.filterByPlaceNameAndCategoryName(placeName, categoryName);
+    }*/
+
+  /*  @Override
+    public List<AccommodationDTO> filterByCategoryAndPlaceNameAndAddress(String addressName, String categoryName, String placeName) { // 숙박시설 주소|카테고리 필터
+        return accommodationDAO.filterByCategoryAndPlaceNameAndAddress(addressName, categoryName, placeName);
+
+    }*/
+
+
 }

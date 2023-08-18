@@ -40,4 +40,18 @@
           and category_name LIKE CONCAT(#{categoryName}, '%')
     </select>
 
+ <!--   <select id="filterByPlaceNameAndCategoryName" resultType="AccommodationDTO">
+        select * from accommodation
+        where place_name LIKE CONCAT('%', #{placeName}, '%')
+          and category_name LIKE CONCAT(#{categoryName}, '%')
+    </select>
+
+    <select id="filterByCategoryAndPlaceNameAndAddress" resultType="AccommodationDTO">
+        SELECT * FROM accommodation
+        where address_name LIKE CONCAT('%', #{addressName}, '%')
+          and category_name LIKE CONCAT('%', #{categoryName}, '%')
+          and place_name LIKE CONCAT('%', #{placeName}, '%')
+    </select>-->
+
+
 </mapper>
