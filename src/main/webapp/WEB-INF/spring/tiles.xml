@@ -21,12 +21,7 @@
         <put-attribute name="body" value="/WEB-INF/views/user/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
-<<<<<<< HEAD
-    <definition name="/record/**" extends="default-layout">
-        <put-attribute name="title" value="여행기록" />
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/record/{1}.jsp" />
-=======
+
 
     <!--여행계획-->
     <definition name="/plan/accommodation/list" extends="default-layout">
@@ -118,7 +113,11 @@
         <put-attribute name="title" value="동행인찾기" />
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
         <put-attribute name="body" value="/WEB-INF/views/mate/{1}.jsp" />
->>>>>>> develop/version1
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+    </definition>
+    <definition name="/record/**" extends="default-layout">
+    <put-attribute name="title" value="여행기록" />
+    <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/record/{1}.jsp" />
     </definition>
 </tiles-definitions>
