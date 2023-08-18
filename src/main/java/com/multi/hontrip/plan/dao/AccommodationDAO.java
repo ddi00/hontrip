@@ -49,4 +49,28 @@ public class AccommodationDAO {
         params.put("categoryName", categoryName);
         return my.selectList("accommodation.filterByAddressAndCategoryName", params);
     } // 숙박시설 주소|카테고리 필터
+
+    public List<AccommodationDTO> filterByPlaceNameAndCategoryName(@Param("placeName") String placeName, @Param("categoryName") String categoryName){
+        Map<String, String> params = new HashMap<>();
+        params.put("placeName", placeName);
+        params.put("categoryName", categoryName);
+        return my.selectList("accommodation.filterByPlaceNameAndCategoryName", params);
+    }
+
+    public List<AccommodationDTO> filterByCategoryAndPlaceNameAndAddress(@Param("categoryName") String categoryName,  @Param("placeName") String placeName, @Param("addressName") String addressName){
+        Map<String, String> params = new HashMap<>();
+        params.put("categoryName", categoryName);
+        params.put("placeName", placeName);
+        params.put("addressName", addressName);
+        return my.selectList("accommodation.filterByCategoryAndPlaceNameAndAddress", params);
+    } // 숙박시설 주소|카테고리 필터
+
+    public List<AccommodationDTO> searchAccommodationsWithFilter(@Param("query") String query) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("query", "%" + query + "%");
+
+
+        return my.selectList("accommodationMapper.searchAccommodationsWithFilter", params);
+    }
+
 }
