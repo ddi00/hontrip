@@ -15,6 +15,7 @@
     <script type="text/javascript" src="<c:url value="/resources/assets/js/plugins.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/assets/js/theme.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.7.0.js"/>" defer></script>
+<<<<<<< HEAD
     <script type="text/javascript" src="<c:url value="/resources/js/chat.js"/>" defer></script>
 </head>
 <body>
@@ -28,5 +29,19 @@
             <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
         </svg>
     </div>
+=======
+</head>
+<body>
+<div class="content-wrapper">
+    <tiles:insertAttribute name="header" />
+    <tiles:insertAttribute name="body" />
+</div>
+<tiles:insertAttribute name="footer" />
+<div class="progress-wrap">
+    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+    </svg>
+</div>
+>>>>>>> develop/version1
 </body>
 </html>

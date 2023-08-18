@@ -45,6 +45,14 @@
             refresh_token_expires_at = null
         where id=#{id}
     </update>
+    <select id="findProviderAndSocialIDById" resultType="withDrawUserDTO">
+        select id, provider, social_id as socialId, access_token as accessToken, expires_at as expiresAt
+        from user
+        where id=#{id}
+    </select>
+    <delete id="deleteUserById">
+        delete from user where id=#{id}
+    </delete>
 </mapper>
 
 
