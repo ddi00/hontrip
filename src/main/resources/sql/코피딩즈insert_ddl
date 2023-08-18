@@ -1,0 +1,118 @@
+-- age 값 넣기
+INSERT INTO age_range (id, range_description) VALUES
+	(1, '나이정보 없음'),
+    (2, '0~9'),
+    (3, '10-19'),
+    (4, '20-29'),
+    (5, '30-39'),
+    (6, '40-49'),
+    (7, '50-59'),
+    (8, '60-');
+
+-- user 값 넣기
+INSERT INTO user (id, provider, social_id, nickname, profile_image, gender, age_range_id, email, access_token, expires_in, refresh_token, refresh_token_expires_in, created_at)
+VALUES
+    (1, 'Google', 123456789, 'Alice', 'profile1.jpg', 1, 4, 'alice@example.com', 'access_token_1', '2023-12-31', 'refresh_token_1', '2023-12-31', NOW()),
+    (2, 'Facebook', 987654321, 'Bob', 'profile2.jpg', 2, 5, 'bob@example.com', 'access_token_2', '2023-12-31', 'refresh_token_2', '2023-12-31', NOW());
+
+-- 여행지 테스트 레코드 삽입
+INSERT INTO spot (id, content_id, content_type, title, image, address, longitude, latitude, areacode, sigungucode)
+values
+(1, '2418778', '12', '다이나믹 메이즈 (제주 성읍점)', 'http://tong.visitkorea.or.kr/cms/resource/10/2456710_image2_1.JPG', '제주특별자치도 서귀포시 표선면 번영로 2644', '126.7847499840', '33.3990984383', '39', '3'),
+(2, '2791523', '12', '제주양떼목장', 'http://tong.visitkorea.or.kr/cms/resource/27/2800527_image2_1.jpg', '제주특별자치도 제주시 애월읍 도치돌길 289-13', '126.3652277862', '33.4113820644', '39', '4'),
+(3, '126498', '12', '롯데월드 어드벤처', 'http://tong.visitkorea.or.kr/cms/resource/75/2553575_image2_1.jpg', '서울특별시 송파구 올림픽로 240', '127.0979006014', '37.5113516917', '1', '18'),
+(4, '128776', '12', '남산 케이블카', 'http://tong.visitkorea.or.kr/cms/resource/61/1946561_image2_1.jpg', '서울특별시 중구 소파로 83', '126.9841041137', '37.5569971220', '1', '24');
+
+-- 항공 테스트 레코드 삽입
+INSERT INTO flight (id, vehicle_id, airline_name, departure_airport_name, departure_time, arrival_airport_name, arrival_time, economy_charge, prestige_charge)
+VALUES
+(1, 'KE1081', '대한항공', '김포', '202308111100', '제주', '202308111210', '84400', '124400'),
+(2, 'OZ8935', '아시아나항공', '김포', '202308111040', '제주', '202308111150', '70900', '0');
+
+-- 카테고리 테스트 레코드 삽입
+INSERT INTO plan_category (category_id, category_name) VALUES
+    (1, '숙박'),
+    (2, '병원'),
+    (3, '약국');
+
+    -- 숙박시설 테스트 레코드 삽입
+INSERT INTO accommodation (id, category_id, place_name, address_name, road_address_name, phone, longitude, latitude, place_url, distance, kakao_map_url) VALUES
+    (1, 1, '포시즌스호텔서울', '서울 종로구 당주동 30', '서울 종로구 새문안로 97', '02-6388-5000', '33.450701', '126.570667', '', null, ''),
+    (2, 1, '코리아나호텔', '서울 중구 태평로1가 61-1', '서울 중구 세종대로 135', '02-2171-7000', '33.450701', '126.570667', '', null, ''),
+    (3, 1, '신라스테이 광화문', '서울 종로구 수송동 156', '서울 종로구 삼봉로 71', '02-6060-9000', '33.450701', '126.570667', '', null, ''),
+    (4, 1, '메종글래드제주', '제주특별자치도 제주시 연동 263-15', '제주특별자치도 제주시 노연로 80', '064-747-5000', '126.5357', '33.3799', '', null, '');
+
+    -- 응급시설 테스트 레코드 삽입
+INSERT INTO emergency_facility (id, category_id, place_name, address_name, road_address_name, phone, longitude, latitude, place_url, distance, kakao_map_url) VALUES
+    (1, 2, '서울병원', '서울 종로구 당주동 30', '서울 종로구 새문안로 97', '02-6388-5000', '126.570667', '33.450701', '', null, ''),
+    (2, 2, '강원병원', '서울 중구 태평로1가 61-1', '서울 중구 세종대로 135', '02-2171-7000', '126.570667', '33.450701', '', null, ''),
+    (3, 3, '서울약국', '서울 종로구 수송동 156', '서울 종로구 삼봉로 71', '02-6060-9000', '126.570667', '33.450701', '', null, ''),
+    (4, 3, '강원병원', '서울 종로구 수송동 156', '서울 종로구 삼봉로 71', '02-6060-9000', '126.570667', '33.450701', '', null, '');
+
+    -- 안전정보 테스트 레코드 삽입
+INSERT INTO safety (id, create_date, location_id, location_name, md101_sn, msg, send_platform) VALUES
+    (1, '2023/06/12 18:00:10', '9619,9622', '강원도 화천군', '195557', '[화천군] 금일 21시부터 익일 03시 사이 국지성 호우, 돌풍, 번개, 우박이 예상됩니다. 비가 내리고 천둥소리가 나면 즉시 안전한 실내로 이동하시기 바랍니다.', 'cbs'),
+    (2, '2023/06/12 17:59:40', '9618,9620,9621', '강원도 화천군', '195556', '[화천군] 금일 21시부터 익일 03시 사이 국지성 호우, 돌풍, 번개, 우박이 예상됩니다. 비가 내리고 천둥소리가 나면 즉시 안전한 실내로 이동하시기 바랍니다.', 'cbs'),
+    (3, '2023/06/12 14:17:06', '19', '강원도 화천군', '195550', '[화천군] 현재 화천군지역 천둥, 번개, 우박, 강한 비가 예상되오니 시설물 관리 및 안전사고에 주의하시기 바랍니다.', 'cbs'),
+    (4, '2023/07/22 04:01:34', '221', '제주특별자치도 제주시', '199239', '[행정안전부] 오늘 04시00분 제주(제주북부,제주북부중산간) 호우경보, 산사태ㆍ상습침수 등 위험지역 대피, 외출자제 등 안전에 주의바랍니다.', 'cbs');
+
+    -- 일정 테스트 레코드 삽입
+INSERT INTO plan(id, user_id, title, start_date, end_date, memo) VALUES
+(1, 1, '제주 여행', '20230811', '20230813', '제주도 재밌겠다'),
+(2, 2, '서울 여행', '2023-08-15', '2023-08-20', '서울 관광과 음식 즐기기');
+
+-- 일정-여행일 테스트 레코드 삽입
+INSERT INTO plan_day (id, user_id, plan_id, flight_id, day_order, item_type, item_order)
+VALUES (1, 1, 1, 1, 1, 'flight', 1);
+INSERT INTO plan_day (id, user_id, plan_id, accommodation_id, day_order, item_type, item_order)
+VALUES (2, 1, 1, 4, 1, 'accommodation', 2);
+INSERT INTO plan_day (id, user_id, plan_id, spot_id, day_order, item_type, item_order)
+values
+(3, 1, 1, 1, 1, 'spot', 3),
+(4, 1, 1, 1, 2, 'spot', 4);
+INSERT INTO plan_day (id, user_id, plan_id, spot_id, day_order, item_type, item_order)
+VALUES (5, 2, 2, 3, 1, 'spot', 1);
+INSERT INTO plan_day (id, user_id, plan_id, accommodation_id, day_order, item_type, item_order)
+VALUES (6, 2, 2, 1, 1, 'accommodation', 2);
+INSERT INTO plan_day (id, user_id, plan_id, spot_id, day_order, item_type, item_order)
+VALUES (7, 2, 2, 4, 1, 'spot', 3);
+
+-- 동행 게시판 테스트 레코드 삽입
+INSERT INTO mate_board
+(id, user_id, region_id, age_range_id, title, content, thumbnail, start_date, end_date, recruit_number, gender, created_at, updated_at, is_finish)
+VALUES(1, 1, 19, 2, '8월 11-15 제주 동행하실분', '월정리 주변 여행할 예정인데 동행하실분 있을까요', 'jeju.jpg', '2023-08-11', '2023-08-15', 2, 0, '2023-08-08 12:12:39', NULL, 0);
+INSERT INTO mate_board
+(id, user_id, region_id, age_range_id, title, content, thumbnail, start_date, end_date, recruit_number, gender, created_at, updated_at, is_finish)
+VALUES(2, 2, 32, 2, '8월21일 부산 같이가실분!', '부산에서 같이 동행하실분 계신가요', 'busan.jpg', '2023-08-21', '2023-08-24', 1, 1, '2023-08-08 12:12:39', NULL, 0);
+
+-- 동행 게시판 댓글 테스트 레코드 삽입
+INSERT INTO hontrip_test.mate_comment
+(id, mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number, created_at, updated_at)
+VALUES(1, 1, 2, '제주도 저도 가고싶네요', 1, 0, 0, '2023-08-08 16:59:34', NULL);
+INSERT INTO hontrip_test.mate_comment
+(id, mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number, created_at, updated_at)
+VALUES(2, 1, 1, '같이 가실래요?', 1, 1, 1, '2023-08-08 17:01:51', NULL);
+INSERT INTO hontrip_test.mate_comment
+(id, mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number, created_at, updated_at)
+VALUES(3, 2, 1, '부산 저도 가고싶네요', 1, 0, 0, '2023-08-08 17:02:39', NULL);
+
+--동행 알림 테스트 레코드 삽입
+INSERT INTO mate_matching_alarm
+(id, mate_board_id, sender_id, content, created_at, is_read)
+VALUES(1, 1, 2, '같이 여행가요!', '2023-08-08 18:12:53', 0);
+INSERT INTO mate_matching_alarm
+(id, mate_board_id, sender_id, content, created_at, is_read)
+VALUES(2, 2, 1, '같이 여행가요!', '2023-08-08 18:13:10', 0);
+
+------  record_board 기록 게시물 테이블 --------
+INSERT INTO `record_board` (`user_id`, `location_id`, `title`, `content`, `is_visible`, `thumbnail`)
+VALUES (1, 2, 'Sample Title', 'This is the content of the record.', 1, 'thumbnail.jpg');
+------  record_comment 기록 댓글 테이블 --------
+INSERT INTO `record_comment` (`comment_writer_id`, `record_id`, `content`, `comment_sequence`, `comments_sequence`, `indentation_number`)
+VALUES (1, 1, 'This is a comment.', 1, 1, 0);
+------ record_like 기록 게시물 좋아요 테이블 --------
+INSERT INTO `record_like` (`user_id`, `record_id`)
+VALUES (1, 1);
+------ record_img 기록 이미지 테이블 --------
+INSERT INTO `record_img` (`img_url`, `record_id`)
+VALUES ('https://example.com/image.jpg', 1);
