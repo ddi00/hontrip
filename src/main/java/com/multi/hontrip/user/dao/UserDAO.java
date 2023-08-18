@@ -47,4 +47,12 @@ public class UserDAO {
     public void removeUser(Long id) {    //user테이블 사용자 제거
         sqlSessionTemplate.delete("userMapper.deleteUserById", id);
     }
+
+    public WithdrawUserDTO findSocialInfoById(Long id) {   //id로 social정보 가져오기
+        return sqlSessionTemplate.selectOne("userMapper.findProviderAndSocialIDById",id);
+    }
+
+    public void removeUser(Long id){    //user테이블 사용자 제거
+        sqlSessionTemplate.delete("userMapper.deleteUserById",id);
+    }
 }

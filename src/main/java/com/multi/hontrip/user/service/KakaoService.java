@@ -3,10 +3,7 @@ package com.multi.hontrip.user.service;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.multi.hontrip.user.dto.AgeRange;
-import com.multi.hontrip.user.dto.Gender;
-import com.multi.hontrip.user.dto.OauthTokenDTO;
-import com.multi.hontrip.user.dto.UserInsertDTO;
+import com.multi.hontrip.user.dto.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
@@ -119,7 +116,7 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
 
     @Override
     public String getLogOutUrl() {    //카카오 로그아웃 url 가져오기
-        return KAKAO_AUTH_URL + "/oauth/logout?client_id=" + KAKAO_CLIENT_ID + "&logout_redirect_uri=" + KAKAO_LOGOUT_REDIRECT_URI;
+        return KAKAO_AUTH_URL+"/oauth/logout?client_id="+KAKAO_CLIENT_ID+"&logout_redirect_uri="+KAKAO_LOGOUT_REDIRECT_URI;
     }
 
     @Override
@@ -129,12 +126,12 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
         //헤더 Object생성 - Content-type: application/x-www-form-urlencoded;charset=utf-8
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Content-Type", "application/x-www-form-urlencoded");
-        httpHeaders.add("Authorization", "KakaoAK " + KAKAO_ADMIN_KEY);
+        httpHeaders.add("Authorization", "KakaoAK "+KAKAO_ADMIN_KEY);
 
         //body Object생성
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        params.add("target_id_type", "user_id");
-        params.add("target_id", withdrawUserDTO.getSocialId());
+        params.add("target_id_type","user_id");
+        params.add("target_id",withdrawUserDTO.getSocialId());
 
         //헤더와 바디를 하나의 오브젝트에 담기
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<MultiValueMap<String, String>>(params, httpHeaders);
@@ -152,9 +149,9 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
         JsonElement element = parser.parse(response.getBody());
         Long socialId = element.getAsJsonObject().get("id").getAsLong();
 
-        if (socialId == Long.parseLong(withdrawUserDTO.getSocialId())) {
+        if(socialId == Long.parseLong(withdrawUserDTO.getSocialId())) {
             return "success";
-        } else {
+        }else{
             return "fail";
         }
     }

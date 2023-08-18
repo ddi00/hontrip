@@ -63,10 +63,10 @@ public class UserController {
     }
 
     @GetMapping("/{provider}/logout")
-    public String oauthLogout(@PathVariable("provider") String provider,
-                              HttpSession session) throws Exception {   //Oauth 로그아웃 callback 처리 - 카카오는 이미 로그아웃 됨
+    public String oauthLogout(@PathVariable("provider")String provider,
+                                 HttpSession session) throws Exception{   //Oauth 로그아웃 callback 처리 - 카카오는 이미 로그아웃 됨
         //DB에 accessToken지우기
-        Long userId = (Long) session.getAttribute("id");
+        Long userId = (Long)session.getAttribute("id");
         userService.logOut(userId);
 
         //세션 만료시키기
@@ -75,14 +75,14 @@ public class UserController {
     }
 
     @GetMapping("withdraw")
-    public String withdrawUser(HttpSession httpSession) {    //소셜 사용자 탈퇴 처리
-        WithdrawUserDTO withdrawUserDTO = WithdrawUserDTO.builder().id((Long) httpSession.getAttribute("id")).build();
+    public String withdrawUser(HttpSession httpSession){    //소셜 사용자 탈퇴 처리
+        WithdrawUserDTO withdrawUserDTO = WithdrawUserDTO.builder().id((Long)httpSession.getAttribute("id")).build();
         //사용자 소셜 아이디 가져오기
         withdrawUserDTO = userService.getSoicalIdbyId(withdrawUserDTO);
         //탈퇴 처리
         String result = userService.quiteSocial(withdrawUserDTO);
         //db 탈퇴 처리
-        if (result.equals("success")) {
+        if(result.equals("success")) {
             userService.removeUserId(withdrawUserDTO.getId());
         } else if (result.equals("fail")) {
             throw new RuntimeException("탈퇴를 실패했습니다");
