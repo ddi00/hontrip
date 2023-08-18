@@ -31,11 +31,11 @@ public class MateDAO {
     }
 
     public void mateBoardInsert(MateBoardInsertDTO mateBoardInsertDTO) {
-        my.insert("mateBbs.insert", mateBoardInsertDTO);
+        my.insert("mateBbs.mateBoardInsert", mateBoardInsertDTO);
     }
 
-    public MateBoardInsertDTO mateBoardSelectOne(long id) {
-        return my.selectOne("mateBbs.selectOne", id);
+    public MateBoardSelectOneDTO mateBoardSelectOne(long id) {
+        return my.selectOne("mateBbs.mateBoardSelectOne", id);
     }
 
     public int updateMateBoard(MateBoardInsertDTO mateBoardInsertDTO) {

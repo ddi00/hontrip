@@ -81,7 +81,7 @@ public class MateServiceImpl implements MateService {
 
 
     @Override
-    public MateBoardInsertDTO selectOne(long id) {
+    public MateBoardSelectOneDTO selectOne(long id) {
         return mateDAO.mateBoardSelectOne(id);
     }
 
@@ -109,6 +109,7 @@ public class MateServiceImpl implements MateService {
         return mateDAO.insertMatchingAlarm(mateMatchingAlarmDTO);
     }
 
+    //유저가 동행인 신청을 했는지 확인
     @Override
     public int checkApply(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
         return mateDAO.checkApply(mateMatchingAlarmDTO);

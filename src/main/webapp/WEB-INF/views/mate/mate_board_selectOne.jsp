@@ -1,6 +1,7 @@
 <%@ page import="com.multi.hontrip.mate.dto.MateBoardInsertDTO" %>
 <%@ page import="com.multi.hontrip.mate.dto.AgeRange" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="com.multi.hontrip.mate.dto.MateBoardSelectOneDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -15,23 +16,23 @@
         long userId = (long) session.getAttribute("id");
         request.setAttribute("login", userId);
     }*/
-    request.setAttribute("login", 1L);
+    request.setAttribute("login", 4L);
 %>
 <%
     /* c:forEach 에서 사용할 배열 -> ageRangeStr */
-    MateBoardInsertDTO mateBoardInsertDTO = (MateBoardInsertDTO) request.getAttribute("dto");
-    String createdDate = mateBoardInsertDTO.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
+    MateBoardSelectOneDTO mateBoardSelectOneDTO = (MateBoardSelectOneDTO) request.getAttribute("dto");
+    String createdDate = mateBoardSelectOneDTO.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
 
     request.setAttribute("createdDate", createdDate);
-    if (!mateBoardInsertDTO.getAgeRangeId().isEmpty()) {
-        String[] ageRangeStr = mateBoardInsertDTO.getAgeRangeId().split(",");
+    if (!mateBoardSelectOneDTO.getAgeRangeId().isEmpty()) {
+        String[] ageRangeStr = mateBoardSelectOneDTO.getAgeRangeId().split(",");
         for (int i = 0; i < ageRangeStr.length; i++) {
             ageRangeStr[i] = AgeRange.valueOf(Integer.parseInt(ageRangeStr[i]));
         }
         request.setAttribute("ageRangeStr", ageRangeStr);
 
         /* js에서 사용할 배열 문자열 -> ageRangeJS*/
-        String[] age = mateBoardInsertDTO.getAgeRangeId().split(",");
+        String[] age = mateBoardSelectOneDTO.getAgeRangeId().split(",");
         String ageRangeJS = "[";
         for (int i = 0; i < age.length; i++) {
             age[i] = AgeRange.valueOf(Integer.parseInt(age[i]));
@@ -56,12 +57,6 @@
 
     <title>Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-            integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
-            crossorigin="anonymous"></script>
     <style>
         /*body {
             width: 700px;
@@ -99,9 +94,6 @@
 
     </style>
     <script>
-
-        console.log(${ageRangeJS})
-
         let dtoData = {
             id: "${dto.id}",
             userId: "${dto.userId}",
@@ -156,14 +148,12 @@
             }
         }
 
-
         /*
                 function updateMateBoard() {
                     console.log("업데이트");
                     let queryParams = $.param(dtoData); // 데이터를 URL 파라미터 문자열로 변환
                     window.location.href = "edit?" + queryParams; // update 페이지로 이동
                 }*/
-
 
         /*삭제시 경고 모달*/
         function deleteMateBoard() {
@@ -217,8 +207,6 @@
 
         $(function () {
             let login = "${login}";
-            /*let applicationInProgress = false; // 플래그 추가*/
-
 
             //로그인 했고,
             if (login != "no") {
@@ -253,9 +241,9 @@
         <nav class="navbar navbar-expand-lg center-nav transparent navbar-light">
             <div class="container flex-lg-row flex-nowrap align-items-center">
                 <div class="navbar-brand w-100">
-                    <a href="./index.html">
+                    <%--<a href="./index.html">
                         <img src="./assets/img/logo.png" srcset="./assets/img/logo@2x.png 2x" alt=""/>
-                    </a>
+                    </a>--%>
                 </div>
                 <div class="navbar-collapse offcanvas offcanvas-nav offcanvas-start">
                     <div class="offcanvas-header d-lg-none">
@@ -608,19 +596,20 @@
 
                                             <article class="post">
                                                 <div class="post-footer d-md-flex flex-md-row justify-content-md-between align-items-center mt-8">
-                                                    <div>
+                                                    <div style="width: 700px;">
                                                         <div class="d-flex align-items-center">
+
                                                             <figure class="user-avatar"><img class="rounded-circle"
                                                                                              alt="유저 썸네일"
-                                                                                             src="./assets/img/avatars/u1.jpg"/>
+                                                                                             src="../resources/userImage/${dto.userProfileImage}"/>
                                                             </figure>
                                                             <div>
                                                                 <h6 class="comment-author"><a href="#"
-                                                                                              class="link-dark">유저
-                                                                    닉네임</a></h6>
+                                                                                              class="link-dark">${dto.userNickName}</a>
+                                                                </h6>
                                                                 <ul class="post-meta">
-                                                                    <li>유저 성별</li>
-                                                                    <li>유저 나이대</li>
+                                                                    <li>${dto.userGender.genderStr}</li>
+                                                                    <li>${dto.userAgeRange.ageRangeStr}</li>
                                                                 </ul>
 
                                                                 <!-- /.post-meta -->
@@ -652,19 +641,9 @@
 
                                                             모집인원 ${dto.recruitNumber}명
                                                         </div>
-                                                        <ul class="list-unstyled tag-list mb-0">
-                                                            <li class="btn btn-soft-ash btn-sm rounded-pill mb-0">원해요</li>
-                                                            <li class="btn btn-soft-ash btn-sm rounded-pill mb-0">
-                                                                #${dto.gender.genderStr}</li>
-                                                            <c:if test="${not empty ageRangeStr}">
-                                                                <c:forEach items="${ageRangeStr}" var="age">
-                                                                    <li class="btn btn-soft-ash btn-sm rounded-pill mb-0">
-                                                                        #${age}</li>
-                                                                </c:forEach>
-                                                            </c:if>
-                                                        </ul>
+
                                                     </div>
-                                                    <div class="mb-0 mb-md-2">
+                                                    <div class="mb-0 mb-md-16">
                                                         <div class="dropdown share-dropdown btn-group">
                                                             <c:if test="${dto.isFinish eq 0 && dto.userId ne login}">
                                                                 <%-- <button id="application"
@@ -679,12 +658,24 @@
                                                                 </button>
                                                             </c:if>
                                                             <c:if test="${dto.isFinish eq 1}">
-                                                                <a style="width:200px;" class="btn btn-secondary rounded-0">모집완료</a>
+                                                                <a style="width:200px;"
+                                                                   class="btn btn-secondary rounded-0">모집완료</a>
                                                             </c:if>
                                                         </div>
                                                         <!--/.share-dropdown -->
                                                     </div>
                                                 </div>
+                                                <ul class="list-unstyled tag-list mb-0">
+                                                    <li class="btn btn-soft-ash btn-sm rounded-pill mb-0">원해요</li>
+                                                    <li class="btn btn-soft-ash btn-sm rounded-pill mb-0">
+                                                        #${dto.gender.genderStr}</li>
+                                                    <c:if test="${not empty ageRangeStr}">
+                                                        <c:forEach items="${ageRangeStr}" var="age">
+                                                            <li class="btn btn-soft-ash btn-sm rounded-pill mb-0">
+                                                                #${age}</li>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </ul>
                                                 <!-- /.post-footer -->
                                                 <br>
                                                 <br>
@@ -704,13 +695,14 @@
                                         <!-- /.classic-view -->
 
                                         <!-- /.social -->
-                                        <div class="swiper-container blog grid-view mb-2" data-margin="30" data-dots="true"
+                                        <div class="swiper-container blog grid-view mb-2" data-margin="30"
+                                             data-dots="true"
                                              data-items-md="2" data-items-xs="1">
                                             <div class="swiper">
                                                 <div class="swiper-wrapper">
                                                     <div class="swiper-slide">
                                                         <article>
-                                                            <div class="post-footer">
+                                                            <div class="post-footer" style="width:600px;">
                                                                 <ul class="post-meta mb-0">
                                                                     <li class="post-date"><i
                                                                             class="uil uil-calendar-alt"></i><span>${createdDate}

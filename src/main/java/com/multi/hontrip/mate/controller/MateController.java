@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -89,25 +90,25 @@ public class MateController {
     @PostMapping("/insert")
     public String insert(@RequestParam("file") MultipartFile file,
                          MateBoardInsertDTO mateBoardInsertDTO,
-                         HttpServletRequest request
+                         HttpServletRequest request, RedirectAttributes redirectAttributes
     ) throws IOException {
         String savedFileName = file.getOriginalFilename();
         mateBoardInsertDTO.setThumbnail(savedFileName);
         String uploadPath = "D:\\hontrip\\src\\main\\webapp\\resources\\upload";
         File target = new File(uploadPath + "/" + savedFileName);
         file.transferTo(target);
-        System.out.println(mateBoardInsertDTO);
         mateService.insert(mateBoardInsertDTO);
-        return "redirect:/mate/" + mateBoardInsertDTO.getId();
+        redirectAttributes.addAttribute("id", mateBoardInsertDTO.getId());
+        return "redirect:/mate/{id}";
     }
 
 
     /* 동행인 상세 게시글  get 매핑*/
     @GetMapping("/{id}")
     public String selectOne(@PathVariable("id") long id, Model model) {
-        MateBoardInsertDTO mateBoardInsertDTO = mateService.selectOne(id);
-        System.out.println(mateBoardInsertDTO);
-        model.addAttribute("dto", mateBoardInsertDTO);
+        MateBoardSelectOneDTO mateBoardSelectOneDTO = mateService.selectOne(id);
+        System.out.println(mateBoardSelectOneDTO);
+        model.addAttribute("dto", mateBoardSelectOneDTO);
         return "/mate/mate_board_selectOne";
     }
 

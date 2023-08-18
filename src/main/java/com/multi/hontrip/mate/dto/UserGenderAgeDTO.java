@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class UserGenderAgeDTO {
-    private long id;
-    private AgeRange ageRange;
-    private Gender gender;
+    private long id;            //유저 아이디
+    private AgeRange ageRange;  //유저 연령대
+    private Gender gender;      //유저 성별
 
     public long getId() {
         return id;

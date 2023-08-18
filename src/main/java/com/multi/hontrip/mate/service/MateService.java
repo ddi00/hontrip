@@ -1,7 +1,6 @@
 package com.multi.hontrip.mate.service;
 
 import com.multi.hontrip.mate.dto.*;
-import com.multi.hontrip.mate.dto.PageDTO;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public interface MateService {
 
     public void insert(MateBoardInsertDTO mateBoardInsertDTO); //동행인 게시글 작성하기
 
-    public MateBoardInsertDTO selectOne(long id);    //동행인 상세게시글 가져오기
+    public MateBoardSelectOneDTO selectOne(long id);    //동행인 상세게시글 가져오기
 
     public int updateMateBoard(MateBoardInsertDTO mateBoardInsertDTO); //동행인 상세게시글 수정하기
 
