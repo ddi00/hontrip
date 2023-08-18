@@ -3,7 +3,7 @@ package com.multi.hontrip.mate.dao;
 import com.multi.hontrip.mate.dto.LocationDTO;
 import com.multi.hontrip.mate.dto.MateBoardInsertDTO;
 import com.multi.hontrip.mate.dto.MateBoardListDTO;
-import com.multi.hontrip.mate.dto.PageDTO;
+import com.multi.hontrip.mate.dto.MatePageDTO;
 import org.springframework.stereotype.Repository;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class MateDAO {
     @Autowired
     SqlSessionTemplate my;
 
-    public List<MateBoardListDTO> list(PageDTO pageDTO) {
+    public List<MateBoardListDTO> list(MatePageDTO pageDTO) {
 
         return my.selectList("mateBbs.list", pageDTO);
     }
@@ -24,7 +24,7 @@ public class MateDAO {
         return my.selectOne("mateBbs.one", mateBoardId);
     }
 
-    public int count(PageDTO pageDTO) {
+    public int count(MatePageDTO pageDTO) {
         return my.selectOne("mateBbs.count", pageDTO);
     }
 

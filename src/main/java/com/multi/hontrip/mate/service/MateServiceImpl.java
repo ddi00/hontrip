@@ -17,9 +17,9 @@ public class MateServiceImpl implements MateService{
     private MateCommentDAO mateCommentDAO;
 
     @Override
-    public List<MateBoardListDTO> list(PageDTO pageDTO) {
-        pageDTO.setStartEnd(pageDTO.getPage());
-        return mateDAO.list(pageDTO);
+    public List<MateBoardListDTO> list(MatePageDTO matePageDTO) {
+        matePageDTO.setStartEnd(matePageDTO.getPage());
+        return mateDAO.list(matePageDTO);
     }
 
     public MateBoardListDTO one(long mateBoardId){
@@ -37,25 +37,25 @@ public class MateServiceImpl implements MateService{
     }
 
     @Override
-    public PageDTO paging(PageDTO pageDTO){
+    public MatePageDTO paging(MatePageDTO matePageDTO){
         //게시물 개수 가져오기
-        int count = mateDAO.count(pageDTO);
-        pageDTO.setCount(count);
-        int currentPageNo = pageDTO.getPage();
+        int count = mateDAO.count(matePageDTO);
+        matePageDTO.setCount(count);
+        int currentPageNo = matePageDTO.getPage();
         //start, end지점 구하기
-        pageDTO.setStartEnd(currentPageNo);
+        matePageDTO.setStartEnd(currentPageNo);
         //페이징 마지막 숫자 구하기
-        pageDTO.setRealEndNo();
+        matePageDTO.setRealEndNo();
         //페이지 리스트의 첫 페이지 번호,마지막 페이지 번호 구하기
-        pageDTO.setFirstLast(currentPageNo);
+        matePageDTO.setFirstLast(currentPageNo);
         //다음 버튼 존재 여부 구하기
-        pageDTO.setNext();
+        matePageDTO.setNext();
         //이전 버튼 존재 여부 구하기
-        pageDTO.setPrev();
+        matePageDTO.setPrev();
         //1page당 5개의 게시물을 넣는 경우
         //페이지 수 게산
-        pageDTO.setPages(count);
-        return pageDTO;
+        matePageDTO.setPages(count);
+        return matePageDTO;
     }
 
     @Override
