@@ -19,7 +19,7 @@ public class AccommodationController {
     @Autowired
     AccommodationService accommodationService;
 
-    @RequestMapping("/accommodation_one") // 숙박시설 1개만 보기
+    @RequestMapping("/one") // 숙박시설 1개만 보기
     public void one(Long accommodationId, Model model) {
         AccommodationDTO plan = accommodationService.one(accommodationId);
         model.addAttribute("plan", plan);

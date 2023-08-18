@@ -4,6 +4,7 @@ import com.multi.hontrip.plan.dao.FlightDAO;
 import com.multi.hontrip.plan.dto.FlightDTO;
 import com.multi.hontrip.plan.dto.FlightSearchDTO;
 import com.multi.hontrip.plan.parser.Airport;
+import com.multi.hontrip.plan.parser.FlightParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
@@ -16,11 +17,28 @@ import java.util.List;
 @Service
 public class FlightService {
 
+    private FlightDAO flightDAO;
+    private FlightParser flightParser;
     @Autowired
-    FlightDAO flightDAO;
+    public FlightService(FlightDAO flightDAO, FlightParser flightParser){
+        this.flightDAO = flightDAO;
+        this.flightParser = flightParser;
+    }
 
     public void insert(FlightDTO dto) throws IOException, ParserConfigurationException, SAXException {
         flightDAO.insert(dto);
+    }
+
+    public void parseData(FlightSearchDTO flightSearchDTO) throws IOException, ParserConfigurationException, SAXException {
+        List<FlightDTO> flightList = list(flightSearchDTO);
+        System.out.println(flightList);
+        if (flightList.isEmpty()){
+            List<FlightDTO> list = flightParser.parseData(flightSearchDTO.getDepAirportName(), flightSearchDTO.getArrAirportName(), flightSearchDTO.getDepDate());
+            // DB 추가
+            for (FlightDTO flightDTO : list) {
+                flightDAO.insert(flightDTO);
+            }
+        }
     }
 
     public List<FlightDTO> list(FlightSearchDTO flightSearchDTO) {

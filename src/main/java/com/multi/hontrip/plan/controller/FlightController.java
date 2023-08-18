@@ -20,28 +20,26 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Controller
-@RequestMapping("/plan/flight")
+@RequestMapping("plan/flight")
 public class FlightController {
 
+    private final FlightService flightService;
     @Autowired
-    private FlightService flightService;
+    public FlightController(FlightService flightService) {
+        this.flightService = flightService;
+    }
 
     // 항공편 검색
-    @GetMapping("/search_form")
+    @GetMapping("search_form")
     public String showFlightSearchForm(@ModelAttribute("FlightSearchDTO") FlightSearchDTO flightSearchDTO) {
         return "/plan/flight/search_form"; // 항공편 검색 폼 반환
     }
 
     // 항공편 검색 목록
-    @PostMapping("/search")
+    @PostMapping("search")
     public String SearchFlight(@ModelAttribute("FlightSearchDTO") FlightSearchDTO flightSearchDTO, Model model)
             throws ParserConfigurationException, SAXException, IOException{
-        FlightParser flightParser = new FlightParser();
-        List<FlightDTO> list = flightParser.parsingData(flightSearchDTO.getDepAirportName(), flightSearchDTO.getArrAirportName(), flightSearchDTO.getDepDate());
-        // DB 추가
-        for (FlightDTO flightDTO : list) {
-            flightService.insert(flightDTO);
-        }
+        flightService.parseData(flightSearchDTO);
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy년 MM월 dd일");
         String departure_date = format.format(flightSearchDTO.getDepDate());
