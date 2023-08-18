@@ -152,7 +152,7 @@ $RECYCLE.BIN/
 target
 
 
-# login properties
+# user properties
 src/main/resources/properties/*
 
 

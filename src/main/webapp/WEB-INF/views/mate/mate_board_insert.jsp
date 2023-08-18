@@ -319,10 +319,13 @@
                                             <div class="wantCondition">
                                                 <span class="option">모집 조건 (성별)</span>
                                                 <c:forEach items="${Gender.values()}" var="gender">
-                                                    <input type="radio" id="${gender.genderStr}" value="${gender}"
-                                                           name="gender"
-                                                           checked><label
-                                                        for="${gender.genderStr}">${gender.genderStr}</label></input>
+
+                                                    <c:if test="${gender ne Gender.NONE}">
+                                                        <input type="radio" id="${gender.genderStr}" value="${gender}"
+                                                               name="gender"
+                                                               checked><label
+                                                            for="${gender.genderStr}">${gender.genderStr}</label></input>
+                                                    </c:if>
                                                 </c:forEach>
 
                                                 <span class="option2">모집 인원</span>
@@ -338,19 +341,21 @@
                                                 <br>
                                                 <span class="option">모집 조건 (연령대)</span>
                                                 <c:forEach items="${AgeRange.values()}" var="ageRange">
-                                                    <c:if test="${ageRange.ageRangeStr eq '전연령'}">
-                                                        <input type="checkbox" id="${ageRange}"
-                                                               value="${ageRange.ageRangeNum}"
-                                                               name="age"
-                                                               onclick="ageRangeChecked()" checked><label
-                                                            for="${ageRange}">${ageRange.ageRangeStr}</label></input>
-                                                    </c:if>
-                                                    <c:if test="${ageRange.ageRangeStr ne '전연령'}">
-                                                        <input type="checkbox" id="${ageRange}"
-                                                               value="${ageRange.ageRangeNum}"
-                                                               name="age"
-                                                               onclick="ageRangeChecked()"><label
-                                                            for="${ageRange}">${ageRange.ageRangeStr}</label></input>
+                                                    <c:if test="${ageRange ne AgeRange.AGE_UNKNOWN}">
+                                                        <c:if test="${ageRange.ageRangeStr eq '전연령'}">
+                                                            <input type="checkbox" id="${ageRange}"
+                                                                   value="${ageRange.ageRangeNum}"
+                                                                   name="age"
+                                                                   onclick="ageRangeChecked()" checked><label
+                                                                for="${ageRange}">${ageRange.ageRangeStr}</label></input>
+                                                        </c:if>
+                                                        <c:if test="${ageRange.ageRangeStr ne '전연령'}">
+                                                            <input type="checkbox" id="${ageRange}"
+                                                                   value="${ageRange.ageRangeNum}"
+                                                                   name="age"
+                                                                   onclick="ageRangeChecked()"><label
+                                                                for="${ageRange}">${ageRange.ageRangeStr}</label></input>
+                                                        </c:if>
                                                     </c:if>
                                                 </c:forEach>
                                             </div>

@@ -424,17 +424,20 @@
 
                                     <div class="genderRecruitNum">
                                         <span class="option">모집 조건 (성별)</span>
+
                                         <c:forEach items="${Gender.values()}" var="gender">
-                                            <c:if test="${dto.gender eq  gender}">
-                                                <input type="radio" id="${gender.genderStr}" value="${gender}"
-                                                       name="genders" onclick="genderChecked()"
-                                                       checked><label
-                                                    for="${gender.genderStr}">${gender.genderStr}</label></input>
-                                            </c:if>
-                                            <c:if test="${dto.gender ne  gender}">
-                                                <input type="radio" id="${gender.genderStr}" value="${gender}"
-                                                       onclick="genderChecked()" name="genders"><label
-                                                    for="${gender.genderStr}">${gender.genderStr}</label></input>
+                                            <c:if test="${gender ne Gender.NONE}">
+                                                <c:if test="${dto.gender eq  gender}">
+                                                    <input type="radio" id="${gender.genderStr}" value="${gender}"
+                                                           name="genders" onclick="genderChecked()"
+                                                           checked><label
+                                                        for="${gender.genderStr}">${gender.genderStr}</label></input>
+                                                </c:if>
+                                                <c:if test="${dto.gender ne  gender}">
+                                                    <input type="radio" id="${gender.genderStr}" value="${gender}"
+                                                           onclick="genderChecked()" name="genders"><label
+                                                        for="${gender.genderStr}">${gender.genderStr}</label></input>
+                                                </c:if>
                                             </c:if>
                                         </c:forEach>
                                         <input hidden id="gender" name="gender">
@@ -455,11 +458,13 @@
                                     <div class="wantAgeRange">
                                         <span class="option">모집 조건 (연령대)</span>
                                         <c:forEach items="${AgeRange.values()}" var="ageRange">
-                                            F <input type="checkbox" id="${ageRange.ageRangeNum}"
-                                                     value="${ageRange.ageRangeNum}"
-                                                     name="age"
-                                                     onclick="ageRangeChecked()"><label
-                                                for="${ageRange.ageRangeNum}">${ageRange.ageRangeStr}</label></input>
+                                            <c:if test="${ageRange ne AgeRange.AGE_UNKNOWN}">
+                                                <input type="checkbox" id="${ageRange.ageRangeNum}"
+                                                       value="${ageRange.ageRangeNum}"
+                                                       name="age"
+                                                       onclick="ageRangeChecked()"><label
+                                                    for="${ageRange.ageRangeNum}">${ageRange.ageRangeStr}</label></input>
+                                            </c:if>
                                         </c:forEach>
                                     </div>
 
@@ -507,7 +512,7 @@
                                                value="${dto.title}" style="height:40px;"
                                                required>
                                         <textarea class="form-input" id="content" name="content"
-                                                  rows="8" style="resize: none;  height:200px;"
+                                                  rows="8" style="resize: none; height:200px;"
                                                   required>${dto.content}</textarea>
                                     </div>
 

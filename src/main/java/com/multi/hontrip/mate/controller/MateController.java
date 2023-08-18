@@ -79,12 +79,13 @@ public class MateController {
         return map;
     }
 
-    /* 동행인게시판 글 작성 get, post 매핑*/
+    /* 동행인게시판 글 작성 get 매핑*/
     @GetMapping("/insert")
     public String insert() {
         return "/mate/mate_board_insert";
     }
 
+    /* 동행인게시판 글 작성 post 매핑*/
     @PostMapping("/insert")
     public String insert(@RequestParam("file") MultipartFile file,
                          MateBoardInsertDTO mateBoardInsertDTO,
@@ -129,7 +130,7 @@ public class MateController {
         return mateService.deleteMateBoard(id);
     }
 
-    @PostMapping("/editpg")
+    @PostMapping("/editpage")
     public String updateMateBoard(MateBoardInsertDTO mateBoardInsertDTO, Model model) {
         model.addAttribute("dto", mateBoardInsertDTO);
         return "/mate/mate_board_update";

@@ -25,29 +25,29 @@ public class AgeRangeTypeHandler implements TypeHandler<AgeRange> {
     private AgeRange getAgeRangeNumber(int ageRangeNumber) {
         AgeRange ageRange = null;
         switch (ageRangeNumber) {
-            case 0:
+            case 9:
                 ageRange = AgeRange.ALLAGE;
                 break;
-            case 1:
+            case 3:
                 ageRange = AgeRange.TEENAGER;
                 break;
-            case 2:
+            case 4:
                 ageRange = AgeRange.TWENTIES;
                 break;
-            case 3:
+            case 5:
                 ageRange = AgeRange.THIRTIES;
                 break;
-            case 4:
+            case 6:
                 ageRange = AgeRange.FORTIES;
                 break;
-            case 5:
+            case 7:
                 ageRange = AgeRange.FIFTIES;
                 break;
-            case 6:
+            case 8:
                 ageRange = AgeRange.SIXTIES;
                 break;
-            case 7:
-                ageRange = AgeRange.SEVENTIES;
+            case 1:
+                ageRange = AgeRange.AGE_UNKNOWN;
                 break;
         }
         return ageRange;

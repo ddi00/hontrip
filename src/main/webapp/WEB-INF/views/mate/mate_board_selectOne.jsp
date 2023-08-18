@@ -15,7 +15,7 @@
         long userId = (long) session.getAttribute("id");
         request.setAttribute("login", userId);
     }*/
-    request.setAttribute("login", 3L);
+    request.setAttribute("login", 1L);
 %>
 <%
     /* c:forEach 에서 사용할 배열 -> ageRangeStr */
@@ -139,8 +139,8 @@
                         //모집조건에 부합하다면
                         //성별, 연령대 아무나 처리
 
-                        if (json.id === ${login} && (json.gender === "${dto.gender.genderStr}" || "${dto.gender.genderStr}" == "성별무관")
-                            && (ageRangeStrArr.includes(json.ageRange.ageRangeStr) || ageRangeStrArr.includes("전연령") || ageRangeStrArr.length == 0)) {
+                        if (json.id === ${login} && (json.gender === "${dto.gender.genderStr}" || "${dto.gender.genderStr}" == "성별무관" || json.gender == "NONE")
+                            && (ageRangeStrArr.includes(json.ageRange.ageRangeStr) || ageRangeStrArr.includes("전연령") || ageRangeStrArr.length == 0 || json.ageRange == "AGE_UNKNOWN")) {
                             console.log(json.ageRange.ageRangeStr)
                             $("#ableButton").click();
 
@@ -167,6 +167,11 @@
 
         /*삭제시 경고 모달*/
         function deleteMateBoard() {
+            $('#deleteButton').click();
+        }
+
+        /* 모달에서 삭제버튼을 눌렀을때 */
+        function deleteAccept() {
             $.ajax({
                 method: 'DELETE',
                 url: "delete/${dto.id}",
@@ -175,7 +180,7 @@
                 },
                 success: function (result) {
                     if (result == 1) {
-                        location.href = "bbs_list"
+                        location.href = "../mate/bbs_list?page=1"
                     }
                 }, error: function (e) {
                     console.log(e)
@@ -438,10 +443,9 @@
 
                                                 <div class="modal-footer mb-0">
                                                     <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close
+                                                            data-bs-dismiss="modal">취소
                                                     </button>
-                                                    <button type="button" class="btn btn-primary" onclick="send()">Send
-                                                        message
+                                                    <button type="button" class="btn btn-primary" onclick="send()">전송
                                                     </button>
                                                 </div>
                                             </div>
@@ -464,395 +468,482 @@
         <!--/.modal -->
 
 
-        <button hidden id="unableButton" class="btn btn-primary rounded-pill mx-1 mb-2 mb-md-0" data-bs-toggle="modal"
-                data-bs-target="#unableApply">신청불가
+        <button hidden id="deleteButton" class="btn btn-primary rounded-pill mx-1 mb-2 mb-md-0" data-bs-toggle="modal"
+                data-bs-target="#deleteBoard"> 삭제
         </button>
 
-        <div class="modal fade" tabindex="-1" id="unableApply">
-            <div class="modal-dialog modal-dialog-centered modal-sm">
-                <div class="modal-content text-center">
-                    <div class="modal-body">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <h2 class="mb-3 text-start" style="text-align: center;">동행인 신청 불가</h2>
-                        <p class="lead mb-6 text-start">모집조건에 맞지 않습니다.</p>
-                        <!--/.social -->
+        <section class="wrapper bg-light">
+            <div class="modal fade" tabindex="-1" id="deleteBoard">
+                <div class="modal-dialog modal-dialog-centered modal-md">
+                    <div class="modal-content text-center">
+                        <div class="modal-body">
+                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <div class="row">
+                                <!-- /column -->
+                            </div>
+                            <!-- /.row -->
+                            <div class="newsletter-wrapper">
+                                <div class="row">
+                                    <div class="col-md-10 offset-md-1">
+                                        <!-- Begin Mailchimp Signup Form -->
+                                        <div>
+                                            <form action="https://elemisfreebies.us20.list-manage.com/subscribe/post?u=aa4947f70a475ce162057838d&amp;id=b49ef47a9a"
+                                                  method="post"
+                                                  name="mc-embedded-subscribe-form" class="validate" target="_blank"
+                                                  novalidate>
+                                                <div>
+                                                    <div class="mc-field-group input-group form-floating">
+                                                        삭제시 되돌릴 수 없습니다.
+                                                        삭제하시겠습니까?
+                                                    </div>
+                                                    <%-- <div  class="clear">
+                                                         <div class="response"
+                                                              style="display:none"></div>
+                                                         <div class="response"
+                                                              style="display:none"></div>
+                                                     </div>--%>
+                                                    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                                    <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                                                        <input type="text" name="b_ddc180777a163e0f9f66ee014_4b1bcfa0bc"
+                                                               tabindex="-1" value=""></div>
+
+                                                    <br>
+                                                    <div>
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">취소
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary"
+                                                                onclick="deleteAccept()">삭제
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!--End mc_embed_signup-->
+                                    </div>
+                                    <!-- /.newsletter-wrapper -->
+                                </div>
+                                <!-- /column -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!--/.modal-body -->
                     </div>
                     <!--/.modal-content -->
                 </div>
-                <!--/.modal-body -->
+                <!--/.modal-dialog -->
             </div>
-            <!--/.modal-dialog -->
-        </div>
-        <!--/.modal -->
+            <!--/.modal -->
 
 
-        <%--<div class="modal no">
-            <div class="modal_content"
-                 title="클릭하면 창이 닫힙니다.">
-                모집 조건에 맞지 않습니다.
+            <button hidden id="unableButton" class="btn btn-primary rounded-pill mx-1 mb-2 mb-md-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#unableApply">신청불가
+            </button>
+
+            <div class="modal fade" tabindex="-1" id="unableApply">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content text-center">
+                        <div class="modal-body">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h2 class="mb-3 text-start" style="text-align: center;">동행인 신청 불가</h2>
+                            <p class="lead mb-6 text-start">모집조건에 맞지 않습니다.</p>
+                            <!--/.social -->
+                        </div>
+                        <!--/.modal-content -->
+                    </div>
+                    <!--/.modal-body -->
+                </div>
+                <!--/.modal-dialog -->
             </div>
-        </div>
+            <!--/.modal -->
 
-        <div class="modal yes">
-            <div class="modal_content"
-                 title="클릭하면 창이 닫힙니다.">
-                동행 신청 메세지<br>
-                <textarea id="applicationMessage"
-                          placeholder="같이 여행가요"
-                          cols="50" rows="5"
-                          style="resize: none;"></textarea><br>
-                <button onclick="cancel()" id="cancel">취소</button>
-                <button onclick="send()" id="send">전송</button>
+
+            <%--<div class="modal no">
+                <div class="modal_content"
+                     title="클릭하면 창이 닫힙니다.">
+                    모집 조건에 맞지 않습니다.
+                </div>
             </div>
-        </div>--%>
-        <form action="ed" method="post">
-            <div class="container pb-12 pb-md-16">
-                <div class="row">
-                    <div class="col-lg-10 mx-auto">
-                        <div class="blog single mt-n15">
-                            <div class="card">
 
-                                <figure class="card-img-top"><img src="../resources/upload/${dto.thumbnail}"
-                                                                  alt="여행지 사진"/>
-                                </figure>
-                                <div class="card-body" style="padding-top: 0;">
-                                    <div class="classic-view">
+            <div class="modal yes">
+                <div class="modal_content"
+                     title="클릭하면 창이 닫힙니다.">
+                    동행 신청 메세지<br>
+                    <textarea id="applicationMessage"
+                              placeholder="같이 여행가요"
+                              cols="50" rows="5"
+                              style="resize: none;"></textarea><br>
+                    <button onclick="cancel()" id="cancel">취소</button>
+                    <button onclick="send()" id="send">전송</button>
+                </div>
+            </div>--%>
+            <form action="editpage" method="post">
+                <div class="container pb-12 pb-md-16">
+                    <div class="row">
+                        <div class="col-lg-10 mx-auto">
+                            <div class="blog single mt-n15">
+                                <div class="card">
 
-
-                                        <input hidden name="id" value=${dto.id}>
-                                        <input hidden name="userId" value=${dto.userId}>
-                                        <input hidden name="title" value="${dto.title}">
-                                        <input hidden name="content" value="${dto.content}">
-                                        <input hidden name="thumbnail" value="${dto.thumbnail}">
-                                        <input hidden name="startDate" value="${dto.startDate}">
-                                        <input hidden name="endDate" value="${dto.endDate}">
-                                        <input hidden name="isFinish" value="${dto.isFinish}">
-                                        <input hidden name="gender" value="${dto.gender}">
-                                        <input hidden name="recruitNumber" value="${dto.recruitNumber}">
-                                        <input hidden name="regionId" value="${dto.regionId}">
-                                        <%--     <input hidden name="createdAt" value=${dto.createdAt}>--%>
-                                        <input hidden name="ageRangeId" value=${dto.ageRangeId}>
-
-                                        <article class="post">
-                                            <div class="post-footer d-md-flex flex-md-row justify-content-md-between align-items-center mt-8">
-                                                <div>
-
-                                                    <h4 class="h3 mb-3">${dto.title}</h4>
-
-                                                    <div class="mb-3">
-                                                        <i
-                                                                class="uil uil-calendar-alt"></i>
-                                                        <fmt:parseDate value="${dto.startDate}" var="dateValue"
-                                                                       pattern="yyyy-MM-dd"/>
-                                                        <fmt:formatDate value="${dateValue}" pattern="MM/dd"/> -
-                                                        <fmt:parseDate value="${dto.endDate}"
-                                                                       var="dateValue"
-                                                                       pattern="yyyy-MM-dd"/>
-                                                        <fmt:formatDate value="${dateValue}" pattern="MM/dd"/></li>
-
-                                                        <span style="margin-right: 10px;"></span>
+                                    <figure class="card-img-top"><img src="../resources/upload/${dto.thumbnail}"
+                                                                      alt="여행지 사진"/>
+                                    </figure>
+                                    <div class="card-body" style="padding-top: 0;">
+                                        <div class="classic-view">
 
 
-                                                        <i class="uil uil-location-pin-alt"></i>
-                                                        ${dto.regionId.regionStr}
-                                                        </li>
+                                            <input hidden name="id" value=${dto.id}>
+                                            <input hidden name="userId" value=${dto.userId}>
+                                            <input hidden name="title" value="${dto.title}">
+                                            <input hidden name="content" value="${dto.content}">
+                                            <input hidden name="thumbnail" value="${dto.thumbnail}">
+                                            <input hidden name="startDate" value="${dto.startDate}">
+                                            <input hidden name="endDate" value="${dto.endDate}">
+                                            <input hidden name="isFinish" value="${dto.isFinish}">
+                                            <input hidden name="gender" value="${dto.gender}">
+                                            <input hidden name="recruitNumber" value="${dto.recruitNumber}">
+                                            <input hidden name="regionId" value="${dto.regionId}">
+                                            <%--     <input hidden name="createdAt" value=${dto.createdAt}>--%>
+                                            <input hidden name="ageRangeId" value=${dto.ageRangeId}>
 
-                                                        <span style="margin-right: 10px;"></span>
+                                            <article class="post">
+                                                <div class="post-footer d-md-flex flex-md-row justify-content-md-between align-items-center mt-8">
+                                                    <div>
+                                                        <div class="d-flex align-items-center">
+                                                            <figure class="user-avatar"><img class="rounded-circle"
+                                                                                             alt="유저 썸네일"
+                                                                                             src="./assets/img/avatars/u1.jpg"/>
+                                                            </figure>
+                                                            <div>
+                                                                <h6 class="comment-author"><a href="#"
+                                                                                              class="link-dark">유저
+                                                                    닉네임</a></h6>
+                                                                <ul class="post-meta">
+                                                                    <li>유저 성별</li>
+                                                                    <li>유저 나이대</li>
+                                                                </ul>
 
-                                                        모집인원 ${dto.recruitNumber}명
-                                                    </div>
-                                                    <ul class="list-unstyled tag-list mb-0">
-                                                        <li class="btn btn-soft-ash btn-sm rounded-pill mb-0">원해요</li>
-                                                        <li class="btn btn-soft-ash btn-sm rounded-pill mb-0">
-                                                            #${dto.gender.genderStr}</li>
-                                                        <c:if test="${not empty ageRangeStr}">
-                                                            <c:forEach items="${ageRangeStr}" var="age">
-                                                                <li class="btn btn-soft-ash btn-sm rounded-pill mb-0">
-                                                                    #${age}</li>
-                                                            </c:forEach>
-                                                        </c:if>
-                                                    </ul>
-                                                </div>
-                                                <div class="mb-0 mb-md-2">
-                                                    <div class="dropdown share-dropdown btn-group">
-                                                        <c:if test="${dto.isFinish eq 0 && dto.userId ne login}">
-                                                            <%-- <button id="application"
-                                                                     class="btn btn-sm btn-red rounded-pill btn-icon btn-icon-start dropdown-toggle mb-0 me-0"
-                                                                     data-bs-toggle="dropdown" aria-haspopup="true"
-                                                                     aria-expanded="false">
-
-                                                             </button>--%>
-                                                            <button type="button" id="application" onclick="applyMate()"
-                                                                    class="btn btn-danger rounded-0"
-                                                                    style="width:200px;">동행인 신청하기
-                                                            </button>
-                                                        </c:if>
-                                                        <c:if test="${dto.isFinish eq 1}">
-                                                            <a style="width:200px;" class="btn btn-secondary rounded-0">모집완료</a>
-                                                        </c:if>
-                                                    </div>
-                                                    <!--/.share-dropdown -->
-                                                </div>
-                                            </div>
-                                            <!-- /.post-footer -->
-                                            <br>
-                                            <br>
-                                            <div class="post-content mb-5">
-
-                                                <p>${dto.content}</p>
-                                                <!-- /.row -->
-                                            </div>
-                                            <!-- /.post-content -->
-                                        </article>
-
-
-                                        <br>
-
-
-                                    </div>
-                                    <!-- /.classic-view -->
-
-                                    <!-- /.social -->
-                                    <div class="swiper-container blog grid-view mb-2" data-margin="30" data-dots="true"
-                                         data-items-md="2" data-items-xs="1">
-                                        <div class="swiper">
-                                            <div class="swiper-wrapper">
-                                                <div class="swiper-slide">
-                                                    <article>
-                                                        <div class="post-footer">
-                                                            <ul class="post-meta mb-0">
-                                                                <li class="post-date"><i
-                                                                        class="uil uil-calendar-alt"></i><span>${createdDate}
-                                                                </span>
-                                                                </li>
-                                                                <li class="post-comments"><i
-                                                                        class="uil uil-eye"></i>조회수
-                                                                </li>
-                                                                <li class="post-comments"><i
-                                                                        class="uil uil-comment"></i>댓글개수
-                                                                </li>
-                                                                <c:if test="${dto.userId eq login}">
-
-                                                                    <button
-                                                                            id="edit" type="submit" style="border: 0;
-                                                                        background-color: transparent; margin-left: 5px; color:#b5b5b5;">
-                                                                        수정
-                                                                    </button>
-
-                                                                    <button id="delete"
-                                                                            onclick="deleteMateBoard()"
-                                                                            style="border: 0; background-color: transparent;
-                                                                         color:#b5b5b5;">삭제
-                                                                    </button>
-                                                                </c:if>
-                                                            </ul>
-                                                            <!-- /.post-meta -->
-
-
+                                                                <!-- /.post-meta -->
+                                                            </div>
+                                                            <!-- /div -->
                                                         </div>
-                                                        <!-- /.post-footer -->
-                                                    </article>
-                                                    <!-- /article -->
+                                                        <br>
+
+                                                        <h3 class="h3 mb-5">${dto.title}</h3>
+                                                        <div class="mb-3">
+                                                            <i
+                                                                    class="uil uil-calendar-alt"></i>
+                                                            <fmt:parseDate value="${dto.startDate}" var="dateValue"
+                                                                           pattern="yyyy-MM-dd"/>
+                                                            <fmt:formatDate value="${dateValue}" pattern="MM/dd"/> -
+                                                            <fmt:parseDate value="${dto.endDate}"
+                                                                           var="dateValue"
+                                                                           pattern="yyyy-MM-dd"/>
+                                                            <fmt:formatDate value="${dateValue}" pattern="MM/dd"/></li>
+
+                                                            <span style="margin-right: 10px;"></span>
+
+
+                                                            <i class="uil uil-location-pin-alt"></i>
+                                                            ${dto.regionId.regionStr}
+                                                            </li>
+
+                                                            <span style="margin-right: 10px;"></span>
+
+                                                            모집인원 ${dto.recruitNumber}명
+                                                        </div>
+                                                        <ul class="list-unstyled tag-list mb-0">
+                                                            <li class="btn btn-soft-ash btn-sm rounded-pill mb-0">원해요</li>
+                                                            <li class="btn btn-soft-ash btn-sm rounded-pill mb-0">
+                                                                #${dto.gender.genderStr}</li>
+                                                            <c:if test="${not empty ageRangeStr}">
+                                                                <c:forEach items="${ageRangeStr}" var="age">
+                                                                    <li class="btn btn-soft-ash btn-sm rounded-pill mb-0">
+                                                                        #${age}</li>
+                                                                </c:forEach>
+                                                            </c:if>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="mb-0 mb-md-2">
+                                                        <div class="dropdown share-dropdown btn-group">
+                                                            <c:if test="${dto.isFinish eq 0 && dto.userId ne login}">
+                                                                <%-- <button id="application"
+                                                                         class="btn btn-sm btn-red rounded-pill btn-icon btn-icon-start dropdown-toggle mb-0 me-0"
+                                                                         data-bs-toggle="dropdown" aria-haspopup="true"
+                                                                         aria-expanded="false">
+
+                                                                 </button>--%>
+                                                                <button type="button" id="application" onclick="applyMate()"
+                                                                        class="btn btn-danger rounded-0"
+                                                                        style="width:200px;">동행인 신청하기
+                                                                </button>
+                                                            </c:if>
+                                                            <c:if test="${dto.isFinish eq 1}">
+                                                                <a style="width:200px;" class="btn btn-secondary rounded-0">모집완료</a>
+                                                            </c:if>
+                                                        </div>
+                                                        <!--/.share-dropdown -->
+                                                    </div>
                                                 </div>
-                                                <!--/.swiper-slide -->
-                                            </div>
-                                            <!--/.swiper-wrapper -->
+                                                <!-- /.post-footer -->
+                                                <br>
+                                                <br>
+                                                <div class="post-content mb-5">
+
+                                                    <p>${dto.content}</p>
+                                                    <!-- /.row -->
+                                                </div>
+                                                <!-- /.post-content -->
+                                            </article>
+
+
+                                            <br>
+
+
                                         </div>
-                                        <!-- /.swiper -->
-                                    </div>
-                                    <!-- /.swiper-container -->
-                                    <hr>
-                                    <div id="comments">
-                                        <h3 class="mb-6">5 Comments</h3>
-                                        <ol id="singlecomments" class="commentlist">
-                                            <li class="comment">
-                                                <div class="comment-header d-md-flex align-items-center">
-                                                    <div class="d-flex align-items-center">
-                                                        <figure class="user-avatar"><img class="rounded-circle" alt=""
-                                                                                         src="./assets/img/avatars/u1.jpg"/>
-                                                        </figure>
-                                                        <div>
-                                                            <h6 class="comment-author"><a href="#" class="link-dark">Connor
-                                                                Gibson</a></h6>
-                                                            <ul class="post-meta">
-                                                                <li><i class="uil uil-calendar-alt"></i>14 Jan 2022</li>
-                                                            </ul>
-                                                            <!-- /.post-meta -->
+                                        <!-- /.classic-view -->
+
+                                        <!-- /.social -->
+                                        <div class="swiper-container blog grid-view mb-2" data-margin="30" data-dots="true"
+                                             data-items-md="2" data-items-xs="1">
+                                            <div class="swiper">
+                                                <div class="swiper-wrapper">
+                                                    <div class="swiper-slide">
+                                                        <article>
+                                                            <div class="post-footer">
+                                                                <ul class="post-meta mb-0">
+                                                                    <li class="post-date"><i
+                                                                            class="uil uil-calendar-alt"></i><span>${createdDate}
+                                                                    </span>
+                                                                    </li>
+                                                                    <li class="post-comments"><i
+                                                                            class="uil uil-eye"></i>조회수
+                                                                    </li>
+                                                                    <li class="post-comments"><i
+                                                                            class="uil uil-comment"></i>댓글개수
+                                                                    </li>
+                                                                    <c:if test="${dto.userId eq login}">
+
+                                                                        <button
+                                                                                id="edit" type="submit" style="border: 0;
+                                                                        background-color: transparent; margin-left: 5px; color:#b5b5b5;">
+                                                                            수정
+                                                                        </button>
+
+                                                                        <button type="button" id="delete"
+                                                                                onclick="deleteMateBoard()"
+                                                                                style="border: 0; background-color: transparent;
+                                                                         color:#b5b5b5;">삭제
+                                                                        </button>
+                                                                    </c:if>
+                                                                </ul>
+                                                                <!-- /.post-meta -->
+
+
+                                                            </div>
+                                                            <!-- /.post-footer -->
+                                                        </article>
+                                                        <!-- /article -->
+                                                    </div>
+                                                    <!--/.swiper-slide -->
+                                                </div>
+                                                <!--/.swiper-wrapper -->
+                                            </div>
+                                            <!-- /.swiper -->
+                                        </div>
+                                        <!-- /.swiper-container -->
+                                        <hr>
+                                        <div id="comments">
+                                            <h3 class="mb-6">5 Comments</h3>
+                                            <ol id="singlecomments" class="commentlist">
+                                                <li class="comment">
+                                                    <div class="comment-header d-md-flex align-items-center">
+                                                        <div class="d-flex align-items-center">
+                                                            <figure class="user-avatar"><img class="rounded-circle" alt=""
+                                                                                             src="./assets/img/avatars/u1.jpg"/>
+                                                            </figure>
+                                                            <div>
+                                                                <h6 class="comment-author"><a href="#" class="link-dark">Connor
+                                                                    Gibson</a></h6>
+                                                                <ul class="post-meta">
+                                                                    <li><i class="uil uil-calendar-alt"></i>14 Jan 2022</li>
+                                                                </ul>
+                                                                <!-- /.post-meta -->
+                                                            </div>
+                                                            <!-- /div -->
+                                                        </div>
+                                                        <!-- /div -->
+                                                        <div class="mt-3 mt-md-0 ms-auto">
+                                                            <a href="#"
+                                                               class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
+                                                                    class="uil uil-comments"></i> Reply</a>
                                                         </div>
                                                         <!-- /div -->
                                                     </div>
-                                                    <!-- /div -->
-                                                    <div class="mt-3 mt-md-0 ms-auto">
-                                                        <a href="#"
-                                                           class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                                                class="uil uil-comments"></i> Reply</a>
-                                                    </div>
-                                                    <!-- /div -->
-                                                </div>
-                                                <!-- /.comment-header -->
-                                                <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis
-                                                    vestibulum. Duis mollis, est non commodo luctus, nisi erat porttitor
-                                                    ligula, eget lacinia odio sem nec elit. Sed posuere consectetur est
-                                                    at
-                                                    lobortis integer posuere erat ante.</p>
-                                            </li>
-                                            <li class="comment">
-                                                <div class="comment-header d-md-flex align-items-center">
-                                                    <div class="d-flex align-items-center">
-                                                        <figure class="user-avatar"><img class="rounded-circle" alt=""
-                                                                                         src="./assets/img/avatars/u2.jpg"/>
-                                                        </figure>
-                                                        <div>
-                                                            <h6 class="comment-author"><a href="#" class="link-dark">Nikolas
-                                                                Brooten</a></h6>
-                                                            <ul class="post-meta">
-                                                                <li><i class="uil uil-calendar-alt"></i>21 Feb 2022</li>
-                                                            </ul>
-                                                            <!-- /.post-meta -->
+                                                    <!-- /.comment-header -->
+                                                    <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis
+                                                        vestibulum. Duis mollis, est non commodo luctus, nisi erat porttitor
+                                                        ligula, eget lacinia odio sem nec elit. Sed posuere consectetur est
+                                                        at
+                                                        lobortis integer posuere erat ante.</p>
+                                                </li>
+                                                <li class="comment">
+                                                    <div class="comment-header d-md-flex align-items-center">
+                                                        <div class="d-flex align-items-center">
+                                                            <figure class="user-avatar"><img class="rounded-circle" alt=""
+                                                                                             src="./assets/img/avatars/u2.jpg"/>
+                                                            </figure>
+                                                            <div>
+                                                                <h6 class="comment-author"><a href="#" class="link-dark">Nikolas
+                                                                    Brooten</a></h6>
+                                                                <ul class="post-meta">
+                                                                    <li><i class="uil uil-calendar-alt"></i>21 Feb 2022</li>
+                                                                </ul>
+                                                                <!-- /.post-meta -->
+                                                            </div>
+                                                            <!-- /div -->
+                                                        </div>
+                                                        <!-- /div -->
+                                                        <div class="mt-3 mt-md-0 ms-auto">
+                                                            <a href="#"
+                                                               class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
+                                                                    class="uil uil-comments"></i> Reply</a>
                                                         </div>
                                                         <!-- /div -->
                                                     </div>
-                                                    <!-- /div -->
-                                                    <div class="mt-3 mt-md-0 ms-auto">
-                                                        <a href="#"
-                                                           class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                                                class="uil uil-comments"></i> Reply</a>
-                                                    </div>
-                                                    <!-- /div -->
-                                                </div>
-                                                <!-- /.comment-header -->
-                                                <p>Quisque tristique tincidunt metus non aliquam. Quisque ac risus sit
-                                                    amet
-                                                    quam sollicitudin vestibulum vitae malesuada libero. Mauris magna
-                                                    elit,
-                                                    suscipit non ornare et, blandit a tellus. Pellentesque dignissim
-                                                    ornare
-                                                    faucibus mollis.</p>
-                                                <ul class="children">
-                                                    <li class="comment">
-                                                        <div class="comment-header d-md-flex align-items-center">
-                                                            <div class="d-flex align-items-center">
-                                                                <figure class="user-avatar"><img class="rounded-circle"
-                                                                                                 alt=""
-                                                                                                 src="./assets/img/avatars/u3.jpg"/>
-                                                                </figure>
-                                                                <div>
-                                                                    <h6 class="comment-author"><a href="#"
-                                                                                                  class="link-dark">Pearce
-                                                                        Frye</a></h6>
-                                                                    <ul class="post-meta">
-                                                                        <li><i class="uil uil-calendar-alt"></i>22 Feb
-                                                                            2022
-                                                                        </li>
-                                                                    </ul>
-                                                                    <!-- /.post-meta -->
+                                                    <!-- /.comment-header -->
+                                                    <p>Quisque tristique tincidunt metus non aliquam. Quisque ac risus sit
+                                                        amet
+                                                        quam sollicitudin vestibulum vitae malesuada libero. Mauris magna
+                                                        elit,
+                                                        suscipit non ornare et, blandit a tellus. Pellentesque dignissim
+                                                        ornare
+                                                        faucibus mollis.</p>
+                                                    <ul class="children">
+                                                        <li class="comment">
+                                                            <div class="comment-header d-md-flex align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <figure class="user-avatar"><img class="rounded-circle"
+                                                                                                     alt=""
+                                                                                                     src="./assets/img/avatars/u3.jpg"/>
+                                                                    </figure>
+                                                                    <div>
+                                                                        <h6 class="comment-author"><a href="#"
+                                                                                                      class="link-dark">Pearce
+                                                                            Frye</a></h6>
+                                                                        <ul class="post-meta">
+                                                                            <li><i class="uil uil-calendar-alt"></i>22 Feb
+                                                                                2022
+                                                                            </li>
+                                                                        </ul>
+                                                                        <!-- /.post-meta -->
+                                                                    </div>
+                                                                    <!-- /div -->
+                                                                </div>
+                                                                <!-- /div -->
+                                                                <div class="mt-3 mt-md-0 ms-auto">
+                                                                    <a href="#"
+                                                                       class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
+                                                                            class="uil uil-comments"></i> Reply</a>
                                                                 </div>
                                                                 <!-- /div -->
                                                             </div>
-                                                            <!-- /div -->
-                                                            <div class="mt-3 mt-md-0 ms-auto">
-                                                                <a href="#"
-                                                                   class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                                                        class="uil uil-comments"></i> Reply</a>
-                                                            </div>
-                                                            <!-- /div -->
-                                                        </div>
-                                                        <!-- /.comment-header -->
-                                                        <p>Cras mattis consectetur purus sit amet fermentum. Integer
-                                                            posuere
-                                                            erat a ante venenatis dapibus posuere velit aliquet. Etiam
-                                                            porta
-                                                            sem malesuada magna mollis.</p>
-                                                        <ul class="children">
-                                                            <li class="comment">
-                                                                <div class="comment-header d-md-flex align-items-center">
-                                                                    <div class="d-flex align-items-center">
-                                                                        <figure class="user-avatar"><img
-                                                                                class="rounded-circle" alt=""
-                                                                                src="./assets/img/avatars/u2.jpg"/>
-                                                                        </figure>
-                                                                        <div>
-                                                                            <h6 class="comment-author"><a href="#"
-                                                                                                          class="link-dark">Nikolas
-                                                                                Brooten</a></h6>
-                                                                            <ul class="post-meta">
-                                                                                <li><i class="uil uil-calendar-alt"></i>4
-                                                                                    Apr 2022
-                                                                                </li>
-                                                                            </ul>
-                                                                            <!-- /.post-meta -->
+                                                            <!-- /.comment-header -->
+                                                            <p>Cras mattis consectetur purus sit amet fermentum. Integer
+                                                                posuere
+                                                                erat a ante venenatis dapibus posuere velit aliquet. Etiam
+                                                                porta
+                                                                sem malesuada magna mollis.</p>
+                                                            <ul class="children">
+                                                                <li class="comment">
+                                                                    <div class="comment-header d-md-flex align-items-center">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <figure class="user-avatar"><img
+                                                                                    class="rounded-circle" alt=""
+                                                                                    src="./assets/img/avatars/u2.jpg"/>
+                                                                            </figure>
+                                                                            <div>
+                                                                                <h6 class="comment-author"><a href="#"
+                                                                                                              class="link-dark">Nikolas
+                                                                                    Brooten</a></h6>
+                                                                                <ul class="post-meta">
+                                                                                    <li><i class="uil uil-calendar-alt"></i>4
+                                                                                        Apr 2022
+                                                                                    </li>
+                                                                                </ul>
+                                                                                <!-- /.post-meta -->
+                                                                            </div>
+                                                                            <!-- /div -->
+                                                                        </div>
+                                                                        <!-- /div -->
+                                                                        <div class="mt-3 mt-md-0 ms-auto">
+                                                                            <a href="#"
+                                                                               class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
+                                                                                    class="uil uil-comments"></i> Reply</a>
                                                                         </div>
                                                                         <!-- /div -->
                                                                     </div>
-                                                                    <!-- /div -->
-                                                                    <div class="mt-3 mt-md-0 ms-auto">
-                                                                        <a href="#"
-                                                                           class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                                                                class="uil uil-comments"></i> Reply</a>
-                                                                    </div>
-                                                                    <!-- /div -->
-                                                                </div>
-                                                                <!-- /.comment-header -->
-                                                                <p>Nullam id dolor id nibh ultricies vehicula ut id.
-                                                                    Cras
-                                                                    mattis consectetur purus sit amet fermentum. Aenean
-                                                                    eu
-                                                                    leo quam. Pellentesque ornare sem lacinia aenean
-                                                                    bibendum nulla consectetur.</p>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="comment">
-                                                <div class="comment-header d-md-flex align-items-center">
-                                                    <div class="d-flex align-items-center">
-                                                        <figure class="user-avatar"><img class="rounded-circle" alt=""
-                                                                                         src="./assets/img/avatars/u4.jpg"/>
-                                                        </figure>
-                                                        <div>
-                                                            <h6 class="comment-author"><a href="#" class="link-dark">Lou
-                                                                Bloxham</a></h6>
-                                                            <ul class="post-meta">
-                                                                <li><i class="uil uil-calendar-alt"></i>3 May 2022</li>
+                                                                    <!-- /.comment-header -->
+                                                                    <p>Nullam id dolor id nibh ultricies vehicula ut id.
+                                                                        Cras
+                                                                        mattis consectetur purus sit amet fermentum. Aenean
+                                                                        eu
+                                                                        leo quam. Pellentesque ornare sem lacinia aenean
+                                                                        bibendum nulla consectetur.</p>
+                                                                </li>
                                                             </ul>
-                                                            <!-- /.post-meta -->
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="comment">
+                                                    <div class="comment-header d-md-flex align-items-center">
+                                                        <div class="d-flex align-items-center">
+                                                            <figure class="user-avatar"><img class="rounded-circle" alt=""
+                                                                                             src="./assets/img/avatars/u4.jpg"/>
+                                                            </figure>
+                                                            <div>
+                                                                <h6 class="comment-author"><a href="#" class="link-dark">Lou
+                                                                    Bloxham</a></h6>
+                                                                <ul class="post-meta">
+                                                                    <li><i class="uil uil-calendar-alt"></i>3 May 2022</li>
+                                                                </ul>
+                                                                <!-- /.post-meta -->
+                                                            </div>
+                                                            <!-- /div -->
+                                                        </div>
+                                                        <!-- /div -->
+                                                        <div class="mt-3 mt-md-0 ms-auto">
+                                                            <a href="#"
+                                                               class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
+                                                                    class="uil uil-comments"></i> Reply</a>
                                                         </div>
                                                         <!-- /div -->
                                                     </div>
-                                                    <!-- /div -->
-                                                    <div class="mt-3 mt-md-0 ms-auto">
-                                                        <a href="#"
-                                                           class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                                                class="uil uil-comments"></i> Reply</a>
-                                                    </div>
-                                                    <!-- /div -->
-                                                </div>
-                                                <!-- /.comment-header -->
-                                                <p>Sed posuere consectetur est at lobortis. Vestibulum id ligula porta
-                                                    felis
-                                                    euismod semper. Cum sociis natoque penatibus et magnis dis
-                                                    parturient
-                                                    montes, nascetur ridiculus mus.</p>
-                                            </li>
-                                        </ol>
-                                    </div>
-                                    <!-- /#comments -->
+                                                    <!-- /.comment-header -->
+                                                    <p>Sed posuere consectetur est at lobortis. Vestibulum id ligula porta
+                                                        felis
+                                                        euismod semper. Cum sociis natoque penatibus et magnis dis
+                                                        parturient
+                                                        montes, nascetur ridiculus mus.</p>
+                                                </li>
+                                            </ol>
+                                        </div>
+                                        <!-- /#comments -->
 
+                                    </div>
+                                    <!-- /.card-body -->
                                 </div>
-                                <!-- /.card-body -->
+                                <!-- /.card -->
                             </div>
-                            <!-- /.card -->
+                            <!-- /.blog -->
                         </div>
-                        <!-- /.blog -->
+                        <!-- /column -->
                     </div>
-                    <!-- /column -->
+                    <!-- /.row -->
                 </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container -->
-        </form>
-    </section>
+                <!-- /.container -->
+            </form>
+        </section>
     <!-- /section -->
 </div>
 <!-- /.content-wrapper -->

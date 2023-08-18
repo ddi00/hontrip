@@ -14,6 +14,6 @@
         <br>
         동행인 매칭<br>
         <a href="mate/insert">동행인 매칭 게시글 작성</a><br>
-        <a href="mate/171">동행인 매칭 게시글 상세페이지</a>
+        <a href="mate/185">동행인 매칭 게시글 상세페이지</a>
     </div>
 </section>

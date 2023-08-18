@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mateBbs">
-	<insert id="insert" parameterType="mateBoardInsertDTO" useGeneratedKeys="true" keyProperty="id">
-		insert into mate_board (user_id, region_id, age_range_id, title, content, thumbnail, start_date,
-								end_date, recruit_number, gender)
-		values (#{userId}, #{regionId},
-				#{ageRangeId},
-				#{title}, #{content}, #{thumbnail}, #{startDate}, #{endDate},
-				#{recruitNumber}, #{gender})
-	</insert>
+    <insert id="insert" parameterType="mateBoardInsertDTO" useGeneratedKeys="true" keyProperty="id">
+        insert into mate_board (user_id, region_id, age_range_id, title, content, thumbnail, start_date,
+                                end_date, recruit_number, gender)
+        values (#{userId}, #{regionId},
+                #{ageRangeId},
+                #{title}, #{content}, #{thumbnail}, #{startDate}, #{endDate},
+                #{recruitNumber}, #{gender})
+    </insert>
 
-	<select id="selectOne" parameterType="long" resultType="mateBoardInsertDTO">
+    <select id="selectOne" parameterType="long" resultType="mateBoardInsertDTO">
         SELECT id,
                user_id        as userId,
                region_id      as regionId,
@@ -29,15 +29,15 @@
         where id = #{id}
     </select>
 
-	<select id="findUserGenderAgeById" resultType="userGenderAgeDTO" parameterType="long">
-		select id,
-			   age_range_id as ageRange,
-			   gender
-		from user
-		where id = #{id}
-	</select>
+    <select id="findUserGenderAgeById" resultType="userGenderAgeDTO" parameterType="long">
+        select id,
+               age_range_id as ageRange,
+               gender
+        from user
+        where id = #{id}
+    </select>
 
-	<select id="checkApply" parameterType="mateMatchingAlarmDTO" resultType="int">
+    <select id="checkApply" parameterType="mateMatchingAlarmDTO" resultType="int">
 		select exists (select *
 					   from mate_matching_alarm
 					   where sender_id = #{senderId}
@@ -47,38 +47,37 @@
 	<update id="updateMateBoard" parameterType="mateBoardInsertDTO">
 		update mate_board
 		set region_id      = #{regionId},
-			age_range_id   = #{ageRangeId},
-			title          = #{title},
-			content        = #{content},
-			thumbnail      = #{thumbnail},
-			start_date     = #{startDate},
-			end_date       = #{endDate},
-			recruit_number = #{recruitNumber},
-			gender         = #{gender},
-			is_finish      = #{isFinish}
-		where id = #{id}
-	</update>
+            age_range_id   = #{ageRangeId},
+            title          = #{title},
+            content        = #{content},
+            thumbnail      = #{thumbnail},
+            start_date     = #{startDate},
+            end_date       = #{endDate},
+            recruit_number = #{recruitNumber},
+            gender         = #{gender},
+            is_finish      = #{isFinish}
+        where id = #{id}
+    </update>
 
-	<delete id="deleteMateBoard" parameterType="long">
-		delete
-		from mate_board
-		where id = #{id}
-	</delete>
+    <delete id="deleteMateBoard" parameterType="long">
+        delete
+        from mate_board
+        where id = #{id}
+    </delete>
 
-	<insert id="insertMateMatchingAlarm" parameterType="mateMatchingAlarmDTO">
-		insert into mate_matching_alarm (mate_board_id, sender_id, content)
-		values (#{mateBoardId}, #{senderId}, #{content})
-	</insert>
+    <insert id="insertMateMatchingAlarm" parameterType="mateMatchingAlarmDTO">
+        insert into mate_matching_alarm (mate_board_id, sender_id, content)
+        values (#{mateBoardId}, #{senderId}, #{content})
+    </insert>
 
 
-
-	<select id="list" resultType="mateBoardListDTO">
-		SELECT
-		mb.id AS mateBoardId,
-		u.nickname AS nickname,
-		mb.content AS content,
-		mb.title AS title,
-		mb.thumbnail AS thumbnail,
+    <select id="list" resultType="mateBoardListDTO">
+        SELECT
+        mb.id AS mateBoardId,
+        u.nickname AS nickname,
+        mb.content AS content,
+        mb.title AS title,
+        mb.thumbnail AS thumbnail,
 		mb.start_date AS startDate,
 		mb.end_date AS endDate,
 		ar.range_description AS ageRange
