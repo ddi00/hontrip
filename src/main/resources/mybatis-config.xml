@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration
-		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<settings>
 		<!-- DB 조회결과 snake_case -> camelCase 변환 -->
@@ -31,14 +31,22 @@
 		<typeAlias type="com.multi.hontrip.mate.dto.PageDTO" alias="pageDTO"></typeAlias>
 		<typeAlias type="com.multi.hontrip.user.dto.UserDTO" alias="userDTO"></typeAlias>
 		<typeAlias type="com.multi.hontrip.user.dto.UserInsertDTO" alias="userInsertDTO"></typeAlias>
-	</typeAliases>
+        <typeAlias type="com.multi.hontrip.record.dto.CreatePostDTO"
+                   alias="createPostDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.record.dto.PostInfoDTO"
+                   alias="postInfoDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.record.dto.CommentDTO"
+                   alias="commentDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.record.dto.LocationDTO"
+                   alias="locationDTO"></typeAlias>
+    </typeAliases>
 
-	<typeHandlers>
-		<typeHandler handler="com.multi.hontrip.mate.dto.GenderTypeHandler"/>
-		<typeHandler handler="com.multi.hontrip.mate.dto.RegionTypeHandler"/>
-		<typeHandler handler="com.multi.hontrip.mate.dto.AgeRangeTypeHandler"/>
-		<typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler" />
-	</typeHandlers>
+    <typeHandlers>
+        <typeHandler handler="com.multi.hontrip.mate.dto.GenderTypeHandler"/>
+        <typeHandler handler="com.multi.hontrip.mate.dto.RegionTypeHandler"/>
+        <typeHandler handler="com.multi.hontrip.mate.dto.AgeRangeTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler" />
+    </typeHandlers>
 
 	<mappers>
 		<!-- SQL문 정의하는 파일들의 목록을 지정. 테이블당 한개 사용 -->
@@ -51,5 +59,7 @@
 		<mapper resource="mapper/emergencyFacilityMapper.xml" />
 		<mapper resource="mapper/mateMapper.xml" />
 		<mapper resource="mapper/userMapper.xml" />
+        <mapper resource="mapper/recordMapper.xml" />
 	</mappers>
+
 </configuration>

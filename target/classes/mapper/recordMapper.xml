@@ -1,7 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mateBoard">
+<mapper namespace="record">
+	<select id="locationList" resultType="locationDTO">
+		SELECT * FROM location;
+	</select>
 
+	<insert id="createPost" parameterType="createPostDTO" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO record_board (user_id, location_id, title, content, is_visible, thumbnail)
+		VALUES (#{userId}, #{locationId}, #{title}, #{content}, #{isVisible}, #{thumbnail});
+	</insert>
+
+	<select id="selectPostInfo" parameterType="long" resultType="postInfoDTO" >
+		SELECT
+		rb.id AS boardId,
+		loc.city As city,
+		u.nickname AS nickName,
+		rb.title AS title,
+		rb.content AS content,
+		rb.thumbnail AS thumbnail ,
+		rb.created_at AS createdAt,
+		rb.updated_at AS updatedAt,
+		rb.is_visible AS isVisible,
+		ri.img_url AS imgUrl,
+		COUNT(rl.id) AS likeCount
+		FROM
+		record_board rb
+		LEFT JOIN user u ON rb.user_id = u.id
+		LEFT JOIN location loc ON rb.location_id = loc.id
+		LEFT JOIN record_like rl ON rb.id = rl.record_id
+		LEFT JOIN record_img ri ON rb.id = ri.record_id
+		WHERE
+		rb.id = #{id}
+		GROUP BY
+		rb.id, ri.id;
+	</select>
+
+	<update id="updatePostInfo" parameterType="postInfoDTO">
+		UPDATE record_board
+		SET title = #{title}, content = #{content}, is_visible = #{isVisible}, thumbnail = #{thumbnail}
+		WHERE id = #{id};
+	</update>
+
+	<delete id="deletePost">
+		DELETE FROM record_board
+		WHERE id = #{id};
+	</delete>
+
+	<insert id="createComment" parameterType="commentDTO" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO record_comment (comment_writer_id, record_id, content, comment_sequence, comments_sequence, indentation_number)
+		VALUES (#{cmtWriterId}, #{recordId}, #{cmtContent}, #{cmtSequence}, #{cmtsSequence}, #{indentationNum});
+	</insert>
+
+	<select id="commentList" parameterType="long" resultType="commentDTO">
+		select
+		rc.id AS cmtid,
+		u.nickname AS cmtUserNickName,
+		u.profile_image AS profileImg,
+		rc.content AS cmtContent,
+		rc.comment_sequence AS cmtSequence,
+		rc.comments_sequence AS cmtsSquence,
+		rc.indentation_number AS indentationNum,
+		rc.created_at AS cmtCreatedAt,
+		rc.updated_at AS cmtUpdatedAt
+		from record_comment rc
+		LEFT JOIN user u on rc.comment_writer_id  = u.id
+		where record_id  = #{id}
+		ORDER BY
+		rc.created_at ASC;
+	</select>
 </mapper>
 
 
