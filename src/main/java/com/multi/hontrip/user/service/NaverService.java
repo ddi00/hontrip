@@ -2,6 +2,7 @@ package com.multi.hontrip.user.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.multi.hontrip.user.dto.AgeRange;
 import com.multi.hontrip.user.dto.Gender;
@@ -36,6 +37,8 @@ public class NaverService implements OauthService{
     private String NAVER_API_URL;   //네이버 api url
     @Value("${naver.logout.redirect.url}")
     private String NAVER_LOGOUT_REDIRECT_URI;
+    @Value("${naver.ssl.api.url}")
+    private String NAVER_SSL_API_URL;
 
     public String getLoginUrl() {//네이버 인가코드 발급 url
         String naverAuthUri = NAVER_AUTH_URL + "/oauth2.0/authorize"
@@ -103,14 +106,54 @@ public class NaverService implements OauthService{
                 httpEntity, //header, body 데이터
                 String.class    //응답받을 값
         );
-        return jsonConverToDTO(response,tokenDTO);
+        return jsonConverToDTO(response, tokenDTO);
     }
 
     public String getLogOutUrl() {  //네이버 로그아웃 url - 네이버는 별도의 로그아웃 처리가 없음        
         return "/user/naver/logout";
     }
 
-    private UserInsertDTO jsonConverToDTO(ResponseEntity<String> response,OauthTokenDTO tokenDTO) { // 입력받은 사용자 json정보를 파싱해서 dto에 넣음
+    @Override
+    public String quiteSicalOauth(WithdrawUserDTO withdrawUserDTO) {
+        if (withdrawUserDTO.getSocialId() == null) throw new RuntimeException("소셜ID가 없습니다.");
+
+        //헤더 Object생성 - Content-type: application/x-www-form-urlencoded;charset=utf-8
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Content-Type", "application/x-www-form-urlencoded");
+
+        //body Object생성
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.add("client_id", NAVER_CLIENT_ID);
+        params.add("client_secret", NAVER_CLIENT_SECRET);
+        params.add("access_token", withdrawUserDTO.getAccessToken());
+        params.add("grant_type", "delete");
+        params.add("service_provider", "NAVER");
+
+        //헤더와 바디를 하나의 오브젝트에 담기
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<MultiValueMap<String, String>>(params, httpHeaders);
+
+        // HTTP 요청하기  - Post방식 , 그리고 response 응답받기
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(
+                NAVER_SSL_API_URL,  //전송 url
+                HttpMethod.POST,    //전송 메서드
+                httpEntity, //header, body 데이터
+                String.class    //응답받을 값
+        );
+
+        String result = "fail";
+        if (response.getStatusCode().is2xxSuccessful()) {
+            String responseBody = response.getBody(); // Get the response body as String
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
+            result = jsonObject.get("result").getAsString();
+            // Now you can work with the JsonObject as needed
+        }
+
+        return result.equals("success") ? "success" : "fail";
+    }
+
+    private UserInsertDTO jsonConverToDTO(ResponseEntity<String> response, OauthTokenDTO tokenDTO) { // 입력받은 사용자 json정보를 파싱해서 dto에 넣음
         //json 파싱
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(response.getBody());

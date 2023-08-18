@@ -1,6 +1,7 @@
 package com.multi.hontrip.user.dao;
 
 import com.multi.hontrip.user.dto.UserInsertDTO;
+import com.multi.hontrip.user.dto.WithdrawUserDTO;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -32,10 +33,18 @@ public class UserDAO {
     }
 
     public String getProviderById(Long userId) {  //provider 가져오기
-        return sqlSessionTemplate.selectOne("userMapper.userProvider",userId);
+        return sqlSessionTemplate.selectOne("userMapper.userProvider", userId);
     }
 
     public void removeAccessToken(Long userId) {    // user 로그아웃시 access토큰 관련 정보 삭제
-        sqlSessionTemplate.update("userMapper.userAccessTokenRemove",userId);
+        sqlSessionTemplate.update("userMapper.userAccessTokenRemove", userId);
+    }
+
+    public WithdrawUserDTO findSocialInfoById(Long id) {   //id로 social정보 가져오기
+        return sqlSessionTemplate.selectOne("userMapper.findProviderAndSocialIDById", id);
+    }
+
+    public void removeUser(Long id) {    //user테이블 사용자 제거
+        sqlSessionTemplate.delete("userMapper.deleteUserById", id);
     }
 }

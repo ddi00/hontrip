@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +24,7 @@ public class MateController {
 
     @Autowired
     private MateService mateService;
+
 
 
     /* 동행인게시판 글 작성 get, post 매핑*/
@@ -68,20 +71,20 @@ public class MateController {
         return new Gson().toJson(user);
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @ResponseBody
     public int deleteMateBoard(@PathVariable("id") long id) {
         return mateService.deleteMateBoard(id);
     }
 
-    @GetMapping("edit")
-    public String updateMateBoard(@RequestParam Map<String, String> queryParams, Model model) {
-        model.addAttribute("dto", queryParams);
-        return "mate/mate_board_update";
+    @PostMapping("/editpg")
+    public String updateMateBoard(MateBoardInsertDTO mateBoardInsertDTO, Model model) {
+        model.addAttribute("dto", mateBoardInsertDTO);
+        return "/mate/mate_board_update";
     }
 
 
-    @PostMapping("edit")
+    @PostMapping("/edit")
     public String updateMateBoard(
             @RequestParam(value = "file", required = false) MultipartFile file,
             MateBoardInsertDTO mateBoardInsertDTO) throws IOException {
@@ -112,26 +115,62 @@ public class MateController {
         return mateService.checkApply(mateMatchingAlarmDTO);
     }
 
-    @RequestMapping("bbs_list")
-    public void list(PageDTO pageDTO, Model model) {
-        //start, end지점 구하기
-        pageDTO.setStartEnd(pageDTO.getPage());
-        //게시물 리스트 가져오기
-        List<MateBoardListDTO> list = mateService.list(pageDTO);
-        //게시물 개수 가져오기
-        int count = mateService.count();
-        System.out.println("all count >> " + count);
-        //페이지 수 게산
-        //1page당 5개의 게시물을 넣는 경우
-        int pages = mateService.pages(count);
-        model.addAttribute("list", list);
-        model.addAttribute("count", count);
-        model.addAttribute("pages", pages);
 
+    @GetMapping("/bbs_list")
+    public void list(PageDTO pageDTO, Model model, HttpSession session) {
+        //페이징 변수들 계산하기
+        PageDTO pagedDTO = mateService.paging(pageDTO);
+        //게시물 리스트 가져오기
+        List<MateBoardListDTO> list = mateService.list(pagedDTO);
         //지역 리스트 가져오기
         List<LocationDTO> location = mateService.location();
+
+        session.setAttribute("user_id", 1L);
+        session.setAttribute("nickname", "Alice");
         model.addAttribute("location", location);
+
+        model.addAttribute("list", list);
+
+        model.addAttribute("pageDTO", pagedDTO);
     }
+
+    @RequestMapping("pagination")
+    public @ResponseBody Map<String, Object> pageList(PageDTO pageDTO, Model model, HttpSession session) {
+        //페이징 변수들 계산하기
+        PageDTO pagedDTO = mateService.paging(pageDTO);
+        //게시물 리스트 가져오기
+        List<MateBoardListDTO> list = mateService.list(pagedDTO);
+
+        model.addAttribute("list", list);
+        session.setAttribute("pageDTO", pagedDTO);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", list);
+        map.put("pageDTO", pagedDTO);
+        return map;
+    }
+
+    @RequestMapping("bbs_one")
+    public void one(long mateBoardId, Model model) {
+        //게시물 상세 가져오기
+        MateBoardListDTO mateBoardListDTO = mateService.one(mateBoardId);
+        //게시물 상세의 댓글 리스트 가져오기
+        List<MateCommentDTO> list = mateService.commentList(mateBoardId);
+        model.addAttribute("one", mateBoardListDTO);
+        model.addAttribute("list", list);
+    }
+
+    @RequestMapping("comment_insert")
+    @ResponseBody
+    public Map<String, Object> insert(MateCommentDTO mateCommentDTO, Model model) {
+        int result = mateService.commentInsert(mateCommentDTO);
+        List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", list);
+
+        return map;
+    }
+
 
 //    @RequestMapping("bbs_one")
 //    public void one(int id, Model model) {
@@ -139,4 +178,7 @@ public class MateController {
 //        List<ReplyDTO> list = replyDAO.list(id);
 //        model.addAttribute("dto", dto);
 //        model.addAttribute("list", list);
+    //   }
+
 }
+

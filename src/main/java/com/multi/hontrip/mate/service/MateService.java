@@ -5,8 +5,23 @@ import com.multi.hontrip.mate.dto.*;
 import java.util.List;
 
 public interface MateService {
+    List<MateBoardListDTO> list(PageDTO pageDTO); //게시물 리스트 가져오기
+
+    MateBoardListDTO one(long mateBoardId); //게시물 상세 가져오기
+
+    List<MateCommentDTO> commentList(long mateBoardId); //게시물 상세의 댓글 목록 가져오기
+
+    int commentInsert(MateCommentDTO mateCommentDTO);
+
+    PageDTO paging(PageDTO pageDTO);
+
+    List<LocationDTO> location(); //지역 리스트 가져오기
+
+    int pages(int count); //전체 페이지 수 구하기
 
     public void insert(MateBoardInsertDTO mateBoardInsertDTO); //동행인 게시글 작성하기
+
+<<<<<<<HEAD
 
     public MateBoardInsertDTO selectOne(long id);    //동행인 상세게시글 가져오기
 
@@ -28,3 +43,7 @@ public interface MateService {
 
     public int pages(int count); //전체 페이지 수 구하기
 }
+=======
+public MateBoardInsertDTO selectOne(int id);
+        }
+        >>>>>>>develop/version1

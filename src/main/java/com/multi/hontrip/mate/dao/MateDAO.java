@@ -9,9 +9,25 @@ import java.util.List;
 
 @Repository
 public class MateDAO {
-
     @Autowired
     SqlSessionTemplate my;
+
+    public List<MateBoardListDTO> list(PageDTO pageDTO) {
+
+        return my.selectList("mateBbs.list", pageDTO);
+    }
+
+    public MateBoardListDTO one(long mateBoardId) {
+        return my.selectOne("mateBbs.one", mateBoardId);
+    }
+
+    public int count(PageDTO pageDTO) {
+        return my.selectOne("mateBbs.count", pageDTO);
+    }
+
+    public List<LocationDTO> location() {
+        return my.selectList("mateBbs.location");
+    }
 
     public void mateBoardInsert(MateBoardInsertDTO mateBoardInsertDTO) {
         my.insert("mateBbs.insert", mateBoardInsertDTO);
@@ -20,6 +36,7 @@ public class MateDAO {
     public MateBoardInsertDTO mateBoardSelectOne(long id) {
         return my.selectOne("mateBbs.selectOne", id);
     }
+<<<<<<<HEAD
 
     public int updateMateBoard(MateBoardInsertDTO mateBoardInsertDTO) {
         return my.update("mateBbs.updateMateBoard", mateBoardInsertDTO);
@@ -62,3 +79,6 @@ public class MateDAO {
 //        return my.selectOne("bbs.one", id);
 //    }
 }
+=======
+        }
+        >>>>>>>develop/version1

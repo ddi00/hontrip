@@ -36,12 +36,16 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
     private String KAKAO_AUTH_URL;  //카카오 인증 url
     @Value("${kakao.api.url}")
     private String KAKAO_API_URL;   //카카오 api url
+    @Value("${kakao.ssl.api.url}")
+    private String KAKAO_SSL_API_URL;   //카카오 api url
     @Value("${kakao.logout.redirect.url}")
     private String KAKAO_LOGOUT_REDIRECT_URI;
+    @Value("${kakao.admin.key}")
+    private String KAKAO_ADMIN_KEY;
 
     @Override
     public String getLoginUrl() {//카카오 인가코드 발급 url
-        String kakaoAuthUri = KAKAO_AUTH_URL+"/oauth/authorize"
+        String kakaoAuthUri = KAKAO_AUTH_URL + "/oauth/authorize"
                 + "?client_id=" + KAKAO_CLIENT_ID
                 + "&redirect_uri=" + KAKAO_REDIRECT_URL
                 + "&response_type=code";
@@ -49,8 +53,8 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
     }
 
     @Override
-    public UserInsertDTO getOauthInfo(String code,String state){  //인증 코드로 접근 토근 받기, POST요청
-        if(code==null) throw new RuntimeException("인증코드가 없습니다.");
+    public UserInsertDTO getOauthInfo(String code, String state) {  //인증 코드로 접근 토근 받기, POST요청
+        if (code == null) throw new RuntimeException("인증코드가 없습니다.");
         OauthTokenDTO tokenDTO = null;   // 인증 시도 후 반환받을 값
 
         try {
@@ -82,7 +86,7 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
             Gson gson = new Gson();
             tokenDTO = gson.fromJson(response.getBody(), OauthTokenDTO.class);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
 
@@ -90,11 +94,11 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
     }
 
     @Override
-    public UserInsertDTO getUserInfoWithToken(OauthTokenDTO tokenDTO){ //액세스 토큰을 통해 사용자 정보가져오기, POST(get,post 둘다 지원)
+    public UserInsertDTO getUserInfoWithToken(OauthTokenDTO tokenDTO) { //액세스 토큰을 통해 사용자 정보가져오기, POST(get,post 둘다 지원)
 
         //HttpHeader 생성
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization", tokenDTO.getTokenType()+" " + tokenDTO.getAccessToken());
+        httpHeaders.add("Authorization", tokenDTO.getTokenType() + " " + tokenDTO.getAccessToken());
         httpHeaders.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
         //헤더를 오브젝트에 담기
@@ -103,23 +107,60 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
         //Http 요청하기
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(
-                KAKAO_API_URL+"/v2/user/me",      //전송 URL
+                KAKAO_API_URL + "/v2/user/me",      //전송 URL
                 HttpMethod.POST,    //전송 메서드
                 httpEntity, //header, body 데이터
                 String.class    //응답받을 값
         );
 
-        return jsonConverToDTO(response,tokenDTO);
+        return jsonConverToDTO(response, tokenDTO);
 
     }
 
     @Override
     public String getLogOutUrl() {    //카카오 로그아웃 url 가져오기
-        return KAKAO_AUTH_URL+"/oauth/logout?client_id="+KAKAO_CLIENT_ID+"&logout_redirect_uri="+KAKAO_LOGOUT_REDIRECT_URI;
+        return KAKAO_AUTH_URL + "/oauth/logout?client_id=" + KAKAO_CLIENT_ID + "&logout_redirect_uri=" + KAKAO_LOGOUT_REDIRECT_URI;
     }
 
-    private UserInsertDTO jsonConverToDTO(ResponseEntity<String> response,OauthTokenDTO tokenDTO) {
-         //json 파싱
+    @Override
+    public String quiteSicalOauth(WithdrawUserDTO withdrawUserDTO) {
+        if (withdrawUserDTO.getSocialId() == null) throw new RuntimeException("소셜ID가 없습니다.");
+
+        //헤더 Object생성 - Content-type: application/x-www-form-urlencoded;charset=utf-8
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Content-Type", "application/x-www-form-urlencoded");
+        httpHeaders.add("Authorization", "KakaoAK " + KAKAO_ADMIN_KEY);
+
+        //body Object생성
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.add("target_id_type", "user_id");
+        params.add("target_id", withdrawUserDTO.getSocialId());
+
+        //헤더와 바디를 하나의 오브젝트에 담기
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<MultiValueMap<String, String>>(params, httpHeaders);
+
+        // HTTP 요청하기  - Post방식 , 그리고 response 응답받기
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(
+                KAKAO_SSL_API_URL,  //전송 url
+                HttpMethod.POST,    //전송 메서드
+                httpEntity, //header, body 데이터
+                String.class    //응답받을 값
+        );
+
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(response.getBody());
+        Long socialId = element.getAsJsonObject().get("id").getAsLong();
+
+        if (socialId == Long.parseLong(withdrawUserDTO.getSocialId())) {
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
+
+    private UserInsertDTO jsonConverToDTO(ResponseEntity<String> response, OauthTokenDTO tokenDTO) {
+        //json 파싱
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(response.getBody());
         String socialId = element.getAsJsonObject().get("id").getAsString();

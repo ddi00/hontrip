@@ -3,7 +3,6 @@ package com.multi.hontrip.mate.dto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Data
 public class MateBoardInsertDTO {
@@ -111,8 +110,9 @@ public class MateBoardInsertDTO {
 		this.gender = gender;
 	}
 
-	public String getCreatedAt() {
-		return createdAt.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
+	public LocalDateTime getCreatedAt() {
+		/*return createdAt.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));*/
+		return createdAt;
 	}
 
 	public void setCreatedAt(LocalDateTime createdAt) {

@@ -1,11 +1,11 @@
 <%@ page import="com.multi.hontrip.mate.dto.Gender" %>
 <%@ page import="com.multi.hontrip.mate.dto.Region" %>
 <%@ page import="com.multi.hontrip.mate.dto.AgeRange" %>
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
+
 <head>
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -27,7 +27,7 @@
 
             $('#ageRangeId').attr('value', "${dto.ageRangeId}");
             $('#isFinish').val("${dto.isFinish}");
-            $('#regionId').val("${dto.regionId}");
+
         }
 
         function ageRangeChecked() {
@@ -66,8 +66,7 @@
             }
             const fomattedToday = yyyy + '-' + mm + '-' + dd;
             $('#startDate').prop("min", fomattedToday);
-            $('#startDate').prop("max", $('#endDate').val());
-            $('#endDate').prop("min", $('#startDate').val());
+            $('#endDate').prop("min", fomattedToday);
         }
 
         $(document).ready(function () {
@@ -90,7 +89,7 @@
                         url: "edit",
                         data: {
                             id: ${dto.id},
-                            regionId: $('#regionId').val(),
+                            regionId: $("input[name='regionId']:checked").val(),
                             ageRangeId: $('#ageRangeId').val(),
                             title: $('#title').val(),
                             content: $('#content').val(),
@@ -100,8 +99,6 @@
                             recruitNumber: $('#recruitNumber').val(),
                             gender: $('#gender').val(),
                             isFinish: $('#isFinish').val(),
-                            /*TODO: 업데이트 시간 바꾸기*/
-                            /*updatedAt: "<%= LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%>"*/
                         },
                         success: function () {
                             location.href =
@@ -115,7 +112,7 @@
                     const formData = new FormData();
                     formData.append("id", ${dto.id})
                     formData.append("file", $('#file')[0].files[0])
-                    formData.append("regionId", $('#regionId').val())
+                    formData.append("regionId", $("input[name='regionId']:checked").val())
                     formData.append("ageRangeId", $('#ageRangeId').val())
                     formData.append("title", $('#title').val())
                     formData.append("content", $('#content').val())
@@ -145,24 +142,18 @@
     </script>
     <style>
 
-        /* 페이지 가운데 정렬 + 가로길이 정렬*/
-        body {
-            width: 700px;
-            margin: 0 auto;
-            padding: 20px;
-            color: #292929;
-            font-size: 12px;
+        .total {
+            margin: 0px 10px;
         }
 
-
-        input {
+        input, .recruitNum {
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 11px;
             height: 30px;
         }
 
-        input:focus {
+        input:focus, .recruitNum:focus {
             outline: none;
             border-color: #FFA41B; /* Changed to orange color */
             box-shadow: 0px 0px 1px rgba(231, 76, 60, 0.5);
@@ -177,15 +168,14 @@
         /* 남성, 여성, 아무나 <- 라디오버튼 css 처리 */
         input[type=radio] {
             display: none;
-            padding: 15px 10px;
+            padding: 5px 5px;
         }
 
-        input[type=radio] + label {
-            margin: 15px 5px;
-            display: inline-block;
+        input[type=radio][name="genders"] + label {
+            margin: 5px;
             cursor: pointer;
             height: 24px;
-            width: 62px;
+            width: 58px;
             line-height: 24px;
             text-align: center;
             font-weight: bold;
@@ -204,14 +194,14 @@
         /* 20대, 30대, 40대, 50대, 아무나 <- 체크박스 css 처리 */
         input[type=checkbox] {
             display: none;
-            padding: 15px 10px;
+            padding: 5px 5px;
         }
 
         input[type=checkbox] + label {
-            display: inline-block;
+            margin-left: 3px;
             cursor: pointer;
             height: 24px;
-            width: 62px;
+            width: 52px;
             line-height: 24px;
             text-align: center;
             font-weight: bold;
@@ -237,6 +227,12 @@
             font-size: 11px;
         }
 
+        .numDate {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .form-input:focus {
             outline: none;
             border-color: #FFA41B; /* Changed to orange color */
@@ -244,7 +240,9 @@
         }
 
         input[type='date'] {
-            width: 270px;
+            width: 100px;
+            height: 27px;
+            margin: 5px 6px;
         }
 
         input[type='date']::before {
@@ -258,95 +256,288 @@
             display: none;
         }
 
-        .tripDate {
+        .dates {
+            width: 300px;
+            display: inline-block;
+            justify-content: space-between;
+        }
+
+
+        .option {
+            margin-left: 8px;
+            display: inline-block;;
+            width: 110px;
+            color: rgba(30, 50, 30, 0.7);
+            font-size: 12px;
+            font-weight: 550;
+        }
+
+        .option2 {
+            display: inline-block;
+            width: 75px;
+            color: rgba(30, 50, 30, 0.7);
+            font-size: 12px;
+            font-weight: 550;
+        }
+
+        .btns {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn {
+            width: 320px;
+            font-size: 12px;
+        }
+
+        .region {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 7px;
+        }
+
+        input[type=radio][name="regionId"] + label {
+            padding: 3px 3px;
+            cursor: pointer;
+            width: 47px;
+            line-height: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 13px;
+            background-color: #ffffff;
+            border-radius: inherit;
+            color: #FFC845;
+            border-radius: 10px;
+        }
+
+        input[type=radio][name="regionId"]:checked + label {
+            background-color: #FFC845;
+            color: #fff;
+        }
+
+        .genderRecruitNum {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin: 5px;
         }
 
-        .option {
-            font-weight: 550;
+        .wantAgeRange {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px;
+        }
+
+
+        .recruitNum, .isFinish {
+            color: #505050;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-left: 10px;
+            height: 27px;
+            width: 100px;
+        }
+
+        .image-container {
+            cursor: pointer;
+        }
+
+        #imageInput {
+            display: none;
         }
 
     </style>
 </head>
 
+
 <body onload="boardInit()">
-<%--<form action="edit" method="post" enctype="multipart/form-data">--%>
-<table>
-    <%--TODO: 유저아이디 숨기기 + 유저아이디 받아오기--%>
-    <input hidden name="userId" value=<%= request.getAttribute("id")%>> <br>
-
-    <select name="regionId" id="regionId">
-        <c:forEach items="${Region.values()}" var="region">
-            <option value="${region}">${region.regionStr}</option>
-        </c:forEach>
-    </select>
 
 
-    모집인원 <input name="recruitNumber" id="recruitNumber" value="${dto.recruitNumber}"> <br>
-
-
-    <div class="tripDate">
-        <span class="option">여행 기간</span>
-        <input
-                id="startDate"
-                name="startDate"
-                type="date"
-                value="${dto.startDate}"
-                data-placeholder="날짜 선택"
-                required
-        >
-        -
-        <input
-                id="endDate"
-                name="endDate"
-                type="date"
-                value="${dto.endDate}"
-                data-placeholder="날짜 선택"
-                required
-        >
-    </div>
-    <div class="recruit">
-        <c:forEach items="${Gender.values()}" var="gender">
-            <c:if test="${dto.gender eq  gender}">
-                <input type="radio" id="${gender.genderStr}" value="${gender}" name="genders" onclick="genderChecked()"
-                       checked><label
-                    for="${gender.genderStr}">${gender.genderStr}</label></input>
-            </c:if>
-            <c:if test="${dto.gender ne  gender}">
-                <input type="radio" id="${gender.genderStr}" value="${gender}" onclick="genderChecked()" name="genders"><label
-                    for="${gender.genderStr}">${gender.genderStr}</label></input>
-            </c:if>
-        </c:forEach>
-        <input hidden id="gender" name="gender">
-
-        <div class="a">
-            <c:forEach items="${AgeRange.values()}" var="ageRange">
-                <input type="checkbox" id="${ageRange.ageRangeNum}" value="${ageRange.ageRangeNum}" name="age"
-                       onclick="ageRangeChecked()"><label for="${ageRange.ageRangeNum}">${ageRange.ageRangeStr}</label></input>
-            </c:forEach>
-            <input hidden id="ageRangeId" name="ageRangeId">
-
+<div class="content-wrapper">
+    <section class="wrapper bg-xs-none">
+        <div class="container pt-2 pb-18 pt-md-18 pb-md-15">
+            <!-- /.row -->
         </div>
-    </div>
-    <input type="file" id="file" name="file">
-    <div class="form-container">
-        <input class="form-input" type="text" id="title" name="title" value="${dto.title}"
-               required>
-        <textarea class="form-input" id="content" name="content"
-                  rows="8" style="resize: none;" required>${dto.content}</textarea>
-    </div>
-    모집확정여부
-    <select name="isFinish" id="isFinish">
-        <option value="0">모집중</option>
-        <option value="1">모집완료</option>
-    </select>
-    <input hidden name="thumbnail" value="${dto.thumbnail}">
+        <!-- /.container -->
+    </section>
+    <!-- /section -->
+    <section class="wrapper bg-xs-none">
+        <div class="container pb-14 pb-md-16">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="blog single mt-n15">
+                        <div class="card shadow-xl">
+                            <div class="card-body">
+                                <div class="total">
 
-    <button id="cancel" onclick="location.href='bbs_list?page=1'">취소</button>
-    <button id="edit">수정완료</button>
 
-<%--</form>--%>
+                                    <input hidden name="userId" value=<%= request.getAttribute("id")%>
+                                            <input hidden name="userId" value="1">
+                                    <div class="region">
+                                        <c:forEach items="${Region.values()}" var="region">
+                                            <c:if test="${dto.regionId eq region}">
+                                                <input type="radio" id="${region.regionStr}" value="${region}"
+                                                       name="regionId"
+                                                       checked required><label
+                                                    for="${region.regionStr}">${region.regionStr}</label></input>
+                                            </c:if>
+                                            <c:if test="${dto.regionId ne region}">
+                                                <input type="radio" id="${region.regionStr}" value="${region}"
+                                                       name="regionId" required
+                                                ><label
+                                                    for="${region.regionStr}">${region.regionStr}</label></input>
+                                            </c:if>
+                                        </c:forEach>
+                                    </div>
+
+
+                                    <div class="numDate">
+                                        <span class="option">여행 기간</span>
+                                        <div class="dates">
+                                            <input
+                                                    id="startDate"
+                                                    name="startDate"
+                                                    type="date"
+                                                    value="${dto.startDate}"
+                                                    data-placeholder="날짜 선택"
+                                                    required
+                                            >
+                                            -
+                                            <input
+                                                    id="endDate"
+                                                    name="endDate"
+                                                    type="date"
+                                                    value="${dto.endDate}"
+                                                    data-placeholder="날짜 선택"
+                                                    required
+                                            >
+                                        </div>
+
+                                        <span class="option2">모집확정여부</span>
+                                        <select class="isFinish" name="isFinish" id="isFinish">
+                                            <option value="0">모집중</option>
+                                            <option value="1">모집완료</option>
+                                        </select>
+                                    </div>
+
+
+                                    <div class="genderRecruitNum">
+                                        <span class="option">모집 조건 (성별)</span>
+                                        <c:forEach items="${Gender.values()}" var="gender">
+                                            <c:if test="${dto.gender eq  gender}">
+                                                <input type="radio" id="${gender.genderStr}" value="${gender}"
+                                                       name="genders" onclick="genderChecked()"
+                                                       checked><label
+                                                    for="${gender.genderStr}">${gender.genderStr}</label></input>
+                                            </c:if>
+                                            <c:if test="${dto.gender ne  gender}">
+                                                <input type="radio" id="${gender.genderStr}" value="${gender}"
+                                                       onclick="genderChecked()" name="genders"><label
+                                                    for="${gender.genderStr}">${gender.genderStr}</label></input>
+                                            </c:if>
+                                        </c:forEach>
+                                        <input hidden id="gender" name="gender">
+
+
+                                        <span class="option2">모집 인원</span>
+                                        <select id="recruitNumber" name="recruitNumber" class="recruitNum"
+                                                value="${dto.recruitNumber}">
+                                            <option value="1" selected>1명</option>
+                                            <option value="2">2명</option>
+                                            <option value="3">3명</option>
+                                            <option value="4">4명</option>
+                                            <option value="5">5명</option>
+                                            <option value="6">6명</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="wantAgeRange">
+                                        <span class="option">모집 조건 (연령대)</span>
+                                        <c:forEach items="${AgeRange.values()}" var="ageRange">
+                                            F <input type="checkbox" id="${ageRange.ageRangeNum}"
+                                                     value="${ageRange.ageRangeNum}"
+                                                     name="age"
+                                                     onclick="ageRangeChecked()"><label
+                                                for="${ageRange.ageRangeNum}">${ageRange.ageRangeStr}</label></input>
+                                        </c:forEach>
+                                    </div>
+
+                                    <input hidden id="ageRangeId" name="ageRangeId">
+                                    <br>
+
+
+                                    <div class="image-container" style="margin-bottom: 20px">
+                                        <%--<div id="uploadYourImage" style="width:630px; height:250px;
+                                                background-color: rgba(163, 163, 163, 0.2); color:#ffffff; text-align: center;
+                                                align-content: center; font-size: 13px; font-weight: bold; border-radius: 5px;">
+                                            여행지 사진을 업로드하세요
+                                        </div>--%>
+                                        <img id="upldimg" src="../resources/upload/${dto.thumbnail}"
+                                             alt="Uploaded Image"
+                                             height="250px" width="100%">
+                                        <input type="file" name="file" id="file" accept="image/*" style="display: none">
+                                    </div>
+
+                                    <script>
+                                        const imageInput = document.getElementById("file");
+                                        const uploadYourImage = document.getElementById("uploadYourImage");
+                                        const uploadedImage = document.getElementById("upldimg");
+
+
+                                        uploadedImage.addEventListener("click", () => {
+                                            imageInput.click();
+                                        });
+
+                                        imageInput.addEventListener("change", (event) => {
+                                            const selectedFile = event.target.files[0];
+                                            if (selectedFile) {
+                                                const reader = new FileReader();
+                                                reader.onload = (e) => {
+                                                    uploadedImage.src = e.target.result;
+                                                };
+                                                reader.readAsDataURL(selectedFile);
+                                            }
+                                        });
+                                    </script>
+
+
+                                    <div class="form-container">
+                                        <input class="form-input" type="text" id="title" name="title"
+                                               value="${dto.title}" style="height:40px;"
+                                               required>
+                                        <textarea class="form-input" id="content" name="content"
+                                                  rows="8" style="resize: none;  height:200px;"
+                                                  required>${dto.content}</textarea>
+                                    </div>
+
+
+                                    <input hidden name="thumbnail" value="${dto.thumbnail}">
+                                    <div class="btns">
+                                        <button id="cancel" onclick="location.href='bbs_list?page=1'"
+                                                class="btn btn-outline-red">취소
+                                        </button>
+                                        <button id="edit" class="btn btn-yellow">수정완료</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.blog -->
+                </div>
+                <!-- /column -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+    <!-- /section -->
+</div>
+<!-- /.content-wrapper -->
+
+
 </body>
 </html>
+
