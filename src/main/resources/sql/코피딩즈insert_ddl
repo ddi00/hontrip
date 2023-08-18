@@ -1,16 +1,13 @@
 -- age 값 넣기
-INSERT INTO age_range (id, range_description) VALUES	
-    (1, '1세 이상 10세 미만'),
-    (2, '10세 이상 15세 미만'),
-    (3, '15세 이상 20세 미만'),
-    (4, '20세 이상 30세 미만'),
-    (5, '30세 이상 40세 미만'),
-    (6, '40세 이상 50세 미만'),
-    (7, '50세 이상 60세 미만'),
-    (8, '60세 이상 70세 미만'),
-    (9, '70세 이상 80세 미만'),
-    (10, '80세 이상 90세 미만'),
-    (11, '90세 이상');
+INSERT INTO age_range (id, range_description) VALUES
+	(1, '나이정보 없음'),
+    (2, '0~9'),
+    (3, '10-19'),
+    (4, '20-29'),
+    (5, '30-39'),
+    (6, '40-49'),
+    (7, '50-59'),
+    (8, '60-');
 
 -- user 값 넣기
 INSERT INTO user (id, provider, social_id, nickname, profile_image, gender, age_range_id, email, access_token, expires_in, refresh_token, refresh_token_expires_in, created_at)
