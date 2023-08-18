@@ -25,9 +25,9 @@ public class MateController {
 
     // 게시판 목록 가져오기
     @GetMapping("bbs_list")
-    public String list(PageDTO pageDTO, Model model, HttpSession session) {
+    public String list(MatePageDTO matePageDTO, Model model, HttpSession session) {
         //페이징 변수들 계산하기
-        PageDTO pagedDTO = mateService.paging(pageDTO);
+        MatePageDTO pagedDTO = mateService.paging(matePageDTO);
         //게시물 리스트 가져오기
         List<MateBoardListDTO> list = mateService.list(pagedDTO);
         //지역 리스트 가져오기
@@ -44,9 +44,9 @@ public class MateController {
     }
     //페이징 처리
     @RequestMapping("pagination")
-    public @ResponseBody Map<String,Object> pageList(PageDTO pageDTO, Model model, HttpSession session) {
+    public @ResponseBody Map<String,Object> pageList(MatePageDTO matePageDTO, Model model, HttpSession session) {
         //페이징 변수들 계산하기
-        PageDTO pagedDTO = mateService.paging(pageDTO);
+        MatePageDTO pagedDTO = mateService.paging(matePageDTO);
         //게시물 리스트 가져오기
         List<MateBoardListDTO> list = mateService.list(pagedDTO);
 
