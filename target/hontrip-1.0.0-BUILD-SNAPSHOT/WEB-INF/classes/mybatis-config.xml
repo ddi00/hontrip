@@ -5,13 +5,19 @@
 <configuration>
     <!-- SQL문 정의할 때 VO표현을 간단하게 하고 싶은 경우. 별명을 지어서 사용 -->
     <typeAliases>
+        <!-- user -->
+        <typeAlias type="com.multi.hontrip.user.dto.UserDTO" alias="userDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.user.dto.UserInsertDTO" alias="userInsertDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.user.dto.WithdrawUserDTO" alias="withdrawUserDTO"></typeAlias>
+        <!-- mate -->
         <typeAlias type="com.multi.hontrip.mate.dto.MateBoardInsertDTO" alias="mateBoardInsertDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.UserGenderAgeDTO" alias="userGenderAgeDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.MateMatchingAlarmDTO" alias="mateMatchingAlarmDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.mate.dto.MateDTO" alias="mateDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.MateCommentDTO" alias="mateCommentDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.mate.dto.MateBoardListDTO" alias="mateBoardListDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.mate.dto.LocationDTO" alias="locationDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.mate.dto.PageDTO" alias="pageDTO"></typeAlias>
-        <typeAlias type="com.multi.hontrip.user.dto.UserDTO" alias="userDTO"></typeAlias>
-        <typeAlias type="com.multi.hontrip.user.dto.UserInsertDTO" alias="userInsertDTO"></typeAlias>
     </typeAliases>
 
     <typeHandlers>
@@ -19,6 +25,7 @@
         <typeHandler handler="com.multi.hontrip.mate.dto.RegionTypeHandler"/>
         <typeHandler handler="com.multi.hontrip.mate.dto.AgeRangeTypeHandler"/>
         <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler" />
+        <typeHandler handler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
     </typeHandlers>
 
 	<mappers> <!-- SQL문 정의하는 파일들의 목록을 지정. 테이블당 한개 사용 -->

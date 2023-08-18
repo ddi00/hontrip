@@ -3,10 +3,7 @@ package com.multi.hontrip.user.service;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.multi.hontrip.user.dto.AgeRange;
-import com.multi.hontrip.user.dto.Gender;
-import com.multi.hontrip.user.dto.OauthTokenDTO;
-import com.multi.hontrip.user.dto.UserInsertDTO;
+import com.multi.hontrip.user.dto.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
@@ -103,14 +100,19 @@ public class NaverService implements OauthService{
                 httpEntity, //header, body 데이터
                 String.class    //응답받을 값
         );
-        return jsonConverToDTO(response,tokenDTO);
+        return jsonConverToDTO(response, tokenDTO);
     }
 
     public String getLogOutUrl() {  //네이버 로그아웃 url - 네이버는 별도의 로그아웃 처리가 없음        
         return "/user/naver/logout";
     }
 
-    private UserInsertDTO jsonConverToDTO(ResponseEntity<String> response,OauthTokenDTO tokenDTO) { // 입력받은 사용자 json정보를 파싱해서 dto에 넣음
+    @Override
+    public String quiteSicalOauth(WithdrawUserDTO withdrawUserDTO) {
+        return null;
+    }
+
+    private UserInsertDTO jsonConverToDTO(ResponseEntity<String> response, OauthTokenDTO tokenDTO) { // 입력받은 사용자 json정보를 파싱해서 dto에 넣음
         //json 파싱
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(response.getBody());

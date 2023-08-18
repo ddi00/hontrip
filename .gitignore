@@ -152,4 +152,8 @@ $RECYCLE.BIN/
 target
 
 
+# login properties
+src/main/resources/properties/*
+
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,intellij+all,macos

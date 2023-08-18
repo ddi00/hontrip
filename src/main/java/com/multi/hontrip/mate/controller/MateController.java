@@ -3,7 +3,6 @@ package com.multi.hontrip.mate.controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.multi.hontrip.mate.dto.*;
-import com.multi.hontrip.mate.dto.PageDTO;
 import com.multi.hontrip.mate.service.MateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,9 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("mate")
@@ -76,6 +78,7 @@ public class MateController {
 
         return map;
     }
+
     /* 동행인게시판 글 작성 get, post 매핑*/
     @GetMapping("/insert")
     public String insert() {
@@ -92,6 +95,7 @@ public class MateController {
         String uploadPath = "D:\\hontrip\\src\\main\\webapp\\resources\\upload";
         File target = new File(uploadPath + "/" + savedFileName);
         file.transferTo(target);
+        System.out.println(mateBoardInsertDTO);
         mateService.insert(mateBoardInsertDTO);
         return "redirect:/mate/" + mateBoardInsertDTO.getId();
     }
@@ -101,6 +105,7 @@ public class MateController {
     @GetMapping("/{id}")
     public String selectOne(@PathVariable("id") long id, Model model) {
         MateBoardInsertDTO mateBoardInsertDTO = mateService.selectOne(id);
+        System.out.println(mateBoardInsertDTO);
         model.addAttribute("dto", mateBoardInsertDTO);
         return "/mate/mate_board_selectOne";
     }

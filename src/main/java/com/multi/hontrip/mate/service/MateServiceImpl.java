@@ -1,8 +1,8 @@
 package com.multi.hontrip.mate.service;
 
+import com.multi.hontrip.mate.dao.MateCommentDAO;
 import com.multi.hontrip.mate.dao.MateDAO;
 import com.multi.hontrip.mate.dto.*;
-import com.multi.hontrip.mate.dto.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,7 +81,7 @@ public class MateServiceImpl implements MateService {
 
 
     @Override
-    public MateBoardInsertDTO selectOne(int id) {
+    public MateBoardInsertDTO selectOne(long id) {
         return mateDAO.mateBoardSelectOne(id);
     }
 

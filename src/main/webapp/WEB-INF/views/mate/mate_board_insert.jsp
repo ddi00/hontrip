@@ -70,8 +70,8 @@
 
 
     </script>
-    <style>
 
+    <style>
         .total {
             margin: 0px 10px;
         }
@@ -256,7 +256,6 @@
         #imageInput {
             display: none;
         }
-
     </style>
 </head>
 <section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-light-600 text-white"

@@ -1,10 +1,5 @@
 package com.multi.hontrip.mate.dao;
 
-import com.multi.hontrip.mate.dto.LocationDTO;
-import com.multi.hontrip.mate.dto.MateBoardInsertDTO;
-import com.multi.hontrip.mate.dto.MateBoardListDTO;
-import com.multi.hontrip.mate.dto.PageDTO;
-import org.springframework.stereotype.Repository;
 import com.multi.hontrip.mate.dto.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +34,10 @@ public class MateDAO {
         my.insert("mateBbs.insert", mateBoardInsertDTO);
     }
 
-    public MateBoardInsertDTO mateBoardSelectOne(int id) {
+    public MateBoardInsertDTO mateBoardSelectOne(long id) {
         return my.selectOne("mateBbs.selectOne", id);
     }
+
     public int updateMateBoard(MateBoardInsertDTO mateBoardInsertDTO) {
         return my.update("mateBbs.updateMateBoard", mateBoardInsertDTO);
     }
