@@ -34,5 +34,5 @@ public class CommentController {
 
     public void updateComment(CommentDTO commentDTO) {
         commentService.updateCmt(commentDTO);
-    }
+    }//
 }
