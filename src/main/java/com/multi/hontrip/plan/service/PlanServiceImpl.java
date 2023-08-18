@@ -14,8 +14,9 @@ public class PlanServiceImpl implements PlanService{
     PlanDAO planDAO;
 
     @Override
-    public void insert(PlanDTO planDTO) {
+    public Long insert(PlanDTO planDTO) {
         planDAO.insert(planDTO);
+        return null;
     } // insert
 
     @Override
