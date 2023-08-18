@@ -23,8 +23,9 @@ public class MateController {
     @Autowired
     private MateService mateService;
 
-    @GetMapping("/bbs_list")
-    public void list(PageDTO pageDTO, Model model, HttpSession session) {
+    // 게시판 목록 가져오기
+    @GetMapping("bbs_list")
+    public String list(PageDTO pageDTO, Model model, HttpSession session) {
         //페이징 변수들 계산하기
         PageDTO pagedDTO = mateService.paging(pageDTO);
         //게시물 리스트 가져오기
@@ -39,8 +40,9 @@ public class MateController {
         model.addAttribute("list", list);
 
         model.addAttribute("pageDTO", pagedDTO);
+        return "/mate/bbs_list";
     }
-
+    //페이징 처리
     @RequestMapping("pagination")
     public @ResponseBody Map<String,Object> pageList(PageDTO pageDTO, Model model, HttpSession session) {
         //페이징 변수들 계산하기
@@ -56,24 +58,46 @@ public class MateController {
         map.put("pageDTO", pagedDTO);
         return map;
     }
+    //게시물 상세처리
     @RequestMapping("bbs_one")
-    public void one(long mateBoardId, Model model) {
+    public String one(long mateBoardId, Model model) {
         //게시물 상세 가져오기
         MateBoardListDTO mateBoardListDTO = mateService.one(mateBoardId);
         //게시물 상세의 댓글 리스트 가져오기
         List<MateCommentDTO> list = mateService.commentList(mateBoardId);
         model.addAttribute("one", mateBoardListDTO);
         model.addAttribute("list", list);
+        return "/mate/bbs_one";
     }
-
+    //댓글 insert
     @RequestMapping("comment_insert")
     @ResponseBody
-    public Map<String,Object> insert(MateCommentDTO mateCommentDTO, Model model) {
+    public Map<String,Object> insert(MateCommentDTO mateCommentDTO) {
         int result = mateService.commentInsert(mateCommentDTO);
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
         Map<String,Object> map=new HashMap<>();
         map.put("list", list);
+        return map;
+    }
 
+    //댓글 delete
+    @RequestMapping("comment_edit")
+    @ResponseBody
+    public Map<String,Object> edit(MateCommentDTO mateCommentDTO) {
+        mateService.commentEdit(mateCommentDTO);
+        List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
+        Map<String,Object> map=new HashMap<>();
+        map.put("list", list);
+        return map;
+    }
+
+    @RequestMapping("comment_delete")
+    @ResponseBody
+    public Map<String,Object> delete(MateCommentDTO mateCommentDTO) {
+        mateService.commentDelete(mateCommentDTO);
+        List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
+        Map<String,Object> map=new HashMap<>();
+        map.put("list", list);
         return map;
     }
     /* 동행인게시판 글 작성 get, post 매핑*/

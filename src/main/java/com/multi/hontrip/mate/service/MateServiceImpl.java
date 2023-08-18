@@ -38,7 +38,6 @@ public class MateServiceImpl implements MateService{
 
     @Override
     public PageDTO paging(PageDTO pageDTO){
-
         //게시물 개수 가져오기
         int count = mateDAO.count(pageDTO);
         pageDTO.setCount(count);
@@ -56,7 +55,6 @@ public class MateServiceImpl implements MateService{
         //1page당 5개의 게시물을 넣는 경우
         //페이지 수 게산
         pageDTO.setPages(count);
-
         return pageDTO;
     }
 
@@ -68,19 +66,24 @@ public class MateServiceImpl implements MateService{
     public List<MateCommentDTO> commentList(long mateBoardId){
         return mateCommentDAO.list(mateBoardId);
     }
-
+    @Override
+    public void insert(MateBoardInsertDTO mateBoardInsertDTO) {
+        mateDAO.mateBoardInsert(mateBoardInsertDTO);
+    }
+    @Override
+    public MateBoardInsertDTO selectOne(int id) {
+        return mateDAO.mateBoardSelectOne(id);
+    }
+    @Override
     public int commentInsert (MateCommentDTO mateCommentDTO){
         return mateCommentDAO.insert(mateCommentDTO);
     }
 
     @Override
-    public void insert(MateBoardInsertDTO mateBoardInsertDTO) {
-        mateDAO.mateBoardInsert(mateBoardInsertDTO);
+    public void commentDelete(MateCommentDTO mateCommentDTO){
+        mateCommentDAO.delete(mateCommentDTO);
     }
-
-
-    @Override
-    public MateBoardInsertDTO selectOne(int id) {
-        return mateDAO.mateBoardSelectOne(id);
+    public void commentEdit(MateCommentDTO mateCommentDTO){
+        mateCommentDAO.edit(mateCommentDTO);
     }
 }
