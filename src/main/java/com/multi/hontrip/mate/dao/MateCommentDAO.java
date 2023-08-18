@@ -20,4 +20,12 @@ public class MateCommentDAO {
     public int insert(MateCommentDTO mateCommentDTO) {
         return my.insert("mateBbs.commentInsert", mateCommentDTO);
     }
+
+    public void delete(MateCommentDTO mateCommentDTO) {
+         my.delete("mateBbs.commentDelete", mateCommentDTO);
+    }
+
+    public void edit(MateCommentDTO mateCommentDTO) {
+        my.update("mateBbs.commentUpdate", mateCommentDTO);
+    }
 }
