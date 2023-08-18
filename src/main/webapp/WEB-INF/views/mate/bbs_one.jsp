@@ -65,6 +65,7 @@
                     mateBoardId: ${one.mateBoardId},
                     content: newContent
                 },
+
                 dataType: 'json',
                 success: function(data) {
                     let comment = '';
