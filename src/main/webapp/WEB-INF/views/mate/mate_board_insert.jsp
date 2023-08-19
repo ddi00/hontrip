@@ -20,6 +20,8 @@
     <script type="text/javascript"
             src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script>
+        window.history.forward()
+
 
         window.onpopstate = function () {
             window.location.href = "/hontrip"; // 홈페이지로 리다이렉트

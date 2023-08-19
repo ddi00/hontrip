@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mateBbs">
-    <insert id="mateBoardInsert" parameterType="mateBoardInsertDTO" useGeneratedKeys="true" keyProperty="id">
-        insert into mate_board (user_id, region_id, age_range_id, title, content, thumbnail, start_date,
-                                end_date, recruit_number, gender)
-        values (#{userId}, #{regionId},
-                #{ageRangeId},
-                #{title}, #{content}, #{thumbnail}, #{startDate}, #{endDate},
-                #{recruitNumber}, #{gender})
-    </insert>
+	<insert id="mateBoardInsert" parameterType="mateBoardInsertDTO" useGeneratedKeys="true" keyProperty="id">
+		insert into mate_board (user_id, region_id, age_range_id, title, content, thumbnail, start_date,
+								end_date, recruit_number, gender)
+		values (#{userId}, #{regionId},
+				#{ageRangeId},
+				#{title}, #{content}, #{thumbnail}, #{startDate}, #{endDate},
+				#{recruitNumber}, #{gender})
+	</insert>
 
-    <select id="mateBoardSelectOne" parameterType="long" resultType="mateBoardSelectOneDTO">
-		select
-			mb.id,
-			mb.user_id as userId,
-			mb.region_id as regionId,
-			mb.age_range_id as ageRangeId,
-			mb.title,
-			mb.content,
-			mb.thumbnail,
-			mb.start_date as startDate,
-			mb.end_date as endDate,
-			mb.recruit_number as recruitNumber,
-			mb.gender,
-			mb.created_at as createdAt,
-			mb.is_finish as isFinish,
-			u.nickname as userNickName,
-			u.profile_image as userProfileImage,
-			u.age_range_id as userAgeRange,
-			u.gender as userGender
-		from user u, mate_board mb
-		where mb.id = #{id} and u.id = mb.user_id
-    </select>
+	<select id="mateBoardSelectOne" parameterType="long" resultType="mateBoardSelectOneDTO">
+		select mb.id,
+			   mb.user_id        as userId,
+			   mb.region_id      as regionId,
+			   mb.age_range_id   as ageRangeId,
+			   mb.title,
+			   mb.content,
+			   mb.thumbnail,
+			   mb.start_date     as startDate,
+			   mb.end_date       as endDate,
+			   mb.recruit_number as recruitNumber,
+			   mb.gender,
+			   mb.created_at     as createdAt,
+			   mb.is_finish      as isFinish,
+			   u.nickname        as userNickName,
+			   u.profile_image   as userProfileImage,
+			   u.age_range_id    as userAgeRange,
+			   u.gender          as userGender
+		from user u,
+			 mate_board mb
+		where mb.id = #{id}
+		  and u.id = mb.user_id
+	</select>
 
-    <select id="findUserGenderAgeById" resultType="userGenderAgeDTO" parameterType="long">
-        select id,
-               age_range_id as ageRange,
-               gender
-        from user
-        where id = #{id}
-    </select>
+	<select id="findUserGenderAgeById" resultType="userGenderAgeDTO" parameterType="long">
+		select id,
+			   age_range_id as ageRange,
+			   gender
+		from user
+		where id = #{id}
+	</select>
 
-    <select id="checkApply" parameterType="mateMatchingAlarmDTO" resultType="int">
+	<select id="checkApply" parameterType="mateMatchingAlarmDTO" resultType="int">
 		select exists (select *
 					   from mate_matching_alarm
 					   where sender_id = #{senderId}
