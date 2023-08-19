@@ -189,7 +189,7 @@
 
 	<select id ="commentList" resultType="mateCommentDTO">
 		SELECT
-		mc.id,
+		mc.id AS commentId,
 		mc.mate_board_id AS mateBoardId,
 		mc.user_id AS userId,
 		mc.content,
@@ -207,6 +207,17 @@
 		INSERT INTO mate_comment
 		(mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number)
 		VALUES (#{mateBoardId}, #{userId}, #{content}, 1, 0, 0);
+	</insert>
+
+	<insert id="commentDelete" parameterType="mateCommentDTO">
+		DELETE FROM mate_comment
+		WHERE id = #{commentId};
+	</insert>
+
+	<insert id="commentUpdate" parameterType="mateCommentDTO">
+		UPDATE mate_comment
+		SET content = #{content}
+		WHERE id = #{commentId};
 	</insert>
 </mapper>
 

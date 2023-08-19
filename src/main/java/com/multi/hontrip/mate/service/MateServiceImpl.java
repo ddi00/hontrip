@@ -9,18 +9,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MateServiceImpl implements MateService {
-
+public class MateServiceImpl implements MateService{
     @Autowired
-    MateDAO mateDAO;
+    private MateDAO mateDAO;
 
     @Autowired
     private MateCommentDAO mateCommentDAO;
 
     @Override
-    public List<MateBoardListDTO> list(PageDTO pageDTO) {
-        pageDTO.setStartEnd(pageDTO.getPage());
-        return mateDAO.list(pageDTO);
+    public List<MateBoardListDTO> list(MatePageDTO matePageDTO) {
+        matePageDTO.setStartEnd(matePageDTO.getPage());
+        return mateDAO.list(matePageDTO);
     }
 
     public MateBoardListDTO one(long mateBoardId){
@@ -29,36 +28,34 @@ public class MateServiceImpl implements MateService {
     @Override
     public int pages(int count) {
         int pages = 0;
-        if (count % 10 == 0) {
+        if(count % 10 == 0) {
             pages = count / 5; //120개 --> 12pages
-        } else {
+        }else {
             pages = count / 5 + 1; //122개 --> 13pages
         }
         return pages;
     }
 
     @Override
-    public PageDTO paging(PageDTO pageDTO){
-
+    public MatePageDTO paging(MatePageDTO matePageDTO){
         //게시물 개수 가져오기
-        int count = mateDAO.count(pageDTO);
-        pageDTO.setCount(count);
-        int currentPageNo = pageDTO.getPage();
+        int count = mateDAO.count(matePageDTO);
+        matePageDTO.setCount(count);
+        int currentPageNo = matePageDTO.getPage();
         //start, end지점 구하기
-        pageDTO.setStartEnd(currentPageNo);
+        matePageDTO.setStartEnd(currentPageNo);
         //페이징 마지막 숫자 구하기
-        pageDTO.setRealEndNo();
+        matePageDTO.setRealEndNo();
         //페이지 리스트의 첫 페이지 번호,마지막 페이지 번호 구하기
-        pageDTO.setFirstLast(currentPageNo);
+        matePageDTO.setFirstLast(currentPageNo);
         //다음 버튼 존재 여부 구하기
-        pageDTO.setNext();
+        matePageDTO.setNext();
         //이전 버튼 존재 여부 구하기
-        pageDTO.setPrev();
+        matePageDTO.setPrev();
         //1page당 5개의 게시물을 넣는 경우
         //페이지 수 게산
-        pageDTO.setPages(count);
-
-        return pageDTO;
+        matePageDTO.setPages(count);
+        return matePageDTO;
     }
 
     @Override
@@ -83,6 +80,18 @@ public class MateServiceImpl implements MateService {
     @Override
     public MateBoardSelectOneDTO selectOne(long id) {
         return mateDAO.mateBoardSelectOne(id);
+    }
+    @Override
+    public int commentInsert (MateCommentDTO mateCommentDTO){
+        return mateCommentDAO.insert(mateCommentDTO);
+    }
+
+    @Override
+    public void commentDelete(MateCommentDTO mateCommentDTO){
+        mateCommentDAO.delete(mateCommentDTO);
+    }
+    public void commentEdit(MateCommentDTO mateCommentDTO){
+        mateCommentDAO.edit(mateCommentDTO);
     }
 
     @Override
@@ -114,5 +123,4 @@ public class MateServiceImpl implements MateService {
     public int checkApply(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
         return mateDAO.checkApply(mateMatchingAlarmDTO);
     }
-
 }

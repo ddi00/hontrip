@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="emergency_facility">
+    <select id="one" parameterType="Long" resultType="EmergencyFacilityDTO">
+        select emergency_facility_id,
+               id,
+               place_name,
+               category_name,
+               category_group_code,
+               category_group_name,
+               phone,
+               address_name,
+               road_address_name,
+               x,
+               y,
+               place_url,
+               distance from emergency_facility
+        where emergency_facility_id = #{EmergencyFacilityId}
+    </select>
+    <select id="count" parameterType="Long" resultType="int">
+        select count(emergency_facility_id) from emergency_facility_id
+        where emergency_facility_id = ${EmergencyFacilityId}
+    </select>
+    <select id="all" resultType="EmergencyFacilityDTO">
+        select emergency_facility_id,
+               id,
+               place_name,
+               category_name,
+               category_group_code,
+               category_group_name,
+               phone,
+               address_name,
+               road_address_name,
+               x,
+               y,
+               place_url,
+               distance from emergency_facility
+    </select>
+    <select id="filterByCategory" resultType="EmergencyFacilityDTO">
+        SELECT emergency_facility_id,
+               id,
+               place_name,
+               category_name,
+               category_group_code,
+               category_group_name,
+               phone,
+               address_name,
+               road_address_name,
+               x,
+               y,
+               place_url,
+               distance FROM emergency_facility
+        WHERE category_group_name LIKE CONCAT('%', #{categoryGroupName}, '%')
+    </select>
+
+    <select id="filterByAddress" resultType="EmergencyFacilityDTO">
+        SELECT emergency_facility_id,
+               id,
+               place_name,
+               category_name,
+               category_group_code,
+               category_group_name,
+               phone,
+               address_name,
+               road_address_name,
+               x,
+               y,
+               place_url,
+               distance FROM emergency_facility
+        WHERE address_name LIKE CONCAT('%', #{addressName}, '%')
+    </select>
+    <select id="filterByCategoryAndAddress" resultType="EmergencyFacilityDTO">
+        SELECT emergency_facility_id,
+               id,
+               place_name,
+               category_name,
+               category_group_code,
+               category_group_name,
+               phone,
+               address_name,
+               road_address_name,
+               x,
+               y,
+               place_url,
+               distance FROM emergency_facility
+        WHERE category_group_name LIKE CONCAT('%', #{categoryGroupName}, '%')
+          AND address_name LIKE CONCAT('%', #{addressName}, '%')
+    </select>
+
+</mapper>
