@@ -67,10 +67,6 @@ public class MateServiceImpl implements MateService{
         return mateCommentDAO.list(mateBoardId);
     }
 
-    public int commentInsert (MateCommentDTO mateCommentDTO){
-        return mateCommentDAO.insert(mateCommentDTO);
-    }
-
     @Override
     public void insert(MateBoardInsertDTO mateBoardInsertDTO) {
         mateDAO.mateBoardInsert(mateBoardInsertDTO);

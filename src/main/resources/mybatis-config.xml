@@ -21,6 +21,9 @@
 
         <!-- mate -->
         <typeAlias type="com.multi.hontrip.mate.dto.MateBoardInsertDTO" alias="mateBoardInsertDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.UserGenderAgeDTO" alias="userGenderAgeDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.MateBoardSelectOneDTO" alias="mateBoardSelectOneDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.MateMatchingAlarmDTO" alias="mateMatchingAlarmDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.mate.dto.MateDTO" alias="mateDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.mate.dto.MateBoardListDTO" alias="mateBoardListDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.mate.dto.MatePageDTO" alias="matePageDTO"></typeAlias>

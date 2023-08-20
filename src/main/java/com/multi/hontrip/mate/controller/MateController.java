@@ -112,18 +112,19 @@ public class MateController {
 
     /* 동행인게시판 글 작성 post 매핑*/
     @PostMapping("/insert")
-    public String insert(@RequestParam("file") MultipartFile file,
-                         MateBoardInsertDTO mateBoardInsertDTO,
-                         HttpServletRequest request, RedirectAttributes redirectAttributes
+    @ResponseBody
+    public long insert(@RequestParam("file") MultipartFile file,
+                       MateBoardInsertDTO mateBoardInsertDTO,
+                       HttpServletRequest request, RedirectAttributes redirectAttributes
     ) throws IOException {
         String savedFileName = file.getOriginalFilename();
         mateBoardInsertDTO.setThumbnail(savedFileName);
-        String uploadPath = "D:\\hontrip\\src\\main\\webapp\\resources\\upload";
+        String uploadPath = "D:\\hontrip\\src\\main\\webapp\\resources\\img\\mateImg";
         File target = new File(uploadPath + "/" + savedFileName);
         file.transferTo(target);
         mateService.insert(mateBoardInsertDTO);
         redirectAttributes.addAttribute("id", mateBoardInsertDTO.getId());
-        return "redirect:/mate/{id}";
+        return mateBoardInsertDTO.getId();
     }
 
 
@@ -149,12 +150,14 @@ public class MateController {
         return new Gson().toJson(user);
     }
 
+    /*동행 상세게시판 삭제*/
     @DeleteMapping("/delete/{id}")
     @ResponseBody
     public int deleteMateBoard(@PathVariable("id") long id) {
         return mateService.deleteMateBoard(id);
     }
 
+    /*동행 게시판 수정페이지 이동*/
     @PostMapping("/editpage")
     public String updateMateBoard(MateBoardInsertDTO mateBoardInsertDTO, Model model) {
         model.addAttribute("dto", mateBoardInsertDTO);
@@ -162,6 +165,7 @@ public class MateController {
     }
 
 
+    /*동행 게시판 수정사항 반영*/
     @PostMapping("/edit")
     public String updateMateBoard(
             @RequestParam(value = "file", required = false) MultipartFile file,
@@ -169,7 +173,7 @@ public class MateController {
         if (file != null && !file.isEmpty()) {
             String savedFileName = file.getOriginalFilename();
             mateBoardInsertDTO.setThumbnail(savedFileName);
-            String uploadPath = "D:\\hontrip\\src\\main\\webapp\\resources\\upload";
+            String uploadPath = "D:\\hontrip\\src\\main\\webapp\\resources\\img\\mateImg";
             File target = new File(uploadPath + "/" + savedFileName);
             file.transferTo(target);
         }
@@ -185,7 +189,7 @@ public class MateController {
         return mateService.insertMatchingAlarm(mateMatchingAlarmDTO);
     }
 
-
+    /* 동행 신청자의 신청 여부를 확인*/
     @GetMapping("checkApply")
     @ResponseBody
     public int checkApply(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
