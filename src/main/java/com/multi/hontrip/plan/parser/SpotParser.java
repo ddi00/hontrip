@@ -34,13 +34,14 @@ public class SpotParser {
     }
 
     // 사용자 입력 지역명 - 지역코드 맵핑하기 위한 메소드
-    public static String findAreaCodeByAreaName(String areaName) {
+    public static String getAreaCodeByAreaName(String areaName) {
+        String areaCode = "";
         for (Area area : Area.values()) {
             if (area.getAreaName().contains(areaName)) {
-                return area.getAreaCode();
+                areaCode = area.getAreaCode();
             }
         }
-        return null;
+        return areaCode;
     }
 
     // 여행지 api 호출 및 데이터 파싱
@@ -50,7 +51,7 @@ public class SpotParser {
         String parsingUrl = "";
 
         int pageNo = 1;
-        String areaCode = findAreaCodeByAreaName(areaName);
+        String areaCode = getAreaCodeByAreaName(areaName);
         //System.out.println(areaCode);
 
         try {

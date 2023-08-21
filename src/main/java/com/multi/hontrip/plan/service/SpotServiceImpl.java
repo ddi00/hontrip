@@ -84,7 +84,7 @@ public class SpotServiceImpl implements SpotService {
 //                }
 //            }
         }else if(spotSearchDTO.getCategory().equals("area")){
-            List<SpotDTO> list = spotParser.parseDataWithAreaName(spotSearchDTO.getAreaName());
+            List<SpotDTO> list = spotParser.parseDataWithAreaName(spotSearchDTO.getKeyword());
                 // DB에 데이터 추가
                 for (SpotDTO spotDTO : list) {
                     spotDAO.insert(spotDTO);
