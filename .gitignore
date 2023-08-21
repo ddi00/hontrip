@@ -149,7 +149,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # target
-target
+target/*
 
 
 # user properties
