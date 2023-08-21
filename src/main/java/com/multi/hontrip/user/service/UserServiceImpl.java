@@ -4,6 +4,7 @@ import com.multi.hontrip.user.dao.UserDAO;
 import com.multi.hontrip.user.dto.LoginUrlData;
 import com.multi.hontrip.user.dto.UserDTO;
 import com.multi.hontrip.user.dto.UserInsertDTO;
+import com.multi.hontrip.user.dto.WithdrawUserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements  UserService{   //사용자 회원처리
+public class UserServiceImpl implements UserService{   //사용자 회원처리
 
     private final UserDAO userDAO;
     @Qualifier("kakaoService")
@@ -54,6 +55,26 @@ public class UserServiceImpl implements  UserService{   //사용자 회원처리
     @Override
     public void logOut(Long userId) {   //로그아웃시 사용자 access 토큰 관련 정보 지우기
         userDAO.removeAccessToken(userId);
+    }
+
+    @Override
+    public WithdrawUserDTO getSoicalIdbyId(WithdrawUserDTO withdrawUserDTO) {   //사용자 정보 가져오기
+        return userDAO.findSocialInfoById(withdrawUserDTO.getId());
+    }
+
+    @Override
+    public String quiteSocial(WithdrawUserDTO withdrawUserDTO) {    //소셜 탈퇴 처리 - 사용자 구분
+        if(withdrawUserDTO.getProvider().equals("kakao")){  
+            return kakaoService.quiteSicalOauth(withdrawUserDTO);
+        }else if(withdrawUserDTO.getProvider().equals("naver")){
+            return naverService.quiteSicalOauth(withdrawUserDTO);
+        }
+        return "fail";
+    }
+
+    @Override
+    public void removeUserId(Long id) { //DB에서 사용자 정보 삭제
+        userDAO.removeUser(id);
     }
 
     @Override

@@ -12,13 +12,11 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/mate_board_insert.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/plan.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/user.css"/>">
-<%--    <link rel="stylesheet" href="<c:url value="/resources/css/record.css"/>">--%>
-     <link rel="preload" href="<c:url value="/resources/assets/css/fonts/urbanist.css"/>"as="style" onload="this.rel='stylesheet'">
-
+    <link rel="preload" href="<c:url value="/resources/assets/css/fonts/urbanist.css"/>"as="style" onload="this.rel='stylesheet'">
     <script type="text/javascript" src="<c:url value="/resources/assets/js/plugins.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/assets/js/theme.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.7.0.js"/>" defer></script>
-    <%--    <script type="text/javascript" src="<c:url value="/resources/js/chat.js"/>" defer></script>--%>
+    <script type="text/javascript" src="<c:url value="/resources/js/chat.js"/>" defer></script>
 </head>
 <body>
 <div class="content-wrapper">

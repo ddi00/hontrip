@@ -1,48 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration
-		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	<settings>
-		<!-- DB 조회결과 snake_case -> camelCase 변환 -->
-		<setting name="mapUnderscoreToCamelCase" value="true" />
-	</settings>
+    <settings>
+        <!-- DB 조회결과 snake_case -> camelCase 변환 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
 
-	<!-- SQL문 정의할 때 VO표현을 간단하게 하고 싶은 경우. 별명을 지어서 사용 -->
-	<typeAliases>
-		<typeAlias type="com.multi.hontrip.plan.dto.PlanDTO" alias="PlanDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.plan.dto.PlanDayDTO" alias="PlanDayDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.plan.dto.SpotDTO" alias="SpotDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.plan.dto.AccommodationDTO" alias="AccommodationDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.plan.dto.EmergencyFacilityDTO" alias="EmergencyFacilityDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.plan.dto.FlightDTO" alias="FlightDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.plan.dto.FlightSearchDTO" alias="FlightSearchDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.mate.dto.MateBoardInsertDTO" alias="mateBoardInsertDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.mate.dto.MateDTO" alias="mateDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.mate.dto.MateBoardListDTO" alias="mateBoardListDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.mate.dto.LocationDTO" alias="locationDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.mate.dto.PageDTO" alias="pageDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.user.dto.UserDTO" alias="userDTO"></typeAlias>
-		<typeAlias type="com.multi.hontrip.user.dto.UserInsertDTO" alias="userInsertDTO"></typeAlias>
-	</typeAliases>
+    <!-- SQL문 정의할 때 VO표현을 간단하게 하고 싶은 경우. 별명을 지어서 사용 -->
+    <typeAliases>
+        <!--plan -->
+        <typeAlias type="com.multi.hontrip.plan.dto.PlanDTO" alias="PlanDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.plan.dto.PlanDayDTO" alias="PlanDayDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.plan.dto.SpotDTO" alias="SpotDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.plan.dto.AccommodationDTO" alias="AccommodationDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.plan.dto.EmergencyFacilityDTO" alias="EmergencyFacilityDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.plan.dto.FlightDTO" alias="FlightDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.plan.dto.FlightSearchDTO" alias="FlightSearchDTO"></typeAlias>
 
-	<typeHandlers>
-		<typeHandler handler="com.multi.hontrip.mate.dto.GenderTypeHandler"/>
-		<typeHandler handler="com.multi.hontrip.mate.dto.RegionTypeHandler"/>
-		<typeHandler handler="com.multi.hontrip.mate.dto.AgeRangeTypeHandler"/>
-		<typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler" />
-	</typeHandlers>
+        <!-- mate -->
+        <typeAlias type="com.multi.hontrip.mate.dto.MateBoardInsertDTO" alias="mateBoardInsertDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.MateDTO" alias="mateDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.MateBoardListDTO" alias="mateBoardListDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.MatePageDTO" alias="matePageDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.MateCommentDTO" alias="mateCommentDTO"></typeAlias>
 
-	<mappers>
-		<!-- SQL문 정의하는 파일들의 목록을 지정. 테이블당 한개 사용 -->
-		<!--<mapper resource="mapper/mateMapper.xml" />-->
-		<mapper resource="mapper/planMapper.xml" />
-		<mapper resource="mapper/planDayMapper.xml" />
-		<mapper resource="mapper/spotMapper.xml" />
-		<mapper resource="mapper/flightMapper.xml" />
-		<mapper resource="mapper/accommodationMapper.xml" />
-		<mapper resource="mapper/emergencyFacilityMapper.xml" />
-		<mapper resource="mapper/mateMapper.xml" />
-		<mapper resource="mapper/userMapper.xml" />
-	</mappers>
+        <!-- user -->
+        <typeAlias type="com.multi.hontrip.user.dto.UserDTO" alias="userDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.user.dto.UserInsertDTO" alias="userInsertDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.user.dto.WithdrawUserDTO" alias="withdrawUserDTO"></typeAlias>
+
+        <!--record-->
+        <typeAlias type="com.multi.hontrip.record.dto.CreatePostDTO" alias="createPostDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.record.dto.PostInfoDTO" alias="postInfoDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.record.dto.CommentDTO" alias="commentDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.record.dto.LocationDTO" alias="locationDTO"></typeAlias>
+    </typeAliases>
+
+    <typeHandlers>
+        <typeHandler handler="com.multi.hontrip.mate.dto.GenderTypeHandler"/>
+        <typeHandler handler="com.multi.hontrip.mate.dto.RegionTypeHandler"/>
+        <typeHandler handler="com.multi.hontrip.mate.dto.AgeRangeTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler"/>
+    </typeHandlers>
+
+    <mappers>
+        <!-- SQL문 정의하는 파일들의 목록을 지정. 테이블당 한개 사용 -->
+        <!--<mapper resource="mapper/mateMapper.xml" />-->
+        <mapper resource="mapper/planMapper.xml"/>
+        <mapper resource="mapper/planDayMapper.xml"/>
+        <mapper resource="mapper/spotMapper.xml"/>
+        <mapper resource="mapper/flightMapper.xml"/>
+        <mapper resource="mapper/accommodationMapper.xml"/>
+        <mapper resource="mapper/emergencyFacilityMapper.xml"/>
+        <mapper resource="mapper/mateMapper.xml"/>
+        <mapper resource="mapper/userMapper.xml"/>
+        <mapper resource="mapper/recordMapper.xml"/>
+    </mappers>
+
 </configuration>

@@ -1,33 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mateBbs">
-	<insert id="insert" parameterType="mateBoardInsertDTO">
-		insert into mate_board (user_id, region_id, age_range_id, title, content, thumbnail, start_date,
-								end_date, recruit_number, gender)
-		values (#{userId}, #{regionId},
-				#{ageRangeId},
-				#{title}, #{content}, #{thumbnail}, #{startDate}, #{endDate},
-				#{recruitNumber}, #{gender})
-	</insert>
-
-	<select id="selectOne" parameterType="int" resultType="mateBoardInsertDTO">
-        SELECT user_id        as userId,
-			   region_id      as regionId,
-			   age_range_id   as ageRangeId,
-			   title,
-			   content,
-			   thumbnail,
-			   start_date     as startDate,
-			   end_date       as endDate,
-			   recruit_number as recruitNumber,
-			   gender,
-			   created_at     as createdAt,
-			   updated_at     as updatedAt,
-			   is_finish      as isFinish
-		FROM mate_board
-		where id = #{id}
-	</select>
-
 	<select id="list" resultType="mateBoardListDTO">
 		SELECT
 		mb.id AS mateBoardId,
@@ -57,49 +30,97 @@
 				<if test='searchType.equals("nickname")'>
 					AND nickname LIKE concat('%', #{keyword}, '%')
 				</if>
-				<!--				<if test='searchType.equals("id")'>-->
-				<!--					AND mb.id BETWEEN #{start} AND #{end}-->
-				<!--				</if>-->
 			</if>
 		</where>
-		AND mb.id BETWEEN #{start} AND #{end}
 		ORDER BY
-		mb.id DESC;
+		mb.id DESC
+		LIMIT #{start} OFFSET #{end}
 	</select>
 
-
-	<!--	<select id="list" resultType="mateBoardListDTO">-->
-	<!--		SELECT-->
-	<!--		mb.id AS mateBoardId,-->
-	<!--		u.nickname AS nickname,-->
-	<!--		mb.content AS content,-->
-	<!--		mb.title AS title,-->
-	<!--		mb.thumbnail AS thumbnail,-->
-	<!--		mb.start_date AS startDate,-->
-	<!--		mb.end_date AS endDate,-->
-	<!--		ar.range_description AS ageRange-->
-	<!--		FROM-->
-	<!--		mate_board mb-->
-	<!--		JOIN user u ON mb.user_id = u.id-->
-	<!--		JOIN age_range ar ON mb.age_range_id = ar.id-->
-	<!--		WHERE-->
-	<!--		mb.id BETWEEN #{start} AND #{end}-->
-	<!--		ORDER BY-->
-	<!--		mb.id DESC;-->
-	<!--	</select>-->
+	<select id="one" resultType="mateBoardListDTO">
+		SELECT
+		mb.id AS mateBoardId,
+		u.nickname as nickname,
+		mb.content as content,
+		mb.title as title,
+		mb.thumbnail as thumbnail,
+		mb.start_date as startDate,
+		mb.end_date as endDate,
+		ar.range_description as ageRange
+		FROM
+		mate_board mb
+		JOIN
+		user u ON mb.user_id = u.id
+		JOIN
+		age_range ar ON mb.age_range_id = ar.id
+		WHERE
+		mb.id = #{mateBoardId};
+	</select>
 
 	<select id="count" resultType="Integer">
-		select count(*)
-		from mate_board;
+		SELECT COUNT(*)
+		FROM mate_board mb
+		JOIN user u ON mb.user_id = u.id
+		JOIN age_range ar ON mb.age_range_id = ar.id
+		<where>
+			<if test='searchType != null'>
+				<if test='searchType.equals("title")'>
+					AND title LIKE concat('%', #{keyword}, '%')
+				</if>
+				<if test='searchType.equals("content")'>
+					AND content LIKE concat('%', #{keyword}, '%')
+				</if>
+				<if test='searchType.equals("title_content")'>
+					AND title LIKE concat('%', #{keyword}, '%')
+					or content LIKE concat('%', #{keyword}, '%')
+				</if>
+				<if test='searchType.equals("nickname")'>
+					AND nickname LIKE concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</where>
 	</select>
 
-	<select id="location" resultType="locationDTO">
-		SELECT id   as locationId,
-			   city as city
+
+	<select id ="location" resultType="locationDTO">
+		SELECT id as locationId,
+		city as city
 		FROM location;
 	</select>
-</mapper>
 
+	<select id ="commentList" resultType="mateCommentDTO">
+		SELECT
+		mc.id AS commentId,
+		mc.mate_board_id AS mateBoardId,
+		mc.user_id AS userId,
+		mc.content,
+		mc.comment_sequence AS commentSequence,
+		mc.comments_sequence AS commentsSequence,
+		mc.indentation_number AS indentationNumber,
+		mc.created_at AS createdAt,
+		mc.updated_at AS updatedAt,
+		u.nickname As nickname
+		FROM mate_comment mc
+		JOIN user u ON mc.user_id = u.id
+		WHERE mate_board_id = #{mateBoardId};
+	</select>
+	<insert id="commentInsert" parameterType="mateCommentDTO">
+		INSERT INTO mate_comment
+		(mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number)
+		VALUES (#{mateBoardId}, #{userId}, #{content}, 1, 0, 0);
+	</insert>
+
+	<insert id="commentDelete" parameterType="mateCommentDTO">
+		DELETE FROM mate_comment
+		WHERE id = #{commentId};
+	</insert>
+
+	<insert id="commentUpdate" parameterType="mateCommentDTO">
+		UPDATE mate_comment
+		SET content = #{content}
+		WHERE id = #{commentId};
+	</insert>
+</mapper>
 
 
 
