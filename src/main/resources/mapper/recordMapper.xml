@@ -104,7 +104,7 @@
 	</select>
 
 	<!-- 내 지도 자료 가져오기 -->
-	<select id="mymap" resultType="recordLocationDTO">
+	<select id="mymap" resultType="LocationDTO">
 		SELECT rb.location_id, loc.lat, loc.lon, loc.city, loc.id
 		FROM record_board rb
 		JOIN location loc ON rb.location_id = loc.id
