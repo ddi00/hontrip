@@ -15,17 +15,34 @@ public class SpotDAO {
     @Autowired
     SqlSessionTemplate my;
 
+    // 여행지 추가
     public void insert(SpotDTO spotDTO){
         my.insert("spot.insert", spotDTO);
     }
 
-    public List<SpotDTO> list(@Param("areaName") String areaName) {
+    // 여행지 세부 정보 update
+    public void update(SpotDTO spotDTO){
+        my.update("spot.update", spotDTO);
+    }
+    
+    // 단일 여행지 조회
+    public SpotDTO one(String contentId){
+        return my.selectOne("spot.one", contentId);
+    }
+    
+    // 여행지 지역 목록 조회
+    public List<SpotDTO> listWithAreaName(String areaName) {
         String areaCode = "";
         for (Area area : Area.values()) {
             if (area.getAreaName().contains(areaName)) {
                 areaCode = area.getAreaCode();
             }
         }
-        return my.selectList("spot.list", areaCode);
+        return my.selectList("spot.areaList", areaCode);
+    }
+
+    // 여행지 키워드 목록 조회
+    public List<SpotDTO> listWithKeyword(String keyword) {
+        return my.selectList("spot.keywordList", keyword);
     }
 }

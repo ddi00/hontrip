@@ -1,53 +1,28 @@
 package com.multi.hontrip.plan.service;
 
-import com.multi.hontrip.plan.dao.FlightDAO;
 import com.multi.hontrip.plan.dto.FlightDTO;
 import com.multi.hontrip.plan.dto.FlightSearchDTO;
-import com.multi.hontrip.plan.parser.Airport;
-import com.multi.hontrip.plan.parser.FlightParser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.Date;
+import java.text.ParseException;
 import java.util.List;
 
-@Service
-public class FlightService {
+public interface FlightService {
 
-    private FlightDAO flightDAO;
-    private FlightParser flightParser;
-    @Autowired
-    public FlightService(FlightDAO flightDAO, FlightParser flightParser){
-        this.flightDAO = flightDAO;
-        this.flightParser = flightParser;
-    }
+    // 항공편 추가
+    public void insertFlight(FlightDTO flightDTO);
 
-    public void insert(FlightDTO dto) throws IOException, ParserConfigurationException, SAXException {
-        flightDAO.insert(dto);
-    }
+    // 검색 항공편 수 카운트
+    public int countFlight(FlightSearchDTO flightSearchDTO) throws ParseException;
 
-    public void parseData(FlightSearchDTO flightSearchDTO) throws IOException, ParserConfigurationException, SAXException {
-        List<FlightDTO> flightList = list(flightSearchDTO);
-        System.out.println(flightList);
-        if (flightList.isEmpty()){
-            List<FlightDTO> list = flightParser.parseData(flightSearchDTO.getDepAirportName(), flightSearchDTO.getArrAirportName(), flightSearchDTO.getDepDate());
-            // DB 추가
-            for (FlightDTO flightDTO : list) {
-                flightDAO.insert(flightDTO);
-            }
-        }
-    }
+    // 항공편 api 조회 및 데이터 파싱
+    public void parseData(FlightSearchDTO flightSearchDTO) throws IOException, ParserConfigurationException, SAXException, ParseException;
 
-    public List<FlightDTO> list(FlightSearchDTO flightSearchDTO) {
-        // flightSearchDTO : 출발 공항명, 도착 공항명, 출발일
-        // DTO - Airport enum 일치하는 공항명 리턴
-        Airport depAirport = Airport.valueOf(flightSearchDTO.getDepAirportName());
-        Airport arrAirport = Airport.valueOf(flightSearchDTO.getArrAirportName());
-        Date depDate = flightSearchDTO.getDepDate();
-        // DAO에 파라미터 넘김
-        return flightDAO.list(depAirport.getAirportName(), arrAirport.getAirportName(), depDate);
-    }
+    // 항공편 목록 조회
+    public List<FlightDTO> listFlight(FlightSearchDTO flightSearchDTO) throws ParseException;
+
+    // 무한 스크롤 시 목록 조회
+    public List<FlightDTO> loadList(FlightSearchDTO flightSearchDTO) throws ParseException;
 }

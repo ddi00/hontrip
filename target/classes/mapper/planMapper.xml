@@ -4,6 +4,9 @@
 	<insert id="insert" parameterType="PlanDTO"
 			useGeneratedKeys="true"
 			keyProperty="id">
+		<!-- insert, update, delete문은 결과가 int임.
+           mybatis에서는 resultType="int"가 자동으로 들어가 있음.
+         -->
 		insert into plan
 		values (null, #{userId}, #{title}, #{startDate}, #{endDate}, #{memo}, now(), now())
 	</insert>
@@ -13,16 +16,7 @@
 		where id = #{id}
 	</update>
 	<select id="one" parameterType="Long" resultType="PlanDTO">
-		select
-		    id,
-		    user_id,
-		    title,
-		    start_date,
-		    end_date,
-		    memo,
-		    created_at,
-		    updated_at
-		from plan
+		select * from plan
 		where id = #{id}
 	</select>
 	<select id="count" parameterType="Long" resultType="int">
@@ -30,16 +24,7 @@
 		where user_id = ${userId}
 	</select>
 	<select id="all" resultType="PlanDTO">
-		select
-			id,
-			user_id,
-			title,
-			start_date,
-			end_date,
-			memo,
-			created_at,
-			updated_at
-		from plan
+		select * from plan
 	</select>
 	<delete id="delete" parameterType="PlanDTO">
 		delete from plan

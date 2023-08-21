@@ -1,22 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-</head>
-<body>
-<a href="/hontrip" role="button" class="btn btn-light mx-4 mt-4">홈</a>
-<div class="container-fluid container my-5 w-50 p-3">
-  <h4>지역명으로 검색</h4>
-  <form id="mySpot" action="search" method="post">
-    <label name="areaName">지역명</label>
-    <input type="text" id="areaName" name="areaName">
-    <input type="submit" value="여행지 검색" class="btn btn-primary">
-  </form>
-</div>
-</body>
-</html>
+<section class="wrapper bg-light">
+    <div class="container-fluid container mt-15 mb-20 w-75">
+        <h3>여행지 검색</h3><br>
+                <form id="spot-search-form" action="search" method="post" class="mt-5">
+                    <div class="custom-form-container">
+                        <div class="col-md-2 me-2">
+                            <select class="form-select" id="category" name="category" form="spot-search-form" aria-label="검색 범주">
+                                <option value="keyword" selected>여행지명</option>
+                                <option value="area">지역명</option>
+                            </select>
+                        </div>
+                        <input type="text" id="keyword" name="keyword" class="custom-form-control col-md-8 me-2">
+                <input type="submit" value="검색" class="btn btn-yellow col-md-2">
+            </div>
+        </form>
+    </div>
+</section>
