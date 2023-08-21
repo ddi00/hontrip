@@ -3,7 +3,7 @@ package com.multi.hontrip.plan.controller;
 import com.multi.hontrip.plan.dto.FlightDTO;
 import com.multi.hontrip.plan.dto.FlightSearchDTO;
 import com.multi.hontrip.plan.parser.Airport;
-import com.multi.hontrip.plan.service.FlightService;
+import com.multi.hontrip.plan.service.FlightServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,27 +21,27 @@ import java.util.List;
 @RequestMapping("/plan/flight")
 public class FlightController {
 
-    private final FlightService flightService;
+    private final FlightServiceImpl flightService;
     @Autowired
-    public FlightController(FlightService flightService) {
+    public FlightController(FlightServiceImpl flightService) {
         this.flightService = flightService;
     }
 
     // 항공편 검색
-    @GetMapping("/search_form")
+    @GetMapping("/search")
     public String showFlightSearchForm(@ModelAttribute("FlightSearchDTO") FlightSearchDTO flightSearchDTO) {
         return "/plan/flight/search_form"; // 항공편 검색 폼 반환
     }
 
     // 항공편 검색 목록
-    @PostMapping("/search")
+    @PostMapping("/search-flight")
     public String SearchFlight(@ModelAttribute("FlightSearchDTO") FlightSearchDTO flightSearchDTO, Model model)
             throws ParserConfigurationException, SAXException, IOException, ParseException {
-        final int PAGE_ROW_COUNT = 10;
-        int pageNum = 1;
-        int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT;
-        int endRowNum = pageNum * PAGE_ROW_COUNT;
-        int rowCount = PAGE_ROW_COUNT;
+        final int PAGE_ROW_COUNT = 10; // 한 페이지에 표시할 항공편 개수
+        int pageNum = 1; // 페이지 번호
+        int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT; // 시작 row 번호
+        int endRowNum = pageNum * PAGE_ROW_COUNT; // 마지막 row 번호
+        int rowCount = PAGE_ROW_COUNT; // row 카운트
 
         // Airport enum
         Airport departure_airport = Airport.valueOf(flightSearchDTO.getDepAirportName());
@@ -56,7 +56,7 @@ public class FlightController {
 
         flightService.parseData(flightSearchDTO);
 
-        // 뷰로 보내기 위함..
+        // 뷰로 보내기 위함
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         String departure_date = format.format(flightSearchDTO.getDepDate());
 
@@ -85,13 +85,12 @@ public class FlightController {
     
     // 로딩으로 불러오는 목록
     @RequestMapping("/search-page")
-    public String searchWithPaging(@RequestParam int pageNum,
+    public String searchWithScrolling(@RequestParam int pageNum,
                                  @RequestParam String depAirportName,
                                  @RequestParam String arrAirportName,
                                  @RequestParam String depDate,
                                  Model model) throws ParseException {
-
-        final int PAGE_ROW_COUNT = 10; // 한 페이지에 표시할 개수
+        final int PAGE_ROW_COUNT = 10; // 한 페이지에 표시할 항공편 개수
 
         int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT;
         int endRowNum = pageNum * PAGE_ROW_COUNT;
@@ -105,11 +104,6 @@ public class FlightController {
 
         flightSearchDTO.setDepAirportName(depAirportName);
         flightSearchDTO.setArrAirportName(arrAirportName);
-
-
-//        model.addAttribute("depAirportName", depAirportName);
-//        model.addAttribute("arrAirportName", arrAirportName);
-//        model.addAttribute("depDate", depDate);
 
         flightSearchDTO.setStartRowNum(startRowNum);
         flightSearchDTO.setEndRowNum(endRowNum);

@@ -27,7 +27,7 @@ public class FlightDAO {
     public int count(@Param("depAirportName") String depAirportName,
                             @Param("arrAirportName") String arrAirportName,
                             @Param("depDate") Date depDate){
-        // HashMap 통해 다중 parameter 전달
+        // HashMap 으로 다중 parameter 전달
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("depAirportName", depAirportName);
         paramMap.put("arrAirportName", arrAirportName);
@@ -46,7 +46,7 @@ public class FlightDAO {
                                 @Param("depDate") Date depDate,
                                 @Param("startRowNum") int startRowNum,
                                 @Param("rowCount") int rowCount) {
-        // HashMap 통해 다중 parameter 전달
+        // HashMap 으로 다중 parameter 전달
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("depAirportName", depAirportName);
         paramMap.put("arrAirportName", arrAirportName);

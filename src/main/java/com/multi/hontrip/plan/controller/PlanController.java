@@ -54,11 +54,11 @@ public class PlanController {
     }
 
     // 일정 하나만 보기
-    @RequestMapping("/one")
+    @RequestMapping("/detail")
     public String one(@RequestParam("id") Long id, Model model) {
         PlanDTO planDTO = planService.one(id);
         model.addAttribute("plan", planDTO);
-        return "/plan/one";
+        return "/plan/detail";
     }
 
     // 일정 목록 보기

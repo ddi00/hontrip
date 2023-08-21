@@ -5,9 +5,7 @@ import com.multi.hontrip.plan.service.EmergencyFacilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,14 +22,14 @@ public class EmergencyFacilityController {
         model.addAttribute("plan", plan);
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET) // 응급시설 리스트
+    @GetMapping(value = "/list") // 응급시설 리스트
     public String showEmergencyFacilityList(Model model) {
         List<EmergencyFacilityDTO> list = emergencyFacilityService.list();
         model.addAttribute("list", list);
         return "/plan/emergency_facility_list";
     }
 
-    @RequestMapping(value = "/filter_list", method = RequestMethod.POST) // 응급시설 필터
+    @PostMapping(value = "/filter_list") // 응급시설 필터
     public String filterList(@RequestParam(name = "categoryGroupName", required = false) String categoryGroupName,
                              @RequestParam(name = "addressName", required = false) String addressName,
                              Model model) {

@@ -1,8 +1,6 @@
 package com.multi.hontrip.plan.parser;
 
 import com.multi.hontrip.plan.dto.SpotDTO;
-import com.multi.hontrip.plan.service.SpotService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -75,11 +73,11 @@ public class SpotParser {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 conn.setRequestProperty("Content-type", "application/json");
-                System.out.println("Response code: " + conn.getResponseCode());
+                //System.out.println("Response code: " + conn.getResponseCode());
                 conn.disconnect();
 
                 parsingUrl = url.toString();
-                System.out.println(parsingUrl);
+                //System.out.println(parsingUrl);
 
                 // 페이지에 접근할 Document 객체 생성, 파싱할 url 요소 읽기
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -89,7 +87,7 @@ public class SpotParser {
                 // root tag
                 doc.getDocumentElement().normalize(); // xml 루트 요소 정규화
                 NodeList nodeList = doc.getElementsByTagName("item");   // 태그명 item
-                System.out.println("the number of parsing items : " + nodeList.getLength());
+                //System.out.println("the number of parsing items : " + nodeList.getLength());
 
                 // 파싱 대상 수만큼 for문 반복
                 for (int i = 0; i < nodeList.getLength(); i++) {
@@ -110,12 +108,12 @@ public class SpotParser {
                         // image
                         try {
                             if (getTagValue("firstimage", element) == null) {
-                                spotDTO.setImage("https://via.placeholder.com/200x150"); // 이미지 데이터 없을 시 빈 이미지 삽입
+                                spotDTO.setImage("https://via.placeholder.com/550x450.png?text=No%20image"); // 이미지 데이터 없을 시 빈 이미지 삽입
                             } else {
                                 spotDTO.setImage(getTagValue("firstimage", element));
                             }
                         } catch (NullPointerException e) {
-                            spotDTO.setImage("https://via.placeholder.com/200x150");
+                            spotDTO.setImage("https://via.placeholder.com/550x450.png?text=No%20image");
                         }
                         // hompage
                         try {
@@ -179,11 +177,11 @@ public class SpotParser {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
-            System.out.println("Response code: " + conn.getResponseCode());
+            //System.out.println("Response code: " + conn.getResponseCode());
             conn.disconnect();
 
             parsingUrl = url.toString();
-            System.out.println(parsingUrl);
+            //System.out.println(parsingUrl);
 
             // 페이지에 접근할 Document 객체 생성, 파싱할 url 요소 읽기
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -213,12 +211,12 @@ public class SpotParser {
                     // image
                     try {
                         if (getTagValue("firstimage", element) == null) {
-                            spotDTO.setImage("https://via.placeholder.com/550x450");
+                            spotDTO.setImage("https://via.placeholder.com/550x450.png?text=No%20image");
                         } else {
                             spotDTO.setImage(getTagValue("firstimage", element));
                         }
                     } catch (NullPointerException e) {
-                        spotDTO.setImage("https://via.placeholder.com/200x150");
+                        spotDTO.setImage("https://via.placeholder.com/550x450.png?text=No%20image");
                     }
                     // hompage
                     try {
@@ -278,11 +276,11 @@ public class SpotParser {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
-            System.out.println("Response code: " + conn.getResponseCode());
+            //System.out.println("Response code: " + conn.getResponseCode());
             conn.disconnect();
 
             parsingUrl = url.toString();
-            System.out.println(parsingUrl);
+            //System.out.println(parsingUrl);
 
             // 페이지에 접근할 Document 객체 생성, 파싱할 url 요소 읽기
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -337,11 +335,11 @@ public class SpotParser {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
-            System.out.println("Response code: " + conn.getResponseCode());
+            //System.out.println("Response code: " + conn.getResponseCode());
             conn.disconnect();
 
             parsingUrl = url.toString();
-            System.out.println(parsingUrl);
+            //System.out.println(parsingUrl);
 
             // 페이지에 접근할 Document 객체 생성, 파싱할 url 요소 읽기
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -352,7 +350,6 @@ public class SpotParser {
             doc.getDocumentElement().normalize();
 
             NodeList nodeList = doc.getElementsByTagName("item");   // 태그명 item
-            System.out.println("the number of parsing items : " + nodeList.getLength());
 
             Node node = nodeList.item(0);
             if (node.getNodeType() == Node.ELEMENT_NODE) { // 노드 타입 element 여부 확인

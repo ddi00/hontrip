@@ -5,31 +5,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<%--<h1>HonTrip</h1>
-
-<!-- 버튼 추가 -->
-<button id="goToPlanForm">일정 생성</button>
-<button id="goToPlanList">일정 목록</button>
-<button id="goToFlightForm">항공권 검색</button>--%>
-
-<script>
-    $(document).ready(function() {
-        // "일정 생성" 버튼 클릭 시
-        $("#goToPlanForm").click(function() {
-            window.location.href = "/hontrip/plan/form";
-        });
-
-        // "일정 목록" 버튼 클릭 시
-        $("#goToPlanList").click(function() {
-            window.location.href = "/hontrip/plan/list";
-        });
-
-        // "항공권 검색" 버튼 클릭 시
-        $("#goToFlightForm").click(function() {
-            window.location.href = "/hontrip/plan/flight/search_form";
-        });
-    });
-</script>
 </body>
 </html>
 
@@ -45,5 +20,13 @@
         동행인 매칭<br>
         <a href="mate/insert">동행인 매칭 게시글 작성</a><br>
         <a href="mate/88">동행인 매칭 게시글 상세페이지</a><br>
+        <br>
+        <a href="plan/create">일정 생성</a><br>
+        <a href="plan/list">일정 목록</a><br>
+        <a href="plan/flight/search">항공권 검색</a><br>
+        <a href="plan/spot/search">여행지 검색</a><br>
+        <a href="plan/accommodation/list">숙소 검색</a><br>
+        <a href="plan/emergency_facility/list">응급 시설 정보</a><br>
+        <a href="plan/safety_search">안전 정보</a><br>
     </div>
 </section>

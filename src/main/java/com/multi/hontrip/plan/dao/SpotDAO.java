@@ -31,7 +31,7 @@ public class SpotDAO {
     }
     
     // 여행지 지역 목록 조회
-    public List<SpotDTO> listWithAreaName(@Param("areaName") String areaName) {
+    public List<SpotDTO> listWithAreaName(String areaName) {
         String areaCode = "";
         for (Area area : Area.values()) {
             if (area.getAreaName().contains(areaName)) {
@@ -42,7 +42,7 @@ public class SpotDAO {
     }
 
     // 여행지 키워드 목록 조회
-    public List<SpotDTO> listWithKeyword(@Param("keyword") String keyword) {
+    public List<SpotDTO> listWithKeyword(String keyword) {
         return my.selectList("spot.keywordList", keyword);
     }
 }

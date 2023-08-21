@@ -2,32 +2,16 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>항공편 목록</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        .btn-custom1 {
-            background-color: #FF9F1C;
-            border-color: #FF9F1C;
-        }
-
-        .btn-custom2 {
-            background-color: #FFE0B5;
-            border-color: #FFE0B5;
-        }
-    </style>
-</head>
+<%--jquery cdn 따로 삽입 안 해주면 Uncaught ReferenceError: $ is not defined 발생하여 무한 스크롤 되지 않음 확인--%>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <section class="wrapper bg-light">
-    <div class="container-fluid container my-5 w-75 p-3">
+    <div class="container-fluid container mt-15 mb-15 w-75 p-3">
         <div class="row d-flex justify-content-center">
             <div class="col-md-10">
-                <div class="p-4">
+                <div class="ps-8 pb-5">
                     <h5>${depDate}</h5>
                     <h3>${depAirportName}발 - ${arrAirportName}행 항공편 목록</h3>
-                    <a href="search_form" role="button" class="btn btn-custom1 text-white">재검색</a>
+                    <a href="search" role="button" class="btn btn-yellow col-md-12">재검색</a>
                 </div>
                 <ul>
                     <c:forEach items="${list}" var="flight">
@@ -42,12 +26,10 @@
                                                pattern="yyyy-MM-dd HH:mm:ss"/>
                                 <fmt:formatDate value="${departureTime}" pattern="HH:mm"/>
                                     </span>
-
                                             <span style="display:none">출발 공항</span>
                                             <span>${flight.depAirportName}</span>
                                         </div>
                                     </div>
-
                                     <div class="col-md-4">
                                         <div id="arrival-info">
                                             <span style="display:none">도착 시간</span>
@@ -60,21 +42,19 @@
                                             <span>${flight.arrAirportName}</span>
                                         </div>
                                     </div>
-
                                     <div class="col-md-4">
                                         <div class="d-flex flex-column align-items-center float-end">
-                                            <button type="button" id="bookBtn" name="bookBtn"
-                                                    class="btn btn-custom1 text-white">
+                                            <button type="button" id="book-btn" name="book-btn"
+                                                    class="btn btn-outline-yellow">
                                                 예매하기
                                             </button>
-                                            <button type="button" id="addBtn" name="addBtn"
-                                                    class="btn btn-custom2 mt-1 text-black-50">
+                                            <button type="button" id="add-btn" name="add-btn"
+                                                    class="btn btn-custom1 mt-1 text-white">
                                                 추가하기
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-12">
                                         <span style="display:none">항공편명</span>
@@ -83,9 +63,7 @@
                                         <span style="display:none">항공사명</span>
                                         <span>${flight.airlineName}</span>
                                     </div>
-
                                 </div>
-
                                 <br>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -112,14 +90,13 @@
                                     </span>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </c:forEach>
                 </ul>
-                <ul class="flight-list" id="flight-list">
+                <ul id="flight-list">
                 </ul>
-                <%--                        로딩 spinner   --%>
+                <%--             로딩 spinner      --%>
                 <div class="text-center">
                     <div class="spinner-border text-warning" role="status">
                         <span class="visually-hidden">Loading...</span>
@@ -149,7 +126,6 @@
             currentPage++;
             GetFlightList(currentPage);
         }
-        ;
     });
 
     const GetFlightList = function (currentPage) {
