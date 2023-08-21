@@ -29,17 +29,19 @@ public class GenderTypeHandler implements TypeHandler<Gender> {
         Gender gender = null;
         switch (genderNumber) {
             case 1:
+                gender = Gender.NONE;
+            case 2:
                 gender = Gender.MALE;
                 break;
-            case 2:
+            case 3:
                 gender = Gender.FEMALE;
                 break;
-            case 3:
+            case 4:
                 gender = Gender.ALLGENDER;
                 break;
 
             default:
-                throw new EnumException("GENDER ENUM EXCEPTION");
+                throw new EnumException("GENDER EXCEPTION");
         }
         return gender;
     }

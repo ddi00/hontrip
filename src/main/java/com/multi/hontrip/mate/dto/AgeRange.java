@@ -6,9 +6,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum AgeRange {
 
-    TEENAGER(1, "10대"), TWENTIES(2, "20대"), THIRTIES(3, "30대"),
-    FORTIES(4, "40대"), FIFTIES(5, "50대"), SIXTIES(6, "60대"), SEVENTIES(7, "70대"),
-    ALLAGE(0, "아무나");
+    AGE_UNKNOWN(1, "나이정보 없음"),
+    TEENAGER(3, "10대"),
+    TWENTIES(4, "20대"),
+    THIRTIES(5, "30대"),
+    FORTIES(6, "40대"),
+    FIFTIES(7, "50대"),
+    SIXTIES(8, "60대"),
+    ALLAGE(9, "전연령");
 
     private final int ageRangeNum;
     private final String ageRangeStr;
@@ -20,6 +25,7 @@ public enum AgeRange {
     public String getAgeRangeStr() {
         return ageRangeStr;
     }
+
 
     public static String valueOf(int num) {
         String str = "";

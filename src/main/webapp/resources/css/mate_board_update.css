@@ -1,3 +1,7 @@
+.total {
+    margin: 0px 10px;
+}
+
 input, .recruitNum {
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -23,7 +27,7 @@ input[type=radio] {
     padding: 5px 5px;
 }
 
-input[type=radio][name="gender"] + label {
+input[type=radio][name="genders"] + label {
     margin: 5px;
     cursor: pointer;
     height: 24px;
@@ -79,25 +83,54 @@ input[type=checkbox]:checked + label {
     font-size: 11px;
 }
 
+.numDate {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .form-input:focus {
     outline: none;
     border-color: #FFA41B; /* Changed to orange color */
     box-shadow: 0px 0px 1px rgba(231, 76, 60, 0.5);
 }
 
+input[type='date'] {
+    width: 100px;
+    height: 27px;
+    margin: 5px 6px;
+}
+
+input[type='date']::before {
+    content: attr(data-placeholder);
+    display: none;
+
+}
+
+input[type='date']:focus::before,
+input[type='date']:valid::before {
+    display: none;
+}
+
+.dates {
+    width: 300px;
+    display: inline-block;
+    justify-content: space-between;
+}
+
+
 .option {
     margin-left: 8px;
     display: inline-block;;
-    width: 100px;
+    width: 110px;
     color: rgba(30, 50, 30, 0.7);
     font-size: 12px;
     font-weight: 550;
 }
 
 .option2 {
-    margin-left: 40px;
     display: inline-block;
-    width: 80px;
+    width: 75px;
     color: rgba(30, 50, 30, 0.7);
     font-size: 12px;
     font-weight: 550;
@@ -138,13 +171,28 @@ input[type=radio][name="regionId"]:checked + label {
     color: #fff;
 }
 
-.recruitNum {
+.genderRecruitNum {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+}
+
+.wantAgeRange {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+}
+
+
+.recruitNum, .isFinish {
     color: #505050;
     border-radius: 5px;
     font-size: 12px;
     margin-left: 10px;
     height: 27px;
-    width: 130px;
+    width: 100px;
 }
 
 .image-container {
