@@ -14,6 +14,8 @@ public class FlightDTO {
     private String arrivalTime; // 도착 시간
     private int economyCharge;  // 이코노미석 운임
     private int prestigeCharge; // 프레스티지석 운임
+    
+
 
     public void setEconomyCharge(String economyCharge) {    // economyCharge : String to int
         int charge = Integer.parseInt(economyCharge);

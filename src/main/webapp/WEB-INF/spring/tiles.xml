@@ -84,6 +84,12 @@
         <put-attribute name="body" value="/WEB-INF/views/plan/spot/search_list.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
+    <definition name="/plan/spot/detail" extends="default-layout">
+        <put-attribute name="title" value="여행계획/여행지/상세" />
+        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/plan/spot/detail.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+    </definition>
     <definition name="/plan/create" extends="default-layout">
         <put-attribute name="title" value="여행계획/여행일정생성" />
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
@@ -102,10 +108,10 @@
         <put-attribute name="body" value="/WEB-INF/views/plan/edit.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
-    <definition name="/plan/one" extends="default-layout">
+    <definition name="/plan/detail" extends="default-layout">
         <put-attribute name="title" value="여행계획/여행일정상세" />
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/one.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/plan/detail.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
    <!--동행인-->

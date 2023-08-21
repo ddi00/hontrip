@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!-- DB 조회결과 snake_case -> camelCase 변환 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+	<!-- SQL문 정의할 때 VO표현을 간단하게 하고 싶은 경우. 별명을 지어서 사용 -->
+	<typeAliases>
+		<!--<typeAlias type="com.multi.hontrip.mate.dto.MateDTO"
+				   alias="mateDTO"></typeAlias>-->
+		<typeAlias type="com.multi.hontrip.plan.dto.PlanDTO"
+				   alias="PlanDTO"></typeAlias>
+		<typeAlias type="com.multi.hontrip.plan.dto.AccommodationDTO"
+				   alias="AccommodationDTO"></typeAlias>
+		<typeAlias type="com.multi.hontrip.plan.dto.EmergencyFacilityDTO"
+				   alias="EmergencyFacilityDTO"></typeAlias>
+	</typeAliases>
+
+	<mappers>
+		<!-- SQL문 정의하는 파일들의 목록을 지정. 테이블당 한개 사용 -->
+		<!--<mapper resource="mapper/mateMapper.xml" />-->
+		<mapper resource="mapper/planMapper.xml" />
+		<mapper resource="mapper/accommodationMapper.xml" />
+		<mapper resource="mapper/emergencyFacilityMapper.xml" />
+	</mappers>
+</configuration>

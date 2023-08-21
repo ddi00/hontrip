@@ -1,47 +1,28 @@
 package com.multi.hontrip.plan.service;
 
-import com.multi.hontrip.plan.dao.SpotDAO;
 import com.multi.hontrip.plan.dto.SpotDTO;
 import com.multi.hontrip.plan.dto.SpotSearchDTO;
-import com.multi.hontrip.plan.parser.SpotParser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
 
-@Service
-public class SpotService {
+public interface SpotService {
 
-    private SpotDAO spotDAO;
-    private SpotParser spotParser;
+    // 여행지 추가
+    public void insert(SpotDTO spotDTO) throws IOException, ParserConfigurationException, SAXException;
 
-    @Autowired
-    public SpotService(SpotDAO spotDAO, SpotParser spotParser){
-        this.spotDAO = spotDAO;
-        this.spotParser = spotParser;
-    }
+    // 여행지 세부 사항 추가
+    public SpotDTO updateDetails(SpotDTO spotDTO) throws IOException, ParserConfigurationException, SAXException;
 
-    public void insert(SpotDTO spotDTO) throws IOException, ParserConfigurationException, SAXException  {
-        spotDAO.insert(spotDTO);
-    }
+    // 여행지 키워드로 조회 및 데이터 파싱
+    public void parseData(SpotSearchDTO spotSearchDTO) throws IOException, ParserConfigurationException, SAXException;
 
-    public void parseData(SpotSearchDTO spotSearchDTO) throws IOException, ParserConfigurationException, SAXException {
-        List<SpotDTO> spotList = list(spotSearchDTO);
-        if(spotList.isEmpty()) {
-            List<SpotDTO> list = spotParser.parseData(spotSearchDTO.getAreaName());
-            // DB 추가
-            for (SpotDTO spotDTO : list) {
-                spotDAO.insert(spotDTO);
-            }
-        }
-    }
+    // 여행지 단일 조회
+    public SpotDTO one(String contentId);
 
-    public List<SpotDTO> list(SpotSearchDTO spotSearchDTO) {
-        String areaName = spotSearchDTO.getAreaName();
-        // DAO에 파라미터 넘김
-        return spotDAO.list(areaName);
-    }
+    // 여행지 목록 조회
+    public List<SpotDTO> list(SpotSearchDTO spotSearchDTO);
+
 }

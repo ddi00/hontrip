@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/assets/css/plugins.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/assets/css/style.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/mate_board_insert.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/plan.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/user.css"/>">
     <link rel="preload" href="<c:url value="/resources/assets/css/fonts/urbanist.css"/>"as="style" onload="this.rel='stylesheet'">
     <script type="text/javascript" src="<c:url value="/resources/assets/js/plugins.js"/>" defer></script>
