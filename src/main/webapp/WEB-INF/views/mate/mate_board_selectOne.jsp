@@ -16,7 +16,7 @@
         long userId = (long) session.getAttribute("id");
         request.setAttribute("login", userId);
     }*/
-    request.setAttribute("login", 1L);
+    request.setAttribute("login", 4L);
 %>
 <%
     /* c:forEach 에서 사용할 배열 -> ageRangeStr */
@@ -50,7 +50,6 @@
         //request.setAttribute("ageRangeStr", ageRangeStr);
         String ageRangeJS = "";
         request.setAttribute("ageRangeJS", ageRangeJS);
-
     }
 %>
 <div class="content-wrapper">

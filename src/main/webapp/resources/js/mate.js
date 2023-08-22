@@ -1,5 +1,7 @@
 if (window.location.href.includes('/mate/insert')) {
 
+    alert("haha")
+
     //인서트창으로 돌아오지 못하게 막음
     window.history.forward();
 
@@ -312,8 +314,13 @@ if (window.location.href.includes('/mate/editpage')) {
 }
 
 /*동행인 상세게시판*/
-if (window.location.href.includes('/mate/')) {
+if (window.location.href.includes('')) {
+
+    alert("haha")
+
     function applyMate() {
+
+        console.log("haha")
         //로그인 안했을 경우 로그인창을 띄움
         if ($('#mateBoardLogin').val() == "no") {
             alert("로그인 창")
@@ -340,12 +347,11 @@ if (window.location.href.includes('/mate/')) {
                         ageRangeStrArr[0] = $('#ageRangeJS').val();
                     }
 
-                    /* console.log($('#ageRangeJS').val())
-
-                     console.log("젠더 원트: "+ $('#mateBoardGenderStr').val())
-                     console.log("에이지 원트: "+ ageRangeStrArr)
-                     console.log("유저젠더: "+ json.gender)
-                     console.log("유저나이: "+ json.ageRange)*/
+                    console.log($('#ageRangeJS').val())
+                    console.log("젠더 원트: " + $('#mateBoardGenderStr').val())
+                    console.log("에이지 원트: " + ageRangeStrArr)
+                    console.log("유저젠더: " + json.gender)
+                    console.log("유저나이: " + json.ageRange)
 
                     //모집조건에 부합하다면
                     //성별, 연령대 아무나 처리

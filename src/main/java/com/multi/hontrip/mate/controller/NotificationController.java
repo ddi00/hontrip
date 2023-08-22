@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.Map;
@@ -15,8 +16,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class NotificationController {
 
-    private final NotificationService notificationService;
+    public static Map<String, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
 
+    private final NotificationService notificationService;
+/*
     public static Map<Long, SseEmitter> sseEmitterMap = new ConcurrentHashMap<>();
 
     //로그인한 유저를 알림서비스에 등록하는 과정
@@ -26,5 +29,19 @@ public class NotificationController {
     public SseEmitter subscribe(@PathVariable long userId,
                                 @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) {
         return notificationService.subscribe(userId, lastEventId);
+    }*/
+
+    @GetMapping("/practice")
+    public String notiMain() {
+        return "/mate/ssePrac";
     }
+
+    @GetMapping(value = "/subscribe/{userId}", produces = "text/event-stream")
+    @ResponseBody
+    public SseEmitter subscribe(@PathVariable long userId,
+                                @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) {
+        return notificationService.subscribe(userId, lastEventId);
+    }
+
+
 }

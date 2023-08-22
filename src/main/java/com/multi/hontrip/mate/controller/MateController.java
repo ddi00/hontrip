@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.multi.hontrip.mate.dto.*;
 import com.multi.hontrip.mate.service.MateService;
+import com.multi.hontrip.mate.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,9 @@ public class MateController {
 
     @Autowired
     private MateService mateService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     // 게시판 목록 가져오기
     @GetMapping("bbs_list")
@@ -184,6 +188,17 @@ public class MateController {
     @PostMapping("insertMatchingAlarm")
     @ResponseBody
     public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
+
+        MateApplicationNotificationDTO mateApplicationNotificationDTO = MateApplicationNotificationDTO.builder()
+                .content("같이 여행갑시다!!")
+                .isRead(false)
+                .mateBoardURL("http://localhost:8080/hontrip/mate/262")
+                .senderId(4)
+                .receiverId(1)
+                .id(7)
+                .build();
+
+        notificationService.send(mateApplicationNotificationDTO);
         return mateService.insertMatchingAlarm(mateMatchingAlarmDTO);
     }
 
