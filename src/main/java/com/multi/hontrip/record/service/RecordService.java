@@ -2,6 +2,7 @@ package com.multi.hontrip.record.service;
 
 import com.multi.hontrip.record.dao.RecordDAO;
 import com.multi.hontrip.record.dto.CreatePostDTO;
+import com.multi.hontrip.record.dto.LocationDTO;
 import com.multi.hontrip.record.dto.PostInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -50,4 +52,18 @@ public class RecordService {
     public void deletePostInfo(long id) {
         recordDAO.deletePost(id);
     }
+
+    public List<CreatePostDTO> getMyList() {
+        return recordDAO.getMyList();
+    }
+    public List<CreatePostDTO> getListMyLocation(int locationId) {
+        return recordDAO.getListMyLocation(locationId);
+    }
+    public List<CreatePostDTO> getFeedList() {
+        return recordDAO.getFeedList();
+    }
+    public List<LocationDTO> getMyMap() {
+        return recordDAO.getMyMap();
+    }
+
 }
