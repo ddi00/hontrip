@@ -1,13 +1,12 @@
 if (window.location.href.includes('/mate/insert')) {
 
-    alert("haha")
-
     //인서트창으로 돌아오지 못하게 막음
     window.history.forward();
 
     $(function () {
         $('#complete').on("click", function () {
-            /*console.log(
+            console.log("왜 안되지..?")
+            console.log(
                 $('#userId').val()
                 , $('#imageInput')[0].files[0]
                 , $("input[name='regionId']:checked").val()
@@ -19,7 +18,7 @@ if (window.location.href.includes('/mate/insert')) {
                 , $('#recruitNumber').val()
                 , $("input[name='gender']:checked").val()
                 , $('#isFinish').val()
-            )*/
+            )
 
             if ($('#imageInput')[0].files[0] == null) {
                 $('#mateImageEmptyWarning').show();
@@ -314,9 +313,7 @@ if (window.location.href.includes('/mate/editpage')) {
 }
 
 /*동행인 상세게시판*/
-if (window.location.href.includes('')) {
-
-    alert("haha")
+if (window.location.href.includes('/mate/')) {
 
     function applyMate() {
 
@@ -339,7 +336,7 @@ if (window.location.href.includes('')) {
 
                     //ageRanggeJs의 value가 공백이 아닐때
                     if ($('#ageRangeJS').val() != "") {
-                        let ageRangeStrArr = $('#ageRangeJS').val().split(",");
+                        ageRangeStrArr = $('#ageRangeJS').val().split(",");
                     }
 
                     //ageRanggeJs의 value가 공백이 아닐때 && 1개일때(,가 없을때)
@@ -347,11 +344,11 @@ if (window.location.href.includes('')) {
                         ageRangeStrArr[0] = $('#ageRangeJS').val();
                     }
 
-                    console.log($('#ageRangeJS').val())
+                    /*console.log($('#ageRangeJS').val())
                     console.log("젠더 원트: " + $('#mateBoardGenderStr').val())
                     console.log("에이지 원트: " + ageRangeStrArr)
                     console.log("유저젠더: " + json.gender)
-                    console.log("유저나이: " + json.ageRange)
+                    console.log("유저나이: " + json.ageRange)*/
 
                     //모집조건에 부합하다면
                     //성별, 연령대 아무나 처리

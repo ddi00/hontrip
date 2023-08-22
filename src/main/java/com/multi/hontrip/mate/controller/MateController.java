@@ -189,7 +189,7 @@ public class MateController {
     @ResponseBody
     public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
 
-        MateApplicationNotificationDTO mateApplicationNotificationDTO = MateApplicationNotificationDTO.builder()
+        /*MateApplicationNotificationDTO mateApplicationNotificationDTO = MateApplicationNotificationDTO.builder()
                 .content("같이 여행갑시다!!")
                 .isRead(false)
                 .mateBoardURL("http://localhost:8080/hontrip/mate/262")
@@ -198,7 +198,7 @@ public class MateController {
                 .id(7)
                 .build();
 
-        notificationService.send(mateApplicationNotificationDTO);
+        notificationService.send(mateApplicationNotificationDTO);*/
         return mateService.insertMatchingAlarm(mateMatchingAlarmDTO);
     }
 

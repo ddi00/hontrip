@@ -2,23 +2,25 @@ package com.multi.hontrip.mate.service;
 
 
 import com.multi.hontrip.mate.dao.EmitterRepository;
-import com.multi.hontrip.mate.dto.MateApplicationNotificationDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-
-import java.io.IOException;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
 
+
+    // 기본 타임아웃 설정
+    private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60;
+
     private final EmitterRepository emitterRepository;
 
-    private static final Long timeout = 60L * 1000 * 60;
 
-    public SseEmitter subscribe(Long memberId, String lastEventId) {
+   /* private final EmitterRepository emitterRepository;
+
+    private static final Long timeout = 60L * 1000 * 60;*/
+
+    /*public SseEmitter subscribe(Long memberId, String lastEventId) {
         String emitterId = makeTimeIncludeId(memberId);
         SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(timeout));
         emitter.onCompletion(() -> emitterRepository.deleteById(emitterId));
@@ -62,7 +64,7 @@ public class NotificationService {
     }
 
     public void send(MateApplicationNotificationDTO mateApplicationNotificationDTO) {
-        /*Notification notification = notificationRepository.save(createNotification(receiver, notificationType, content, url));*/
+        *//*Notification notification = notificationRepository.save(createNotification(receiver, notificationType, content, url));*//*
 
         String receiverId = String.valueOf(mateApplicationNotificationDTO.getReceiverId());
         String eventId = receiverId + "_" + System.currentTimeMillis();
@@ -73,5 +75,5 @@ public class NotificationService {
                     sendNotification(emitter, eventId, key, mateApplicationNotificationDTO);
                 }
         );
-    }
+    }*/
 }

@@ -1,7 +1,7 @@
 package com.multi.hontrip.mate.dto;
 
 
-import com.multi.hontrip.mate.exception.EnumException;
+import com.multi.hontrip.mate.exception.MateException;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
 import org.apache.ibatis.type.TypeHandler;
@@ -41,7 +41,7 @@ public class GenderTypeHandler implements TypeHandler<Gender> {
                 break;
 
             default:
-                throw new EnumException("GENDER EXCEPTION");
+                throw new MateException("GENDER EXCEPTION");
         }
         return gender;
     }
