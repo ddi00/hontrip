@@ -170,11 +170,7 @@ CREATE TABLE `mate_board` (
   `is_finish` tinyint NOT NULL DEFAULT '0' COMMENT '동행자 모집 완료(1) 또는 모집중(0)',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  KEY `region_id` (`region_id`),
-  KEY `age_range_id` (`age_range_id`),
-  CONSTRAINT `mate_board_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `mate_board_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `location` (`id`),
-  CONSTRAINT `mate_board_ibfk_3` FOREIGN KEY (`age_range_id`) REFERENCES `age_range` (`id`)
+  CONSTRAINT `mate_board_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 

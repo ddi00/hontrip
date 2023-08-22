@@ -4,9 +4,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    /*long userId = (long) session.getAttribute("id");
-    request.setAttribute("login", userId);*/
-    request.setAttribute("id", 4L);
+    long userId = (long) session.getAttribute("id");
+    if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
+        request.setAttribute("login", "no");
+    } else {
+        userId = (long) session.getAttribute("id");
+        request.setAttribute("login", userId);
+    }
+    /*request.setAttribute("id", 4L);*/
 %>
 
 <section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-light-600 text-white"

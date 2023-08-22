@@ -10,13 +10,13 @@
 
 <%
     /*세션에서 유저아이디 불러옴 -> 없으면 no 있으면 유저아이디*/
-    /*if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
+    if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
         request.setAttribute("login", "no");
     } else {
         long userId = (long) session.getAttribute("id");
         request.setAttribute("login", userId);
-    }*/
-    request.setAttribute("login", 4L);
+    }
+    /*request.setAttribute("login", 2L);*/
 %>
 <%
     /* c:forEach 에서 사용할 배열 -> ageRangeStr */
