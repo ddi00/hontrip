@@ -12,7 +12,10 @@
 <section class="wrapper bg-gray">
     <div class="container pt-10 pb-14 pb-md-16">
         <c:if test="${empty sessionScope.id}"> <!-- 세션에 ID값이 없는 경우, 로그인 링크 출력 -->
-            <a href="/hontrip/user/sign-in">사용자 로그인</a>
+            <a href="/hontrip/user/sign-in">사용자 로그인</a><br>
+        </c:if>
+        <c:if test="${not empty sessionScope.id}"><!-- 세션에 ID값이 없는 경우, 로그인 링크 출력 -->
+            <a href="/hontrip/user/withdraw">사용자 탈퇴</a><br>
         </c:if>
         <br>
         <a href="mate/bbs_list?page=1">게시물 전체 목록</a>
@@ -20,6 +23,7 @@
         동행인 매칭<br>
         <a href="mate/insert">동행인 매칭 게시글 작성</a><br>
         <a href="mate/88">동행인 매칭 게시글 상세페이지</a><br>
+        <a href="mate/chat-view">채팅</a><br>
         <br>
         <a href="plan/create">일정 생성</a><br>
         <a href="plan/list">일정 목록</a><br>
