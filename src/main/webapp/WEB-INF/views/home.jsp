@@ -22,7 +22,7 @@
         <br>
         동행인 매칭<br>
         <a href="mate/insert">동행인 매칭 게시글 작성</a><br>
-        <a href="mate/3">동행인 매칭 게시글 상세페이지</a><br>
+        <a href="mate/9">동행인 매칭 게시글 상세페이지</a><br>
         <a href="mate/chat-view">채팅</a><br>
         <br>
         <a href="plan/create">일정 생성</a><br>

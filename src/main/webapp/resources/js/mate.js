@@ -5,8 +5,7 @@ if (window.location.href.includes('/mate/insert')) {
 
     $(function () {
         $('#complete').on("click", function () {
-            console.log("왜 안되지..?")
-            console.log(
+            /*console.log(
                 $('#userId').val()
                 , $('#imageInput')[0].files[0]
                 , $("input[name='regionId']:checked").val()
@@ -18,7 +17,7 @@ if (window.location.href.includes('/mate/insert')) {
                 , $('#recruitNumber').val()
                 , $("input[name='gender']:checked").val()
                 , $('#isFinish').val()
-            )
+            )*/
 
             if ($('#imageInput')[0].files[0] == null) {
                 $('#mateImageEmptyWarning').show();
@@ -312,22 +311,21 @@ if (window.location.href.includes('/mate/editpage')) {
     });
 }
 
-/*동행인 상세게시판*/
-if (window.location.href.includes('/mate/')) {
 
+/!*동행인 상세게시판*!/
+if (window.location.href.includes('/mate/')) {
     function applyMate() {
 
-        console.log("haha")
-        //로그인 안했을 경우 로그인창을 띄움
-        if ($('#mateBoardLogin').val() == "no") {
-            alert("로그인 창")
+        //로그인 안했을 경우 로그인창을 띄움ss
+        if ($('#mateBoardGuest').val() == "") {
+            location.href = "../user/sign-in"
             //로그인 했을 경우
         } else {
             //신청자의 성별, 연령대를 가져온 후, 모집조건에 적합한지 체크한다
             $.ajax({
                 url: "findUserGenderAge",
                 data: {
-                    id: $('#mateBoardLogin').val()
+                    id: $('#mateBoardGuest').val()
                 },
                 dataType: "json",
                 success: function (json) {
@@ -352,7 +350,7 @@ if (window.location.href.includes('/mate/')) {
 
                     //모집조건에 부합하다면
                     //성별, 연령대 아무나 처리
-                    if (json.id == $('#mateBoardLogin').val() && (json.gender === $('#mateBoardGenderStr').val() ||
+                    if (json.id == $('#mateBoardGuest').val() && (json.gender === $('#mateBoardGenderStr').val() ||
                             $('#mateBoardGenderStr').val() == "성별무관" || json.gender == "NONE")
                         && (ageRangeStrArr.includes(json.ageRange) || ageRangeStrArr.includes("전연령")
                             || ageRangeStrArr.length == 0 || json.ageRange == "AGE_UNKNOWN")) {
@@ -394,7 +392,7 @@ if (window.location.href.includes('/mate/')) {
         $('#deleteButton').click();
     }
 
-//동행인신청메세지 모달에서 전송버튼을 눌렀을때
+    //동행인신청메세지 모달에서 전송버튼을 눌렀을때
     function send() {
 
         if ($('#applicationMessage').val().trim() == "") {
@@ -405,7 +403,7 @@ if (window.location.href.includes('/mate/')) {
             url: "insertMatchingAlarm",
             data: {
                 mateBoardId: $('#mateBoardId').val(),
-                senderId: $('#mateBoardLogin').val(),
+                senderId: $('#mateBoardGuest').val(),
                 content: $("#applicationMessage").val()
             },
             success: function () {
@@ -419,23 +417,23 @@ if (window.location.href.includes('/mate/')) {
         })
     }
 
-    $(function () {
-        let login = $('#mateBoardLogin').val();
+    $(document).ready(function () {
+        let login = $('#mateBoardGuest').val();
+
 
         //로그인 했고,
-        if (login != "no") {
+        if (login != "") {
 
             //이미 지원한 경우 동행인 신청 버튼 비활성화
             $.ajax({
                 url: "checkApply",
                 data: {
-                    senderId: $('#mateBoardLogin').val(),
+                    senderId: $('#mateBoardGuest').val(),
                     mateBoardId: $('#mateBoardId').val()
                 },
                 dataType: "json",
                 success: function (result) {
                     if (result === 1) {
-                        console.log(result)
                         $('#application').attr('disabled', 'disabled');
                     }
                 },
@@ -444,5 +442,6 @@ if (window.location.href.includes('/mate/')) {
                 }
             })
         }
-    })
+    });
+
 }
