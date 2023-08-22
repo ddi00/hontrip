@@ -1,12 +1,9 @@
 package com.multi.hontrip.mate.dao;
 
-import com.multi.hontrip.mate.dto.LocationDTO;
-import com.multi.hontrip.mate.dto.MateBoardInsertDTO;
-import com.multi.hontrip.mate.dto.MateBoardListDTO;
-import com.multi.hontrip.mate.dto.MatePageDTO;
-import org.springframework.stereotype.Repository;
+import com.multi.hontrip.mate.dto.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -33,10 +30,38 @@ public class MateDAO {
     }
 
     public void mateBoardInsert(MateBoardInsertDTO mateBoardInsertDTO) {
-        my.insert("mateBbs.insert", mateBoardInsertDTO);
+        my.insert("mateBbs.mateBoardInsert", mateBoardInsertDTO);
     }
 
-    public MateBoardInsertDTO mateBoardSelectOne(int id) {
-        return my.selectOne("mateBbs.selectOne", id);
+    public MateBoardSelectOneDTO mateBoardSelectOne(long id) {
+        return my.selectOne("mateBbs.mateBoardSelectOne", id);
     }
+
+    public int updateMateBoard(MateBoardInsertDTO mateBoardInsertDTO) {
+        return my.update("mateBbs.updateMateBoard", mateBoardInsertDTO);
+    }
+
+    public int deleteMateBoard(long id) {
+        return my.delete("mateBbs.deleteMateBoard", id);
+    }
+
+    public UserGenderAgeDTO findUserGenderAgeById(long id) {
+        return my.selectOne("mateBbs.findUserGenderAgeById", id);
+    }
+
+    public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
+        return my.insert("mateBbs.insertMateMatchingAlarm", mateMatchingAlarmDTO);
+    }
+
+    public int checkApply(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
+        int num = my.selectOne("mateBbs.checkApply", mateMatchingAlarmDTO);
+        System.out.println(num);
+        return my.selectOne("mateBbs.checkApply", mateMatchingAlarmDTO);
+    }
+
+
+//    //게시물 1개 검색
+//    public BbsDTO one(int id) {
+//        return my.selectOne("bbs.one", id);
+//    }
 }

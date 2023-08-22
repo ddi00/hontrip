@@ -66,12 +66,15 @@ public class MateServiceImpl implements MateService{
     public List<MateCommentDTO> commentList(long mateBoardId){
         return mateCommentDAO.list(mateBoardId);
     }
+
     @Override
     public void insert(MateBoardInsertDTO mateBoardInsertDTO) {
         mateDAO.mateBoardInsert(mateBoardInsertDTO);
     }
+
+
     @Override
-    public MateBoardInsertDTO selectOne(int id) {
+    public MateBoardSelectOneDTO selectOne(long id) {
         return mateDAO.mateBoardSelectOne(id);
     }
     @Override
@@ -85,5 +88,35 @@ public class MateServiceImpl implements MateService{
     }
     public void commentEdit(MateCommentDTO mateCommentDTO){
         mateCommentDAO.edit(mateCommentDTO);
+    }
+
+    @Override
+    public int updateMateBoard(MateBoardInsertDTO mateBoardInsertDTO) {
+        return mateDAO.updateMateBoard(mateBoardInsertDTO);
+    }
+
+
+    //동행인 상세게시글 삭제하기
+    @Override
+    public int deleteMateBoard(long id) {
+        return mateDAO.deleteMateBoard(id);
+    }
+
+    //동행 신청자의 성별과 연령대 가져오기
+    @Override
+    public UserGenderAgeDTO findUserGenderAgeById(long id) {
+        return mateDAO.findUserGenderAgeById(id);
+    }
+
+    //동행 신청 메세지 전송하기
+    @Override
+    public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
+        return mateDAO.insertMatchingAlarm(mateMatchingAlarmDTO);
+    }
+
+    //유저가 동행인 신청을 했는지 확인
+    @Override
+    public int checkApply(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
+        return mateDAO.checkApply(mateMatchingAlarmDTO);
     }
 }

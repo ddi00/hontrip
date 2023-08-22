@@ -2,6 +2,7 @@ package com.multi.hontrip.record.dao;
 
 import com.multi.hontrip.record.dto.CreatePostDTO;
 import com.multi.hontrip.record.dto.PostImgDTO;
+import com.multi.hontrip.record.dto.LocationDTO;
 import com.multi.hontrip.record.dto.PostInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -37,5 +38,21 @@ public class RecordDAO {
 
     public void deletePost(long id) {
         sqlSessionTemplate.delete("record.deletePost", id);
+    }
+
+    public List<CreatePostDTO> getMyList(){ //내 게시물 전체 리스트 가져오기
+        return sqlSessionTemplate.selectList("record.mylist");
+    }
+
+    public List<CreatePostDTO> getListMyLocation(int locationId) { // 내 게시물 마커클릭한 지역 리스트 가져오기
+        return  sqlSessionTemplate.selectList("record.listmylocation", locationId);
+    }
+
+    public List<CreatePostDTO> getFeedList(){ //공유피드 전체 리스트 가져오기
+        return sqlSessionTemplate.selectList("record.feedlist");
+    }
+
+    public List<LocationDTO> getMyMap(){ //공유피드 전체 리스트 가져오기
+        return sqlSessionTemplate.selectList("record.mymap");
     }
 }

@@ -76,5 +76,37 @@ public class RecordContorller {
         recordService.deletePostInfo(id);
         return "redirect:/record/createpost";
     }
+
+    @GetMapping("mylist") // 내 게시물 전체 가져오기
+    public String getMyList(Model model) {
+
+        List<CreatePostDTO> getMyList = recordService.getMyList();
+        List<LocationDTO> getMyMap = recordService.getMyMap();
+        model.addAttribute("mylist", getMyList);
+        model.addAttribute("mymap", getMyMap);
+        System.out.println(getMyList);
+        System.out.println(getMyMap);
+        return "/record/mylist"; // 기존의 뷰 이름 반환
+    }
+
+    @GetMapping("list-mylocation") // 내 게시물 해당지역 리스트 가져오기
+    public void getListMyLocation(@RequestParam("locationId") int locationId, Model model) {
+        List<CreatePostDTO> getListMyLocation = recordService.getListMyLocation(locationId);
+        List<LocationDTO> getMyMap = recordService.getMyMap();
+        model.addAttribute("mylist", getListMyLocation); // mylist 모델에 데이터 추가
+        model.addAttribute("mymap", getMyMap);
+        System.out.println(getListMyLocation);
+        System.out.println(getMyMap);
+    }
+
+
+    @GetMapping("feedlist") // 공유피드 리스트 가져오기
+    public String getFeedList(Model model) {
+        List<CreatePostDTO> feedlist = recordService.getFeedList();
+        model.addAttribute("feedlist", feedlist);
+        System.out.println(feedlist);
+        return "/record/feedlist"; // feedlist.jsp 파일로 반환
+    }
+
 }
 

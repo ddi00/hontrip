@@ -1,0 +1,204 @@
+.total {
+    margin: 0px 10px;
+}
+
+input, .recruitNum {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 11px;
+    height: 30px;
+}
+
+input:focus, .recruitNum:focus {
+    outline: none;
+    border-color: #FFA41B; /* Changed to orange color */
+    box-shadow: 0px 0px 1px rgba(231, 76, 60, 0.5);
+}
+
+.recruit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 남성, 여성, 아무나 <- 라디오버튼 css 처리 */
+input[type=radio] {
+    display: none;
+    padding: 5px 5px;
+}
+
+input[type=radio][name="genders"] + label {
+    margin: 5px;
+    cursor: pointer;
+    height: 24px;
+    width: 58px;
+    line-height: 24px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    background-color: #ffffff;
+    border-radius: inherit;
+    color: #FFA41B;
+    border-radius: 10px;
+}
+
+input[type=radio]:checked + label {
+    background-color: #FFA41B;
+    color: #fff;
+}
+
+/* 20대, 30대, 40대, 50대, 아무나 <- 체크박스 css 처리 */
+input[type=checkbox] {
+    display: none;
+    padding: 5px 5px;
+}
+
+input[type=checkbox] + label {
+    margin-left: 3px;
+    cursor: pointer;
+    height: 24px;
+    width: 52px;
+    line-height: 24px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    background-color: #ffffff;
+    border-radius: inherit;
+    color: #FFA41B;
+    border-radius: 10px;
+}
+
+input[type=checkbox]:checked + label {
+    background-color: #FFA41B;
+    color: #fff;
+}
+
+.form-input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 11px;
+}
+
+.numDate {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #FFA41B; /* Changed to orange color */
+    box-shadow: 0px 0px 1px rgba(231, 76, 60, 0.5);
+}
+
+input[type='date'] {
+    width: 100px;
+    height: 27px;
+    margin: 5px 6px;
+}
+
+input[type='date']::before {
+    content: attr(data-placeholder);
+    display: none;
+
+}
+
+input[type='date']:focus::before,
+input[type='date']:valid::before {
+    display: none;
+}
+
+.dates {
+    width: 300px;
+    display: inline-block;
+    justify-content: space-between;
+}
+
+
+.option {
+    margin-left: 8px;
+    display: inline-block;;
+    width: 110px;
+    color: rgba(30, 50, 30, 0.7);
+    font-size: 12px;
+    font-weight: 550;
+}
+
+.option2 {
+    display: inline-block;
+    width: 75px;
+    color: rgba(30, 50, 30, 0.7);
+    font-size: 12px;
+    font-weight: 550;
+}
+
+.btns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn {
+    width: 320px;
+    font-size: 12px;
+}
+
+.region {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 7px;
+}
+
+input[type=radio][name="regionId"] + label {
+    padding: 3px 3px;
+    cursor: pointer;
+    width: 47px;
+    line-height: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    background-color: #ffffff;
+    border-radius: inherit;
+    color: #FFC845;
+    border-radius: 10px;
+}
+
+input[type=radio][name="regionId"]:checked + label {
+    background-color: #FFC845;
+    color: #fff;
+}
+
+.genderRecruitNum {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+}
+
+.wantAgeRange {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+}
+
+
+.recruitNum, .isFinish {
+    color: #505050;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-left: 10px;
+    height: 27px;
+    width: 100px;
+}
+
+.image-container {
+    cursor: pointer;
+}
+
+#imageInput {
+    display: none;
+}

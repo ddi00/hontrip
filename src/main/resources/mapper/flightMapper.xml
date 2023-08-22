@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="flight">
+<!--	항공편 추가   -->
 	<insert id="insert" parameterType="FlightDTO"
 			useGeneratedKeys="true"
 			keyProperty="id">
@@ -8,10 +9,17 @@
 		values (null, #{vehicleId}, #{airlineName}, #{depAirportName}, STR_TO_DATE(#{departureTime}, '%Y%m%d%H%i')
 		, #{arrAirportName}, STR_TO_DATE(#{arrivalTime}, '%Y%m%d%H%i')
 		, #{economyCharge}, #{prestigeCharge})
-		on duplicate key update vehicle_id = #{vehicleId}
+		on duplicate key update
+		    vehicle_id = #{vehicleId}, airline_name = #{airlineName},
+		    departure_airport_name = #{depAirportName},
+		    departure_time = STR_TO_DATE(#{departureTime}, '%Y%m%d%H%i'),
+		    arrival_airport_name = #{arrAirportName}, arrival_time = STR_TO_DATE(#{arrivalTime}, '%Y%m%d%H%i'),
+			economy_charge = #{economyCharge}, prestige_charge = #{prestigeCharge}
 	</insert>
+<!--	항공편 단일 조회  -->
 	<select id="one" parameterType="Long" resultMap="flightResult">
 		select
+		    id
 			vehicle_id,
 			airline_name,
 			departure_airport_name,
@@ -23,8 +31,19 @@
 		from flight
 		where id = #{id}
 	</select>
+<!--	검색 항공편 수 조회  -->
+	<select id="count" parameterType="hashmap" resultType="int">
+		select count(*) from flight
+		where
+			departure_airport_name = #{depAirportName}
+		  and arrival_airport_name = #{arrAirportName}
+		  and departure_time LIKE CONCAT(#{depDate}, '%')
+	</select>
+<!--	항공편 조회  -->
 	<select id="list" parameterType="hashmap" resultMap="flightResult">
+		<![CDATA[
 		select
+		    id,
 		    vehicle_id,
 		    airline_name,
 		    departure_airport_name,
@@ -37,7 +56,10 @@
 		where
 		    departure_airport_name = #{depAirportName}
 		  and arrival_airport_name = #{arrAirportName}
-		  and departure_time LIKE CONCAT(#{depDate}, '%');
+		  and departure_time LIKE CONCAT(#{depDate}, '%')
+		order by departure_time
+		limit #{startRowNum}, #{rowCount}
+		]]>
 	</select>
 
 	<resultMap id="flightResult" type="FlightDTO">

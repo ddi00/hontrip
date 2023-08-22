@@ -75,7 +75,7 @@ public class NaverService implements OauthService{
                     String.class    //응답받을 값
             );
 
-            //응답받은 객체를 KakaoOauthTokenVO에 넣어준다.
+            //응답받은 객체를 OauthTokenVO에 넣어준다.
             Gson gson = new Gson();
             tokenDTO = gson.fromJson(response.getBody(), OauthTokenDTO.class);
 
@@ -106,7 +106,7 @@ public class NaverService implements OauthService{
         return jsonConverToDTO(response,tokenDTO);
     }
 
-    public String getLogOutUrl() {  //네이버 로그아웃 url - 네이버는 별도의 로그아웃 처리가 없음        
+    public String getLogOutUrl() {  //네이버 로그아웃 url - 네이버는 별도의 로그아웃 처리가 없음
         return "/user/naver/logout";
     }
 
@@ -148,7 +148,7 @@ public class NaverService implements OauthService{
         }
 
         return result.equals("success") ? "success" : "fail";
-   }
+    }
 
     private UserInsertDTO jsonConverToDTO(ResponseEntity<String> response,OauthTokenDTO tokenDTO) { // 입력받은 사용자 json정보를 파싱해서 dto에 넣음
         //json 파싱
@@ -157,8 +157,8 @@ public class NaverService implements OauthService{
         String socialId = element.getAsJsonObject().getAsJsonObject("response").get("id").getAsString();
         String nickname = element.getAsJsonObject().getAsJsonObject("response").get("nickname").getAsString();
         String profileImage = element.getAsJsonObject().getAsJsonObject("response").get("profile_image").getAsString();
-        int ageRangeId = getIdFromKakaoAgeRangeString(element.getAsJsonObject().getAsJsonObject("response").get("age").getAsString());
-        int gender = getGenderIdFromKakaoGender(element.getAsJsonObject().getAsJsonObject("response").get("gender").getAsString());
+        int ageRangeId = getIdFromNaverAgeRangeString(element.getAsJsonObject().getAsJsonObject("response").get("age").getAsString());
+        int gender = getGenderIdFromNaverGender(element.getAsJsonObject().getAsJsonObject("response").get("gender").getAsString());
         String email = element.getAsJsonObject().getAsJsonObject("response").get("email").getAsString();
         //날짜 적용
         LocalDateTime createdAt = LocalDateTime.now();
@@ -181,7 +181,7 @@ public class NaverService implements OauthService{
     }
 
 
-    private int getGenderIdFromKakaoGender(String gender) { //성별 변환
+    private int getGenderIdFromNaverGender(String gender) { //성별 변환
         // null이면 NONE("정보없음", 1), female이면  FEMALE("여성", 3);, male이면 MALE("남성", 2),
         if ("F".equalsIgnoreCase(gender)) {
             return Gender.FEMALE.getId();
@@ -191,7 +191,7 @@ public class NaverService implements OauthService{
             return Gender.NONE.getId();
         }
     }
-    private int getIdFromKakaoAgeRangeString(String value) { //연령대 변환
+    private int getIdFromNaverAgeRangeString(String value) { //연령대 변환
         if (value == null) {
             return AgeRange.AGE_UNKNOWN.getId();
         }

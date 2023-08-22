@@ -3,6 +3,7 @@ package com.multi.hontrip.record.service;
 import com.multi.hontrip.record.dao.RecordDAO;
 import com.multi.hontrip.record.dto.CreatePostDTO;
 import com.multi.hontrip.record.dto.PostImgDTO;
+import com.multi.hontrip.record.dto.LocationDTO;
 import com.multi.hontrip.record.dto.PostInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -101,4 +102,18 @@ public class RecordService {
     public List<PostImgDTO> selectPostImg(long recordId) {
         return recordDAO.selectImg(recordId);
     }
+
+    public List<CreatePostDTO> getMyList() {
+        return recordDAO.getMyList();
+    }
+    public List<CreatePostDTO> getListMyLocation(int locationId) {
+        return recordDAO.getListMyLocation(locationId);
+    }
+    public List<CreatePostDTO> getFeedList() {
+        return recordDAO.getFeedList();
+    }
+    public List<LocationDTO> getMyMap() {
+        return recordDAO.getMyMap();
+    }
+
 }

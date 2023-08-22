@@ -47,8 +47,7 @@ public class UserController {
         HttpSession session = request.getSession();
         session.setAttribute("id",member.getId());
         session.setAttribute("nickName", member.getNickName());
-        session.setAttribute("expireAt", member.getExpiresAt());
-        session.setAttribute("refreshAt", member.getRefreshTokenExpiresAt());
+        session.setAttribute("profileImage", member.getProfileImage());
 
         return "redirect:/"; // TODO 이전 요청 경로로 이동
     }
@@ -91,5 +90,4 @@ public class UserController {
         httpSession.invalidate();
         return "redirect:/";
     }
-
 }

@@ -19,9 +19,19 @@ public interface MateService {
 
     void commentDelete(MateCommentDTO mateCommentDTO); //댓글 delete
 
-    void insert(MateBoardInsertDTO mateBoardInsertDTO);
-
-    MateBoardInsertDTO selectOne(int id);
-
     void commentEdit(MateCommentDTO mateCommentDTO); //댓글 수정
+
+    public void insert(MateBoardInsertDTO mateBoardInsertDTO); //동행인 게시글 작성하기
+
+    public MateBoardSelectOneDTO selectOne(long id);    //동행인 상세게시글 가져오기
+
+    public int updateMateBoard(MateBoardInsertDTO mateBoardInsertDTO); //동행인 상세게시글 수정하기
+
+    public int deleteMateBoard(long id); //동행인 게시글 삭제하기
+
+    public UserGenderAgeDTO findUserGenderAgeById(long id);  //동행 신청자의 성별과 연령대 가져오기
+
+    public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO); //동행인 신청 메세지 작성하기
+
+    public int checkApply(MateMatchingAlarmDTO mateMatchingAlarmDTO); //동행인 게시글 신청여부 확인
 }

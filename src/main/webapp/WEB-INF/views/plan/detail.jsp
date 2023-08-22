@@ -1,37 +1,28 @@
-<%--<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>여행 상세 페이지</title>
-</head>
-<body>
-<h1>여행 상세 정보</h1>
-
-<p><strong>일정 제목:</strong> ${plan.title}</p>
-<p><strong>일정 시작일:</strong> ${plan.startDate}</p>
-<p><strong>일정 종료일:</strong> ${plan.endDate}</p>
-<p><strong>일정 메모:</strong> ${plan.memo}</p>
-
-<h2>일자별 상세 정보</h2>
-<table>
-    <thead>
-    <tr>
-        <th>일자</th>
-        <th>일자별 요약</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach var="day" items="${planDays}">
-        <tr>
-            <td>${day.dayDate}</td>
-            <td>${day.daySummary}</td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
-
-<!-- 기타 내용 추가 가능 -->
-</body>
-</html>--%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<section class="wrapper bg-light">
+    <div class="container-fluid container mt-15 mb-20 w-75">
+            <div class="card mt-2">
+                <div class="card-body">
+                    사용자 id : ${plan.userId} <br>
+                    제목 : ${plan.title} <br>
+                    시작일 : <fmt:formatDate value="${plan.startDate}" pattern="yyyy-MM-dd" type="date"/> <br>
+                    종료일 : <fmt:formatDate value="${plan.endDate}" pattern="yyyy-MM-dd" type="date"/> <br>
+                    메모 : ${plan.memo} <br>
+                    생성일시 : <fmt:formatDate value="${plan.createdAt}" pattern="yyyy-MM-dd HH:mm" type="date"/> <br>
+                    수정일시 : <fmt:formatDate value="${plan.updatedAt}" pattern="yyyy-MM-dd HH:mm" type="date"/> <br>
+                    <br>
+                    <button type="button" class="btn btn-outline-yellow">
+                        <a href="update?id=${plan.id}" role="button">수정</a>
+                    </button>
+                    <button type="button" class="btn btn-custom1">
+                        <a href="delete?id=${plan.id}" role="button" class="text-white">삭제</a>
+                    </button>
+                </div>
+            </div>
+        <button type="button" class="btn btn-yellow my-2">
+            <a href="list" role="button" class="text-white">목록</a>
+        </button>
+    </div>
+</section>
