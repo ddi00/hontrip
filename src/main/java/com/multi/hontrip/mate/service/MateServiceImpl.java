@@ -5,16 +5,24 @@ import com.multi.hontrip.mate.dao.MateDAO;
 import com.multi.hontrip.mate.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Service
-public class MateServiceImpl implements MateService{
+public class MateServiceImpl implements MateService {
     @Autowired
     private MateDAO mateDAO;
 
     @Autowired
     private MateCommentDAO mateCommentDAO;
+
+    @Autowired
+    private ServletContext servletContext;
+    private String relativePath = "resources/img/mateImg/";
 
     @Override
     public List<MateBoardListDTO> list(MatePageDTO matePageDTO) {
@@ -22,22 +30,23 @@ public class MateServiceImpl implements MateService{
         return mateDAO.list(matePageDTO);
     }
 
-    public MateBoardListDTO one(long mateBoardId){
+    public MateBoardListDTO one(long mateBoardId) {
         return mateDAO.one(mateBoardId);
     }
+
     @Override
     public int pages(int count) {
         int pages = 0;
-        if(count % 10 == 0) {
+        if (count % 10 == 0) {
             pages = count / 5; //120개 --> 12pages
-        }else {
+        } else {
             pages = count / 5 + 1; //122개 --> 13pages
         }
         return pages;
     }
 
     @Override
-    public MatePageDTO paging(MatePageDTO matePageDTO){
+    public MatePageDTO paging(MatePageDTO matePageDTO) {
         //게시물 개수 가져오기
         int count = mateDAO.count(matePageDTO);
         matePageDTO.setCount(count);
@@ -63,12 +72,22 @@ public class MateServiceImpl implements MateService{
         return mateDAO.location();
     }
 
-    public List<MateCommentDTO> commentList(long mateBoardId){
+    public List<MateCommentDTO> commentList(long mateBoardId) {
         return mateCommentDAO.list(mateBoardId);
     }
 
     @Override
-    public void insert(MateBoardInsertDTO mateBoardInsertDTO) {
+    public void insert(MultipartFile file, MateBoardInsertDTO mateBoardInsertDTO) {
+        String savedFileName = file.getOriginalFilename();
+        mateBoardInsertDTO.setThumbnail(savedFileName);
+        String uploadPath = servletContext.getRealPath("/") + relativePath + savedFileName;
+        System.out.println("업로드 경로:" + uploadPath);
+        File target = new File(uploadPath);
+        try {
+            file.transferTo(target);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         mateDAO.mateBoardInsert(mateBoardInsertDTO);
     }
 
@@ -77,16 +96,18 @@ public class MateServiceImpl implements MateService{
     public MateBoardSelectOneDTO selectOne(long id) {
         return mateDAO.mateBoardSelectOne(id);
     }
+
     @Override
-    public int commentInsert (MateCommentDTO mateCommentDTO){
+    public int commentInsert(MateCommentDTO mateCommentDTO) {
         return mateCommentDAO.insert(mateCommentDTO);
     }
 
     @Override
-    public void commentDelete(MateCommentDTO mateCommentDTO){
+    public void commentDelete(MateCommentDTO mateCommentDTO) {
         mateCommentDAO.delete(mateCommentDTO);
     }
-    public void commentEdit(MateCommentDTO mateCommentDTO){
+
+    public void commentEdit(MateCommentDTO mateCommentDTO) {
         mateCommentDAO.edit(mateCommentDTO);
     }
 

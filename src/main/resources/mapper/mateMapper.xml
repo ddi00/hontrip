@@ -110,7 +110,6 @@
 				<!--				</if>-->
 			</if>
 		</where>
-		AND mb.id BETWEEN #{start} AND #{end}
 		ORDER BY
 		mb.id DESC
 		LIMIT #{start} OFFSET #{end}

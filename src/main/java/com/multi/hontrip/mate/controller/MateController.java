@@ -45,9 +45,10 @@ public class MateController {
         model.addAttribute("pageDTO", pagedDTO);
         return "/mate/bbs_list";
     }
+
     //페이징 처리
     @RequestMapping("pagination")
-    public @ResponseBody Map<String,Object> pageList(MatePageDTO matePageDTO, Model model, HttpSession session) {
+    public @ResponseBody Map<String, Object> pageList(MatePageDTO matePageDTO, Model model, HttpSession session) {
         //페이징 변수들 계산하기
         MatePageDTO pagedDTO = mateService.paging(matePageDTO);
         //게시물 리스트 가져오기
@@ -56,11 +57,12 @@ public class MateController {
         model.addAttribute("list", list);
         session.setAttribute("pageDTO", pagedDTO);
 
-        Map<String,Object> map=new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("list", list);
         map.put("pageDTO", pagedDTO);
         return map;
     }
+
     //게시물 상세처리
     @RequestMapping("bbs_one")
     public String one(long mateBoardId, Model model) {
@@ -72,13 +74,14 @@ public class MateController {
         model.addAttribute("list", list);
         return "/mate/bbs_one";
     }
+
     //댓글 insert
     @RequestMapping("comment_insert")
     @ResponseBody
-    public Map<String,Object> insert(MateCommentDTO mateCommentDTO) {
+    public Map<String, Object> insert(MateCommentDTO mateCommentDTO) {
         int result = mateService.commentInsert(mateCommentDTO);
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
-        Map<String,Object> map=new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("list", list);
         return map;
     }
@@ -86,20 +89,20 @@ public class MateController {
     //댓글 delete
     @RequestMapping("comment_edit")
     @ResponseBody
-    public Map<String,Object> edit(MateCommentDTO mateCommentDTO) {
+    public Map<String, Object> edit(MateCommentDTO mateCommentDTO) {
         mateService.commentEdit(mateCommentDTO);
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
-        Map<String,Object> map=new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("list", list);
         return map;
     }
 
     @RequestMapping("comment_delete")
     @ResponseBody
-    public Map<String,Object> delete(MateCommentDTO mateCommentDTO) {
+    public Map<String, Object> delete(MateCommentDTO mateCommentDTO) {
         mateService.commentDelete(mateCommentDTO);
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
-        Map<String,Object> map=new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("list", list);
         return map;
     }
@@ -116,13 +119,9 @@ public class MateController {
     public long insert(@RequestParam("file") MultipartFile file,
                        MateBoardInsertDTO mateBoardInsertDTO,
                        HttpServletRequest request, RedirectAttributes redirectAttributes
-    ) throws IOException {
-        String savedFileName = file.getOriginalFilename();
-        mateBoardInsertDTO.setThumbnail(savedFileName);
-        String uploadPath = "D:\\hontrip\\src\\main\\webapp\\resources\\img\\mateImg";
-        File target = new File(uploadPath + "/" + savedFileName);
-        file.transferTo(target);
-        mateService.insert(mateBoardInsertDTO);
+    ) {
+        System.out.println(mateBoardInsertDTO);
+        mateService.insert(file, mateBoardInsertDTO);
         redirectAttributes.addAttribute("id", mateBoardInsertDTO.getId());
         return mateBoardInsertDTO.getId();
     }
@@ -186,6 +185,17 @@ public class MateController {
     @PostMapping("insertMatchingAlarm")
     @ResponseBody
     public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
+
+        /*MateApplicationNotificationDTO mateApplicationNotificationDTO = MateApplicationNotificationDTO.builder()
+                .content("같이 여행갑시다!!")
+                .isRead(false)
+                .mateBoardURL("http://localhost:8080/hontrip/mate/262")
+                .senderId(4)
+                .receiverId(1)
+                .id(7)
+                .build();
+
+        notificationService.send(mateApplicationNotificationDTO);*/
         return mateService.insertMatchingAlarm(mateMatchingAlarmDTO);
     }
 

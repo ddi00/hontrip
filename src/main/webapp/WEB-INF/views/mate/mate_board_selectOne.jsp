@@ -10,13 +10,13 @@
 
 <%
     /*세션에서 유저아이디 불러옴 -> 없으면 no 있으면 유저아이디*/
-    /*if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
+    if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
         request.setAttribute("login", "no");
     } else {
         long userId = (long) session.getAttribute("id");
         request.setAttribute("login", userId);
-    }*/
-    request.setAttribute("login", 1L);
+    }
+    /*request.setAttribute("login", 2L);*/
 %>
 <%
     /* c:forEach 에서 사용할 배열 -> ageRangeStr */
@@ -48,9 +48,8 @@
     } else {
         //String[] ageRangeStr = {};
         //request.setAttribute("ageRangeStr", ageRangeStr);
-        String ageRangeJS = "[]";
+        String ageRangeJS = "";
         request.setAttribute("ageRangeJS", ageRangeJS);
-
     }
 %>
 <div class="content-wrapper">
@@ -142,8 +141,10 @@
                                               novalidate>
                                             <div id="mc_embed_signup_scroll">
                                                 <div class="mc-field-group input-group form-floating">
-                                                    <textarea id="applicationMessage" class="form-control"
-                                                              placeholder="Textarea" style="height: 150px"
+                                                    <textarea id="applicationMessage"
+                                                              class="form-control mateBoardApplicationMessageTextarea"
+                                                              placeholder="Textarea"
+                                                              style="height: 150px; resize: none;"
                                                               required></textarea>
                                                     <label for="applicationMessage">Textarea</label>
                                                 </div>
@@ -154,15 +155,13 @@
                                                          style="display:none"></div>
                                                 </div>
                                                 <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                                                <%-- <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                                                     <input type="text" name="b_ddc180777a163e0f9f66ee014_4b1bcfa0bc"
-                                                            tabindex="-1" value=""></div>--%>
+
 
                                                 <div class="modal-footer mb-0 flex-md-row justify-content-between  align-items-center">
-                                                    <button type="button" class="btn btn-secondary" style="width: 45%;"
+                                                    <button type="button" class="btn btn-secondary mateModalButton"
                                                             data-bs-dismiss="modal">취소
                                                     </button>
-                                                    <button type="button" class="btn btn-primary" style="width: 45%;"
+                                                    <button type="button" class="btn btn-primary mateModalButton"
                                                             onclick="send()">전송
                                                     </button>
                                                 </div>
@@ -187,7 +186,7 @@
 
 
         <button hidden id="deleteButton" class="btn btn-primary rounded-pill mx-1 mb-2 mb-md-0" data-bs-toggle="modal"
-                data-bs-target="#deleteBoard" style="width: 50%;"> 삭제
+                data-bs-target="#deleteBoard"> 삭제
         </button>
 
         <section class="wrapper bg-light">
@@ -214,12 +213,6 @@
                                                         삭제시 되돌릴 수 없습니다.
                                                         삭제하시겠습니까?
                                                     </div>
-                                                    <%-- <div  class="clear">
-                                                         <div class="response"
-                                                              style="display:none"></div>
-                                                         <div class="response"
-                                                              style="display:none"></div>
-                                                     </div>--%>
                                                     <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
                                                     <div style="position: absolute; left: -5000px;" aria-hidden="true">
                                                         <input type="text" name="b_ddc180777a163e0f9f66ee014_4b1bcfa0bc"
@@ -227,11 +220,11 @@
 
                                                     <br>
                                                     <div>
-                                                        <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal" style="width: 40%;">취소
+                                                        <button type="button" class="btn btn-secondary mateModalButton"
+                                                                data-bs-dismiss="modal">취소
                                                         </button>
-                                                        <button type="button" class="btn btn-primary"
-                                                                onclick="deleteAccept()" style="width: 40%;">삭제
+                                                        <button type="button" class="btn btn-primary mateModalButton"
+                                                                onclick="deleteAccept()">삭제
                                                         </button>
                                                     </div>
                                                 </div>
@@ -276,26 +269,6 @@
             </div>
             <!--/.modal -->
 
-
-            <%--<div class="modal no">
-                <div class="modal_content"
-                     title="클릭하면 창이 닫힙니다.">
-                    모집 조건에 맞지 않습니다.
-                </div>
-            </div>
-
-            <div class="modal yes">
-                <div class="modal_content"
-                     title="클릭하면 창이 닫힙니다.">
-                    동행 신청 메세지<br>
-                    <textarea id="applicationMessage"
-                              placeholder="같이 여행가요"
-                              cols="50" rows="5"
-                              style="resize: none;"></textarea><br>
-                    <button onclick="cancel()" id="cancel">취소</button>
-                    <button onclick="send()" id="send">전송</button>
-                </div>
-            </div>--%>
             <form action="editpage" method="post">
                 <div class="container pb-12 pb-md-16">
                     <div class="row">
@@ -303,8 +276,9 @@
                             <div class="blog single mt-n15">
                                 <div class="card">
 
-                                    <figure class="card-img-top"><img src="../resources/img/mateImg/${dto.thumbnail}"
-                                                                      alt="여행지 사진"/>
+                                    <figure class="card-img-top"><img
+                                            src="<c:url value='../resources/img/mateImg/${dto.thumbnail}'/>"
+                                            alt="여행지 사진"/>
                                     </figure>
                                     <div class="card-body" style="padding-top: 0;">
                                         <div class="classic-view">
@@ -323,10 +297,13 @@
                                             <input hidden name="regionId" value="${dto.regionId}">
                                             <%--     <input hidden name="createdAt" value=${dto.createdAt}>--%>
                                             <input hidden name="ageRangeId" value=${dto.ageRangeId}>
+                                            <input hidden id="ageRangeStrr" value=${ageRangeStr}>
+                                            <input hidden id="ageRangeJSS" value=${ageRangeJS}>
+
 
                                             <article class="post">
                                                 <div class="post-footer d-md-flex flex-md-row justify-content-md-between align-items-center mt-8">
-                                                    <div style="width: 700px;">
+                                                    <div class="mateUserDetails">
                                                         <div class="d-flex align-items-center">
 
                                                             <figure class="user-avatar"><img class="rounded-circle"
@@ -384,13 +361,12 @@
                                                                  </button>--%>
                                                                 <button type="button" id="application"
                                                                         onclick="applyMate()"
-                                                                        class="btn btn-danger rounded-0"
-                                                                        style="width:200px;">동행인 신청하기
+                                                                        class="btn btn-danger rounded-0 mateApplyCheckButton">
+                                                                    동행인 신청하기
                                                                 </button>
                                                             </c:if>
                                                             <c:if test="${dto.isFinish eq 1}">
-                                                                <a style="width:200px;"
-                                                                   class="btn btn-secondary rounded-0">모집완료</a>
+                                                                <a class="btn btn-secondary rounded-0 mateApplyCheckButton">모집완료</a>
                                                             </c:if>
                                                         </div>
                                                         <!--/.share-dropdown -->
@@ -454,15 +430,13 @@
                                                                     <c:if test="${dto.userId eq login}">
 
                                                                         <button
-                                                                                id="edit" type="submit" style="border: 0;
-                                                                        background-color: transparent; margin-left: 5px; color:#b5b5b5;">
-                                                                            수정
+                                                                                id="edit" type="submit"
+                                                                                class="mateBoardUpdateDeleteButton"> 수정
                                                                         </button>
 
                                                                         <button type="button" id="delete"
                                                                                 onclick="deleteMateBoard()"
-                                                                                style="border: 0; background-color: transparent;
-                                                                         color:#b5b5b5;">삭제
+                                                                                class="mateBoardUpdateDeleteButton">삭제
                                                                         </button>
                                                                     </c:if>
                                                                 </ul>
