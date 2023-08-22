@@ -19,20 +19,58 @@ public class CommentController {
     private final CommentService commentService;
 
     @ResponseBody
-    @GetMapping("post_comment")
-    public ResponseEntity <Map<String, Object>> createComment(CommentDTO commentDTO) {
+    @GetMapping("create_comment")
+    public Map<String, Object> createComment(CommentDTO commentDTO) {
         commentService.createCmt(commentDTO);
-        return commentService.commentList(commentDTO.getRecordId());
+        List<CommentDTO> commentList = commentService.selectPostComment(commentDTO.getRecordId());
+        List<CommentDTO> reCommentList = commentService.reCommentList(commentList);
+
+        System.out.println("re -> " + reCommentList);
+        System.out.println("list -> " + commentList);
+
+        Map<String, Object> map = new HashMap<>(); // map에 댓글리스트와 대댓글리스트 추가해서 return
+        map.put("commentList", commentList);
+        map.put("reCommentList", reCommentList);
+        return map;
     }
 
     @ResponseBody
     @GetMapping("delete_comment")
-    public ResponseEntity <Map<String, Object>> deleteComment(long cmtId, long recordId) {
+    public Map<String, Object> deleteComment(long cmtId, long recordId) {
         commentService.deleteCmt(cmtId);
-        return commentService.commentList(recordId);
+        List<CommentDTO> commentList = commentService.selectPostComment(recordId);
+        List<CommentDTO> reCommentList = commentService.reCommentList(commentList);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("commentList", commentList);
+        map.put("reCommentList", reCommentList);
+        return map;
     }
 
-    public void updateComment(CommentDTO commentDTO) {
+    @ResponseBody
+    @GetMapping("update_comment")
+    public Map<String, Object> updateComment(CommentDTO commentDTO,
+                                             @RequestParam("recordId") long recordId) {
         commentService.updateCmt(commentDTO);
-    }//
+        List<CommentDTO> commentList = commentService.selectPostComment(recordId);
+        List<CommentDTO> reCommentList = commentService.reCommentList(commentList);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("commentList", commentList);
+        map.put("reCommentList", reCommentList);
+        return map;
+    }
+
+    @ResponseBody
+    @GetMapping("create_recomment")
+    public Map<String, Object> createReComment(CommentDTO commentDTO) {
+        commentService.createReCmt(commentDTO);
+        List<CommentDTO> commentList = commentService.selectPostComment(commentDTO.getRecordId());
+        List<CommentDTO> reCommentList = commentService.reCommentList(commentList);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("commentList", commentList);
+        map.put("reCommentList", reCommentList);
+        return map;
+    }
 }

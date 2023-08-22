@@ -42,6 +42,7 @@
         <typeAlias type="com.multi.hontrip.record.dto.PostInfoDTO" alias="postInfoDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.record.dto.CommentDTO" alias="commentDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.record.dto.LocationDTO" alias="locationDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.record.dto.PostImgDTO" alias="postImgDTO"></typeAlias>
     </typeAliases>
 
     <typeHandlers>

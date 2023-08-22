@@ -21,6 +21,10 @@ public class CommentDAO {
         sqlSessionTemplate.insert("record.createComment", commentDTO);
     }
 
+    public void createReComment(CommentDTO commentDTO) {
+        sqlSessionTemplate.insert("record.insertNewReComment", commentDTO);
+    }
+
     public void deleteComment(long id) {
         sqlSessionTemplate.delete("record.deleteComment", id);
     }
