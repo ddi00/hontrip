@@ -15,7 +15,7 @@
     <script type="text/javascript" src="<c:url value="/resources/assets/js/plugins.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/assets/js/theme.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.7.0.js"/>" defer></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/chat.js"/>" defer></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/record-create-post.js"/>" defer></script>
 </head>
 <body>
 <div class="content-wrapper">
