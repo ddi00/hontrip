@@ -25,9 +25,6 @@ public class CommentController {
         List<CommentDTO> commentList = commentService.selectPostComment(commentDTO.getRecordId());
         List<CommentDTO> reCommentList = commentService.reCommentList(commentList);
 
-        System.out.println("re -> " + reCommentList);
-        System.out.println("list -> " + commentList);
-
         Map<String, Object> map = new HashMap<>(); // map에 댓글리스트와 대댓글리스트 추가해서 return
         map.put("commentList", commentList);
         map.put("reCommentList", reCommentList);
