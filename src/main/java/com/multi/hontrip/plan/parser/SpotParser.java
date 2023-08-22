@@ -1,6 +1,8 @@
 package com.multi.hontrip.plan.parser;
 
 import com.multi.hontrip.plan.dto.SpotDTO;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,10 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@PropertySource("classpath:properties/plan/api.properties")
 public class SpotParser {
-    private static final String SERVICE_KEY = ""; // 서비스키 발급 필요
+    @Value("${api.parser.service_key}")
+    private String SERVICE_KEY; // 서비스키 발급 필요
 
-    //태그 값 얻는 메소드
+    //태그 값 얻는 메소드static
     private static String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node nodeValue = (Node) nodeList.item(0);

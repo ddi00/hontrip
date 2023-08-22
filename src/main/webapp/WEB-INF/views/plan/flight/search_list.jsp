@@ -31,7 +31,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div id="arrival-info">
+                                        <div>
                                             <span style="display:none">도착 시간</span>
                                             <span>
                                 <fmt:parseDate value="${flight.arrivalTime}" var="arrivalTime"
@@ -44,11 +44,11 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="d-flex flex-column align-items-center float-end">
-                                            <button type="button" id="book-btn" name="book-btn"
-                                                    class="btn btn-outline-yellow">
+                                            <button type="button"
+                                                    class="btn btn-outline-yellow" onclick="goToAirlineHomepage('${flight.airlineName}')">
                                                 예매하기
                                             </button>
-                                            <button type="button" id="add-btn" name="add-btn"
+                                            <button type="button"
                                                     class="btn btn-custom1 mt-1 text-white">
                                                 추가하기
                                             </button>
@@ -114,7 +114,6 @@
         let scrollTop = $(window).scrollTop();
         let windowHeight = $(window).height();
         let documentHeight = $(document).height();
-
         let isBottom = scrollTop + windowHeight + 10 >= documentHeight;
 
         if (isBottom) {
@@ -124,11 +123,12 @@
             isLoading = true;
             $(".spinner-border").show();
             currentPage++;
-            GetFlightList(currentPage);
+            getFlightList(currentPage);
         }
     });
 
-    const GetFlightList = function (currentPage) {
+    // 무한 스크롤 항공편 리스트 반환 메소드
+    const getFlightList = function (currentPage) {
         let pageNum = currentPage;
         $.ajax({
             type: "get",
@@ -150,7 +150,50 @@
                 alert("오류가 발생했습니다.");
             }
         });
-    } // GetFlightList
+    }
+
+    // 예매하기 버튼 클릭 시 항공사명과 일치하는 항공사 홈페이지 새창 열기하는 메소드
+    const goToAirlineHomepage = function(airlineName){
+        let homepageUrl = "";
+        switch (airlineName) {
+            case "대한항공":
+                homepageUrl = "https://www.koreanair.com";
+                break;
+            case "아시아나항공":
+                homepageUrl = "https://www.flyasiana.com";
+                break;
+            case "에어서울":
+                homepageUrl = "http://flyairseoul.com";
+                break;
+            case "에어부산":
+                homepageUrl = "https://www.airbusan.com";
+                break;
+            case "이스타항공":
+                homepageUrl = "https://www.eastarjet.com";
+                break;
+            case "제주항공":
+                homepageUrl = "https://www.jejuair.net";
+                break;
+            case "하이에어":
+                homepageUrl = "https://www.hi-airlines.com";
+                break;
+            case "진에어":
+                homepageUrl = "https://www.jinair.com";
+                break;
+            case "티웨이항공":
+                homepageUrl = "https://www.twayair.com";
+                break;
+            case "에어로케이":
+                homepageUrl = "https://www.aerok.com";
+                break;
+            default:
+                homepageUrl = null; // 항공사 없는 경우
+        }
+
+        if (homepageUrl) {
+            window.open(homepageUrl, "_blank");
+        }
+    }
 </script>
 </body>
 </html>
