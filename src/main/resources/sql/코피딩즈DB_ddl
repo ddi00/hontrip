@@ -322,3 +322,51 @@ CREATE TABLE `record_like` (
   CONSTRAINT `record_like_ibfk_1` FOREIGN KEY (`record_id`) REFERENCES `record_board` (`id`) ON DELETE CASCADE,
   CONSTRAINT `record_like_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+drop table mate_user_chatroom;
+drop table mate_chat_message;
+drop table mate_chatroom;
+
+--  select * from mate_chatroom;
+-- select * from mate_chat_message;
+-- select * from mate_user_chatroom;
+
+CREATE TABLE mate_chatroom (	-- 동행인 모집 관련 채팅룸
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,	-- 채팅룸 아이디
+    chatroom_name VARCHAR(255),	-- 채팅룸 이름
+    post_id BIGINT,	-- 동행인 모집글 아이디, 포스트 하나에 신청자는 여러명~
+    guest_id BigInt, -- guest id가 있어야 식별 가능
+    created_at TIMESTAMP,	-- 생성 날짜
+    last_chat_id bigint default 0, -- 마지막 챗???? ->
+    FOREIGN KEY (post_id) REFERENCES mate_board(id) -- 게시판 글이 없으면 채팅방은 만들어질 수 없음
+);
+
+-- select last_chat_id from mate_chatroom where id=1;
+
+CREATE TABLE mate_chat_message( -- 동행인 모집 챗 메세지
+	id bigint auto_increment primary key,	-- 메세지 아이디
+    message_type varchar(10),	-- 첫입장 처리를 위해, 그리고 그냥 입장도 로그삼아 DB저장 예정(화면표시 무시)
+    chatroom_id bigint,	-- 채팅방 아이디
+    sender_id bigint,	-- 보낸사람 아이디
+    message varchar(1000), -- 메세지, 한글로 1000자 제한하고 싶은데?
+    created_at timestamp, -- 보내는 시간
+    FOREIGN KEY (sender_id) REFERENCES user(id),
+    FOREIGN KEY (chatroom_id) REFERENCES mate_chatroom(id)
+);
+CREATE TABLE mate_user_chatroom ( -- 사용자별 채팅 정보
+    id BIGINT AUTO_INCREMENT PRIMARY KEY, -- 유저채팅방 아이디
+    user_id BIGINT,	-- 유저아이디
+    last_read_chat_id BIGINT, -- 마지막 읽은 챗 아이디
+	chatroom_id BIGINT, -- 채팅방 아이디
+    last_join_at timestamp,	-- 채팅방 마지막 접속 시간
+    unread_chat_number int,	-- 안 읽은 챗 수
+    is_owner tinyint,	-- 모집자 여부
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (chatroom_id) REFERENCES mate_chatroom(id),
+    FOREIGN KEY (last_read_chat_id) REFERENCES mate_chat_message(id)
+);
+
+-- select * from mate_user_chatroom;
+select * from user;
+-- select user_id from mate_user_chatroom where chatroom_id=1 and user_id!=1;

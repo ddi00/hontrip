@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/properties/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -33,7 +33,7 @@ public class UserController {
         //모델에 로그인할 수 있는 url을 담아서 전달 - 네이버, 구글, 카카오...
         List<LoginUrlData> loginUrls = userService.getUrls();
         modelAndView.addObject("urls",loginUrls);
-        modelAndView.setViewName("/user/signin-view");
+        modelAndView.setViewName("/properties/user/signin-view");
         return modelAndView;
     }
 
@@ -47,8 +47,7 @@ public class UserController {
         HttpSession session = request.getSession();
         session.setAttribute("id",member.getId());
         session.setAttribute("nickName", member.getNickName());
-        session.setAttribute("expireAt", member.getExpiresAt());
-        session.setAttribute("refreshAt", member.getRefreshTokenExpiresAt());
+        session.setAttribute("profileImage", member.getProfileImage());
 
         return "redirect:/"; // TODO 이전 요청 경로로 이동
     }
@@ -91,5 +90,4 @@ public class UserController {
         httpSession.invalidate();
         return "redirect:/";
     }
-
 }

@@ -11,9 +11,9 @@
             provider, social_id,nickname,profile_image,gender,age_range_id,email,
             access_token,expires_at,refresh_token,refresh_token_expires_at,created_at
         ) VALUES (
-            #{provider},#{socialId},#{nickName},#{profileImage},#{gender},#{ageRangeId},#{email},
-            #{accessToken},#{expiresAt},#{refreshToken},#{refreshTokenExpiresAt},#{createdAt}
-        )
+                     #{provider},#{socialId},#{nickName},#{profileImage},#{gender},#{ageRangeId},#{email},
+                     #{accessToken},#{expiresAt},#{refreshToken},#{refreshTokenExpiresAt},#{createdAt}
+                 )
     </insert>
     <update id="updateMemberByAuth" parameterType="UserInsertDTO">
         UPDATE user
