@@ -107,7 +107,7 @@ public class NaverService implements OauthService{
     }
 
     public String getLogOutUrl() {  //네이버 로그아웃 url - 네이버는 별도의 로그아웃 처리가 없음
-        return "/user/naver/logout";
+        return "/properties/user/naver/logout";
     }
 
     @Override
