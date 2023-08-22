@@ -7,11 +7,25 @@
     <title>Insert title here</title>
         <script type="text/javascript"
         	src="../resources/js/jquery-3.7.0.js" ></script>
+<style>
+  #map-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 상단 정렬을 위해 align-items 값을 변경 */
+  }
 
+  #map {
+    width: 80%;
+    height: 350px;
+  }
+</style>
 </head>
 <body>
 
-<div id="map" style="width:100%;height:350px;"></div>
+<div id="map-container">
+  <div id="map"></div>
+</div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e69993661da7de473afe445a95ada803"></script>
 <script>
@@ -56,6 +70,8 @@ var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
        kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
    </c:forEach>
 
+
+
 // 인포윈도우를 표시하는 클로저 생성 함수
 function makeOverListener(map, marker, infowindow) {
     return function() {
@@ -69,6 +85,41 @@ function makeOutListener(infowindow) {
         infowindow.close();
     };
 }
+
+</script>
+
+<!-- 검색어 입력창을 포함한 컨테이너 -->
+<div id="search-container">
+  <input type="text" id="city" placeholder="장소 검색어를 입력하세요">
+  <button id="searchButton">검색</button> (검색기능 미완성)
+</div>
+
+<!-- 검색어 입력창 ajax -->
+<script>
+$(document).ready(function() {
+  // 검색 버튼 클릭 이벤트 처리
+  $('#searchButton').click(function() {
+    // 입력된 검색어 가져오기
+     // 검색어가 비어있지 않을 경우에만 Ajax 요청
+    if (keyword !== '') {
+      // Ajax 요청
+      $.ajax({
+        type: 'GET',
+        url: '/list-mylocation2', // 컨트롤러 경로 수정
+        data: { city: $('#city').val() },
+        success: function(response) {
+          // 결과를 결과창에 표시
+          $("#list-mylocation-result2").html(response);
+          $("#mylist-section").hide();
+        },
+        error: function() {
+          // 오류 처리
+          alert('검색한 자료가 없습니다.');
+        }
+      });
+    }
+  });
+});
 </script>
 
 
@@ -87,11 +138,11 @@ function makeOutListener(infowindow) {
     </c:forEach>
 </div>
 
+<!-- 마커 클릭 시 해당 지역 게시물 표시 부분 -->
+<div id="list-mylocation-result" ></div>
 
-<!-- 해당 지역 게시물 표시 부분 -->
-<div id="list-mylocation-result" >
-
-</div>
+<!-- 버튼 검색 시 해당 지역 게시물 표시 부분 -->
+<div id="list-mylocation-result2" ></div>
 
 </body>
 </html>

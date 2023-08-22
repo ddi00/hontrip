@@ -1,9 +1,6 @@
 package com.multi.hontrip.record.controller;
 
-import com.multi.hontrip.record.dto.CommentDTO;
-import com.multi.hontrip.record.dto.CreatePostDTO;
-import com.multi.hontrip.record.dto.LocationDTO;
-import com.multi.hontrip.record.dto.PostInfoDTO;
+import com.multi.hontrip.record.dto.*;
 import com.multi.hontrip.record.service.CommentService;
 import com.multi.hontrip.record.service.LocationService;
 import com.multi.hontrip.record.service.RecordService;
@@ -38,19 +35,26 @@ public class RecordContorller {
     @PostMapping("createpost") // 게시물 작성
     public String uploadPost(HttpServletRequest request,
                              @RequestParam("file") MultipartFile file,
+                             @RequestParam("multifiles")  MultipartFile[] multifiles,
                              CreatePostDTO createPostDTO) {
-        String uploadPath // file 저장 위치
-                = request.getSession().getServletContext().getRealPath("resources/img/recordImg");
-        long postId = recordService.upLoadPost(uploadPath, file, createPostDTO);
+        List<String> multifilesUrl = recordService.setMultifiles(multifiles); //이미지 주소
+        System.out.println("이미지 개수 => " + multifilesUrl.size());
+
+        long postId = recordService.upLoadPost(file, createPostDTO); //id추출
+        recordService.imgUrlsInsert(multifilesUrl, postId);
         return "redirect:/record/postinfo?id=" + postId;
     }
 
     @GetMapping("postinfo") // 게시물 상세 페이지
     public String postInfo(@RequestParam("id") long id, Model model) {
-        PostInfoDTO postInfoDTO = recordService.selectPostInfo(id);
-        List<CommentDTO> commentList = commentService.selectPostComment(id);
+        PostInfoDTO postInfoDTO = recordService.selectPostInfo(id); //게시물 정보
+        List<PostImgDTO> postImgList = recordService.selectPostImg(id); //게시물 이미지
+        List<CommentDTO> commentList = commentService.selectPostComment(id); //게시물 댓글
+        List<CommentDTO> reCommentList = commentService.reCommentList(commentList); //대댓글
         model.addAttribute("postInfoDTO", postInfoDTO);
         model.addAttribute("commentList", commentList);
+        model.addAttribute("postImgList", postImgList);
+        model.addAttribute("reCommentList", reCommentList);
         return "/record/postinfo";
     }
 
@@ -61,12 +65,9 @@ public class RecordContorller {
     }
 
     @PostMapping("updatepost") // 게시물 수정 페이지
-    public String updatePostInfo(HttpServletRequest request,
-                                 @RequestParam("file") MultipartFile file,
+    public String updatePostInfo(@RequestParam("file") MultipartFile file,
                                  CreatePostDTO createPostDTO) {
-        String uploadPath // file 저장 위치
-                = request.getSession().getServletContext().getRealPath("resources/img/recordImg");
-        long postId = recordService.updatePostInfo(uploadPath, file, createPostDTO); // postId값 반환
+        long postId = recordService.updatePostInfo(file, createPostDTO);
         return "redirect:/record/postinfo?id=" + postId;
     }
 
@@ -95,6 +96,16 @@ public class RecordContorller {
         model.addAttribute("mylist", getListMyLocation); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
         System.out.println(getListMyLocation);
+        System.out.println(getMyMap);
+    }
+
+    @GetMapping("list-mylocation2") // 내 게시물 해당지역 리스트 가져오기
+    public void getListMyLocation2(@RequestParam("locationCity") String locationCity, Model model) {
+        List<CreatePostDTO> getListMyLocation2 = recordService.getListMyLocation2(locationCity);
+        List<LocationDTO> getMyMap = recordService.getMyMap();
+        model.addAttribute("mylist", getListMyLocation2); // mylist 모델에 데이터 추가
+        model.addAttribute("mymap", getMyMap);
+        System.out.println(getListMyLocation2);
         System.out.println(getMyMap);
     }
 
