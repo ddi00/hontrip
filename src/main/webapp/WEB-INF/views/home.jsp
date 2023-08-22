@@ -28,5 +28,8 @@
         <a href="plan/accommodation/list">숙소 검색</a><br>
         <a href="plan/emergency_facility/list">응급 시설 정보</a><br>
         <a href="plan/safety_search">안전 정보</a><br>
+        <br>
+        <a href="record/mylist">내 기록 게시물 보기</a><br>
+        <a href="record/feedlist">피드 게시물 보기</a><br>
     </div>
 </section>

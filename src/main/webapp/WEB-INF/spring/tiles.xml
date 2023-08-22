@@ -127,6 +127,7 @@
         <put-attribute name="body" value="/WEB-INF/views/mate/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
+    <!--여행 기록-->
     <definition name="/record/**" extends="default-layout">
         <put-attribute name="title" value="여행기록" />
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />

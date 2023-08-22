@@ -98,6 +98,16 @@ public class RecordContorller {
         System.out.println(getMyMap);
     }
 
+    @GetMapping("list-mylocation2") // 내 게시물 해당지역 리스트 가져오기
+    public void getListMyLocation2(@RequestParam("locationCity") String locationCity, Model model) {
+        List<CreatePostDTO> getListMyLocation2 = recordService.getListMyLocation2(locationCity);
+        List<LocationDTO> getMyMap = recordService.getMyMap();
+        model.addAttribute("mylist", getListMyLocation2); // mylist 모델에 데이터 추가
+        model.addAttribute("mymap", getMyMap);
+        System.out.println(getListMyLocation2);
+        System.out.println(getMyMap);
+    }
+
 
     @GetMapping("feedlist") // 공유피드 리스트 가져오기
     public String getFeedList(Model model) {

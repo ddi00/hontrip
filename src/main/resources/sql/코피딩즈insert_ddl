@@ -106,7 +106,16 @@ VALUES(2, 2, 1, '같이 여행가요!', '2023-08-08 18:13:10', 0);
 
 ------  record_board 기록 게시물 테이블 --------
 INSERT INTO `record_board` (`user_id`, `location_id`, `title`, `content`, `is_visible`, `thumbnail`)
-VALUES (1, 2, 'Sample Title', 'This is the content of the record.', 1, 'thumbnail.jpg');
+VALUES (1, 2, 'Sample Title1', 'This is the content of the record.1', 0, 'sample1.jpg');
+INSERT INTO `record_board` (`user_id`, `location_id`, `title`, `content`, `is_visible`, `thumbnail`)
+VALUES (2, 3, 'Sample Title2', 'This is the content of the record.2', 1, 'sample2.jpg');
+INSERT INTO `record_board` (`user_id`, `location_id`, `title`, `content`, `is_visible`, `thumbnail`)
+VALUES (1, 4, 'Sample Title3', 'This is the content of the record.3', 1, 'sample3.jpg');
+INSERT INTO `record_board` (`user_id`, `location_id`, `title`, `content`, `is_visible`, `thumbnail`)
+VALUES (1, 2, 'Sample Title4', 'This is the content of the record.4', 1, 'sample4.jpg');
+INSERT INTO `record_board` (`user_id`, `location_id`, `title`, `content`, `is_visible`, `thumbnail`)
+VALUES (2, 3, 'Sample Title5', 'This is the content of the record.5', 0, 'sample5.jpg');
+
 ------  record_comment 기록 댓글 테이블 --------
 INSERT INTO `record_comment` (`comment_writer_id`, `record_id`, `content`, `comment_sequence`, `comments_sequence`, `indentation_number`)
 VALUES (1, 1, 'This is a comment.', 1, 1, 0);
