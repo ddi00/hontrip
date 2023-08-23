@@ -57,7 +57,7 @@ public class UserController {
 
     @GetMapping("/{provider}/logout")
     public String oauthLogout(@PathVariable("provider")String provider,
-                                 HttpSession session) throws Exception{   //Oauth 로그아웃 callback 처리 - 카카오는 이미 로그아웃 됨
+                                 HttpSession session) {   //Oauth 로그아웃 callback 처리 - 카카오는 이미 로그아웃 됨
         //DB에 accessToken지우기
         Long userId = (Long)session.getAttribute("id");
         userService.logOut(userId);
