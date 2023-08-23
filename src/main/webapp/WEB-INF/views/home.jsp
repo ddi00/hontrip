@@ -15,6 +15,7 @@
             <a href="/hontrip/user/sign-in">사용자 로그인</a><br>
         </c:if>
         <c:if test="${not empty sessionScope.id}"><!-- 세션에 ID값이 없는 경우, 로그인 링크 출력 -->
+            <a href="/hontrip/user/my-page">회원정보</a><br>
             <a href="/hontrip/user/withdraw">사용자 탈퇴</a><br>
         </c:if>
         <br>
