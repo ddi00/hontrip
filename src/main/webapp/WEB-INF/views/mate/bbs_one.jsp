@@ -6,7 +6,6 @@
     <input hidden id = "userId" name = "userId" value = "${userId}">
     <input hidden id = "nickName" name = "nickName" value = "${nickName}">
     <input hidden id = "mateBoardId" name = "mateBoardId" value = "${one.mateBoardId}">
-    게시물 아이디 : ${one.mateBoardId}<br>
     <hr>
     댓글작성: <input id="cmtContent" style="background: gray">
     <button id="commentWrite">작 성</button>

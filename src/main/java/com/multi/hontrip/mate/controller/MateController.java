@@ -63,22 +63,7 @@ public class MateController {
         return map;
     }
 
-    //게시물 상세처리
-    @RequestMapping("bbs_one")
-    public String one(long mateBoardId, Model model) {
-        //게시물 상세 가져오기
-        MateBoardListDTO mateBoardListDTO = mateService.one(mateBoardId);
-        //게시물 상세의 댓글 리스트 가져오기
-        List<MateCommentDTO> list = mateService.commentList(mateBoardId);
-        //게시물 상세의 답글 리스트 가져오기
-        List<MateCommentDTO> reCommentList = mateService.reCommentList(list);
 
-        model.addAttribute("one", mateBoardListDTO);
-        model.addAttribute("list", list);
-        model.addAttribute("reCommentList", reCommentList);
-
-        return "/mate/bbs_one";
-    }
     //댓글 insert
     @RequestMapping("comment_insert")
     @ResponseBody
@@ -166,12 +151,13 @@ public class MateController {
     /* 동행인 상세 게시글  get 매핑*/
     @GetMapping("/{id}")
     public String selectOne(@PathVariable("id") long id, Model model, HttpSession session) {
-        /*if(session.getAttribute("id") == null){
-            model.addAttribute("login","no");
-        }else{
-            model.addAttribute("login", (long) session.getAttribute("id"));
-        }*/
         MateBoardSelectOneDTO mateBoardSelectOneDTO = mateService.selectOne(id);
+        //게시물 상세의 댓글 리스트 가져오기
+        List<MateCommentDTO> list = mateService.commentList(id);
+        //게시물 상세의 답글 리스트 가져오기
+        List<MateCommentDTO> reCommentList = mateService.reCommentList(list);
+        model.addAttribute("list", list);
+        model.addAttribute("reCommentList", reCommentList);
         model.addAttribute("dto", mateBoardSelectOneDTO);
         return "/mate/mate_board_selectOne";
     }
