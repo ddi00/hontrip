@@ -1,137 +1,73 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <% session.setAttribute("userId", "1"); %>
+    <% session.setAttribute("nickName", "Alice"); %>
+    <script type="text/javascript" src="../resources/js/jquery-3.7.0.js" ></script>
+    <input hidden id = "userId" name = "userId" value = "${userId}">
+    <input hidden id = "nickName" name = "nickName" value = "${nickName}">
+    <input hidden id = "mateBoardId" name = "mateBoardId" value = "${one.mateBoardId}">
+    게시물 아이디 : ${one.mateBoardId}<br>
+    <hr>
+    댓글작성: <input id="cmtContent" style="background: gray">
+    <button id="commentWrite">작 성</button>
+    <br>
+    <br>
+    댓글 수<div id="count"></div>
+    <br>
+    <div id="result" style="background: skyblue;">
+        <c:choose>
+            <c:when test="${list.isEmpty()}">
+                <h6>등록된 댓글이 없습니다.</h6>
+            </c:when>
+            <c:otherwise>
+                <c:forEach items="${list}" var="commentList">
+                <c:if test="${commentList.commentSequence eq '0'}">
+                    <tr id="comment_tr${commentList.commentId}">
+                        <td>
+                            댓글 작성자 : ${commentList.nickname}, 댓글 내용 : ${commentList.content}, 작성날짜 : ${commentList.createdAt}
+                            <a href="javascript:void(0);" onclick="showCcmtTextarea(${commentList.commentId})">답글 달기</a>
+                            <c:if test="${commentList.nickname eq 'Alice'}">
+                                <a href="javascript:void(0);" onclick="showUpdateTextarea(${commentList.commentId})">수정</a>
+                                <button class="commentDelete" data-comment-id="${commentList.commentId}">삭제</button>
+                            </c:if>
 
-<script type="text/javascript" src="../resources/js/jquery-3.7.0.js"></script>
-<script type="text/javascript">
-    $(function() {
-        //댓글 작성 버튼 클릭시
-        $('#commentBtn').click(function() {
-            $.ajax({
-                url: "/hontrip/mate/comment_insert",
-                data: {
-                    mateBoardId: ${one.mateBoardId},
-                    content: $('#comment').val(),
-                    userId: '${user_id}',
-                    nickname: '${nickname}'
-                },
-                dataType: 'json',
-                success: function(data) {
-                    let comment = '';
-                    for (let i = 0; i < data.list.length; i++) {
-                        let commentList = data.list[i];
-                        comment += `\${commentList.nickname} : \${commentList.content}
-                        <button class="commentDeleteBtn" data-comment-id = \${commentList.commentId} > 삭제 </button> <br>`
-                    }
-                    $('#comment').val('');
-                    $('#result').empty().html(comment);
-                },
-                error: function() {
-                    alert("실패!");
-                }
-            });
-        });
+                            <c:forEach items="${reCommentList}" var="reComment">
+                                <c:if test="${commentList.commentId eq reComment.indentationNumber}">
+                                    <br>
+                                    --> 댓글 작성자 : ${reComment.nickname}, 댓글 내용 : ${reComment.content}, 작성날짜 : ${reComment.createdAt}
+                                    <c:if test="${reComment.nickname eq 'Alice'}">
+                                        <a href="javascript:void(0);" onclick="showUpdateTextarea(${reComment.commentId})">수정</a>
+                                        <button class="commentDelete" data-comment-id="${reComment.commentId}">삭제</button>
+                                         <div id="commentUpdate${reComment.commentId}" style="display: none">
+                                          <textarea id="updateContent${reComment.commentId}" placeholder="수정글을 입력해주세요">${reComment.content}</textarea>
+                                            <br>
+                                            <button class="updateComment" data-comment-id="${reComment.commentId}">수정</button>
+                                            <a href="javascript:void(0);" onclick="closeTextarea(${reComment.commentId})">취소</a>
+                                        </div>
+                                    </c:if>
+                                    <br>
+                                </c:if>
+                            </c:forEach>
+                            <br>
 
-        // 댓글 수정 버튼 클릭 시
-        $(document).on('click', '.commentEditBtn', function() {
-            let commentId = $(this).data("comment-id");
-             let originalContent = $(this).closest('.result').find('.commentContent').data('content-id');
-            console.log(originalContent);
-            let editForm = `
-                <div class="editForm">
-                    <textarea class="editComment" rows="3">\${originalContent}</textarea>
-                    <button class="saveEditBtn" data-comment-id="\${commentId}"> 저장 </button>
-                </div>
-            `;
+                            <div id="commentUpdate${commentList.commentId}" style="display: none">
+                                <textarea id="updateContent${commentList.commentId}" placeholder="수정글을 입력해주세요">${commentList.content}</textarea>
+                                <br>
+                                <button class="updateComment" data-comment-id="${commentList.commentId}">수정</button>
+                                <a href="javascript:void(0);" onclick="closeTextarea(${commentList.commentId})">취소</a>
+                            </div>
 
-            $(this).closest('div').append(editForm);
-            $(this).closest('div').find('.editComment').val(originalContent).focus();
-        });
-
-        // 댓글 수정 저장 버튼 클릭 시
-        $(document).on('click', '.saveEditBtn', function() {
-            let commentId = $(this).data("comment-id");
-            let newContent = $(this).closest('.editForm').find('.editComment').val();
-            console.log(commentId);
-            console.log(newContent);
-            $.ajax({
-                url: "/hontrip/mate/comment_edit",
-                data: {
-                    commentId: commentId,
-                    mateBoardId: ${one.mateBoardId},
-                    content: newContent
-                },
-
-                dataType: 'json',
-                success: function(data) {
-                    let comment = '';
-                    for (let i = 0; i < data.list.length; i++) {
-                        let commentList = data.list[i];
-                        comment += `\${commentList.nickname} : \${commentList.content}
-                        <button class="commentEditBtn" data-comment-id="\${commentList.commentId}"> 수정 </button>
-                        <button class="commentDeleteBtn" data-comment-id="\${commentList.commentId}"> 삭제 </button>
-                        <br>`;
-                    }
-                    $('.result').empty().html(comment);
-                },
-                error: function() {
-                    alert("실패!");
-                }
-            });
-
-            $(this).closest('.editForm').remove();
-        });
-
-        // 댓글 삭제 버튼 클릭 시
-        $(document).on('click', '.commentDeleteBtn', function() {
-            let commentId = $(this).data("comment-id");
-            $.ajax({
-                url: "/hontrip/mate/comment_delete",
-                data: {
-                    commentId: commentId,
-                    mateBoardId: ${one.mateBoardId},
-                    userId: '${user_id}',
-                    nickname: '${nickname}'
-                },
-                dataType: 'json',
-                success: function(data) {
-                    let comment = '';
-                    for (let i = 0; i < data.list.length; i++) {
-                        let commentList = data.list[i];
-                        comment += `\${commentList.nickname} : \${commentList.content}
-                        <button class="commentEditBtn" data-comment-id="\${commentList.commentId}"> 수정 </button>
-                        <button class="commentDeleteBtn" data-comment-id="\${commentList.commentId}"> 삭제 </button>
-                        <br>`;
-                    }
-                    $('.result').empty().html(comment);
-                },
-                error: function() {
-                    alert("실패!");
-                }
-            });
-        });
-    });
-</script>
-</head>
-<body style="color: blue;">
-게시판 번호: ${one.mateBoardId}<br>
-게시판 제목: ${one.title}<br>
-게시판 내용: ${one.content}<br>
-게시판 글쓴이: ${one.nickname}
-<hr color="blue">
-댓글작성: <input id="comment" style="background: black; color: white;">
-<button id="commentBtn" style="background: red; color: white;">작성완료</button>
-<div class="result">
-<c:forEach items="${list}" var="commentList">
-  ${commentList.nickname} : <div class="commentContent" data-content-id="${commentList.content}">${commentList.content}</div>
-  <button class="commentEditBtn" data-comment-id="${commentList.commentId}"> 수정 </button>
-  <button class="commentDeleteBtn" data-comment-id="${commentList.commentId}"> 삭제 </button>
-  <br>
-</c:forEach>
-</div>
-</body>
-</html>
+                            <div id="cComment${commentList.commentId}" style="display: none">
+                                <textarea id="cContent${commentList.commentId}" placeholder="답글을 입력해주세요"></textarea>
+                                <br>
+                                <button class="cCommentWrite" data-comment-id="${commentList.commentId}">답글 전송</button>
+                                <a href="javascript:void(0);" onclick="closeCTextarea(${commentList.commentId})">취소</a>
+                                <br>
+                            </div>
+                        </td>
+                    </tr>
+                </c:if>
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
+    </div>

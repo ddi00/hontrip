@@ -105,9 +105,6 @@
 				<if test='searchType.equals("nickname")'>
 					AND nickname LIKE concat('%', #{keyword}, '%')
 				</if>
-				<!--				<if test='searchType.equals("id")'>-->
-				<!--					AND mb.id BETWEEN #{start} AND #{end}-->
-				<!--				</if>-->
 			</if>
 		</where>
 		ORDER BY
@@ -134,27 +131,6 @@
 		WHERE
 		mb.id = #{mateBoardId};
 	</select>
-
-
-	<!--	<select id="list" resultType="mateBoardListDTO">-->
-	<!--		SELECT-->
-	<!--		mb.id AS mateBoardId,-->
-	<!--		u.nickname AS nickname,-->
-	<!--		mb.content AS content,-->
-	<!--		mb.title AS title,-->
-	<!--		mb.thumbnail AS thumbnail,-->
-	<!--		mb.start_date AS startDate,-->
-	<!--		mb.end_date AS endDate,-->
-	<!--		ar.range_description AS ageRange-->
-	<!--		FROM-->
-	<!--		mate_board mb-->
-	<!--		JOIN user u ON mb.user_id = u.id-->
-	<!--		JOIN age_range ar ON mb.age_range_id = ar.id-->
-	<!--		WHERE-->
-	<!--		mb.id BETWEEN #{start} AND #{end}-->
-	<!--		ORDER BY-->
-	<!--		mb.id DESC;-->
-	<!--	</select>-->
 
 	<select id="count" resultType="Integer">
 		SELECT COUNT(*)
@@ -200,12 +176,19 @@
 		u.nickname As nickname
 		FROM mate_comment mc
 		JOIN user u ON mc.user_id = u.id
-		WHERE mate_board_id = #{mateBoardId};
+		WHERE mate_board_id = #{mateBoardId}
+		ORDER BY mc.comment_sequence ASC;
 	</select>
 	<insert id="commentInsert" parameterType="mateCommentDTO">
 		INSERT INTO mate_comment
 		(mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number)
-		VALUES (#{mateBoardId}, #{userId}, #{content}, 1, 0, 0);
+		VALUES (#{mateBoardId}, #{userId}, #{content}, 0, 0, 0);
+	</insert>
+
+	<insert id="replyInsert" parameterType="mateCommentDTO">
+		INSERT INTO mate_comment
+		(mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number)
+		VALUES (#{mateBoardId}, #{userId}, #{content}, #{commentSequence}, 0, #{indentationNumber});
 	</insert>
 
 	<insert id="commentDelete" parameterType="mateCommentDTO">
@@ -218,6 +201,7 @@
 		SET content = #{content}
 		WHERE id = #{commentId};
 	</insert>
+
 </mapper>
 
 
