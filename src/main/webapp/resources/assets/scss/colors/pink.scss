@@ -1,0 +1,17 @@
+// Bootstrap Functions
+@import "../../../../node_modules/bootstrap/scss/functions";
+
+// Theme colors
+@import "webapp/resources/assets/scss/theme-colors";
+
+// User variables
+@import 'webapp/resources/assets/scss/user-variables';
+
+// Color
+$primary: $pink;
+
+// Theme variables
+@import "webapp/resources/assets/scss/variables";
+
+// Color styles
+@import "colors";
