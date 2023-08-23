@@ -125,7 +125,7 @@ $(document).ready(function() {
 
 <!-- 내 게시물 표시 부분 -->
 <div id="mylist-section">
-<a href="feedlist"><button>공유피드</button></a><br>
+<a href="feedlist?isVisible=1"><button>공유피드</button></a><br>
 <a href="createpost"><button>게시글작성버튼</button></a><br>
 내 게시물 전체 리스트 ( user_id : 1로 임의설정)
 <hr color="red">
