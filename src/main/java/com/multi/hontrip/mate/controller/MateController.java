@@ -143,7 +143,10 @@ public class MateController {
 
     /* 동행인게시판 글 작성 get 매핑*/
     @GetMapping("/insert")
-    public String insert() {
+    public String insert(HttpSession session) {
+        if (session.getAttribute("id") == null) {
+            return "error";
+        }
         return "/mate/mate_board_insert";
     }
 
@@ -154,7 +157,6 @@ public class MateController {
                        MateBoardInsertDTO mateBoardInsertDTO,
                        HttpServletRequest request, RedirectAttributes redirectAttributes
     ) {
-        System.out.println(mateBoardInsertDTO);
         mateService.insert(file, mateBoardInsertDTO);
         redirectAttributes.addAttribute("id", mateBoardInsertDTO.getId());
         return mateBoardInsertDTO.getId();
@@ -163,9 +165,13 @@ public class MateController {
 
     /* 동행인 상세 게시글  get 매핑*/
     @GetMapping("/{id}")
-    public String selectOne(@PathVariable("id") long id, Model model) {
+    public String selectOne(@PathVariable("id") long id, Model model, HttpSession session) {
+        /*if(session.getAttribute("id") == null){
+            model.addAttribute("login","no");
+        }else{
+            model.addAttribute("login", (long) session.getAttribute("id"));
+        }*/
         MateBoardSelectOneDTO mateBoardSelectOneDTO = mateService.selectOne(id);
-        System.out.println(mateBoardSelectOneDTO);
         model.addAttribute("dto", mateBoardSelectOneDTO);
         return "/mate/mate_board_selectOne";
     }

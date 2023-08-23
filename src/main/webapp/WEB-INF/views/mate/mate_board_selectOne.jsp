@@ -9,14 +9,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%
-    /*세션에서 유저아이디 불러옴 -> 없으면 no 있으면 유저아이디*/
-    if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
-        request.setAttribute("login", "no");
-    } else {
+    //*세션에서 유저아이디 불러옴 -> 없으면 no 있으면 유저아이디*//*
+    if (session.getAttribute("id") != null) {
         long userId = (long) session.getAttribute("id");
-        request.setAttribute("login", userId);
+        request.setAttribute("user", userId);
     }
-    /*request.setAttribute("login", 2L);*/
 %>
 <%
     /* c:forEach 에서 사용할 배열 -> ageRangeStr */
@@ -42,7 +39,6 @@
                     ageRangeJS += ",";
                 }
             }
-            System.out.println("js: " + ageRangeJS);
             request.setAttribute("ageRangeJS", ageRangeJS);
         }
     } else {
@@ -52,6 +48,7 @@
         request.setAttribute("ageRangeJS", ageRangeJS);
     }
 %>
+
 <div class="content-wrapper">
     <header class="wrapper bg-soft-primary">
         <nav class="navbar navbar-expand-lg center-nav transparent navbar-light">
@@ -121,7 +118,7 @@
                         <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         <div class="row">
                             <input hidden id="mateBoardId" value="${dto.id}">
-                            <input hidden id="mateBoardLogin" value="${login}">
+                            <input hidden id="mateBoardGuest" value="${user}">
                             <input hidden id="mateBoardGenderStr" value="${dto.gender.genderStr}">
                             <input hidden id="ageRangeJS" value="${ageRangeJS}">
 
@@ -308,7 +305,7 @@
 
                                                             <figure class="user-avatar"><img class="rounded-circle"
                                                                                              alt="유저 썸네일"
-                                                                                             src="../resources/img/userProfileImg/${dto.userProfileImage}"/>
+                                                                                             src="${dto.userProfileImage}"/>
                                                             </figure>
                                                             <div>
                                                                 <h6 class="comment-author"><a href="#"
@@ -352,7 +349,7 @@
                                                     </div>
                                                     <div class="mb-0 mb-md-16">
                                                         <div class="dropdown share-dropdown btn-group">
-                                                            <c:if test="${dto.isFinish eq 0 && dto.userId ne login}">
+                                                            <c:if test="${dto.isFinish eq 0 && dto.userId ne user}">
                                                                 <%-- <button id="application"
                                                                          class="btn btn-sm btn-red rounded-pill btn-icon btn-icon-start dropdown-toggle mb-0 me-0"
                                                                          data-bs-toggle="dropdown" aria-haspopup="true"
@@ -427,7 +424,7 @@
                                                                     <li class="post-comments"><i
                                                                             class="uil uil-comment"></i>댓글개수
                                                                     </li>
-                                                                    <c:if test="${dto.userId eq login}">
+                                                                    <c:if test="${dto.userId eq user}">
 
                                                                         <button
                                                                                 id="edit" type="submit"
