@@ -25,7 +25,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/sign-in")
-    public ModelAndView signIn(HttpServletRequest request,ModelAndView modelAndView){  //소셜 로그인 페이지로 이동
+    public ModelAndView signIn(ModelAndView modelAndView){  //소셜 로그인 페이지로 이동
         //모델에 로그인할 수 있는 url을 담아서 전달 - 네이버, 구글, 카카오...
         List<LoginUrlData> loginUrls = userService.getUrls();
         modelAndView.addObject("urls",loginUrls);
