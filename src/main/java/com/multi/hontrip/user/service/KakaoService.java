@@ -21,24 +21,24 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
-@PropertySource("classpath:properties/user/kakao.properties")
+//@PropertySource("classpath:properties/user/kakao.properties")
 public class KakaoService implements OauthService { //카카오 oauth 인증 처리
     @Value("${kakao.client.id}")
-    private String KAKAO_CLIENT_ID; //카카오 인증 ID
+    private String KAKAO_CLIENT_ID = null; //카카오 인증 ID
     @Value("${kakao.client.secret}")
-    private String KAKAO_CLIENT_SECRET; //카카오 보안 문자열
+    private String KAKAO_CLIENT_SECRET = null ; //카카오 보안 문자열
     @Value("${kakao.redirect.url}")
-    private String KAKAO_REDIRECT_URL;  //카카오 callback 처리 경로
+    private String KAKAO_REDIRECT_URL= null;  //카카오 callback 처리 경로
     @Value("${kakao.auth.url}")
-    private String KAKAO_AUTH_URL;  //카카오 인증 url
+    private String KAKAO_AUTH_URL= null;  //카카오 인증 url
     @Value("${kakao.api.url}")
-    private String KAKAO_API_URL;   //카카오 api url
+    private String KAKAO_API_URL= null;   //카카오 api url
     @Value("${kakao.ssl.api.url}")
-    private String KAKAO_SSL_API_URL;   //카카오 api url
+    private String KAKAO_SSL_API_URL= null;   //카카오 api url
     @Value("${kakao.logout.redirect.url}")
-    private String KAKAO_LOGOUT_REDIRECT_URI;
+    private String KAKAO_LOGOUT_REDIRECT_URI= null;
     @Value("${kakao.admin.key}")
-    private String KAKAO_ADMIN_KEY;
+    private String KAKAO_ADMIN_KEY= null;
 
     @Override
     public String getLoginUrl() {//카카오 인가코드 발급 url

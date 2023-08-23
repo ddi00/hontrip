@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -106,9 +107,24 @@ public class MateServiceImpl implements MateService {
     public void commentDelete(MateCommentDTO mateCommentDTO) {
         mateCommentDAO.delete(mateCommentDTO);
     }
-
+    @Override
     public void commentEdit(MateCommentDTO mateCommentDTO) {
         mateCommentDAO.edit(mateCommentDTO);
+    }
+    @Override
+    public int replyInsert (MateCommentDTO mateCommentDTO){
+        return mateCommentDAO.replyInsert(mateCommentDTO);
+    }
+    @Override
+    public List<MateCommentDTO> reCommentList(List<MateCommentDTO> commentList) {
+        List<MateCommentDTO> reCommentList = new ArrayList<>();
+
+        for (MateCommentDTO mateCommentDTO : commentList) {
+            if ("1".equals(mateCommentDTO.getCommentSequence())) {
+                reCommentList.add(mateCommentDTO);
+            }
+        }
+        return reCommentList;
     }
 
     @Override

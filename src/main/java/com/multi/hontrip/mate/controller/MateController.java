@@ -70,40 +70,74 @@ public class MateController {
         MateBoardListDTO mateBoardListDTO = mateService.one(mateBoardId);
         //게시물 상세의 댓글 리스트 가져오기
         List<MateCommentDTO> list = mateService.commentList(mateBoardId);
+        //게시물 상세의 답글 리스트 가져오기
+        List<MateCommentDTO> reCommentList = mateService.reCommentList(list);
+
         model.addAttribute("one", mateBoardListDTO);
         model.addAttribute("list", list);
+        model.addAttribute("reCommentList", reCommentList);
+
         return "/mate/bbs_one";
     }
-
     //댓글 insert
     @RequestMapping("comment_insert")
     @ResponseBody
-    public Map<String, Object> insert(MateCommentDTO mateCommentDTO) {
+    public Map<String,Object> insert(MateCommentDTO mateCommentDTO) {
         int result = mateService.commentInsert(mateCommentDTO);
+        //게시물 상세의 댓글 리스트 가져오기
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
-        Map<String, Object> map = new HashMap<>();
+        //게시물 상세의 답글 리스트 가져오기
+        List<MateCommentDTO> reCommentList = mateService.reCommentList(list);
+
+        Map<String,Object> map=new HashMap<>();
         map.put("list", list);
+        map.put("reCommentList", reCommentList);
         return map;
     }
 
     //댓글 delete
     @RequestMapping("comment_edit")
     @ResponseBody
-    public Map<String, Object> edit(MateCommentDTO mateCommentDTO) {
+    public Map<String,Object> edit(MateCommentDTO mateCommentDTO) {
         mateService.commentEdit(mateCommentDTO);
+        //게시물 상세의 댓글 리스트 가져오기
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
-        Map<String, Object> map = new HashMap<>();
+        //게시물 상세의 답글 리스트 가져오기
+        List<MateCommentDTO> reCommentList = mateService.reCommentList(list);
+
+        Map<String,Object> map=new HashMap<>();
         map.put("list", list);
+        map.put("reCommentList", reCommentList);
         return map;
     }
 
     @RequestMapping("comment_delete")
     @ResponseBody
-    public Map<String, Object> delete(MateCommentDTO mateCommentDTO) {
+    public Map<String,Object> delete(MateCommentDTO mateCommentDTO) {
         mateService.commentDelete(mateCommentDTO);
+        //게시물 상세의 댓글 리스트 가져오기
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
-        Map<String, Object> map = new HashMap<>();
+        //게시물 상세의 답글 리스트 가져오기
+        List<MateCommentDTO> reCommentList = mateService.reCommentList(list);
+
+        Map<String,Object> map=new HashMap<>();
         map.put("list", list);
+        map.put("reCommentList", reCommentList);
+        return map;
+    }
+
+    @RequestMapping("reply_insert")
+    @ResponseBody
+    public Map<String,Object> reply(MateCommentDTO mateCommentDTO) {
+        int result = mateService.replyInsert(mateCommentDTO);
+        //게시물 상세의 댓글 리스트 가져오기
+        List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
+        //게시물 상세의 답글 리스트 가져오기
+        List<MateCommentDTO> reCommentList = mateService.reCommentList(list);
+
+        Map<String,Object> map=new HashMap<>();
+        map.put("list", list);
+        map.put("reCommentList", reCommentList);
         return map;
     }
 
