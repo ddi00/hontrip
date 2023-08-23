@@ -20,7 +20,6 @@
     <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.7.0.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/chat.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/mate.js"/>" defer></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/mate_one.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/pagination.js"/>" defer></script>
 </head>
 <body>
