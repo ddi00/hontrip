@@ -100,8 +100,8 @@ public class RecordContorller {
     }
 
     @GetMapping("list-mylocation2") // 내 게시물 해당지역 리스트 가져오기
-    public void getListMyLocation2(@RequestParam("locationCity") String locationCity, Model model) {
-        List<CreatePostDTO> getListMyLocation2 = recordService.getListMyLocation2(locationCity);
+    public void getListMyLocation2(@RequestParam("city") String city, Model model) {
+        List<CreatePostDTO> getListMyLocation2 = recordService.getListMyLocation2(city);
         List<LocationDTO> getMyMap = recordService.getMyMap();
         model.addAttribute("mylist", getListMyLocation2); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);

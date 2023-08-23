@@ -115,7 +115,7 @@
 		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id
 		FROM record_board rb
 		JOIN location l ON rb.location_id = l.id
-		WHERE rb.user_id = 1 AND l.city = #{locationCity}
+		WHERE rb.user_id = 1 AND l.city = #{city}
 		ORDER BY rb.id DESC;
 	</select>
 
