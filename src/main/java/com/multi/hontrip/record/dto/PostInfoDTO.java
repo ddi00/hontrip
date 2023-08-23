@@ -19,7 +19,6 @@ public class PostInfoDTO {
     private String cmtUserNickName;
     private String cmtContent;
     private int cmtSequence;
-    private int cmtsSquence;
     private int indentationNum;
     private String cmtCreatedAt;
     private String cmtUpdatedAt;

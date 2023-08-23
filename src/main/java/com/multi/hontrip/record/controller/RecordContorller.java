@@ -74,7 +74,7 @@ public class RecordContorller {
     @GetMapping("deletepost")
     public String deletePost(@RequestParam long id) {
         recordService.deletePostInfo(id);
-        return "redirect:/record/createpost";
+        return "redirect:/record/mylist";
     }
 
     @GetMapping("mylist") // 내 게시물 전체 가져오기
@@ -111,8 +111,8 @@ public class RecordContorller {
 
 
     @GetMapping("feedlist") // 공유피드 리스트 가져오기
-    public String getFeedList(Model model) {
-        List<CreatePostDTO> feedlist = recordService.getFeedList();
+    public String getFeedList(@RequestParam("isVisible") int isVisible, Model model) {
+        List<PostInfoDTO> feedlist = recordService.getFeedList(isVisible);
         model.addAttribute("feedlist", feedlist);
         System.out.println(feedlist);
         return "/record/feedlist"; // feedlist.jsp 파일로 반환
