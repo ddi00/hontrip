@@ -1,12 +1,16 @@
 package com.multi.hontrip.user.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserInsertDTO {  //DB에 입력할 소셜 인증 사용자 정보
     private Long id;    // 내부 회원 ID
     private String provider;    //Oauth 공급자
@@ -32,7 +36,6 @@ public class UserInsertDTO {  //DB에 입력할 소셜 인증 사용자 정보
                 .ageRange(ageRange)
                 .gender(gender)
                 .email(userInsertDTO.getEmail())
-                .logOutUrl(logOutUrl)
                 .build();
     }
 }

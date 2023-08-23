@@ -52,8 +52,8 @@ public class RecordDAO {
         return  sqlSessionTemplate.selectList("record.listmylocation2", city);
     }
 
-    public List<CreatePostDTO> getFeedList(){ //공유피드 전체 리스트 가져오기
-        return sqlSessionTemplate.selectList("record.feedlist");
+    public List<PostInfoDTO> getFeedList(int isVisible){ //공유피드 전체 리스트 가져오기
+        return sqlSessionTemplate.selectList("record.feedlist", isVisible);
     }
 
     public List<LocationDTO> getMyMap(){ //공유피드 전체 리스트 가져오기

@@ -15,6 +15,7 @@
             <a href="/hontrip/user/sign-in">사용자 로그인</a><br>
         </c:if>
         <c:if test="${not empty sessionScope.id}"><!-- 세션에 ID값이 없는 경우, 로그인 링크 출력 -->
+            <a href="/hontrip/user/my-page">회원정보</a><br>
             <a href="/hontrip/user/withdraw">사용자 탈퇴</a><br>
         </c:if>
         <br>
@@ -22,7 +23,7 @@
         <br>
         동행인 매칭<br>
         <a href="mate/insert">동행인 매칭 게시글 작성</a><br>
-        <a href="mate/88">동행인 매칭 게시글 상세페이지</a><br>
+        <a href="mate/9">동행인 매칭 게시글 상세페이지</a><br>
         <a href="mate/chat-view">채팅</a><br>
         <br>
         <a href="plan/create">일정 생성</a><br>

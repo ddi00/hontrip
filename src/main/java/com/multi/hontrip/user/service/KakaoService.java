@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter;
 @PropertySource("classpath:properties/user/kakao.properties")
 public class KakaoService implements OauthService { //카카오 oauth 인증 처리
     @Value("${kakao.client.id}")
-    private String KAKAO_CLIENT_ID; //카카오 인증 ID
+    private String KAKAO_CLIENT_ID ; //카카오 인증 ID
     @Value("${kakao.client.secret}")
     private String KAKAO_CLIENT_SECRET; //카카오 보안 문자열
     @Value("${kakao.redirect.url}")

@@ -13,8 +13,22 @@
 <%@ page import="com.multi.hontrip.mate.dto.AgeRange" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<% long userId = (long) session.getAttribute("id");
+    if (userId > 0) {
+        request.setAttribute("userId", userId);
+    }
+%>
 
+<script>
 
+    let userId =
+    ${userId}
+    const eventSource = new EventSource("/sse" + "?userId=" + userId);
+
+    eventSource.addEventListener('sse', event => {
+        console.log(event);
+    });
+</script>
 <div class="content-wrapper">
     <section class="wrapper bg-xs-none">
         <div class="container pt-2 pb-10 pt-md-10 pb-md-10">

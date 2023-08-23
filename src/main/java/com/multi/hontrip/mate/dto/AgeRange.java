@@ -1,6 +1,6 @@
 package com.multi.hontrip.mate.dto;
 
-import com.multi.hontrip.mate.exception.EnumException;
+import com.multi.hontrip.mate.exception.MateException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public enum AgeRange {
             }
         }
         if (str.equals("")) {
-            throw new EnumException("해당하는 ENUM이 존재하지 않습니다.");
+            throw new MateException("해당하는 ENUM이 존재하지 않습니다.");
         }
         return str;
     }

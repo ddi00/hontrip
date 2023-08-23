@@ -1,0 +1,321 @@
+-- hontrip.accommodation definition
+
+CREATE TABLE `accommodation` (
+  `accommodation_id` bigint NOT NULL AUTO_INCREMENT,
+  `id` varchar(255) NOT NULL,
+  `place_name` varchar(255) NOT NULL,
+  `category_name` varchar(255) DEFAULT NULL,
+  `category_group_code` varchar(255) NOT NULL,
+  `category_group_name` varchar(255) NOT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `address_name` varchar(255) NOT NULL,
+  `road_address_name` varchar(255) DEFAULT NULL,
+  `x` varchar(255) NOT NULL,
+  `y` varchar(255) NOT NULL,
+  `place_url` varchar(255) DEFAULT NULL,
+  `distance` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`accommodation_id`),
+  UNIQUE KEY `UNIQUE_accommodation_id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.age_range definition
+
+CREATE TABLE `age_range` (
+  `id` int NOT NULL,
+  `range_description` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.emergency_facility definition
+
+CREATE TABLE `emergency_facility` (
+  `emergency_facility_id` bigint NOT NULL AUTO_INCREMENT,
+  `id` varchar(255) NOT NULL,
+  `place_name` varchar(255) NOT NULL,
+  `category_name` varchar(255) DEFAULT NULL,
+  `category_group_code` varchar(255) NOT NULL,
+  `category_group_name` varchar(255) NOT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `address_name` varchar(255) NOT NULL,
+  `road_address_name` varchar(255) DEFAULT NULL,
+  `x` varchar(255) NOT NULL,
+  `y` varchar(255) NOT NULL,
+  `place_url` varchar(255) DEFAULT NULL,
+  `distance` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`emergency_facility_id`),
+  UNIQUE KEY `UNIQUE_emergency_facility_id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.flight definition
+
+CREATE TABLE `flight` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `vehicle_id` varchar(10) NOT NULL,
+  `airline_name` varchar(10) NOT NULL,
+  `departure_airport_name` varchar(10) NOT NULL,
+  `departure_time` datetime NOT NULL,
+  `arrival_airport_name` varchar(10) NOT NULL,
+  `arrival_time` datetime NOT NULL,
+  `economy_charge` int DEFAULT NULL,
+  `prestige_charge` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_name` (`vehicle_id`,`departure_time`)
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.location definition
+
+CREATE TABLE `location` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `city` varchar(50) NOT NULL,
+  `lat` double NOT NULL,
+  `lon` double NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.spot definition
+
+CREATE TABLE `spot` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `content_id` varchar(20) NOT NULL,
+  `content_type` varchar(2) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `tel` varchar(50) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `homepage` varchar(255) DEFAULT NULL,
+  `address` varchar(100) NOT NULL,
+  `mapX` varchar(50) NOT NULL,
+  `mapY` varchar(50) NOT NULL,
+  `areacode` varchar(10) DEFAULT NULL,
+  `sigungucode` varchar(10) DEFAULT NULL,
+  `overview` text,
+  `info_center` varchar(255) DEFAULT NULL,
+  `open_date` varchar(255) DEFAULT NULL,
+  `rest_date` varchar(255) DEFAULT NULL,
+  `exp_guide` text,
+  `usetime` varchar(255) DEFAULT NULL,
+  `parking` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_name` (`content_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.`user` definition
+
+CREATE TABLE `user` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `provider` varchar(20) NOT NULL,
+  `social_id` varchar(255) NOT NULL,
+  `nickname` varchar(255) DEFAULT NULL,
+  `profile_image` varchar(1000) DEFAULT NULL,
+  `gender` tinyint DEFAULT NULL,
+  `age_range_id` int DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `access_token` varchar(255) DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `refresh_token` varchar(255) DEFAULT NULL,
+  `refresh_token_expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `age_range_id` (`age_range_id`),
+  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`age_range_id`) REFERENCES `age_range` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.mate_board definition
+
+CREATE TABLE `mate_board` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '매칭 게시판 구분',
+  `user_id` bigint NOT NULL COMMENT '게시글 작성자 아이디',
+  `region_id` bigint NOT NULL COMMENT '도시 표시',
+  `age_range_id` varchar(20) NOT NULL COMMENT '연령대 표시',
+  `title` varchar(30) NOT NULL COMMENT '제목',
+  `content` text NOT NULL COMMENT '내용',
+  `thumbnail` varchar(255) NOT NULL COMMENT '썸네일',
+  `start_date` date NOT NULL COMMENT '여행 시작 날짜',
+  `end_date` date NOT NULL COMMENT '여행 종료 날짜',
+  `recruit_number` int NOT NULL COMMENT '모집인원',
+  `gender` tinyint NOT NULL COMMENT '성별 0(male), 1(female), 2(none)',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT ' 게시글 작성 일자',
+  `updated_at` timestamp NULL DEFAULT NULL COMMENT '게시글 수정 일자',
+  `is_finish` tinyint NOT NULL DEFAULT '0' COMMENT '동행자 모집 완료(1) 또는 모집중(0)',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `mate_board_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.mate_chatroom definition
+
+CREATE TABLE `mate_chatroom` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `chatroom_name` varchar(255) DEFAULT NULL,
+  `post_id` bigint DEFAULT NULL,
+  `guest_id` bigint DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `last_chat_id` bigint DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `post_id` (`post_id`),
+  CONSTRAINT `mate_chatroom_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `mate_board` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.mate_comment definition
+
+CREATE TABLE `mate_comment` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '댓글 구분',
+  `mate_board_id` bigint NOT NULL COMMENT '매칭 게시판 구분',
+  `user_id` bigint NOT NULL COMMENT '댓글 작성자 아이디',
+  `content` varchar(255) NOT NULL COMMENT '내용',
+  `comment_sequence` int NOT NULL COMMENT '댓글순서',
+  `comments_sequence` int NOT NULL DEFAULT '0' COMMENT '대댓글순서',
+  `indentation_number` int NOT NULL DEFAULT '0' COMMENT '들여쓰기횟수',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성 일자',
+  `updated_at` timestamp NULL DEFAULT NULL COMMENT '수정일자',
+  PRIMARY KEY (`id`),
+  KEY `mate_board_id` (`mate_board_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `mate_comment_ibfk_1` FOREIGN KEY (`mate_board_id`) REFERENCES `mate_board` (`id`),
+  CONSTRAINT `mate_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.mate_matching_alarm definition
+
+CREATE TABLE `mate_matching_alarm` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '알림 구분',
+  `mate_board_id` bigint NOT NULL COMMENT '매칭 게시판 구분',
+  `sender_id` bigint NOT NULL COMMENT '동행인 매칭 신청한 유저 아이디',
+  `content` varchar(100) NOT NULL DEFAULT '같이 여행가요!' COMMENT '동행인 신청 버튼을 누르면 신청자가 메세지를 작성한다',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성일자',
+  `is_read` tinyint NOT NULL DEFAULT '0' COMMENT '읽음 여부',
+  PRIMARY KEY (`id`),
+  KEY `mate_board_id` (`mate_board_id`),
+  KEY `sender_id` (`sender_id`),
+  CONSTRAINT `mate_matching_alarm_ibfk_1` FOREIGN KEY (`mate_board_id`) REFERENCES `mate_board` (`id`),
+  CONSTRAINT `mate_matching_alarm_ibfk_2` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.plan definition
+
+CREATE TABLE `plan` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `memo` text,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `plan_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.record_board definition
+
+CREATE TABLE `record_board` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL,
+  `location_id` bigint NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `content` text NOT NULL,
+  `is_visible` tinyint NOT NULL,
+  `thumbnail` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `location_id` (`location_id`),
+  CONSTRAINT `record_board_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `record_board_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `location` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.record_comment definition
+
+CREATE TABLE `record_comment` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `comment_writer_id` bigint NOT NULL,
+  `record_id` bigint NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `comment_sequence` int DEFAULT NULL,
+  `comments_sequence` int DEFAULT NULL,
+  `indentation_number` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `record_id` (`record_id`),
+  KEY `comment_writer_id` (`comment_writer_id`),
+  CONSTRAINT `record_comment_ibfk_1` FOREIGN KEY (`record_id`) REFERENCES `record_board` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `record_comment_ibfk_2` FOREIGN KEY (`comment_writer_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.record_img definition
+
+CREATE TABLE `record_img` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `img_url` varchar(100) NOT NULL,
+  `record_id` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `record_id` (`record_id`),
+  CONSTRAINT `record_img_ibfk_1` FOREIGN KEY (`record_id`) REFERENCES `record_board` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.record_like definition
+
+CREATE TABLE `record_like` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL,
+  `record_id` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `record_id` (`record_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `record_like_ibfk_1` FOREIGN KEY (`record_id`) REFERENCES `record_board` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `record_like_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.mate_chat_message definition
+
+CREATE TABLE `mate_chat_message` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `message_type` varchar(10) DEFAULT NULL,
+  `chatroom_id` bigint DEFAULT NULL,
+  `sender_id` bigint DEFAULT NULL,
+  `message` varchar(1000) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sender_id` (`sender_id`),
+  KEY `chatroom_id` (`chatroom_id`),
+  CONSTRAINT `mate_chat_message_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `mate_chat_message_ibfk_2` FOREIGN KEY (`chatroom_id`) REFERENCES `mate_chatroom` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- hontrip.mate_user_chatroom definition
+
+CREATE TABLE `mate_user_chatroom` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint DEFAULT NULL,
+  `last_read_chat_id` bigint DEFAULT NULL,
+  `chatroom_id` bigint DEFAULT NULL,
+  `last_join_at` timestamp NULL DEFAULT NULL,
+  `unread_chat_number` int DEFAULT NULL,
+  `is_owner` tinyint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `chatroom_id` (`chatroom_id`),
+  KEY `last_read_chat_id` (`last_read_chat_id`),
+  CONSTRAINT `mate_user_chatroom_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `mate_user_chatroom_ibfk_2` FOREIGN KEY (`chatroom_id`) REFERENCES `mate_chatroom` (`id`),
+  CONSTRAINT `mate_user_chatroom_ibfk_3` FOREIGN KEY (`last_read_chat_id`) REFERENCES `mate_chat_message` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

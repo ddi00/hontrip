@@ -1,0 +1,279 @@
+/* 동행게시판 insert,update 이미지업로드 */
+.image-container {
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+
+#imageInput {
+    display: none;
+}
+
+
+/* 동행 게시판 insert, update */
+.mateInput {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 11px;
+    height: 30px;
+}
+
+.mateInput:focus {
+    outline: none;
+    border-color: #FFA41B; /* Changed to orange color */
+    box-shadow: 0px 0px 1px rgba(231, 76, 60, 0.5);
+}
+
+.recruitNum, .isFinish {
+    color: #505050;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-left: 10px;
+    height: 27px;
+    width: 130px;
+}
+
+
+.mateOption {
+    display: inline-block;
+    width: 130px;
+    color: rgba(30, 50, 30, 0.7);
+    font-size: 12px;
+    font-weight: 550;
+}
+
+.mateOption2 {
+    display: inline-block;
+    width: 80px;
+    color: rgba(30, 50, 30, 0.7);
+    font-size: 12px;
+    font-weight: 550;
+}
+
+.form-input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 11px;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #FFA41B; /* Changed to orange color */
+    box-shadow: 0px 0px 1px rgba(231, 76, 60, 0.5);
+}
+
+.form-input-title {
+    height: 40px;
+}
+
+.form-input-content {
+    resize: none;
+    height: 200px;
+}
+
+.mateDates1 {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    align-items: center;
+}
+
+.mateDates2 {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.mateDateInput {
+    width: 40%;
+    height: 27px;
+    margin: 5px 6px;
+}
+
+
+.mateDateInput::before {
+    content: attr(data-placeholder);
+    display: none;
+
+}
+
+.mateDateInput:focus::before,
+.mateDateInput:valid::before {
+    display: none;
+}
+
+.mateCheckBox {
+    display: none;
+    padding: 5px 5px;
+}
+
+.mateCheckBox + label {
+    margin-left: 3px;
+    cursor: pointer;
+    height: 24px;
+    width: 52px;
+    line-height: 24px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    background-color: #ffffff;
+    border-radius: inherit;
+    color: #FFA41B;
+    border-radius: 10px;
+}
+
+.mateCheckBox:checked + label {
+    background-color: #FFA41B;
+    color: #fff;
+}
+
+.mateButtons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mateRadio {
+    display: none;
+    padding: 5px 5px;
+}
+
+.mateRadio[name="genders"] + label {
+    margin: 5px;
+    cursor: pointer;
+    height: 24px;
+    width: 58px;
+    line-height: 24px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    background-color: #ffffff;
+    border-radius: inherit;
+    color: #FFA41B;
+    border-radius: 10px;
+}
+
+.mateRadio[name="gender"] + label {
+    margin: 5px;
+    cursor: pointer;
+    height: 24px;
+    width: 58px;
+    line-height: 24px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    background-color: #ffffff;
+    border-radius: inherit;
+    color: #FFA41B;
+    border-radius: 10px;
+}
+
+.mateRadio:checked + label {
+    background-color: #FFA41B;
+    color: #fff;
+}
+
+.mateRadio[name="regionId"] + label {
+    padding: 3px 3px;
+    cursor: pointer;
+    width: 47px;
+    line-height: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    background-color: #ffffff;
+    border-radius: inherit;
+    color: #FFC845;
+    border-radius: 10px;
+}
+
+.mateRadio[name="regionId"]:checked + label {
+    background-color: #FFC845;
+    color: #fff;
+}
+
+.mateButton {
+    width: 35%;
+}
+
+
+/* mate 업데이트 */
+.numDate, .insertWantAgeRange {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mateRegion {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 7px;
+}
+
+
+.genderRecruitNum {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0px;
+}
+
+.wantAgeRange {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0px;
+}
+
+.wantCondition {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.mateFileInput {
+    display: none;
+}
+
+.uploadYourImage {
+    height: 250px;
+    background-color: rgba(163, 163, 163, 0.2);
+    color: #ffffff;
+    text-align: center;
+    align-content: center;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.mateBoardEmptyWarning {
+    font-size: 10px;
+    color: red;
+    margin-bottom: 5px;
+    display: none;
+}
+
+/* mate selectOne */
+.mateBoardUpdateDeleteButton {
+    border: 0;
+    background-color: transparent;
+    color: #b5b5b5;
+}
+
+.mateUserDetails {
+    width: 700px;
+}
+
+.mateModalButton {
+    width: 45%;
+}
+
+.mateApplyCheckButton {
+    width: 200px;
+}

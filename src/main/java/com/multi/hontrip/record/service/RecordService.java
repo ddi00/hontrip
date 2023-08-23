@@ -112,8 +112,8 @@ public class RecordService {
     public List<CreatePostDTO> getListMyLocation2(String city) {
         return recordDAO.getListMyLocation2(city);
     }
-    public List<CreatePostDTO> getFeedList() {
-        return recordDAO.getFeedList();
+    public List<PostInfoDTO> getFeedList(int isVisible) {
+        return recordDAO.getFeedList(isVisible);
     }
     public List<LocationDTO> getMyMap() {
         return recordDAO.getMyMap();
