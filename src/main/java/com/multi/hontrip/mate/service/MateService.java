@@ -16,7 +16,11 @@ public interface MateService {
 
     List<MateCommentDTO> commentList(long mateBoardId); //게시물 상세의 댓글 목록 가져오기
 
+    List<MateCommentDTO> reCommentList(List<MateCommentDTO> commentList); //게시물 상세의 답글 목록 가져오기
+
     int commentInsert (MateCommentDTO mateCommentDTO); //댓글 insert
+
+    int replyInsert (MateCommentDTO mateCommentDTO); //답글 insert
 
     void commentDelete(MateCommentDTO mateCommentDTO); //댓글 delete
 
