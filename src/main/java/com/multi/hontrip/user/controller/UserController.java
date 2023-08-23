@@ -1,5 +1,6 @@
 package com.multi.hontrip.user.controller;
 
+import com.multi.hontrip.common.RequiredSessionCheck;
 import com.multi.hontrip.user.dto.LoginUrlData;
 import com.multi.hontrip.user.dto.UserDTO;
 import com.multi.hontrip.user.dto.UserInfoDTO;
@@ -48,6 +49,7 @@ public class UserController {
     }
 
     @GetMapping("/logout")
+    @RequiredSessionCheck
     public String logOut(HttpSession session){  //소셜 logout처리 url 반환
         Long userId = (Long)session.getAttribute("id");
         return "redirect:"+userService.getUserLogOutUrl(userId);
@@ -66,6 +68,7 @@ public class UserController {
     }
 
     @GetMapping("withdraw")
+    @RequiredSessionCheck
     public String withdrawUser(HttpSession httpSession){    //소셜 사용자 탈퇴 처리
         WithdrawUserDTO withdrawUserDTO = WithdrawUserDTO.builder().id((Long)httpSession.getAttribute("id")).build();
         //사용자 소셜 아이디 가져오기
@@ -84,6 +87,7 @@ public class UserController {
     }
 
     @GetMapping("my-page")
+    @RequiredSessionCheck
     public ModelAndView myPageView(HttpSession session,ModelAndView modelAndView){  //마이페이지 - 세션 아이디로 사용자 정보 가져오기
         Long userId = (Long)session.getAttribute("id");
         UserInfoDTO userInfo = userService.getUserInfoBySessionId(userId);
