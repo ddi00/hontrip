@@ -1,5 +1,6 @@
 package com.multi.hontrip.mate.service;
 
+import com.multi.hontrip.mate.alarm.MateMatchingAlarmDTO;
 import com.multi.hontrip.mate.dao.MateCommentDAO;
 import com.multi.hontrip.mate.dao.MateDAO;
 import com.multi.hontrip.mate.dto.*;

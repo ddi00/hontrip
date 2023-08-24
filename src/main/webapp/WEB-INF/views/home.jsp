@@ -3,6 +3,26 @@
 <head>
     <title>Home</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="resources/js/sockjs-0.3.4.js"></script>
+    <script src="resources/js/stomp.js"></script>
+    <script>
+        $(document).ready(function () {
+            console.log('gg')
+            connectStomp()
+        });
+
+        //웹소켓 연결 + 알림을 받기 위해 자신의 아이디를 구독
+        function connectStomp() {
+            let socket = new SockJS('${pageContext.request.contextPath}/matews');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log(frame);
+                stompClient.subscribe('/sub/' + $('#stompReceiverId').val(), function (result) {
+                    applyAlarm(JSON.parse(result.body));
+                })
+            })
+        }
+    </script>
 </head>
 <body>
 </body>
@@ -15,8 +35,8 @@
             <a href="/hontrip/user/sign-in">사용자 로그인</a><br>
         </c:if>
         <c:if test="${not empty sessionScope.id}"><!-- 세션에 ID값이 없는 경우, 로그인 링크 출력 -->
-            <a href="/hontrip/user/my-page">회원정보</a><br>
-            <a href="/hontrip/user/withdraw">사용자 탈퇴</a><br>
+        <a href="/hontrip/user/my-page">회원정보</a><br>
+        <a href="/hontrip/user/withdraw">사용자 탈퇴</a><br>
         </c:if>
         <br>
         <a href="mate/bbs_list?page=1">게시물 전체 목록</a>

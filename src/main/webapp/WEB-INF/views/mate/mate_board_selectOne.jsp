@@ -125,7 +125,7 @@
                         <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         <div class="row">
                             <input hidden id="mateBoardId" value="${dto.id}">
-                            <input hidden id="mateBoardGuest" value="${user}">
+                            <input hidden id="mateBoardGuestId" value="1">
                             <input hidden id="mateBoardGenderStr" value="${dto.gender.genderStr}">
                             <input hidden id="ageRangeJS" value="${ageRangeJS}">
 
@@ -289,7 +289,7 @@
 
 
                                             <input hidden name="id" value=${dto.id}>
-                                            <input hidden name="userId" value=${dto.userId}>
+                                            <input hidden id="userId" name="userId" value=${dto.userId}>
                                             <input hidden name="title" value="${dto.title}">
                                             <input hidden name="content" value="${dto.content}">
                                             <input hidden name="thumbnail" value="${dto.thumbnail}">

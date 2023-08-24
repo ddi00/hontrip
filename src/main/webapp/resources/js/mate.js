@@ -312,12 +312,14 @@ if (window.location.href.includes('/mate/editpage')) {
 }
 
 
-/!*동행인 상세게시판*!/
+// 동행인 상세게시판
 if (window.location.href.includes('/mate/')) {
+    console.log($('#mateBoardGuestId').val() + ": 게스트 아이디")
     function applyMate() {
 
+
         //로그인 안했을 경우 로그인창을 띄움ss
-        if ($('#mateBoardGuest').val() == "") {
+        if ($('#mateBoardGuestId').val() == "") {
             location.href = "../user/sign-in"
             //로그인 했을 경우
         } else {
@@ -325,7 +327,7 @@ if (window.location.href.includes('/mate/')) {
             $.ajax({
                 url: "findUserGenderAge",
                 data: {
-                    id: $('#mateBoardGuest').val()
+                    id: $('#mateBoardGuestId').val()
                 },
                 dataType: "json",
                 success: function (json) {
@@ -350,7 +352,7 @@ if (window.location.href.includes('/mate/')) {
 
                     //모집조건에 부합하다면
                     //성별, 연령대 아무나 처리
-                    if (json.id == $('#mateBoardGuest').val() && (json.gender === $('#mateBoardGenderStr').val() ||
+                    if (json.id == $('#mateBoardGuestId').val() && (json.gender === $('#mateBoardGenderStr').val() ||
                             $('#mateBoardGenderStr').val() == "성별무관" || json.gender == "NONE")
                         && (ageRangeStrArr.includes(json.ageRange) || ageRangeStrArr.includes("전연령")
                             || ageRangeStrArr.length == 0 || json.ageRange == "AGE_UNKNOWN")) {
@@ -392,6 +394,19 @@ if (window.location.href.includes('/mate/')) {
         $('#deleteButton').click();
     }
 
+    /* 셀렉트원에서 -> 동행인신청버튼누르고 + 신청조건에 맞는사람일경우에 넣기 */
+
+    /* 동행인 신청 알림 */
+    function sendAlarm(mateBoardId, senderId, receiverId, content) {
+        stompClient.mateMatchingNotify('/pub/mate', {},
+            JSON.stringify({
+                'mateBoardId': mateBoardId,
+                'senderId': senderId,
+                'receiverId': receiverId,
+                'content': content
+            }))
+    }
+
     //동행인신청메세지 모달에서 전송버튼을 눌렀을때
     function send() {
 
@@ -403,12 +418,14 @@ if (window.location.href.includes('/mate/')) {
             url: "insertMatchingAlarm",
             data: {
                 mateBoardId: $('#mateBoardId').val(),
-                senderId: $('#mateBoardGuest').val(),
+                senderId: $('#mateBoardGuestId').val(),
                 content: $("#applicationMessage").val()
             },
             success: function () {
                 //동행 신청 메세지를 전송한 후, 모달을 끄고
                 location.reload()
+                //동행인 신청 알람 보내기
+                sendAlarm($('#mateBoardId').val(), $('#mateBoardGuestId').val(), $('#userId').val(), $("#applicationMessage").val())
                 //동행인 신청 버튼 비활성화
                 $('#application').attr('disabled', 'disabled');
             }, error: function (e) {
@@ -418,8 +435,7 @@ if (window.location.href.includes('/mate/')) {
     }
 
     $(document).ready(function () {
-        let login = $('#mateBoardGuest').val();
-
+        let login = $('#mateBoardGuestId').val();
 
         //로그인 했고,
         if (login != "") {
@@ -428,7 +444,7 @@ if (window.location.href.includes('/mate/')) {
             $.ajax({
                 url: "checkApply",
                 data: {
-                    senderId: $('#mateBoardGuest').val(),
+                    senderId: $('#mateBoardGuestId').val(),
                     mateBoardId: $('#mateBoardId').val()
                 },
                 dataType: "json",

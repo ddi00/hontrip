@@ -2,6 +2,8 @@ package com.multi.hontrip.mate.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.multi.hontrip.common.RequiredSessionCheck;
+import com.multi.hontrip.mate.alarm.MateMatchingAlarmDTO;
 import com.multi.hontrip.mate.dto.*;
 import com.multi.hontrip.mate.service.MateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,10 +130,8 @@ public class MateController {
 
     /* 동행인게시판 글 작성 get 매핑*/
     @GetMapping("/insert")
+    @RequiredSessionCheck
     public String insert(HttpSession session) {
-        if (session.getAttribute("id") == null) {
-            return "error";
-        }
         return "/mate/mate_board_insert";
     }
 

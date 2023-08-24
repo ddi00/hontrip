@@ -1,6 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    //*세션에서 유저아이디 불러옴 -> 없으면 no 있으면 유저아이디*//*
+    if (session.getAttribute("id") != null) {
+        long userId = (long) session.getAttribute("id");
+        request.setAttribute("user", userId);
+    }
+%>
+<input hidden id="mateLoginUserId" value="${user}">
 <html>
 <head>
     <title><tiles:getAsString name="title"/></title>
@@ -18,8 +26,11 @@
     <script type="text/javascript" src="<c:url value="/resources/assets/js/plugins.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/assets/js/theme.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.7.0.js"/>" defer></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/sockjs-0.3.4.js"/>" defer></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/stomp.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/chat.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/mate.js"/>" defer></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/alarm.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/pagination.js"/>" defer></script>
 </head>
 <body>

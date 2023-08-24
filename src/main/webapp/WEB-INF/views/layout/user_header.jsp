@@ -35,10 +35,14 @@
                                 <a href="/hontrip/user/sign-in"><i class="uil uil-user-circle"><span class="kor-font-small">로그인</span></i></a>
                             </c:if>
                             <c:if test="${not empty sessionScope.id}"><!-- 세션에 ID값이 있는 경우, 로그아웃 링크 출력 -->
-                            <a href="" class="vertical-center"><i class="uil uil-schedule"><span class="kor-font-small">계획</span></i></a><!-- 여행 계획쓰기 -->
-                            <a href="" class="vertical-center"><i class="uil uil-edit-alt"><span class="kor-font-small">기록</span></i></a><!-- 여행 기록쓰기 -->
-                            <a href="" class="vertical-center"><i class="uil uil-bell"><span class="kor-font-small">알림</span></i></a>    <!-- 알림! -->
-                            <a href="/hontrip/user/logout" class="vertical-center"><i class="uil uil-sign-out-alt"><span class="kor-font-small">로그아웃</span></i></a>
+                            <a href="" class="vertical-center"><i class="uil uil-schedule"><span class="kor-font-small">계획</span></i></a>
+                            <!-- 여행 계획쓰기 -->
+                            <a href="" class="vertical-center"><i class="uil uil-edit-alt"><span class="kor-font-small">기록</span></i></a>
+                            <!-- 여행 기록쓰기 -->
+                            <a href="" class="vertical-center"><i class="uil uil-bell"><span
+                                    class="kor-font-small">알림</span></i></a>    <!-- 알림! -->
+                            <a href="/hontrip/user/logout" class="vertical-center" onclick="stompDisconnect()"><i
+                                    class="uil uil-sign-out-alt"><span class="kor-font-small">로그아웃</span></i></a>
                             </c:if>
                         </nav>
                         <!-- /.social -->
