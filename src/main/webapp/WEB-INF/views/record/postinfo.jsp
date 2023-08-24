@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 
     <% session.setAttribute("userId", "1"); %>
     <% session.setAttribute("nickName", "Alice"); %>
@@ -210,15 +210,17 @@
 		<hr>
 		<a href="updatepost?id=${postInfoDTO.boardId}">수 정</a>
 		<a href="deletepost?id=${postInfoDTO.boardId}">삭 제</a>
-		<hr><insert id="insertNewReComment" parameterType="commentDTO" keyProperty="id" useGeneratedKeys="true">
-    댓글작성: <input id="cmtContent" style="background: gray">
-    <button id="commentWrite">작 성</button>
-    <br>
-    <br>
-    댓글 수<div id="count"></div>
-    <br>
-    <div id="result" style="background: orange;">
-        <c:choose>
+        <hr>
+        <insert id="insertNewReComment" parameterType="commentDTO" keyProperty="id" useGeneratedKeys="true">
+            댓글작성: <input id="cmtContent" style="background: gray">
+            <button id="commentWrite">작 성</button>
+            <br>
+            <br>
+            댓글 수
+            <div id="count"></div>
+            <br>
+            <div id="result" style="background: red;">
+                <c:choose>
             <c:when test="${commentList.isEmpty()}">
                 <h6>등록된 댓글이 없습니다.</h6>
             </c:when>

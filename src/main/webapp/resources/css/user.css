@@ -22,3 +22,8 @@
   display: flex !important;
   align-items: center !important;
 }
+
+.my-card {
+  padding: 10px;
+}
+
