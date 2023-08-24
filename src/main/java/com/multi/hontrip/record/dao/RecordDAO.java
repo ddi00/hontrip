@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -40,23 +42,30 @@ public class RecordDAO {
         sqlSessionTemplate.delete("record.deletePost", id);
     }
 
-    public List<CreatePostDTO> getMyList(){ //내 게시물 전체 리스트 가져오기
-        return sqlSessionTemplate.selectList("record.mylist");
+    public List<CreatePostDTO> getMyList(Long userId){ //내 게시물 전체 리스트 가져오기
+        return sqlSessionTemplate.selectList("record.mylist", userId);
     }
 
-    public List<CreatePostDTO> getListMyLocation(int locationId) { // 내 게시물 마커클릭한 지역 리스트 가져오기
-        return  sqlSessionTemplate.selectList("record.listmylocation", locationId);
+    public List<CreatePostDTO> getListMyLocation(Long locationId, int userId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("locationId", locationId);
+        params.put("userId", userId);
+        return sqlSessionTemplate.selectList("record.listmylocation", params);
     }
 
-    public List<CreatePostDTO> getListMyLocation2(String locationCity) { // 내 게시물 마커클릭한 지역 리스트 가져오기
-        return  sqlSessionTemplate.selectList("record.listmylocation2", locationCity);
+
+    public List<CreatePostDTO> getListMyLocation2(String city, int userId ) { // 내 게시물 검색한 지역 리스트 가져오기
+        Map<String, Object> params = new HashMap<>();
+        params.put("city", city);
+        params.put("userId", userId);
+        return sqlSessionTemplate.selectList("record.listmylocation2", params);
     }
 
     public List<PostInfoDTO> getFeedList(int isVisible){ //공유피드 전체 리스트 가져오기
         return sqlSessionTemplate.selectList("record.feedlist", isVisible);
     }
 
-    public List<LocationDTO> getMyMap(){ //공유피드 전체 리스트 가져오기
-        return sqlSessionTemplate.selectList("record.mymap");
+    public List<LocationDTO> getMyMap(Long userId){ //공유피드 전체 리스트 가져오기
+        return sqlSessionTemplate.selectList("record.mymap", userId);
     }
 }

@@ -109,20 +109,20 @@ public class RecordService {
         return recordDAO.selectImg(recordId);
     }
 
-    public List<CreatePostDTO> getMyList() {
-        return recordDAO.getMyList();
+    public List<CreatePostDTO> getMyList(Long userId) {
+        return recordDAO.getMyList(userId);
     }
-    public List<CreatePostDTO> getListMyLocation(int locationId) {
-        return recordDAO.getListMyLocation(locationId);
+    public List<CreatePostDTO> getListMyLocation(Long locationId, int userId) {
+        return recordDAO.getListMyLocation(locationId, userId);
     }
-    public List<CreatePostDTO> getListMyLocation2(String locationCity) {
-        return recordDAO.getListMyLocation2(locationCity);
+    public List<CreatePostDTO> getListMyLocation2(String city, int userId) {
+        return recordDAO.getListMyLocation2(city, userId);
     }
     public List<PostInfoDTO> getFeedList(int isVisible) {
         return recordDAO.getFeedList(isVisible);
     }
-    public List<LocationDTO> getMyMap() {
-        return recordDAO.getMyMap();
+    public List<LocationDTO> getMyMap(Long userId) {
+        return recordDAO.getMyMap(userId);
     }
 
 }

@@ -45,7 +45,7 @@
                         </div>
                         <div id="collapse-2" class="card-footer p-0 accordion-collapse collapse">
                             <div class="card-body">
-                                <div class="alert alert-warning alert-icon" role="alert">
+                                <div class="alert alert-warning alert-icon" role="alert" style="display: none" id="warningAlert">
                                     <i class="uil uil-exclamation-triangle"></i>※ 정보 이용에 모두 동의하지 않으면 서비스를 정상적으로 이용할 수
                                     없습니다.
                                 </div>
@@ -63,7 +63,7 @@
                                     </tr>
                                     <tr>
                                         <td>이메일</td>
-                                        <td>${userInfo.email}</td>
+                                        <td id="emailInfo">${userInfo.email}</td>
                                     </tr>
                                     <tr>
                                         <td>닉네임</td>
@@ -71,11 +71,11 @@
                                     </tr>
                                     <tr>
                                         <td>성별</td>
-                                        <td>${userInfo.gender}</td>
+                                        <td id="genderInfo">${userInfo.gender}</td>
                                     </tr>
                                     <tr>
                                         <td>연령대</td>
-                                        <td>${userInfo.ageRange}</td>
+                                        <td id ="ageRangeInfo">${userInfo.ageRange}</td>
                                     </tr>
                                     </tbody>
                                 </table>
