@@ -83,7 +83,6 @@ public class MateServiceImpl implements MateService {
         String savedFileName = file.getOriginalFilename();
         mateBoardInsertDTO.setThumbnail(savedFileName);
         String uploadPath = servletContext.getRealPath("/") + relativePath + savedFileName;
-        System.out.println("업로드 경로:" + uploadPath);
         File target = new File(uploadPath);
         try {
             file.transferTo(target);

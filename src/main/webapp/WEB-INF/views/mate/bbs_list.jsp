@@ -2,6 +2,39 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.multi.hontrip.mate.dto.Region" %>
 <script type="text/javascript" src="../resources/js/jquery-3.7.0.js"></script>
+<script src="resources/js/sockjs-0.3.4.js"></script>
+<script src="resources/js/stomp.js"></script>
+<script>
+
+
+    <%--let stompClient = null;--%>
+    <%--$(document).ready(function () {--%>
+    <%--    if ($('mateLoginUserId') != "" && stompClient == null) {--%>
+    <%--        connectStomp()--%>
+    <%--    }--%>
+    <%--});--%>
+
+    <%--//웹소켓 연결 + 알림을 받기 위해 자신의 아이디를 구독--%>
+    <%--function connectStomp() {--%>
+    <%--    let socket = new SockJS('${pageContext.request.contextPath}/matews');--%>
+    <%--    stompClient = Stomp.over(socket);--%>
+    <%--    stompClient.connect({}, function (frame) {--%>
+    <%--        console.log(frame);--%>
+    <%--        stompClient.subscribe('/sub/' + $('#mateLoginUserId').val(), function (result) {--%>
+    <%--            applyAlarm(JSON.parse(result.body));--%>
+    <%--        })--%>
+    <%--    })--%>
+    <%--}--%>
+
+    /*function applyAlarm(result) {
+        /!*let response = document.getElementById('alarmResult');
+        let p = document.createElement('p');
+        p.innerHTML = "senderId :" + result.senderId + ", message: " + result.content;
+        response.appendChild(p);*!/
+        $('#alertSpan').text("senderId :" + result.senderId + ", message: " + result.content);
+    }*/
+
+</script>
 <div>
     <select id="location" name="location" size="1">
         <option selected value="">지역 선택</option>

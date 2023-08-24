@@ -16,14 +16,13 @@ public class AlarmController {
 
     private final SimpMessageSendingOperations simpMessageSendingOperations;
 
-    @GetMapping("/alarm")
+    @GetMapping("/mate/alarm")
     public String stompAlarm() {
-        return "mate/mate_application_alarm";
+        return "/mate/mate_application_alarm";
     }
 
     @MessageMapping("/mate") //pub/mate
     public void send(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
-        System.out.println("전송 됐나?");
         simpMessageSendingOperations.convertAndSend("/sub/" + mateMatchingAlarmDTO.getReceiverId(), mateMatchingAlarmDTO);
     }
 

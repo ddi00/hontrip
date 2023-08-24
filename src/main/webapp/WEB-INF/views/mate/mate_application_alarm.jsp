@@ -1,183 +1,188 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ehska
-  Date: 2023-08-23
-  Time: 오후 8:03
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    /*if (session.getAttribute("id") != null){
-        long userId = (long) session.getAttribute("id");
-        request.setAttribute("loginUserId",userId);
-    }*/
-    request.setAttribute("ii", 1);
-%>
-<html>
-<title>Title</title>
-<script src="resources/js/sockjs-0.3.4.js"></script>
-<script src="resources/js/stomp.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<script>
-    let stompClient = null;
-
-    console.log("${ii}")
-    $(document).ready(function () {
-        console.log('gg')
-        if ("${ii}" != "") {
-            connectStomp()
-        }
-    });
-
-    function connectStomp() {
-        let socket = new SockJS('${pageContext.request.contextPath}/matews');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, function (frame) {
-            console.log(frame);
-            stompClient.subscribe('/sub/' + $('#stompReceiverId').val(), function (result) {
-                console.log("haha")
-                showshow(JSON.parse(result.body));
-            })
-        })
-    }
+<li class="nav-item dropdown" style="margin-left: 5%;"><a class="nav-link dropdown-toggle" href="#"
+                                                          data-bs-toggle="dropdown">Dropdown</a>
+    <ul class="dropdown-menu">
+        <li class="nav-item"><a class="dropdown-item" href="#">Action</a></li>
+        <li class="dropdown dropdown-submenu dropend"><a class="dropdown-item dropdown-toggle" href="#"
+                                                         data-bs-toggle="dropdown">Dropdown</a>
+            <ul class="dropdown-menu">
+                <li class="nav-item"><a class="dropdown-item" href="#">Action</a></li>
+                <li class="nav-item"><a class="dropdown-item" href="#">Another Action</a></li>
+            </ul>
+        </li>
+        <li class="nav-item"><a class="dropdown-item" href="#">Another Action</a></li>
+    </ul>
+</li>
 
 
-    //이건 셀렉트원에서 -> 동행인신청버튼누르고 + 신청조건에 맞는사람일경우에 넣기
-    function sendMessage() {
-        stompClient.send('/pub/mate', {},
-            JSON.stringify({
-                'mateBoardId': $('#stompMateBoardId').val(),
-                'receiverId': $('#stompReceiverId').val(),
-                'senderId': $('#stompSenderId').val(),
-                'content': $('#stompContent').val()
-            }))
-    }
-
-    /*function sendMessage() {
-        stompClient.mateMatchingNotify('/pub/mate/apply', {},
-            JSON.stringify({
-                'userId':1,
-                'mateBoardId': 1,
-                'senderId': 2,
-                'receiverId': 2,
-                'content': '안녕!!'
-            }))
-    }*/
-
-    //stomp 설정 끊음
-    function stompDisconnect() {
-        if (stompClient != null) {
-            stompClient.disconnect();
-        }
-        console.log('해제됨')
-    }
-
-    //로그아웃 버튼 누르면 disconnect
-    function logout() {
-        stompDisconnect();
-    }
-
-    function showshow(result) {
-        let response = document.getElementById('alarmResult');
-        let p = document.createElement('p');
-        p.innerHTML = "senderId :" + result.senderId + ", message: " + result.content;
-        response.appendChild(p);
-    }
-
-
-    //여기서부터는 채팅입니다.
-
-    function setConnected(connected) { //연결 여부에 따라 설정
-        document.getElementById('connect').disabled = connected;
-        document.getElementById('disconnect').disabled = !connected;
-        document.getElementById('conversationDiv').style.visibility = connected ? 'visible'
-            : 'hidden';
-        //$('#response').html('')와 동일한 코드
-        document.getElementById('response').innerHTML = '';
-    }
-
-    //서버로 연결함.
-    function connect() {
-        //chat주소 서버와의 소켓객체 생성
-        let socket = new SockJS('${pageContext.request.contextPath}/chat');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, function (frame) {
-            console.log(frame);
-            stompClient.subscribe('/topic/messages', function (result) {
-                console.log(JSON.parse(result.body));
-            })
-        })
-    }
-
-    //서버로 연결 끊음.
-    function disconnect() {
-        if (stompClient != null) {
-            stompClient.disconnect();
-        }
-        setConnected(false); //연결끊어졌을 때 설정 변경
-        console.log("Disconnected");
-    }
-
-    //서버로 메세지 보냄
-    function sendMessage2() {
-        //입력한 정보를 가지고 와서
-        var from = document.getElementById('from').value;
-        var text = document.getElementById('text').value;
-        //url을 /app/cht을 호출하고,data를 json형태의 sring으로 만들어서 보내라.
-        stompClient.send("/app/chat", {}, JSON.stringify({
-            'from': from,
-            'text': text
-        }));
-    }
-
-    //받은 데이터를 원하는 위치에 넣음.
-    function showMessageOutput(messageOutput) {
-        //<p id="response">
-        //	<p> 홍길동: 잘지내지?(13:00)</p>
-        //</p>
-        var response = document.getElementById('response');
-        var p = document.createElement('p');
-        p.style.wordWrap = 'break-word';
-        p.appendChild(document.createTextNode(messageOutput.from + ": "
-            + messageOutput.text + " (" + messageOutput.time + ")"));
-        response.appendChild(p);
-    }
-</script>
-</head>
-<body>
-알람알람~~<br>
-
-<br>
-<button id="connectStomp" onclick="connectStomp()">연결</button>
-<button id="disconnectStomp" onclick="stompDisconnect()">해제</button>
-<br>
-receiverId <input id="stompReceiverId" value="1"><br>
-mateBoardId <input id="stompMateBoardId" value="3"><br>
-senderId <input id="stompSenderId" value="3"><br>
-content <input id="stompContent" value="같이 여행가요!!"><br>
-<button id="sendMessage" onclick="sendMessage()">메세지 전송</button>
-<p id="alarmResult"></p>
-<div>
-    <div class="input-group mb-3 input-group-lg">
-        <span class="input-group-text">닉네임 입력:</span> <input type="text" class="form-control" id="from">
+<section class="wrapper bg-light">
+    <div class="container py-14 py-md-16">
+        <div class="row text-center">
+            <div class="col-xl-10 mx-auto">
+                <h2 class="fs-15 text-uppercase text-muted mb-3">Job Positions</h2>
+                <h3 class="display-4 mb-10 px-xxl-15">We’re always searching for amazing people to join our team. Take a
+                    look at our current openings.</h3>
+            </div>
+            <!-- /column -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-xl-10 mx-auto">
+                <form class="filter-form mb-10">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="form-select-wrapper">
+                                <select class="form-select" aria-label="">
+                                    <option selected>Position</option>
+                                    <option value="position1">Business</option>
+                                    <option value="position2">Design</option>
+                                    <option value="position3">Development</option>
+                                    <option value="position4">Engineering</option>
+                                    <option value="position5">Finance</option>
+                                    <option value="position6">Marketing</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="form-select-wrapper">
+                                <select class="form-select" aria-label="">
+                                    <option selected>Type</option>
+                                    <option value="type1">Full-time</option>
+                                    <option value="type3">Part-time</option>
+                                    <option value="type4">Remote</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="form-select-wrapper">
+                                <select class="form-select" aria-label="">
+                                    <option selected>Location</option>
+                                    <option value="location1">Chicago, US</option>
+                                    <option value="location3">Michigan, US</option>
+                                    <option value="location2">New York, US</option>
+                                    <option value="location4">Los Angles, US</option>
+                                    <option value="location5">Moscow, Russia</option>
+                                    <option value="location6">Sydney, Australia</option>
+                                    <option value="location7">Birmingham, UK</option>
+                                    <option value="location8">Manchester, UK</option>
+                                    <option value="location9">Beijing, China</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="job-list mb-10">
+                    <h3 class="mb-4">Design</h3>
+                    <a href="#" class="card mb-4 lift">
+                        <div class="card-body p-5">
+							<span class="row justify-content-between align-items-center">
+								<span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
+									<span class="avatar bg-red text-white w-9 h-9 fs-17 me-3">GD</span> Senior Graphic Designer </span>
+								<span class="col-5 col-md-3 text-body d-flex align-items-center">
+									<i class="uil uil-clock me-1"></i> Full time </span>
+								<span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
+									<i class="uil uil-location-arrow me-1"></i> San Francisco, US </span>
+								<span class="d-none d-lg-block col-1 text-center text-body">
+									<i class="uil uil-angle-right-b"></i>
+								</span>
+							</span>
+                        </div>
+                        <!-- /.card-body -->
+                    </a>
+                    <!-- /.card -->
+                    <a href="#" class="card mb-4 lift">
+                        <div class="card-body p-5">
+							<span class="row justify-content-between align-items-center">
+								<span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
+									<span class="avatar bg-green text-white w-9 h-9 fs-17 me-3">UX</span> UI/UX Designer </span>
+								<span class="col-5 col-md-3 text-body d-flex align-items-center">
+									<i class="uil uil-clock me-1"></i> Remote </span>
+								<span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
+									<i class="uil uil-location-arrow me-1"></i> Anywhere </span>
+								<span class="d-none d-lg-block col-1 text-center text-body">
+									<i class="uil uil-angle-right-b"></i>
+								</span>
+							</span>
+                        </div>
+                        <!-- /.card-body -->
+                    </a>
+                    <!-- /.card -->
+                    <a href="#" class="card mb-4 lift">
+                        <div class="card-body p-5">
+							<span class="row justify-content-between align-items-center">
+								<span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
+									<span class="avatar bg-yellow text-white w-9 h-9 fs-17 me-3">AN</span> Multimedia Artist &amp; Animator </span>
+								<span class="col-5 col-md-3 text-body d-flex align-items-center">
+									<i class="uil uil-clock me-1"></i> Full time </span>
+								<span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
+									<i class="uil uil-location-arrow me-1"></i> Birmingham, UK </span>
+								<span class="d-none d-lg-block col-1 text-center text-body">
+									<i class="uil uil-angle-right-b"></i>
+								</span>
+							</span>
+                        </div>
+                        <!-- /.card-body -->
+                    </a>
+                    <!-- /.card -->
+                </div>
+                <div class="job-list">
+                    <h3 class="mb-4">Development</h3>
+                    <a href="#" class="card mb-4 lift">
+                        <div class="card-body p-5">
+							<span class="row justify-content-between align-items-center">
+								<span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
+									<span class="avatar bg-purple text-white w-9 h-9 fs-17 me-3">FE</span> Front End Developer </span>
+								<span class="col-5 col-md-3 text-body d-flex align-items-center">
+									<i class="uil uil-clock me-1"></i> Part time </span>
+								<span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
+									<i class="uil uil-location-arrow me-1"></i> Sydney, AU </span>
+								<span class="d-none d-lg-block col-1 text-center text-body">
+									<i class="uil uil-angle-right-b"></i>
+								</span>
+							</span>
+                        </div>
+                        <!-- /.card-body -->
+                    </a>
+                    <!-- /.card -->
+                    <a href="#" class="card mb-4 lift">
+                        <div class="card-body p-5">
+							<span class="row justify-content-between align-items-center">
+								<span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
+									<span class="avatar bg-orange text-white w-9 h-9 fs-17 me-3">MD</span> Mobile Developer </span>
+								<span class="col-5 col-md-3 text-body d-flex align-items-center">
+									<i class="uil uil-clock me-1"></i> Full-time </span>
+								<span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
+									<i class="uil uil-location-arrow me-1"></i> San Francisco, US </span>
+								<span class="d-none d-lg-block col-1 text-center text-body">
+									<i class="uil uil-angle-right-b"></i>
+								</span>
+							</span>
+                        </div>
+                        <!-- /.card-body -->
+                    </a>
+                    <!-- /.card -->
+                    <a href="#" class="card mb-4 lift">
+                        <div class="card-body p-5">
+							<span class="row justify-content-between align-items-center">
+								<span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
+									<span class="avatar bg-pink text-white w-9 h-9 fs-17 me-3">NT</span> .NET Developer </span>
+								<span class="col-5 col-md-3 text-body d-flex align-items-center">
+									<i class="uil uil-clock me-1"></i> Full time </span>
+								<span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
+									<i class="uil uil-location-arrow me-1"></i> Manchester, UK </span>
+								<span class="d-none d-lg-block col-1 text-center text-body">
+									<i class="uil uil-angle-right-b"></i>
+								</span>
+							</span>
+                        </div>
+                        <!-- /.card-body -->
+                    </a>
+                    <!-- /.card -->
+                </div>
+            </div>
+            <!-- /column -->
+        </div>
+        <!-- /.row -->
     </div>
-    <br/>
-    <div>
-        <button id="connect" onclick="connect();" class="btn btn-danger" style="width:200px">Connect</button>
-        <button id="disconnect" disabled="disabled" onclick="disconnect();" style="width:200px" class="btn btn-danger">
-            Disconnect
-        </button>
-    </div>
-    <br/>
-    <div id="conversationDiv">
-        <input type="text" id="text" placeholder="Write a message..."
-               class="form-control"/>
-        <button id="sendMessage2" onclick="sendMessage2();"
-                class="btn btn-primary">Send
-        </button>
-
-        <p id="response" class="alert alert-success"></p>
-    </div>
-</div>
-</body>
-</html>
+    <!-- /.container -->
+</section>
+<!-- /section -->

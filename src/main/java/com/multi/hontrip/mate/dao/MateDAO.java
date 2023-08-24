@@ -55,8 +55,6 @@ public class MateDAO {
     }
 
     public int checkApply(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
-        int num = my.selectOne("mateBbs.checkApply", mateMatchingAlarmDTO);
-        System.out.println(num);
         return my.selectOne("mateBbs.checkApply", mateMatchingAlarmDTO);
     }
 
