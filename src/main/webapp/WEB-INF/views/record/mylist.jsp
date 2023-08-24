@@ -125,6 +125,7 @@ $(document).ready(function() {
 </script>
 
 
+
 <!-- 내 게시물 표시 부분 -->
 <div id="mylist-section">
 <a href="feedlist?isVisible=1"><button>공유피드</button></a><br>
