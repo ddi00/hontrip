@@ -7,7 +7,6 @@
             request.setAttribute("userId", userId);
         }
     %>
-
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
         // DOM 요소들을 가져옴
