@@ -157,7 +157,6 @@ public class PlanController {
                                  @RequestParam("spotContentId") String spotContentId, Model model) {
 
         PlanDayDTO planDayDTO = planDayService.findPlanWithDay(planId, userId, dayOrder);
-        //System.out.println("update-plan-spot : " + planDayDTO);
         try {
             if (planDayDTO != null) {
                 if (!planDayDTO.getSpotId().isEmpty()) {
@@ -183,7 +182,6 @@ public class PlanController {
 
         // plan-day에 여행지 정보 추가
         planDayService.addSpot(planDayDTO);
-        //System.out.println("add success : " + planDayDTO);
 
         SpotDTO spotDTO = spotService.one(spotContentId);
         SpotAddDTO spotAddDTO = new SpotAddDTO();

@@ -147,8 +147,6 @@
                         let index = parseInt(btnId.split('-')[2]);
                         let spotId = $(this).data("spot-content-id");
                         let spotTitle = $(this).data("spot-title");
-                        //console.log(spotId);
-                        //console.log(spotTitle);
                         addSpot(index, spotId);
                     });
                 });
@@ -178,7 +176,7 @@
                 spotContentId : spotId
             },
             success: function (spot) {
-                alert("추가 성공!");
+                alert("여행지가 추가되었습니다!");
                 $('#' + searchSpotResultsDivId).hide();
                 selectedSpotDivHTML += "<div class='row mt-2'>"
                 selectedSpotDivHTML += "<span class='col-2'><img src='" + spot.image + "'width='55px' height='45px'></span>"

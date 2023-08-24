@@ -56,7 +56,6 @@ public class SpotParser {
 
         int pageNo = 1;
         String areaCode = getAreaCodeByAreaName(areaName);
-        //System.out.println(areaCode);
 
         try {
             while (true) {
@@ -181,11 +180,9 @@ public class SpotParser {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
-            //System.out.println("Response code: " + conn.getResponseCode());
             conn.disconnect();
 
             parsingUrl = url.toString();
-            //System.out.println(parsingUrl);
 
             // 페이지에 접근할 Document 객체 생성, 파싱할 url 요소 읽기
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -280,11 +277,9 @@ public class SpotParser {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
-            //System.out.println("Response code: " + conn.getResponseCode());
             conn.disconnect();
 
             parsingUrl = url.toString();
-            //System.out.println(parsingUrl);
 
             // 페이지에 접근할 Document 객체 생성, 파싱할 url 요소 읽기
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -339,11 +334,9 @@ public class SpotParser {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
-            //System.out.println("Response code: " + conn.getResponseCode());
             conn.disconnect();
 
             parsingUrl = url.toString();
-            //System.out.println(parsingUrl);
 
             // 페이지에 접근할 Document 객체 생성, 파싱할 url 요소 읽기
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

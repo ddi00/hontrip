@@ -85,7 +85,6 @@ public class FlightParser {
                 System.out.println(parsingUrl);
 
                 // 페이지에 접근할 Document 객체 생성, 파싱할 url 요소 읽기
-                // doc.getDocumentElement().getNodeName() -> xml의 최상위 태그를 가져옴
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
                 Document doc = docBuilder.parse(parsingUrl);
