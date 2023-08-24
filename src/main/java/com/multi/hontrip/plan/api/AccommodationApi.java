@@ -2,13 +2,13 @@ package com.multi.hontrip.plan.api;
 
 
 import com.multi.hontrip.plan.dto.AccommodationDTO;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
-import org.json.JSONArray;
-import org.json.JSONObject;
+
 import java.sql.Connection;
-import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -59,7 +59,9 @@ public class AccommodationApi {
     // JSON 응답을 파싱하고 필요한 필드 값을 데이터베이스에 저장하는 메서드
     private static void parseAndSaveToDatabase(String responseBody) {
         try {
-            JSONArray documents = new JSONArray(responseBody);
+            JSONObject responseObject = new JSONObject(responseBody);
+
+            JSONArray documents = responseObject.getJSONArray("documents");
 
             for (int i = 0; i < documents.length(); i++) {
                 JSONObject document = documents.getJSONObject(i);

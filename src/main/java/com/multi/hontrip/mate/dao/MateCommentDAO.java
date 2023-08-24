@@ -28,4 +28,8 @@ public class MateCommentDAO {
     public void edit(MateCommentDTO mateCommentDTO) {
         my.update("mateBbs.commentUpdate", mateCommentDTO);
     }
+
+    public int replyInsert(MateCommentDTO mateCommentDTO) {
+        return my.insert("mateBbs.replyInsert", mateCommentDTO);
+    }
 }

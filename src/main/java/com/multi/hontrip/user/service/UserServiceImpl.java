@@ -1,10 +1,7 @@
 package com.multi.hontrip.user.service;
 
 import com.multi.hontrip.user.dao.UserDAO;
-import com.multi.hontrip.user.dto.LoginUrlData;
-import com.multi.hontrip.user.dto.UserDTO;
-import com.multi.hontrip.user.dto.UserInsertDTO;
-import com.multi.hontrip.user.dto.WithdrawUserDTO;
+import com.multi.hontrip.user.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -32,7 +29,7 @@ public class UserServiceImpl implements UserService{   //사용자 회원처리
     }
 
     @Override
-    public UserDTO getUserInfByAuth(HttpServletRequest request, String provider) throws Exception { //소셜 인증정보를 통해 DB저장
+    public UserDTO getUserInfoByAuth(HttpServletRequest request, String provider) throws Exception { //소셜 인증정보를 통해 DB저장
         UserInsertDTO userInsertDTO =null;  //DB에 입력할 정보
         String logOutUrl = null;
         if(provider.equals("kakao")){   //카카오 인증인 경우
@@ -75,6 +72,22 @@ public class UserServiceImpl implements UserService{   //사용자 회원처리
     @Override
     public void removeUserId(Long id) { //DB에서 사용자 정보 삭제
         userDAO.removeUser(id);
+    }
+
+    @Override
+    public UserInfoDTO getUserInfoBySessionId(Long userId) {    //세션아이디로 회원정보 가져오기
+        UserInsertDTO userDTO = userDAO.getUserInfoBySessionId(userId);
+        String gender = Gender.getDescriptionFromId(userDTO.getGender());
+        String ageRange = AgeRange.getDescriptionFromId(userDTO.getAgeRangeId());   // TODO 디비로 조인했어야 했음
+
+        return UserInfoDTO.builder()
+                .provider(userDTO.getProvider())
+                .nickName(userDTO.getNickName())
+                .profileImage(userDTO.getProfileImage())
+                .email(userDTO.getEmail())
+                .gender(gender)
+                .ageRange(ageRange)
+                .build();
     }
 
     @Override

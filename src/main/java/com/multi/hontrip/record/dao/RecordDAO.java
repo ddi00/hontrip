@@ -1,10 +1,16 @@
 package com.multi.hontrip.record.dao;
 
 import com.multi.hontrip.record.dto.CreatePostDTO;
+import com.multi.hontrip.record.dto.PostImgDTO;
+import com.multi.hontrip.record.dto.LocationDTO;
 import com.multi.hontrip.record.dto.PostInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -14,6 +20,14 @@ public class RecordDAO {
 
     public void insertPost(CreatePostDTO createPostDTO) {
         sqlSessionTemplate.insert("record.createPost", createPostDTO);
+    }
+
+    public void insertImg(PostImgDTO postImgDTO) {
+        sqlSessionTemplate.insert("record.createPostImg", postImgDTO);
+    }
+
+    public List<PostImgDTO> selectImg(long recordId) {
+        return sqlSessionTemplate.selectList("record.postImgList", recordId);
     }
 
     public PostInfoDTO selectPost(long id) {
@@ -26,5 +40,32 @@ public class RecordDAO {
 
     public void deletePost(long id) {
         sqlSessionTemplate.delete("record.deletePost", id);
+    }
+
+    public List<CreatePostDTO> getMyList(Long userId){ //내 게시물 전체 리스트 가져오기
+        return sqlSessionTemplate.selectList("record.mylist", userId);
+    }
+
+    public List<CreatePostDTO> getListMyLocation(Long locationId, int userId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("locationId", locationId);
+        params.put("userId", userId);
+        return sqlSessionTemplate.selectList("record.listmylocation", params);
+    }
+
+
+    public List<CreatePostDTO> getListMyLocation2(String city, int userId ) { // 내 게시물 검색한 지역 리스트 가져오기
+        Map<String, Object> params = new HashMap<>();
+        params.put("city", city);
+        params.put("userId", userId);
+        return sqlSessionTemplate.selectList("record.listmylocation2", params);
+    }
+
+    public List<PostInfoDTO> getFeedList(int isVisible){ //공유피드 전체 리스트 가져오기
+        return sqlSessionTemplate.selectList("record.feedlist", isVisible);
+    }
+
+    public List<LocationDTO> getMyMap(Long userId){ //공유피드 전체 리스트 가져오기
+        return sqlSessionTemplate.selectList("record.mymap", userId);
     }
 }

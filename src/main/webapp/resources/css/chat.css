@@ -1,0 +1,32 @@
+#chat-room{
+  width: 400px;
+  height: 500px;
+  background-color: rgb(247, 248, 224);
+  border: 1px solid rgb(0, 0, 0);
+}
+.chat-room-title{
+  height: 50px;
+  background-color: rgb(134, 138, 8);
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+.chat-room-content{
+  height: 400px;
+  border: 1px solid rgb(0, 0, 0);
+  overflow-x: hidden;
+  overflow-y:auto;
+}
+.chat-input-area{
+  height: 50px;
+  background-color: rgb(255, 255, 255);
+}
+
+.join-chat{
+  text-align: center;
+}
+.sender-chat{
+  text-align: left;
+}
+.receiver-chat{
+  text-align: right;
+}

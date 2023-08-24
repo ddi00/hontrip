@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class PostInfoDTO {
     private long boardId;
+    private long userId;
     private String city;
     private String nickName;
     private String title;
@@ -19,7 +20,6 @@ public class PostInfoDTO {
     private String cmtUserNickName;
     private String cmtContent;
     private int cmtSequence;
-    private int cmtsSquence;
     private int indentationNum;
     private String cmtCreatedAt;
     private String cmtUpdatedAt;

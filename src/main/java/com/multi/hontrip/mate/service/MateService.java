@@ -1,6 +1,7 @@
 package com.multi.hontrip.mate.service;
 
 import com.multi.hontrip.mate.dto.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,13 +16,17 @@ public interface MateService {
 
     List<MateCommentDTO> commentList(long mateBoardId); //게시물 상세의 댓글 목록 가져오기
 
+    List<MateCommentDTO> reCommentList(List<MateCommentDTO> commentList); //게시물 상세의 답글 목록 가져오기
+
     int commentInsert (MateCommentDTO mateCommentDTO); //댓글 insert
+
+    int replyInsert (MateCommentDTO mateCommentDTO); //답글 insert
 
     void commentDelete(MateCommentDTO mateCommentDTO); //댓글 delete
 
     void commentEdit(MateCommentDTO mateCommentDTO); //댓글 수정
 
-    public void insert(MateBoardInsertDTO mateBoardInsertDTO); //동행인 게시글 작성하기
+    public void insert(MultipartFile file, MateBoardInsertDTO mateBoardInsertDTO); //동행인 게시글 작성하기
 
     public MateBoardSelectOneDTO selectOne(long id);    //동행인 상세게시글 가져오기
 

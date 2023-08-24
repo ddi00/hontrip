@@ -28,6 +28,9 @@
         <typeAlias type="com.multi.hontrip.mate.dto.MateBoardListDTO" alias="mateBoardListDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.mate.dto.MatePageDTO" alias="matePageDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.mate.dto.MateCommentDTO" alias="mateCommentDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.ChatInfoDTO" alias="chatInfoDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.ChatMessageDTO" alias="chatMessageDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.ChatroomRequestDTO" alias="chatroomRequestDTO"></typeAlias>
 
         <!-- user -->
         <typeAlias type="com.multi.hontrip.user.dto.UserDTO" alias="userDTO"></typeAlias>
@@ -39,6 +42,7 @@
         <typeAlias type="com.multi.hontrip.record.dto.PostInfoDTO" alias="postInfoDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.record.dto.CommentDTO" alias="commentDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.record.dto.LocationDTO" alias="locationDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.record.dto.PostImgDTO" alias="postImgDTO"></typeAlias>
     </typeAliases>
 
     <typeHandlers>
@@ -50,15 +54,19 @@
 
     <mappers>
         <!-- SQL문 정의하는 파일들의 목록을 지정. 테이블당 한개 사용 -->
-        <!--<mapper resource="mapper/mateMapper.xml" />-->
+        <!-- plan -->
         <mapper resource="mapper/planMapper.xml"/>
         <mapper resource="mapper/planDayMapper.xml"/>
         <mapper resource="mapper/spotMapper.xml"/>
         <mapper resource="mapper/flightMapper.xml"/>
         <mapper resource="mapper/accommodationMapper.xml"/>
         <mapper resource="mapper/emergencyFacilityMapper.xml"/>
+        <!-- mate -->
         <mapper resource="mapper/mateMapper.xml"/>
+        <mapper resource="mapper/chatMapper.xml"/>
+        <!-- user -->
         <mapper resource="mapper/userMapper.xml"/>
+        <!-- record -->
         <mapper resource="mapper/recordMapper.xml"/>
     </mappers>
 

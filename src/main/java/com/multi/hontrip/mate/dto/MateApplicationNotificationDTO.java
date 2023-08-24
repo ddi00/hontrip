@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
 @Builder
 public class MateApplicationNotificationDTO {
     private long id;
-    private long mateBoardId;
+    private String mateBoardURL;
+    private long receiverId;
     private long senderId;
     private String content;
     private LocalDateTime createdAt;
