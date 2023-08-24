@@ -2,6 +2,7 @@ package com.multi.hontrip.user.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.multi.hontrip.user.dto.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -160,12 +161,17 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
         //json 파싱
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(response.getBody());
+
+        //비동의 항목 처리
         String socialId = element.getAsJsonObject().get("id").getAsString();
         String nickname = element.getAsJsonObject().getAsJsonObject("properties").get("nickname").getAsString();
         String profileImage = element.getAsJsonObject().getAsJsonObject("properties").get("profile_image").getAsString();
-        int ageRangeId = getIdFromKakaoAgeRangeString(element.getAsJsonObject().getAsJsonObject("kakao_account").get("age_range").getAsString());
-        int gender = getGenderIdFromKakaoGender(element.getAsJsonObject().getAsJsonObject("kakao_account").get("gender").getAsString());
-        String email = element.getAsJsonObject().getAsJsonObject("kakao_account").get("email").getAsString();
+
+        // 동의 항목 처리
+        JsonObject kakaoAccount = element.getAsJsonObject().getAsJsonObject("kakao_account");
+        int ageRangeId = kakaoAccount.has("age_range") ? getIdFromKakaoAgeRangeString(kakaoAccount.get("age_range").getAsString()) : 1; //사용자 연령대
+        int gender = kakaoAccount.has("gender") ? getGenderIdFromKakaoGender(element.getAsJsonObject().getAsJsonObject("kakao_account").get("gender").getAsString()) : getGenderIdFromKakaoGender("none");  //사용자 성별
+        String email = kakaoAccount.has("email") ? element.getAsJsonObject().getAsJsonObject("kakao_account").get("email").getAsString() : "정보없음";
         String connectedAt = element.getAsJsonObject().get("connected_at").getAsString();
         //날짜 적용
         ZonedDateTime zonedDateTime = ZonedDateTime.parse(connectedAt, DateTimeFormatter.ISO_DATE_TIME);
@@ -201,9 +207,6 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
         }
     }
     private int getIdFromKakaoAgeRangeString(String value) { //연령대 변환
-        if (value == null) {
-            return AgeRange.AGE_UNKNOWN.getId();
-        }
         try {
             int age = Integer.parseInt(value.split("~")[0]);
             if (age >= 1 && age <= 9) {
