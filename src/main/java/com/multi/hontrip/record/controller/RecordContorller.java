@@ -41,7 +41,6 @@ public class RecordContorller {
                              @RequestParam("multifiles")  MultipartFile[] multifiles,
                              CreatePostDTO createPostDTO) {
         List<String> multifilesUrl = recordService.setMultifiles(multifiles); //이미지 주소
-        System.out.println("이미지 개수 => " + multifilesUrl.size());
 
         long postId = recordService.upLoadPost(file, createPostDTO); //id추출
         recordService.imgUrlsInsert(multifilesUrl, postId);
@@ -88,8 +87,6 @@ public class RecordContorller {
         List<LocationDTO> getMyMap = recordService.getMyMap();
         model.addAttribute("mylist", getMyList);
         model.addAttribute("mymap", getMyMap);
-        System.out.println(getMyList);
-        System.out.println(getMyMap);
         return "/record/mylist"; // 기존의 뷰 이름 반환
     }
 
@@ -99,8 +96,6 @@ public class RecordContorller {
         List<LocationDTO> getMyMap = recordService.getMyMap();
         model.addAttribute("mylist", getListMyLocation); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
-        System.out.println(getListMyLocation);
-        System.out.println(getMyMap);
     }
 
     @GetMapping("list-mylocation2") // 내 게시물 해당지역 리스트 가져오기
@@ -109,8 +104,6 @@ public class RecordContorller {
         List<LocationDTO> getMyMap = recordService.getMyMap();
         model.addAttribute("mylist", getListMyLocation2); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
-        System.out.println(getListMyLocation2);
-        System.out.println(getMyMap);
     }
 
 
@@ -118,7 +111,6 @@ public class RecordContorller {
     public String getFeedList(@RequestParam("isVisible") int isVisible, Model model) {
         List<PostInfoDTO> feedlist = recordService.getFeedList(isVisible);
         model.addAttribute("feedlist", feedlist);
-        System.out.println(feedlist);
         return "/record/feedlist"; // feedlist.jsp 파일로 반환
     }
 

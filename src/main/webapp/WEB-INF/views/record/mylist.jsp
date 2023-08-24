@@ -123,10 +123,7 @@ $(document).ready(function() {
 </script>
 
 
-현제세션정보 ==> <img src="${sessionScope.profileImage}" width="50" height="50">
-세션유저: ${sessionScope.nickName}/
-세션유저id: ${sessionScope.id}
-<hr>
+
 <!-- 내 게시물 표시 부분 -->
 <div id="mylist-section">
 <a href="feedlist?isVisible=1"><button>공유피드</button></a><br>

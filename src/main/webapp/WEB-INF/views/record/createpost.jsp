@@ -1,8 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<% session.setAttribute("userId", "1"); %>
-<% session.setAttribute("nickName", "Alice"); %>
+    <%
+        if (session.getAttribute("id") != null) {
+            long userId = (long) session.getAttribute("id");
+            request.setAttribute("userId", userId);
+        }
+    %>
 
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {

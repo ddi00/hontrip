@@ -194,10 +194,6 @@
     </script>
 </head>
 <body>
-        현제세션정보 ==> <img src="${sessionScope.profileImage}" width="50" height="50">
-        세션유저: ${sessionScope.nickName}/
-        세션유저id: ${sessionScope.id}
-        <br><br>
 		게시물 아이디 : ${postInfoDTO.boardId}<br>
 		도시명 : ${postInfoDTO.city}<br>
 		작성 유저 닉네임 : ${postInfoDTO.nickName}<br>
