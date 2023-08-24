@@ -11,15 +11,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section class="wrapper bg-gray">
     <div class="container pt-10 pb-14 pb-md-16">
-        <c:if test="${empty sessionScope.id}"> <!-- 세션에 ID값이 없는 경우, 로그인 링크 출력 -->
-            <a href="/hontrip/user/sign-in">사용자 로그인</a><br>
-        </c:if>
-        <c:if test="${not empty sessionScope.id}"><!-- 세션에 ID값이 없는 경우, 로그인 링크 출력 -->
-            <a href="/hontrip/user/my-page">회원정보</a><br>
-            <a href="/hontrip/user/withdraw">사용자 탈퇴</a><br>
-        </c:if>
-        <br>
-        <a href="mate/bbs_list?page=1">게시물 전체 목록</a>
+       <a href="mate/bbs_list?page=1">게시물 전체 목록</a>
         <br>
         동행인 매칭<br>
         <a href="mate/insert">동행인 매칭 게시글 작성</a><br>

@@ -1,5 +1,6 @@
 package com.multi.hontrip.user.controller;
 
+import com.multi.hontrip.common.RequiredSessionCheck;
 import com.multi.hontrip.user.dto.LoginUrlData;
 import com.multi.hontrip.user.dto.UserDTO;
 import com.multi.hontrip.user.dto.UserInfoDTO;
@@ -24,7 +25,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/sign-in")
-    public ModelAndView signIn(HttpServletRequest request,ModelAndView modelAndView){  //소셜 로그인 페이지로 이동
+    public ModelAndView signIn(ModelAndView modelAndView){  //소셜 로그인 페이지로 이동
         //모델에 로그인할 수 있는 url을 담아서 전달 - 네이버, 구글, 카카오...
         List<LoginUrlData> loginUrls = userService.getUrls();
         modelAndView.addObject("urls",loginUrls);
@@ -48,14 +49,14 @@ public class UserController {
     }
 
     @GetMapping("/logout")
+    @RequiredSessionCheck
     public String logOut(HttpSession session){  //소셜 logout처리 url 반환
         Long userId = (Long)session.getAttribute("id");
         return "redirect:"+userService.getUserLogOutUrl(userId);
     }
 
     @GetMapping("/{provider}/logout")
-    public String oauthLogout(@PathVariable("provider")String provider,
-                                 HttpSession session) throws Exception{   //Oauth 로그아웃 callback 처리 - 카카오는 이미 로그아웃 됨
+    public String oauthLogout(HttpSession session) {   //Oauth 로그아웃 callback 처리 - 카카오는 이미 로그아웃 됨
         //DB에 accessToken지우기
         Long userId = (Long)session.getAttribute("id");
         userService.logOut(userId);
@@ -66,6 +67,7 @@ public class UserController {
     }
 
     @GetMapping("withdraw")
+    @RequiredSessionCheck
     public String withdrawUser(HttpSession httpSession){    //소셜 사용자 탈퇴 처리
         WithdrawUserDTO withdrawUserDTO = WithdrawUserDTO.builder().id((Long)httpSession.getAttribute("id")).build();
         //사용자 소셜 아이디 가져오기
@@ -84,6 +86,7 @@ public class UserController {
     }
 
     @GetMapping("my-page")
+    @RequiredSessionCheck
     public ModelAndView myPageView(HttpSession session,ModelAndView modelAndView){  //마이페이지 - 세션 아이디로 사용자 정보 가져오기
         Long userId = (Long)session.getAttribute("id");
         UserInfoDTO userInfo = userService.getUserInfoBySessionId(userId);
