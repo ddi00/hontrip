@@ -38,17 +38,16 @@ public class NaverService implements OauthService{
     private String NAVER_SSL_API_URL;
 
     public String getLoginUrl() {//네이버 인가코드 발급 url
-        String naverAuthUri = NAVER_AUTH_URL + "/oauth2.0/authorize"
+        return NAVER_AUTH_URL + "/oauth2.0/authorize"
                 + "?response_type=code"
                 + "&client_id=" + NAVER_CLIENT_ID
                 + "&redirect_uri=" + NAVER_REDIRECT_URL
                 + "&&state=" + "hontrip_naver_login";
-        return naverAuthUri;
     }
 
     public UserInsertDTO getOauthInfo(String code, String state) {  //네이버 접근 토큰 발급 요청
         if (code == null) throw new RuntimeException("인증코드가 없습니다.");
-        OauthTokenDTO tokenDTO = null;   // 인증 시도 후 반환받을 값
+        OauthTokenDTO tokenDTO;   // 인증 시도 후 반환받을 값
 
         try {
             //헤더 Object생성 - Content-type: application/x-www-form-urlencoded;charset=utf-8
@@ -56,7 +55,7 @@ public class NaverService implements OauthService{
             httpHeaders.add("Content-type", "application/x-www-form-urlencoded");
 
             //body Object생성
-            MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
             params.add("grant_type", "authorization_code");
             params.add("client_id", NAVER_CLIENT_ID);
             params.add("client_secret", NAVER_CLIENT_SECRET);
@@ -64,7 +63,7 @@ public class NaverService implements OauthService{
             params.add("state", state);
 
             //헤더와 바디를 하나의 오브젝트에 담기
-            HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<MultiValueMap<String, String>>(params, httpHeaders);
+            HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(params, httpHeaders);
 
             // HTTP 요청하기  - Post방식 , 그리고 response 응답받기
             RestTemplate restTemplate = new RestTemplate();
@@ -119,7 +118,7 @@ public class NaverService implements OauthService{
         httpHeaders.add("Content-Type", "application/x-www-form-urlencoded");
 
         //body Object생성
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("client_id",NAVER_CLIENT_ID);
         params.add("client_secret",NAVER_CLIENT_SECRET);
         params.add("access_token",withdrawUserDTO.getAccessToken());
@@ -127,7 +126,7 @@ public class NaverService implements OauthService{
         params.add("service_provider","NAVER");
 
         //헤더와 바디를 하나의 오브젝트에 담기
-        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<MultiValueMap<String, String>>(params, httpHeaders);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(params, httpHeaders);
 
         // HTTP 요청하기  - Post방식 , 그리고 response 응답받기
         RestTemplate restTemplate = new RestTemplate();

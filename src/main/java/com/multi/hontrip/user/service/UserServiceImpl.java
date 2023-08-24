@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService{   //사용자 회원처리
     }
 
     @Override
-    public UserDTO getUserInfoByAuth(HttpServletRequest request, String provider) throws Exception { //소셜 인증정보를 통해 DB저장
+    public UserDTO getUserInfoByAuth(HttpServletRequest request, String provider){ //소셜 인증정보를 통해 DB저장
         String code = request.getParameter("code");
         String state = request.getParameter("state");
 

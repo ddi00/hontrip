@@ -16,12 +16,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -49,17 +43,16 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
 
     @Override
     public String getLoginUrl() {//카카오 인가코드 발급 url
-        String kakaoAuthUri = KAKAO_AUTH_URL + "/oauth/authorize"
+        return KAKAO_AUTH_URL + "/oauth/authorize"
                 + "?client_id=" + KAKAO_CLIENT_ID
                 + "&redirect_uri=" + KAKAO_REDIRECT_URL
                 + "&response_type=code";
-        return kakaoAuthUri;
     }
 
     @Override
     public UserInsertDTO getOauthInfo(String code, String state) {  //인증 코드로 접근 토근 받기, POST요청
         if (code == null) throw new RuntimeException("인증코드가 없습니다.");
-        OauthTokenDTO tokenDTO = null;   // 인증 시도 후 반환받을 값
+        OauthTokenDTO tokenDTO;   // 인증 시도 후 반환받을 값
 
         try {
             //헤더 Object생성 - Content-type: application/x-www-form-urlencoded;charset=utf-8
@@ -67,7 +60,7 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
             httpHeaders.add("Content-type", "application/x-www-form-urlencoded");
 
             //body Object생성
-            MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
             params.add("grant_type", "authorization_code");
             params.add("client_id", KAKAO_CLIENT_ID);
             params.add("client_secret", KAKAO_CLIENT_SECRET);
@@ -75,7 +68,7 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
             params.add("redirect_uri", KAKAO_REDIRECT_URL);
 
             //헤더와 바디를 하나의 오브젝트에 담기
-            HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<MultiValueMap<String, String>>(params, httpHeaders);
+            HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(params, httpHeaders);
 
             // HTTP 요청하기  - Post방식 , 그리고 response 응답받기
             RestTemplate restTemplate = new RestTemplate();
@@ -137,12 +130,12 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
         httpHeaders.add("Authorization", "KakaoAK "+KAKAO_ADMIN_KEY);
 
         //body Object생성
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("target_id_type","user_id");
         params.add("target_id",withdrawUserDTO.getSocialId());
 
         //헤더와 바디를 하나의 오브젝트에 담기
-        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<MultiValueMap<String, String>>(params, httpHeaders);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(params, httpHeaders);
 
         // HTTP 요청하기  - Post방식 , 그리고 response 응답받기
         RestTemplate restTemplate = new RestTemplate();
