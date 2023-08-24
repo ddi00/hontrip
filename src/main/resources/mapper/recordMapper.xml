@@ -3,8 +3,8 @@
 <mapper namespace="record">
 
 	<insert id="createComment" parameterType="commentDTO" keyProperty="id" useGeneratedKeys="true">
-		INSERT INTO record_comment (comment_writer_id, record_id, content, comment_sequence, comments_sequence, indentation_number)
-		VALUES (#{cmtWriterId}, #{recordId}, #{cmtContent}, #{cmtSequence}, #{cmtsSequence}, #{indentationNum});
+		INSERT INTO record_comment (comment_writer_id, record_id, content, comment_sequence, indentation_number)
+		VALUES (#{cmtWriterId}, #{recordId}, #{cmtContent}, #{cmtSequence}, #{indentationNum});
 	</insert>
 
 	<insert id="insertNewReComment" parameterType="commentDTO" keyProperty="id" useGeneratedKeys="true">
@@ -36,6 +36,7 @@
 		rb.id AS boardId,
 		loc.city As city,
 		u.nickname AS nickName,
+		u.id AS userId,
 		rb.title AS title,
 		rb.content AS content,
 		rb.thumbnail AS thumbnail ,
@@ -58,10 +59,10 @@
 		select
 		rc.id AS cmtid,
 		u.nickname AS cmtUserNickName,
+		rc.comment_writer_id AS cmtWriterId,
 		u.profile_image AS profileImg,
 		rc.content AS cmtContent,
 		rc.comment_sequence AS cmtSequence,
-		rc.comments_sequence AS cmtsSquence,
 		rc.indentation_number AS indentationNum,
 		rc.created_at AS cmtCreatedAt,
 		rc.updated_at AS cmtUpdatedAt
@@ -95,27 +96,27 @@
 	</delete>
 
 	<!-- 내 게시물 전체 리스트 가져오기 -->
-	<select id="mylist" resultType="createPostDTO">
+	<select id="mylist" resultType="createPostDTO" parameterType="Long">
 		SELECT title, thumbnail, user_id, is_visible, location_id
 		FROM record_board
-		WHERE user_id = 1
+		WHERE user_id = #{userId}
 		ORDER BY id DESC;
 	</select>
 
 	<!-- 내 게시물 마커 클릭한 지역 리스트 가져오기 -->
-	<select id="listmylocation" resultType="createPostDTO" parameterType="int">
+	<select id="listmylocation" resultType="createPostDTO" parameterType="java.util.Map">
 		SELECT title, thumbnail, user_id, is_visible, location_id
 		FROM record_board
-		WHERE user_id = 1 AND location_id = #{locationId}
+		WHERE user_id = #{userId} AND location_id = #{locationId}
 		ORDER BY id DESC;
 	</select>
 
 	<!-- 내 게시물 검색한 지역 리스트 가져오기 -->
-	<select id="listmylocation2" resultType="createPostDTO" parameterType="String">
+	<select id="listmylocation2" resultType="createPostDTO" parameterType="java.util.Map">
 		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id
 		FROM record_board rb
 		JOIN location l ON rb.location_id = l.id
-		WHERE rb.user_id = 1 AND l.city = #{locationCity}
+		WHERE rb.user_id = #{userId} AND l.city = #{city}
 		ORDER BY rb.id DESC;
 	</select>
 
@@ -143,11 +144,11 @@
 	</select>
 
 	<!-- 내 지도 자료 가져오기 -->
-	<select id="mymap" resultType="locationDTO">
+	<select id="mymap" resultType="locationDTO" parameterType="Long">
 		SELECT rb.location_id, loc.lat, loc.lon, loc.city, loc.id
 		FROM record_board rb
 		JOIN location loc ON rb.location_id = loc.id
-		WHERE rb.user_id = 1;
+		WHERE rb.user_id = #{userId};
 	</select>
 
 </mapper>

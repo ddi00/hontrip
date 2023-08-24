@@ -5,7 +5,7 @@ import com.multi.hontrip.plan.dto.PlanDTO;
 import java.util.List;
 
 public interface PlanService {
-    Long insert(PlanDTO planDTO); // 일정 생성
+    void insert(PlanDTO planDTO); // 일정 생성
 
     void update(PlanDTO planDTO); // 일정 업데이트
 
@@ -13,5 +13,5 @@ public interface PlanService {
 
     PlanDTO one(Long id); // id별 일정
 
-    List<PlanDTO> list(); // 일정 리스트
+    List<PlanDTO> list(Long userId); // 일정 리스트
 }

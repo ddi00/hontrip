@@ -10,19 +10,14 @@ import java.sql.Date;
 @Getter
 @Setter
 public class PlanDayDTO {
-    private Long id; // 여행 일정 상세 id
-    private Long planId; // 부모 여행 일정 id (plan_id)
-    private Date dayDate; // 여행 일자
-    private String daySummary; // 일자별 요약
-
-    public PlanDayDTO(Long planId, Date dayDate, String daySummary) {
-        this.planId = planId;
-        this.dayDate = dayDate;
-        this.daySummary = daySummary;
-    }
-
+    private Long id;        // 일정-일 id
+    private Long userId;    // 유저 id
+    private Long planId;    // 일정 id
+    private String spotId;    // 여행지 id
+    private String accommodationId;   // 숙박 id
+    private String flightId;      // 항공편 id
+    private int dayOrder;       // day 순서
 }
-
 
 /*@Data
 @Getter

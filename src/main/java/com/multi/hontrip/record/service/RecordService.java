@@ -24,8 +24,9 @@ public class RecordService {
 
     private final RecordDAO recordDAO;
     private final ServletContext servletContext;
-    private String relativePath="resources/img/recordImg/";
+    private String relativePath = "resources/img/recordImg/"; // 파일 저장 루트
 
+    // 단일 파일 업로드
     public long upLoadPost( MultipartFile file, CreatePostDTO createPostDTO) {
         String savedName = file.getOriginalFilename(); // file 원본 이름 저장
         String uploadPath=servletContext.getRealPath("/")+relativePath+savedName;
@@ -40,12 +41,14 @@ public class RecordService {
         return createPostDTO.getId();
     }
 
+    // 게시물 상세페이지
     public PostInfoDTO selectPostInfo(long id) {
         return recordDAO.selectPost(id);
     }
 
-
-    public long updatePostInfo(MultipartFile file, CreatePostDTO createPostDTO) {
+    // 게시물 수정
+    public long updatePostInfo(MultipartFile file,
+                               CreatePostDTO createPostDTO) {
 
         String savedName = file.getOriginalFilename(); // file 원본 이름 저장
         String uploadPath=servletContext.getRealPath("/")+relativePath+savedName;
@@ -60,12 +63,14 @@ public class RecordService {
         return createPostDTO.getId();
     }
 
+    // 게시물 삭제
     public void deletePostInfo(long id) {
         recordDAO.deletePost(id);
     }
 
-    public List<String> setMultifiles(MultipartFile[] multifiles) {
-        String uploadPath=servletContext.getRealPath("/");
+    // 다중 파일 업로드 파일 저장
+    public List<String> setMultifiles(MultipartFile[] multifiles) { // 다중 파일 업로드 파일 저장
+        String uploadPath = servletContext.getRealPath("/");
 
         List<String> multifilesUrl = new ArrayList<>();
 
@@ -90,6 +95,7 @@ public class RecordService {
         return multifilesUrl;
     }
 
+    // 다중 파일 업로드 db저장
     public void imgUrlsInsert(List<String> imgUrls, long recordId) {
         PostImgDTO postImgDTO = new PostImgDTO();
         for(String imgUrl : imgUrls) {
@@ -103,20 +109,20 @@ public class RecordService {
         return recordDAO.selectImg(recordId);
     }
 
-    public List<CreatePostDTO> getMyList() {
-        return recordDAO.getMyList();
+    public List<CreatePostDTO> getMyList(Long userId) {
+        return recordDAO.getMyList(userId);
     }
-    public List<CreatePostDTO> getListMyLocation(int locationId) {
-        return recordDAO.getListMyLocation(locationId);
+    public List<CreatePostDTO> getListMyLocation(Long locationId, int userId) {
+        return recordDAO.getListMyLocation(locationId, userId);
     }
-    public List<CreatePostDTO> getListMyLocation2(String locationCity) {
-        return recordDAO.getListMyLocation2(locationCity);
+    public List<CreatePostDTO> getListMyLocation2(String city, int userId) {
+        return recordDAO.getListMyLocation2(city, userId);
     }
     public List<PostInfoDTO> getFeedList(int isVisible) {
         return recordDAO.getFeedList(isVisible);
     }
-    public List<LocationDTO> getMyMap() {
-        return recordDAO.getMyMap();
+    public List<LocationDTO> getMyMap(Long userId) {
+        return recordDAO.getMyMap(userId);
     }
 
 }

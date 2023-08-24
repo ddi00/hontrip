@@ -2,9 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-
-    <% session.setAttribute("userId", "1"); %>
-    <% session.setAttribute("nickName", "Alice"); %>
+    <%
+        if (session.getAttribute("id") != null) {
+            long userId = (long) session.getAttribute("id");
+            request.setAttribute("userId", userId);
+        }
+    %>
 <head>
     <meta charset="UTF-8">
     <title>게시물 조회</title>
@@ -46,7 +49,7 @@
                     comments += "작성날짜 : " + commentList.cmtCreatedAt + ", ";
                     comments += "<a href='javascript:void(0);' onclick='showCcmtTextarea(" + commentList.cmtId + ")'>답글 달기</a>";
 
-                    if (commentList.cmtUserNickName !== "Bob") {
+                    if (commentList.cmtWriterId == ${userId}) {
                         comments += "<a href='javascript:void(0);' onclick='showUpdateTextarea(" + commentList.cmtId + ")'>수정</a>";
                         comments += "<button class='commentDelete' data-comment-id='" + commentList.cmtId + "'>삭제</button>"
                     }
@@ -67,17 +70,17 @@
                             comments += `<br>
                             --> <img src="<c:url value='/resources/img/recordImg/\${replyList.profileImg}'/>" width="60" height="60">
                                 댓글 작성자 : \${replyList.cmtUserNickName}, 댓글 내용 : \${replyList.cmtContent}, 작성날짜 : \${replyList.cmtCreatedAt}`;
-                            if (commentList.cmtUserNickName !== "Bob") {
+                            if (replyList.cmtWriterId == ${userId}) {
                                 comments +=`
                                 <a href="javascript:void(0);" onclick="showUpdateTextarea(\${replyList.cmtId})">수정</a>
                                 <button class="commentDelete" data-comment-id="\${replyList.cmtId}">삭제</button>`;
-                                comments += `<div id="commentUpdate\${replyList.cmtId}" style="display: none">
-                                    <textarea id="updateContent\${replyList.cmtId}" placeholder="수정글을 입력해주세요">\${replyList.cmtContent}</textarea>
-                                    <br>
-                                    <button class="updateComment" data-comment-id="\${replyList.cmtId}">수정</button>
-                                    <a href="javascript:void(0);" onclick="closeTextarea(\${replyList.cmtId})">취소</a>
-                                </div>`;
                             }
+                            comments += `<div id="commentUpdate\${replyList.cmtId}" style="display: none">
+                            <textarea id="updateContent\${replyList.cmtId}" placeholder="수정글을 입력해주세요">\${replyList.cmtContent}</textarea>
+                            <br>
+                            <button class="updateComment" data-comment-id="\${replyList.cmtId}">수정</button>
+                            <a href="javascript:void(0);" onclick="closeTextarea(\${replyList.cmtId})">취소</a>
+                            </div>`;
                         }
                     }
                     comments += "<br>";
@@ -208,18 +211,21 @@
 		게시물 수정날짜 : ${postInfoDTO.updatedAt}<br>
 		게시물 좋아요 개수 : ${postInfoDTO.likeCount}<br>
 		<hr>
-		<a href="updatepost?id=${postInfoDTO.boardId}">수 정</a>
-		<a href="deletepost?id=${postInfoDTO.boardId}">삭 제</a>
+        <c:if test="${postInfoDTO.userId eq userId}">
+            <a href="updatepost?id=${postInfoDTO.boardId}">수 정</a>
+            <a href="deletepost?id=${postInfoDTO.boardId}">삭 제</a>
+		</c:if>
         <hr>
-        <insert id="insertNewReComment" parameterType="commentDTO" keyProperty="id" useGeneratedKeys="true">
+        <c:if test="${not empty sessionScope.id}">
             댓글작성: <input id="cmtContent" style="background: gray">
             <button id="commentWrite">작 성</button>
+        </c:if>
             <br>
             <br>
             댓글 수
             <div id="count"></div>
             <br>
-            <div id="result" style="background: red;">
+            <div id="result" style="background: skyblue;">
                 <c:choose>
             <c:when test="${commentList.isEmpty()}">
                 <h6>등록된 댓글이 없습니다.</h6>
@@ -227,15 +233,18 @@
             <c:otherwise>
                 <c:forEach items="${commentList}" var="commentDTO">
                 <c:if test="${commentDTO.cmtSequence eq '0'}">
-                    <tr id="comment_tr${commentDTO.cmtId}">
+                    <tr>
                         <td>
                             <img src="<c:url value='/resources/img/recordImg/${commentDTO.profileImg}'/>" width="60" height="60">
                             댓글 작성자 : ${commentDTO.cmtUserNickName}, 댓글 내용 : ${commentDTO.cmtContent}, 작성날짜 : ${commentDTO.cmtCreatedAt}
-                            <a href="javascript:void(0);" onclick="showCcmtTextarea(${commentDTO.cmtId})">답글 달기</a>
-                            <c:if test="${commentDTO.cmtUserNickName eq 'Alice'}">
+                            <c:if test="${not empty sessionScope.id}">
+                                <a href="javascript:void(0);" onclick="showCcmtTextarea(${commentDTO.cmtId})">답글 달기</a>
+                            </c:if>
+                            <c:if test="${commentDTO.cmtWriterId eq userId}">
                                 <a href="javascript:void(0);" onclick="showUpdateTextarea(${commentDTO.cmtId})">수정</a>
                                 <button class="commentDelete" data-comment-id="${commentDTO.cmtId}">삭제</button>
                             </c:if>
+
                             <div id="commentUpdate${commentDTO.cmtId}" style="display: none">
                                 <textarea id="updateContent${commentDTO.cmtId}" placeholder="수정글을 입력해주세요">${commentDTO.cmtContent}</textarea>
                                 <button class="updateComment" data-comment-id="${commentDTO.cmtId}">수정 하기</button>
@@ -252,11 +261,10 @@
                                         <br>
                                         ---><img src="<c:url value='/resources/img/recordImg/${reComment.profileImg}'/>" width="60" height="60">
                                         댓글 작성자 : ${reComment.cmtUserNickName}, 댓글 내용 : ${reComment.cmtContent}, 작성날짜 : ${reComment.cmtCreatedAt}
-                                        <c:if test="${reComment.cmtUserNickName eq 'Alice'}">
+                                        <c:if test="${reComment.cmtWriterId eq userId}">
                                             <a href="javascript:void(0);" onclick="showUpdateTextarea(${reComment.cmtId})">수정</a>
                                             <button class="commentDelete" data-comment-id="${reComment.cmtId}">삭제</button>
                                         </c:if>
-                                        <br>
                                         <div id="commentUpdate${reComment.cmtId}" style="display: none">
                                             <textarea id="updateContent${reComment.cmtId}" placeholder="수정글을 입력해주세요">${reComment.cmtContent}</textarea>
                                             <button class="updateComment" data-comment-id="${reComment.cmtId}">수정 하기</button>

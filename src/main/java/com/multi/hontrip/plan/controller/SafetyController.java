@@ -1,5 +1,7 @@
 package com.multi.hontrip.plan.controller;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
@@ -20,9 +22,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 // 유저가 지역 입력 시 실시간으로 해당 지역 재난문자 받아와 보여줌
 @Controller
 @RequestMapping("/plan")
+@PropertySource("classpath:properties/plan/openApi.properties")
 public class SafetyController {
 
-    private static final String SERVICE_KEY = "";
+    @Value("${openapi.service_key}")
+    private String SERVICE_KEY;
     private static final String BASE_URL = "http://apis.data.go.kr/1741000/DisasterMsg4/getDisasterMsg2List";
     private static final String API_TYPE = "json";
     private static final String PAGE_NO = "1";
@@ -33,7 +37,7 @@ public class SafetyController {
         return "/plan/safety_search";
     }
 
-    @GetMapping("/safety_result")
+    @PostMapping("/safety_result")
     public String searchResult(@RequestParam("locationName") String locationName, Model model) {
         try {
             String encodedLocationName = URLEncoder.encode(locationName, "UTF-8");

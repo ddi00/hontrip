@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class PostInfoDTO {
     private long boardId;
+    private long userId;
     private String city;
     private String nickName;
     private String title;
