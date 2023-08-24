@@ -4,6 +4,7 @@ import com.multi.hontrip.plan.dao.PlanDAO;
 import com.multi.hontrip.plan.dto.PlanDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,10 +16,10 @@ public class PlanServiceImpl implements PlanService{
         this.planDAO = planDAO;
     };
 
+    @Transactional
     @Override
-    public Long insert(PlanDTO planDTO) {
+    public void insert(PlanDTO planDTO) {
         planDAO.insert(planDTO);
-        return null;
     } // insert
 
     @Override
@@ -37,7 +38,7 @@ public class PlanServiceImpl implements PlanService{
     } // 일정 하나만 보기
 
     @Override
-    public List<PlanDTO> list() {
-        return planDAO.list();
+    public List<PlanDTO> list(Long userId) {
+        return planDAO.list(userId);
     } // 일정 list
 }

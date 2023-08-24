@@ -62,20 +62,10 @@ INSERT INTO plan(id, user_id, title, start_date, end_date, memo) VALUES
 (2, 2, '서울 여행', '2023-08-15', '2023-08-20', '서울 관광과 음식 즐기기');
 
 -- 일정-여행일 테스트 레코드 삽입
-INSERT INTO plan_day (id, user_id, plan_id, flight_id, day_order, item_type, item_order)
-VALUES (1, 1, 1, 1, 1, 'flight', 1);
-INSERT INTO plan_day (id, user_id, plan_id, accommodation_id, day_order, item_type, item_order)
-VALUES (2, 1, 1, 4, 1, 'accommodation', 2);
-INSERT INTO plan_day (id, user_id, plan_id, spot_id, day_order, item_type, item_order)
-values
-(3, 1, 1, 1, 1, 'spot', 3),
-(4, 1, 1, 1, 2, 'spot', 4);
-INSERT INTO plan_day (id, user_id, plan_id, spot_id, day_order, item_type, item_order)
-VALUES (5, 2, 2, 3, 1, 'spot', 1);
-INSERT INTO plan_day (id, user_id, plan_id, accommodation_id, day_order, item_type, item_order)
-VALUES (6, 2, 2, 1, 1, 'accommodation', 2);
-INSERT INTO plan_day (id, user_id, plan_id, spot_id, day_order, item_type, item_order)
-VALUES (7, 2, 2, 4, 1, 'spot', 3);
+INSERT INTO plan_day (user_id, plan_id, day_order)
+VALUES (1, 1, 1);
+INSERT INTO plan_day (user_id, plan_id, day_order)
+VALUES (1, 1, 2);
 
 -- 동행 게시판 테스트 레코드 삽입
 INSERT INTO mate_board

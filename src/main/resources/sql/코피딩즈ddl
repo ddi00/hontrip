@@ -319,3 +319,15 @@ CREATE TABLE `mate_user_chatroom` (
   CONSTRAINT `mate_user_chatroom_ibfk_2` FOREIGN KEY (`chatroom_id`) REFERENCES `mate_chatroom` (`id`),
   CONSTRAINT `mate_user_chatroom_ibfk_3` FOREIGN KEY (`last_read_chat_id`) REFERENCES `mate_chat_message` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- hontrip.plan_day definition
+
+CREATE TABLE `plan_day` (
+  `user_id` bigint NOT NULL,
+  `plan_id` bigint NOT NULL,
+  `spot_id` varchar(255) DEFAULT NULL,
+  `accommodation_id` varchar(255) DEFAULT NULL,
+  `flight_id` varchar(255) DEFAULT NULL,
+  `day_order` int NOT NULL,
+  PRIMARY KEY (`plan_id`,`day_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
