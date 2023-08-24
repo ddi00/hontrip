@@ -9,7 +9,7 @@ public class MatePageDTO {
 	//종료 데이터
 	private int end;
 	//현재 페이지
-	private int page;
+	private int page = 1;
 	//전체 page 개수
 	private int pages;
 	//페이지 리스트에 게시되는 페이지 수
@@ -17,7 +17,7 @@ public class MatePageDTO {
 	//게시물 총 개수
 	private int count;
 	//한페이지당 게시되는 게시물 수
-	private int recordCountPerPage = 5;
+	private int recordCountPerPage = 6;
 	//페이지 리스트의 첫 페이지 번호
 	private int firstPageNoOnPageList;
 	//페이지 리스트의 마지막 페이지 번호
@@ -32,8 +32,8 @@ public class MatePageDTO {
 	private String keyword;
 
 	public void setStartEnd(int page) {
-		start = 5;
-		end = (page - 1) * 5;
+		start = 6;
+		end = (page - 1) * 6;
 	}
 	public void setRealEndNo(){
 		realEnd = (int)(Math.ceil((count * 1.0) / recordCountPerPage));

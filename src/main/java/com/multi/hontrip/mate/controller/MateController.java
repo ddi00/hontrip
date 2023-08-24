@@ -36,8 +36,6 @@ public class MateController {
         //지역 리스트 가져오기
         List<LocationDTO> location = mateService.location();
 
-        session.setAttribute("user_id", 1L);
-        session.setAttribute("nickname", "Alice");
         model.addAttribute("location", location);
 
         model.addAttribute("list", list);
@@ -53,9 +51,6 @@ public class MateController {
         MatePageDTO pagedDTO = mateService.paging(matePageDTO);
         //게시물 리스트 가져오기
         List<MateBoardListDTO> list = mateService.list(pagedDTO);
-
-        model.addAttribute("list", list);
-        session.setAttribute("pageDTO", pagedDTO);
 
         Map<String, Object> map = new HashMap<>();
         map.put("list", list);

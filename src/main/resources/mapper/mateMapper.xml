@@ -76,7 +76,7 @@
     </insert>
 
 
-    <select id="list" resultType="mateBoardListDTO">
+    <select id="list" resultType="mateBoardListDTO" parameterType="map">
         SELECT
         mb.id AS mateBoardId,
         u.nickname AS nickname,
