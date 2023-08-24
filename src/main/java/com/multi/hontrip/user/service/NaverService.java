@@ -107,7 +107,7 @@ public class NaverService implements OauthService{
     }
 
     public String getLogOutUrl() {  //네이버 로그아웃 url - 네이버는 별도의 로그아웃 처리가 없음
-        return "/properties/user/naver/logout";
+        return "/user/naver/logout";
     }
 
     @Override
@@ -150,6 +150,11 @@ public class NaverService implements OauthService{
         return result.equals("success") ? "success" : "fail";
     }
 
+    @Override
+    public String reAcceptTerms(UserSocialInfoDTO userSocialInfoDTO) {
+        return null;
+    }
+
     private UserInsertDTO jsonConverToDTO(ResponseEntity<String> response,OauthTokenDTO tokenDTO) { // 입력받은 사용자 json정보를 파싱해서 dto에 넣음
         //json 파싱
         JsonParser parser = new JsonParser();
@@ -177,6 +182,7 @@ public class NaverService implements OauthService{
                 .refreshToken(tokenDTO.getRefreshToken())
                 .refreshTokenExpiresAt(null)
                 .createdAt(createdAt)
+                .state("none")
                 .build();
     }
 

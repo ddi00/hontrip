@@ -16,6 +16,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -88,7 +94,9 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
             throw new RuntimeException(e.getMessage());
         }
 
-        return getUserInfoWithToken(tokenDTO);
+        UserInsertDTO userInsertDTO = getUserInfoWithToken(tokenDTO);   //토큰 정보로 반환할 User 정보 셋팅
+        userInsertDTO.setState(state.equals("reAccessTerms") ? "reAccessTerms" : "none");      // state값으로 해당 값 셋팅
+        return userInsertDTO;
     }
 
     @Override
@@ -112,7 +120,6 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
         );
 
         return jsonConverToDTO(response, tokenDTO);
-
     }
 
     @Override
@@ -154,6 +161,17 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
             return "success";
         }else{
             return "fail";
+        }
+    }
+
+    @Override
+    public String reAcceptTerms(UserSocialInfoDTO userSocialInfoDTO) { //다시 동의받기
+        // 탈퇴처리
+        String result = quiteSicalOauth(WithdrawUserDTO.convertFromUserSocialDTO(userSocialInfoDTO));
+        if(result.equals("success")){  // 다시 회원가입 처리
+            return getLoginUrl()+"&state=reAccessTerms";
+        }else{
+            throw new RuntimeException("탈퇴 안됨");
         }
     }
 

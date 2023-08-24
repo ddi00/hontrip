@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -39,13 +40,17 @@ public class UserController {
         //인증 처리 - 네이버랑 카카오랑 callback값이 다름
         UserDTO member = userService.getUserInfoByAuth(request,provider);
 
-        //세션 처리
-        HttpSession session = request.getSession();
-        session.setAttribute("id",member.getId());
-        session.setAttribute("nickName", member.getNickName());
-        session.setAttribute("profileImage", member.getProfileImage());
-
-        return "redirect:/"; // TODO 이전 요청 경로로 이동
+        String redirectUrl;
+        if(member.getState().equals("reAccessTerms")) { // 재동의 후 받는 값이라면 내 정보로 가야함
+            redirectUrl="user/my-page";
+        }else{ // 재동의가 아닌 나머지 값은 신규 가입처리
+            HttpSession session = request.getSession();
+            session.setAttribute("id", member.getId());
+            session.setAttribute("nickName", member.getNickName());
+            session.setAttribute("profileImage", member.getProfileImage());
+            redirectUrl="";
+        }
+        return "redirect:/"+redirectUrl; // TODO 이전 요청 경로로 이동
     }
 
     @GetMapping("/logout")
@@ -93,5 +98,12 @@ public class UserController {
         modelAndView.setViewName("/user/my-page");
         modelAndView.addObject("userInfo",userInfo);
         return modelAndView;
+    }
+
+    @GetMapping("reaccept-terms")
+    @RequiredSessionCheck
+    public RedirectView reacceptTerms(HttpSession session){// 재동의 - 카카오 싱크를 사용하지 않기 때문에 탈퇴시키고 가입 화면으로 보내야함
+        Long userId = (Long)session.getAttribute("id");
+        return new RedirectView(userService.reAcceptTerms(userId));
     }
 }

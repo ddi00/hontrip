@@ -20,10 +20,12 @@
                                     <!-- figure area -->
                                 </div>
                                 <div class="mt-3 mt-md-0 ms-auto">
-                                    <a href=""
-                                       class="btn btn-sm btn-soft-ash rounded-pill btn-icon btn-icon-start mb-0">
-                                        <i class="uil uil-file-check-alt"></i> 동의정보갱신
-                                    </a>
+                                    <c:if test="${userInfo.provider eq 'kakao'}">
+                                        <a href="/hontrip/user/reaccept-terms"
+                                           class="btn btn-sm btn-soft-ash rounded-pill btn-icon btn-icon-start mb-0">
+                                            <i class="uil uil-file-check-alt"></i> 동의정보갱신
+                                        </a>
+                                    </c:if>
                                     <a href=""
                                        class="btn btn-sm btn-soft-ash rounded-pill btn-icon btn-icon-start mb-0">
                                         <i class="uil uil-sync"></i> 회원정보갱신
