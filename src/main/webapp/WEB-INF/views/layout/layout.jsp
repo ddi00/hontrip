@@ -18,7 +18,7 @@
     <script type="text/javascript" src="<c:url value="/resources/assets/js/plugins.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/assets/js/theme.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.7.0.js"/>" defer></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/chat.js"/>" defer></script>
+<%--    <script type="text/javascript" src="<c:url value="/resources/js/chat.js"/>" defer></script>--%>
     <script type="text/javascript" src="<c:url value="/resources/js/mate_board_insert.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/mate_board_selectOne.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/mate_board_update.js"/>" defer></script>

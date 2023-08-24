@@ -12,17 +12,17 @@ import java.util.List;
 public interface FlightService {
 
     // 항공편 추가
-    public void insertFlight(FlightDTO flightDTO);
+    void insertFlight(FlightDTO flightDTO);
 
     // 검색 항공편 수 카운트
-    public int countFlight(FlightSearchDTO flightSearchDTO) throws ParseException;
+    int countFlight(FlightSearchDTO flightSearchDTO) throws ParseException;
 
     // 항공편 api 조회 및 데이터 파싱
-    public void parseData(FlightSearchDTO flightSearchDTO) throws IOException, ParserConfigurationException, SAXException, ParseException;
+    void parseData(FlightSearchDTO flightSearchDTO) throws IOException, ParserConfigurationException, SAXException, ParseException;
 
     // 항공편 목록 조회
-    public List<FlightDTO> listFlight(FlightSearchDTO flightSearchDTO) throws ParseException;
+    List<FlightDTO> listFlight(FlightSearchDTO flightSearchDTO) throws ParseException;
 
     // 무한 스크롤 시 목록 조회
-    public List<FlightDTO> loadList(FlightSearchDTO flightSearchDTO) throws ParseException;
+    List<FlightDTO> loadList(FlightSearchDTO flightSearchDTO) throws ParseException;
 }

@@ -23,6 +23,7 @@
                 </c:if>
             </h3>
             <%--            검색 여행지 목록       --%>
+
             <c:forEach items="${list}" var="spot">
                 <div class="custom-card ms-3 my-2 custom-col-3">
                     <div class="custom-card-body">

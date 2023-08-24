@@ -1,8 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%--jquery cdn 따로 삽입 안 해주면 Uncaught ReferenceError: $ is not defined 발생하여 무한 스크롤 되지 않음 확인--%>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <section class="wrapper bg-light">
     <div class="container-fluid container mt-15 mb-15 w-75 p-3">
@@ -110,6 +108,11 @@
     let currentPage = 1;
     let isLoading = false;
 
+    let depAirportName = "${depAirportName}";
+    let arrAirportName = "${arrAirportName}";
+    let depDate = "${depDate}";
+    let totalPageCount = "${totalPageCount}";
+
     $(window).on("scroll", function () {
         let scrollTop = $(window).scrollTop();
         let windowHeight = $(window).height();
@@ -117,7 +120,7 @@
         let isBottom = scrollTop + windowHeight + 10 >= documentHeight;
 
         if (isBottom) {
-            if (currentPage == ${totalPageCount} || isLoading) {
+            if (currentPage == totalPageCount || isLoading) {
                 return;
             }
             isLoading = true;
@@ -131,15 +134,15 @@
     const getFlightList = function (currentPage) {
         let pageNum = currentPage;
         $.ajax({
-            type: "get",
+            method: "get",
             url: "search-page",
             contentType: "application/json; charset=UTF-8",
             dataType: "html",
             data: {
                 pageNum: pageNum,
-                depAirportName: "${depAirportName}",
-                arrAirportName: "${arrAirportName}",
-                depDate: "${depDate}"
+                depAirportName: depAirportName,
+                arrAirportName: arrAirportName,
+                depDate: depDate
             },
             success: function (result) {
                 $("#flight-list").html(result);
@@ -195,5 +198,3 @@
         }
     }
 </script>
-</body>
-</html>

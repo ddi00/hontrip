@@ -1,8 +1,6 @@
 package com.multi.hontrip.plan.parser;
 
 import com.multi.hontrip.plan.dto.FlightDTO;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,10 +22,11 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-@PropertySource("classpath:properties/plan/api.properties")
+//@PropertySource("classpath:properties/plan/api.properties")
 public class FlightParser {
-    @Value("${api.parser.service_key}")
-    private String SERVICE_KEY; // 서비스키 발급 필요
+    //@Value("${api.parser.service_key}")
+    //private String SERVICE_KEY; // 서비스키 발급 필요
+    private static final String SERVICE_KEY = "LoY3kyOBZldgm9ecrZSOwOA0XOkV4H5yDATpyTaUXVA5wQJD8VA%2B1js0fqWg3G0JlQGpW41LOGFsKGKdcj4EkQ%3D%3D";
 
     //태그 값 얻는 메소드
     private static String getTagValue(String tag, Element element) {
@@ -39,7 +38,7 @@ public class FlightParser {
         return nodeValue.getNodeValue();
     }
 
-    // 사용자 입력 공항명(한글) - 공항 ID 맵핑하기 위한 메소드
+    // 사용자 입력 공항명(한글) - 공항 ID 맵핑하기 위한 메소
     public static String findAirportIdByAirportName(String airportName) {
         for (Airport airport : Airport.values()) {
             if (airport.getAirportName().equals(airportName)) {
@@ -66,7 +65,7 @@ public class FlightParser {
             while (true) {
                 StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1613000/DmstcFlightNvgInfoService/getFlightOpratInfoList"); // URL
                 urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + SERVICE_KEY); // Service Key
-                urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); // 페이지번호
+                urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(pageNo), "UTF-8")); // 페이지번호
                 urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("100", "UTF-8")); // 한 페이지 결과 수
                 urlBuilder.append("&" + URLEncoder.encode("_type", "UTF-8") + "=" + URLEncoder.encode("xml", "UTF-8")); // 데이터 타입
                 urlBuilder.append("&" + URLEncoder.encode("depAirportId", "UTF-8") + "=" + URLEncoder.encode(departure_airport_id, "UTF-8")); // 출발공항 ID
@@ -126,7 +125,7 @@ public class FlightParser {
                         list.add(flightDTO);
                     }
                 }
-                pageNo ++;
+                pageNo += 1;
                 if (pageNo > 2) { // 2 페이지 넘어가면 while문 break
                     break;
                 }

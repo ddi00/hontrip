@@ -2,7 +2,6 @@ package com.multi.hontrip.plan.dao;
 
 import com.multi.hontrip.plan.dto.SpotDTO;
 import com.multi.hontrip.plan.parser.Area;
-import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -44,5 +43,10 @@ public class SpotDAO {
     // 여행지 키워드 목록 조회
     public List<SpotDTO> listWithKeyword(String keyword) {
         return my.selectList("spot.keywordList", keyword);
+    }
+    
+    // 여행지 조회 결과 카운트
+    public int count(String keyword){
+        return my.selectOne("spot.count", keyword);
     }
 }

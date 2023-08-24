@@ -1,8 +1,6 @@
 package com.multi.hontrip.plan.parser;
 
 import com.multi.hontrip.plan.dto.SpotDTO;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,10 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@PropertySource("classpath:properties/plan/api.properties")
+//@PropertySource("classpath:properties/plan/api.properties")
 public class SpotParser {
-    @Value("${api.parser.service_key}")
-    private String SERVICE_KEY; // 서비스키 발급 필요
+    //@Value("${api.parser.service_key}")
+    //private String SERVICE_KEY; // 서비스키 발급 필요
+    private static final String SERVICE_KEY = "LoY3kyOBZldgm9ecrZSOwOA0XOkV4H5yDATpyTaUXVA5wQJD8VA%2B1js0fqWg3G0JlQGpW41LOGFsKGKdcj4EkQ%3D%3D";
 
     //태그 값 얻는 메소드static
     private static String getTagValue(String tag, Element element) {
@@ -162,7 +161,6 @@ public class SpotParser {
     public List<SpotDTO> parseDataWithKeyword(String keyword) throws IOException, ParserConfigurationException, SAXException {
         List<SpotDTO> list = new ArrayList<>();
         String parsingUrl = "";
-        System.out.println(keyword);
         String decodedKeyword = URLDecoder.decode(keyword, "UTF-8"); // 이중 인코딩 방지 디코딩
 
         try {

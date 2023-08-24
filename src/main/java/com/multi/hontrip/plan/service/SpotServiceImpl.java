@@ -104,10 +104,10 @@ public class SpotServiceImpl implements SpotService {
     // 여행지 단일 조회
     @Override
     public SpotDTO one(String contentId) {
-        return spotDAO.one(contentId); // 여행지 콘텐츠 id로 조회
+        return spotDAO.one(contentId); // 여행지 콘텐츠 id로 조회 (※ 여행지 id 아님)
     }
 
-    // 여행지 목록 조회 - 지역
+    // 여행지 목록 조회
     @Override
     public List<SpotDTO> list(SpotSearchDTO spotSearchDTO) {
         String keyword = spotSearchDTO.getKeyword();
@@ -117,5 +117,11 @@ public class SpotServiceImpl implements SpotService {
             return spotDAO.listWithAreaName(keyword);
         }
         return null;
+    }
+
+    // 여행지 조회 결과 카운트
+    @Override
+    public int countSpot(String keyword) {
+        return spotDAO.count(keyword);
     }
 }

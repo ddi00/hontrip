@@ -6,7 +6,6 @@
         <form action="safety_result" method="post" class="mb-3">
             <div class="input-group">
                 <input type="text" id="locationName" name="locationName" class="form-control" placeholder="수신지역 이름">
-                <!-- custom-btn 클래스를 추가하여 배경색 적용 -->
                 <button class="btn btn-yellow" type="submit">조회</button>
             </div>
         </form>

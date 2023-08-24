@@ -34,15 +34,6 @@ CREATE TABLE `location` (
 ) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- hontrip_test.plan_category definition
-
-CREATE TABLE `plan_category` (
-  `category_id` int NOT NULL AUTO_INCREMENT,
-  `category_name` varchar(50) NOT NULL,
-  PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-
 -- hontrip_test.safety definition
 
 CREATE TABLE `safety` (
@@ -235,28 +226,14 @@ CREATE TABLE `plan` (
 -- hontrip_test.plan_day definition
 
 CREATE TABLE `plan_day` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL,
-  `plan_id` bigint DEFAULT NULL,
-  `spot_id` bigint DEFAULT NULL,
-  `accommodation_id` bigint DEFAULT NULL,
-  `flight_id` bigint DEFAULT NULL,
-  `day_order` int DEFAULT NULL,
-  `item_type` varchar(255) DEFAULT NULL,
-  `item_order` int DEFAULT NULL,
-  PRIMARY KEY (`id`,`user_id`),
-  KEY `plan_day_FK` (`user_id`),
-  KEY `plan_day_FK_1` (`plan_id`),
-  KEY `plan_day_FK_2` (`spot_id`),
-  KEY `plan_day_FK_3` (`accommodation_id`),
-  KEY `plan_day_FK_4` (`flight_id`),
-  CONSTRAINT `plan_day_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `plan_day_FK_1` FOREIGN KEY (`plan_id`) REFERENCES `plan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `plan_day_FK_2` FOREIGN KEY (`spot_id`) REFERENCES `spot` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `plan_day_FK_3` FOREIGN KEY (`accommodation_id`) REFERENCES `accommodation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `plan_day_FK_4` FOREIGN KEY (`flight_id`) REFERENCES `flight` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+  `plan_id` bigint NOT NULL,
+  `spot_id` varchar(255) DEFAULT NULL,
+  `accommodation_id` varchar(255) DEFAULT NULL,
+  `flight_id` varchar(255) DEFAULT NULL,
+  `day_order` int NOT NULL,
+  PRIMARY KEY (`plan_id`,`day_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- hontrip_test.record_board definition
 
