@@ -6,11 +6,88 @@
             <div class="col-lg-8 order-lg-2">
                 <div class="blog single">
                     <div class="card">
-                        블로그 내용
-                        ${userInfo}
+                        <div class="card-body">
+                            <div class="d-flex flex-row d-flex align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <figure class="user-avatar">
+                                        <img class="rounded-circle w-15" src="<c:url value="${userInfo.profileImage}"/>"
+                                             alt="${userInfo.nickName}의 프로필 이미지">
+                                    </figure>
+                                    <div>
+                                        <h6>${userInfo.nickName}</h6>
+                                        <span class="post-meta fs-15">${userInfo.email}</span>
+                                    </div>
+                                    <!-- figure area -->
+                                </div>
+                                <div class="mt-3 mt-md-0 ms-auto">
+                                    <a href=""
+                                       class="btn btn-sm btn-soft-ash rounded-pill btn-icon btn-icon-start mb-0">
+                                        <i class="uil uil-file-check-alt"></i> 동의정보갱신
+                                    </a>
+                                    <a href=""
+                                       class="btn btn-sm btn-soft-ash rounded-pill btn-icon btn-icon-start mb-0">
+                                        <i class="uil uil-sync"></i> 회원정보갱신
+                                    </a>
+                                    <a href="/hontrip/user/withdraw"
+                                       class="btn btn-red btn-sm rounded-pill btn-icon btn-icon-start mb-0">
+                                        <i class="uil uil-desktop-slash"></i> 회원탈퇴
+                                    </a>
+                                    <!-- refresh button -->
+                                </div>
+                            </div>
+                            <!-- card body -->
+                        </div>
+                        <div class="card-footer position-relative">
+                            <a class="collapse-link stretched-link" data-bs-toggle="collapse" href="#collapse-2">
+                                회원정보 더 보기
+                            </a>
+                            <!-- more user Info -->
+                        </div>
+                        <div id="collapse-2" class="card-footer p-0 accordion-collapse collapse">
+                            <div class="card-body">
+                                <div class="alert alert-warning alert-icon" role="alert">
+                                    <i class="uil uil-exclamation-triangle"></i>※ 정보 이용에 모두 동의하지 않으면 서비스를 정상적으로 이용할 수
+                                    없습니다.
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">항목</th>
+                                        <th scope="col">정보</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>가입 소셜</td>
+                                        <td>${userInfo.provider}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>이메일</td>
+                                        <td>${userInfo.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>닉네임</td>
+                                        <td>${userInfo.nickName}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>성별</td>
+                                        <td>${userInfo.gender}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>연령대</td>
+                                        <td>${userInfo.ageRange}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- card -->
                     </div>
+                    <!-- blog -->
                 </div>
+                <!-- col-lg-8-->
             </div>
+            <!-- 사이드바 -->
             <aside class="col-lg-4 sidebar mt-11 mt-lg-6">
                 <div class="widget">
                     <form class="search-form">
