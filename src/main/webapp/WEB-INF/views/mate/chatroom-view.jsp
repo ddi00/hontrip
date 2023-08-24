@@ -3,15 +3,15 @@
 <!-- 변수 -->
 <div style="display:none">
     <c:if test="${not empty chatSessionInfo}">
-        <input id="roomId" type="hidden" value="${chatSessionInfo.roomId}">
-        <input id="senderId" type="hidden" value="${chatSessionInfo.senderId}">
-        <input id="receiverId" type="hidden" value="${chatSessionInfo.receiverId}">
+        <input id="roomId" type="text" value="${chatSessionInfo.roomId}">
+        <input id="senderId" type="text" value="${chatSessionInfo.senderId}">
+        <input id="receiverId" type="text" value="${chatSessionInfo.receiverId}">
     </c:if>
     <c:if test="${not empty joinChatInfo}">
-        <input id="roomId" type="hidden" value="${joinChatInfo.roomId}">
-        <input id="senderId" type="hidden" value="${joinChatInfo.senderId}">
-        <input id="receiverId" type="hidden" value="${joinChatInfo.receiverId}">
-        <input id="newFlag" type="hidden" value="${joinChatInfo.newFlag}">
+        <input id="roomId" type="text" value="${joinChatInfo.roomId}">
+        <input id="senderId" type="text" value="${joinChatInfo.senderId}">
+        <input id="receiverId" type="text" value="${joinChatInfo.receiverId}">
+        <input id="newFlag" type="text" value="${joinChatInfo.newFlag}">
     </c:if>
 </div>
 <section class="wrapper bg-gray">

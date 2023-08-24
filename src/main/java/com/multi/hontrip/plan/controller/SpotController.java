@@ -2,13 +2,14 @@ package com.multi.hontrip.plan.controller;
 
 import com.multi.hontrip.plan.dto.SpotDTO;
 import com.multi.hontrip.plan.dto.SpotSearchDTO;
-import com.multi.hontrip.plan.service.SpotServiceImpl;
+import com.multi.hontrip.plan.service.SpotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 
+import javax.servlet.http.HttpSession;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
@@ -17,21 +18,21 @@ import java.util.List;
 @RequestMapping("/plan/spot")
 public class SpotController {
 
-    private final SpotServiceImpl spotService;
+    private final SpotService spotService;
     @Autowired
-    public SpotController(SpotServiceImpl spotService){
+    public SpotController(SpotService spotService){
         this.spotService = spotService;
     }
 
     // 여행지 검색
     @GetMapping("/search")
-    public String showSpotSearchForm(@ModelAttribute("SpotSearchDTO")SpotSearchDTO spotSearchDTO){
+    public String showSpotSearchForm(@ModelAttribute("SpotSearchDTO") SpotSearchDTO spotSearchDTO){
         return "/plan/spot/search_form"; // 여행지 검색 폼 반환
     }
 
     // 여행지 검색 목록
     @PostMapping("/search")
-    public String searchSpot(@ModelAttribute("SpotSearchDTO") SpotSearchDTO spotSearchDTO, Model model)
+    public String searchSpot(@ModelAttribute("SpotSearchDTO") SpotSearchDTO spotSearchDTO, Model model, HttpSession session)
             throws ParserConfigurationException, SAXException, IOException {
 
         // 사용자 검색 범주에 따라 키워드 검색 / 지역 검색으로 분기
@@ -57,8 +58,10 @@ public class SpotController {
             }
             model.addAttribute("list", spotList);
         }
+
         model.addAttribute("category", spotSearchDTO.getCategory());
         model.addAttribute("keyword", spotSearchDTO.getKeyword());
+        model.addAttribute("numOfSpots", spotService.countSpot(spotSearchDTO.getKeyword()));
 
         return "/plan/spot/search_list"; // 조건에 맞는 여행지 검색 목록 반환
     }

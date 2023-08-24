@@ -21,14 +21,14 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/plan.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/user.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/chat.css"/>">
-    <link rel="preload" href="<c:url value="/resources/assets/css/fonts/urbanist.css"/>" as="style"
-          onload="this.rel='stylesheet'">
+
     <script type="text/javascript" src="<c:url value="/resources/assets/js/plugins.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/assets/js/theme.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.7.0.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/sockjs-0.3.4.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/stomp.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/chat.js"/>" defer></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/user.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/mate.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/alarm.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/pagination.js"/>" defer></script>

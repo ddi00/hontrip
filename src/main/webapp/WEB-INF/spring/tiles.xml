@@ -28,98 +28,32 @@
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"/>
     </definition>
 
-
     <!--여행계획-->
-    <definition name="/plan/accommodation/list" extends="default-layout">
-        <put-attribute name="title" value="여행계획/숙소목록" />
+    <definition name="/plan/**" extends="default-layout">
+        <put-attribute name="title" value="여행계획/일정" />
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/accommodation/list.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/plan/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
-    <definition name="/plan/accommodation/filter_list" extends="default-layout">
-        <put-attribute name="title" value="여행계획/숙소필터목록" />
+    <definition name="/plan/flight/**" extends="default-layout">
+        <put-attribute name="title" value="여행계획/항공" />
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/accommodation/filter_list.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/plan/flight/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
-    <definition name="/plan/emergency_facility_list" extends="default-layout">
-        <put-attribute name="title" value="여행계획/응급시설목록" />
+    <definition name="/plan/spot/**" extends="default-layout">
+        <put-attribute name="title" value="여행계획/여행지" />
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/emergency_facility_list.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/plan/spot/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
-    <definition name="/plan/emergency_facility_filter_list" extends="default-layout">
-        <put-attribute name="title" value="여행계획/응급시설필터목록" />
+    <definition name="/plan/accommodation/**" extends="default-layout">
+        <put-attribute name="title" value="여행계획/숙소" />
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/emergency_facility_filter_list.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/plan/accommodation/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
-    <definition name="/plan/safety_search" extends="default-layout">
-        <put-attribute name="title" value="여행계획/안전정보검색" />
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/safety_search.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    </definition>
-    <definition name="/plan/safety_result" extends="default-layout">
-        <put-attribute name="title" value="여행계획/안전정보검색결과" />
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/safety_result.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    </definition>
-    <definition name="/plan/flight/search_form" extends="default-layout">
-        <put-attribute name="title" value="여행계획/항공/검색" />
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/flight/search_form.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    </definition>
-    <definition name="/plan/flight/search_list" extends="default-layout">
-        <put-attribute name="title" value="여행계획/항공/검색결과" />
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/flight/search_list.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    </definition>
-    <definition name="/plan/spot/search_form" extends="default-layout">
-        <put-attribute name="title" value="여행계획/여행지/검색" />
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/spot/search_form.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    </definition>
-    <definition name="/plan/spot/search_list" extends="default-layout">
-        <put-attribute name="title" value="여행계획/여행지/검색결과" />
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/spot/search_list.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    </definition>
-    <definition name="/plan/spot/detail" extends="default-layout">
-        <put-attribute name="title" value="여행계획/여행지/상세" />
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/spot/detail.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    </definition>
-    <definition name="/plan/create" extends="default-layout">
-        <put-attribute name="title" value="여행계획/여행일정생성" />
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/create.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    </definition>
-    <definition name="/plan/list" extends="default-layout">
-        <put-attribute name="title" value="여행계획/여행일정목록" />
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/list.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    </definition>
-    <definition name="/plan/edit" extends="default-layout">
-        <put-attribute name="title" value="여행계획/여행일정수정" />
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/edit.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    </definition>
-    <definition name="/plan/detail" extends="default-layout">
-        <put-attribute name="title" value="여행계획/여행일정상세" />
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/plan/detail.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    </definition>
+
    <!--동행인-->
     <definition name="/mate/**" extends="default-layout">
         <put-attribute name="title" value="동행인찾기" />
@@ -134,5 +68,19 @@
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
         <put-attribute name="body" value="/WEB-INF/views/record/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+    </definition>
+
+<!--    header, footer 미적용 페이지  -->
+    <definition name="body-only-layout" template="/WEB-INF/views/layout/layout_for_page.jsp">
+        <put-attribute name="title"/>
+        <put-attribute name="body"/>
+    </definition>
+<!--    항공편 무한 스크롤 위한 페이지  -->
+    <definition name="/plan/flight/search_list_page" extends="body-only-layout">
+        <put-attribute name="body" value="/WEB-INF/views/plan/flight/search_list_page.jsp" />
+    </definition>
+<!--    일정-일차 여행지 리스트 불러오기 위한 페이지  -->
+    <definition name="/plan/spot/search_list_for_plan" extends="body-only-layout">
+        <put-attribute name="body" value="/WEB-INF/views/plan/spot/search_list_for_plan.jsp" />
     </definition>
 </tiles-definitions>

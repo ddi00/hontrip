@@ -1,6 +1,8 @@
 package com.multi.hontrip.plan.parser;
 
 import com.multi.hontrip.plan.dto.SpotDTO;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,8 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@PropertySource("classpath:properties/plan/openApi.properties")
 public class SpotParser {
-    private static final String SERVICE_KEY = ""; // 서비스키 발급 필요
+    @Value("${openapi.service_key}")
+    private String SERVICE_KEY;
 
     //태그 값 얻는 메소드
     private static String getTagValue(String tag, Element element) {
@@ -52,7 +56,6 @@ public class SpotParser {
 
         int pageNo = 1;
         String areaCode = getAreaCodeByAreaName(areaName);
-        //System.out.println(areaCode);
 
         try {
             while (true) {
@@ -158,7 +161,6 @@ public class SpotParser {
     public List<SpotDTO> parseDataWithKeyword(String keyword) throws IOException, ParserConfigurationException, SAXException {
         List<SpotDTO> list = new ArrayList<>();
         String parsingUrl = "";
-        System.out.println(keyword);
         String decodedKeyword = URLDecoder.decode(keyword, "UTF-8"); // 이중 인코딩 방지 디코딩
 
         try {
@@ -178,11 +180,9 @@ public class SpotParser {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
-            //System.out.println("Response code: " + conn.getResponseCode());
             conn.disconnect();
 
             parsingUrl = url.toString();
-            //System.out.println(parsingUrl);
 
             // 페이지에 접근할 Document 객체 생성, 파싱할 url 요소 읽기
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -277,11 +277,9 @@ public class SpotParser {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
-            //System.out.println("Response code: " + conn.getResponseCode());
             conn.disconnect();
 
             parsingUrl = url.toString();
-            //System.out.println(parsingUrl);
 
             // 페이지에 접근할 Document 객체 생성, 파싱할 url 요소 읽기
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -336,11 +334,9 @@ public class SpotParser {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
-            //System.out.println("Response code: " + conn.getResponseCode());
             conn.disconnect();
 
             parsingUrl = url.toString();
-            //System.out.println(parsingUrl);
 
             // 페이지에 접근할 Document 객체 생성, 파싱할 url 요소 읽기
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

@@ -11,18 +11,21 @@ import java.util.List;
 public interface SpotService {
 
     // 여행지 추가
-    public void insert(SpotDTO spotDTO) throws IOException, ParserConfigurationException, SAXException;
+    void insert(SpotDTO spotDTO) throws IOException, ParserConfigurationException, SAXException;
 
     // 여행지 세부 사항 추가
-    public SpotDTO updateDetails(SpotDTO spotDTO) throws IOException, ParserConfigurationException, SAXException;
+    SpotDTO updateDetails(SpotDTO spotDTO) throws IOException, ParserConfigurationException, SAXException;
 
     // 여행지 키워드로 조회 및 데이터 파싱
-    public void parseData(SpotSearchDTO spotSearchDTO) throws IOException, ParserConfigurationException, SAXException;
+    void parseData(SpotSearchDTO spotSearchDTO) throws IOException, ParserConfigurationException, SAXException;
 
     // 여행지 단일 조회
-    public SpotDTO one(String contentId);
+    SpotDTO one(String contentId);
 
     // 여행지 목록 조회
-    public List<SpotDTO> list(SpotSearchDTO spotSearchDTO);
+    List<SpotDTO> list(SpotSearchDTO spotSearchDTO);
+
+    // 여행지 조회 결과 카운트
+    int countSpot(String keyword);
 
 }

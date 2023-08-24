@@ -24,24 +24,21 @@
             <!-- /.navbar-collapse -->
             <div class="navbar-other w-100 d-flex ms-auto">
                 <ul class="navbar-nav flex-row align-items-center ms-auto">
-                    <li class="nav-item vertical-center">
-                        <nav class="nav social social-muted justify-content-end text-end">
-                            <c:if test="${empty sessionScope.id}"> <!-- 세션에 ID값이 없는 경우, 로그인 링크 출력 -->
-                                <a href="/hontrip/user/sign-in" class="vertical-center"><i
-                                        class="uil uil-user-circle"><span class="kor-font-small">로그인</span></i></a>
-                            </c:if>
-                            <c:if test="${not empty sessionScope.id}"><!-- 세션에 ID값이 있는 경우, 로그아웃 링크 출력 -->
-                            <a href="" class="vertical-center"><i class="uil uil-schedule"><span class="kor-font-small">계획</span></i></a>
-                            <!-- 여행 계획쓰기 -->
-                            <a href="" class="vertical-center"><i class="uil uil-edit-alt"><span class="kor-font-small">기록</span></i></a>
-                            <!-- 여행 기록쓰기 -->
-                            <a href="" class="vertical-center"><i class="uil uil-bell"><span
-                                    class="kor-font-small">알림</span></i></a>    <!-- 알림! -->
-                            <a href="/hontrip/user/logout" class="vertical-center" onclick="dis"><i
-                                    class="uil uil-sign-out-alt"><span
-                                    class="kor-font-small">로그아웃</span></i></a>
-                            </c:if>
-                        </nav>
+                    <li class="nav-item dropdown language-select">
+                        <c:if test="${empty sessionScope.id}"> <!-- 세션에 ID값이 없는 경우, 로그인 링크 출력 -->
+                            <a href="/hontrip/user/sign-in" class="vertical-center"><i class="uil uil-user-circle"><span class="kor-font-small">로그인</span></i></a>
+                        </c:if>
+                        <c:if test="${not empty sessionScope.id}"> <!-- 세션에 ID값이 없는 경우, 로그인 링크 출력 -->
+                            <a class="nav-link dropdown-item dropdown-toggle d-flex" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="avatar w-7" src="<c:url value="${sessionScope.profileImage}"/>" alt="${sessionScope.nickName}의 프로필" />
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item"><a class="dropdown-item" href="/hontrip/user/my-page"><i class="uil uil-user"><span class="kor-font-small">회원정보</span></i></a></li>
+                                <li class="nav-item"><a class="dropdown-item" href="#"><i class="uil uil-schedule"><span class="kor-font-small">계획</span></i></a></li>
+                                <li class="nav-item"><a class="dropdown-item" href="" ><i class="uil uil-edit-alt"><span class="kor-font-small">기록</span></i></a></li>
+                                <li class="nav-item"><a class="dropdown-item" href="/hontrip/user/logout"><i class="uil uil-sign-out-alt"><span class="kor-font-small">로그아웃</span></i></a></li>
+                            </ul>
+                        </c:if>
                         <!-- /.social -->
                     </li>
                 </ul>
@@ -53,12 +50,3 @@
     </nav>
     <!-- /.navbar -->
 </header>
-
-<div class="alert alert-warning alert-icon alert-dismissible fade show" role="alert"
-     style="position: relative; z-index: 1; left:80%; width:300px;"><span id="alertSpan"></span>
-    <i class="uil uil-exclamation-triangle"></i><a id="mateApplyAlert" href="#"
-                                                   class="alert-link hover">an
-        example link</a>.
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-
