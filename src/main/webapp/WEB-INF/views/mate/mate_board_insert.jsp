@@ -4,14 +4,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    long userId = (long) session.getAttribute("id");
-    if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
-        request.setAttribute("login", "no");
-    } else {
-        userId = (long) session.getAttribute("id");
-        request.setAttribute("login", userId);
+    if (session.getAttribute("id") != null) {
+        long userId = (long) session.getAttribute("id");
+        request.setAttribute("user", userId);
     }
-    /*request.setAttribute("id", 4L);*/
 %>
 
 <section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-light-600 text-white"
@@ -36,19 +32,19 @@
 
                                         <%--TODO: 유저아이디 숨기기 + 유저아이디 받아오기--%>
                                         <%--<input hidden name="userId" value=<%= request.getAttribute("id")%>>--%>
-                                            <input hidden id="userId" name="userId" value="1">
-                                            <div class="mateRegion">
-                                                <c:forEach items="${Region.values()}" var="region">
+                                        <input hidden id="userId" name="userId" value="${user}">
+                                        <div class="mateRegion">
+                                            <c:forEach items="${Region.values()}" var="region">
                                                 <input type="radio" id="${region.regionStr}" value="${region}"
                                                        name="regionId" class="mateInput mateRadio"
                                                        checked><label
-                                                        for="${region.regionStr}">${region.regionStr}</label></input>
+                                                    for="${region.regionStr}">${region.regionStr}</label></input>
 
                                             </c:forEach>
-                                            </div>
+                                        </div>
 
 
-                                            <div class="numDate">
+                                        <div class="numDate">
                                                 <span class="mateOption">여행 기간</span>
                                                 <div class="mateDates1">
                                                     <input

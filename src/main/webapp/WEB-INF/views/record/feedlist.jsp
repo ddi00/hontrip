@@ -14,12 +14,16 @@
 <hr color="red">
 
 
-    <c:forEach items="${feedlist}" var="createPostDTO">
-
-        썸네일 : ${createPostDTO.thumbnail},
-        글제목 : ${createPostDTO.title},
-        공개여부: ${createPostDTO.isVisible}<br>
-
+    <c:forEach items="${feedlist}" var="postInfoDTO">
+        <div id="publicfeed">
+            <img src="<c:url value='/${postInfoDTO.thumbnail}'/>"width="300" height="180"><br>,
+            글제목 : <a href="postinfo?id=${postInfoDTO.boardId}">${postInfoDTO.title}</a>,/
+            공개여부: ${postInfoDTO.isVisible}/
+            유저닉네임: ${postInfoDTO.nickName}/
+            좋아요개수: ${postInfoDTO.likeCount}/
+            지역명 : ${postInfoDTO.city}/
+            <hr>
+        </div>
     </c:forEach>
 
 </body>

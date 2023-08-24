@@ -31,5 +31,9 @@
 	<select id="all" resultType="SpotDTO">
 		select * from spot
 	</select>
+	<select id="count" parameterType="String" resultType="int">
+		select count(*) from spot
+		where title LIKE CONCAT('%', #{keyword}, '%')
+	</select>
 
 </mapper>

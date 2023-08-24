@@ -5,8 +5,7 @@ if (window.location.href.includes('/mate/insert')) {
 
     $(function () {
         $('#complete').on("click", function () {
-            console.log("왜 안되지..?")
-            console.log(
+            /*console.log(
                 $('#userId').val()
                 , $('#imageInput')[0].files[0]
                 , $("input[name='regionId']:checked").val()
@@ -18,7 +17,7 @@ if (window.location.href.includes('/mate/insert')) {
                 , $('#recruitNumber').val()
                 , $("input[name='gender']:checked").val()
                 , $('#isFinish').val()
-            )
+            )*/
 
             if ($('#imageInput')[0].files[0] == null) {
                 $('#mateImageEmptyWarning').show();
@@ -312,22 +311,21 @@ if (window.location.href.includes('/mate/editpage')) {
     });
 }
 
-/*동행인 상세게시판*/
-if (window.location.href.includes('/mate/')) {
 
+/!*동행인 상세게시판*!/
+if (window.location.href.includes('/mate/')) {
     function applyMate() {
 
-        console.log("haha")
-        //로그인 안했을 경우 로그인창을 띄움
-        if ($('#mateBoardLogin').val() == "no") {
-            alert("로그인 창")
+        //로그인 안했을 경우 로그인창을 띄움ss
+        if ($('#mateBoardGuest').val() == "") {
+            location.href = "../user/sign-in"
             //로그인 했을 경우
         } else {
             //신청자의 성별, 연령대를 가져온 후, 모집조건에 적합한지 체크한다
             $.ajax({
                 url: "findUserGenderAge",
                 data: {
-                    id: $('#mateBoardLogin').val()
+                    id: $('#mateBoardGuest').val()
                 },
                 dataType: "json",
                 success: function (json) {
@@ -352,7 +350,7 @@ if (window.location.href.includes('/mate/')) {
 
                     //모집조건에 부합하다면
                     //성별, 연령대 아무나 처리
-                    if (json.id == $('#mateBoardLogin').val() && (json.gender === $('#mateBoardGenderStr').val() ||
+                    if (json.id == $('#mateBoardGuest').val() && (json.gender === $('#mateBoardGenderStr').val() ||
                             $('#mateBoardGenderStr').val() == "성별무관" || json.gender == "NONE")
                         && (ageRangeStrArr.includes(json.ageRange) || ageRangeStrArr.includes("전연령")
                             || ageRangeStrArr.length == 0 || json.ageRange == "AGE_UNKNOWN")) {
@@ -394,7 +392,7 @@ if (window.location.href.includes('/mate/')) {
         $('#deleteButton').click();
     }
 
-//동행인신청메세지 모달에서 전송버튼을 눌렀을때
+    //동행인신청메세지 모달에서 전송버튼을 눌렀을때
     function send() {
 
         if ($('#applicationMessage').val().trim() == "") {
@@ -405,7 +403,7 @@ if (window.location.href.includes('/mate/')) {
             url: "insertMatchingAlarm",
             data: {
                 mateBoardId: $('#mateBoardId').val(),
-                senderId: $('#mateBoardLogin').val(),
+                senderId: $('#mateBoardGuest').val(),
                 content: $("#applicationMessage").val()
             },
             success: function () {
@@ -419,23 +417,23 @@ if (window.location.href.includes('/mate/')) {
         })
     }
 
-    $(function () {
-        let login = $('#mateBoardLogin').val();
+    $(document).ready(function () {
+        let login = $('#mateBoardGuest').val();
+
 
         //로그인 했고,
-        if (login != "no") {
+        if (login != "") {
 
             //이미 지원한 경우 동행인 신청 버튼 비활성화
             $.ajax({
                 url: "checkApply",
                 data: {
-                    senderId: $('#mateBoardLogin').val(),
+                    senderId: $('#mateBoardGuest').val(),
                     mateBoardId: $('#mateBoardId').val()
                 },
                 dataType: "json",
                 success: function (result) {
                     if (result === 1) {
-                        console.log(result)
                         $('#application').attr('disabled', 'disabled');
                     }
                 },
@@ -444,5 +442,187 @@ if (window.location.href.includes('/mate/')) {
                 }
             })
         }
-    })
+    });
+
+
+    function updateCommentSection(commentListRe) {
+        let comments = "";
+        let cCount = commentListRe.list.length;
+        let rCount = commentListRe.reCommentList.length;
+
+        console.log(cCount)
+        if (cCount > 0) {
+            for (let i = 0; i < cCount; i++) {
+                let commentList = commentListRe.list[i];
+                if (commentList.commentSequence == 0) {
+                    comments += " 댓글 작성자 : " + commentList.nickname + ", ";
+                    comments += "댓글 내용 : " + commentList.content + ", ";
+                    comments += "작성날짜 : " + commentList.createdAt + ", ";
+                    comments += "<a href='javascript:void(0);' onclick='showCcmtTextarea(" + commentList.commentId + ")'>답글 달기</a>";
+
+                    if (commentList.nickname !== "Bob") {
+                        comments += "<a href='javascript:void(0);' onclick='showUpdateTextarea(" + commentList.commentId + ")'>수정</a>";
+                        comments += "<button type='button' class='commentDelete' data-comment-id='" + commentList.commentId + "'>삭제</button>"
+                    }
+                    for (let i = 0; i < rCount; i++) {
+                        let replyList = commentListRe.reCommentList[i];
+                        if (commentList.commentId == replyList.indentationNumber) {
+                            comments += `<br>
+                                    -->댓글 작성자 : ${replyList.nickname}, 댓글 내용 : ${replyList.content}, 작성날짜 : ${replyList.createdAt}`;
+                            if (commentList.nickname !== "Bob") {
+                                comments += `
+                                <a href="javascript:void(0);" onclick="showUpdateTextarea(${replyList.commentId})">수정</a>
+                                <button type='button' class="commentDelete" data-comment-id="${replyList.commentId}">삭제</button>`;
+                                comments += `<div id="commentUpdate${replyList.commentId}" style="display: none">
+                                    <textarea id="updateContent${replyList.commentId}" placeholder="수정글을 입력해주세요">${replyList.content}</textarea>
+                                    <br>
+                                    <button type='button' class="updateComment" data-comment-id="${replyList.commentId}">수정</button>
+                                    <a href="javascript:void(0);" onclick="closeTextarea(${replyList.commentId})">취소</a>
+                                </div>`;
+                            }
+
+                        }
+                    }
+                    comments += "<br>";
+
+                    comments += "<div id='commentUpdate" + commentList.commentId + "' style='display: none'>";
+                    comments += "<textarea id='updateContent" + commentList.commentId + "' placeholder='수정글을 입력해주세요'>" + commentList.content + "</textarea>";
+                    comments += "<br>";
+                    comments += "<button type='button' class='updateComment' data-comment-id='" + commentList.commentId + "'>수정</button>"
+                    comments += "<a href='javascript:void(0);' onclick='closeTextarea(" + commentList.commentId + ")'>취소</a></div>";
+
+                    comments += `<div id="cComment${commentList.commentId}" style="display: none">
+                        <textarea id="cContent${commentList.commentId}" placeholder="답글을 입력해주세요"></textarea>
+                        <br>
+                        <button type='button' class="cCommentWrite" data-comment-id="${commentList.commentId}">답글 전송</button>
+                        <a href="javascript:void(0);" onclick="closeCTextarea(${commentList.commentId})">취소</a>
+                        <br>
+                    </div>`;
+
+
+                }
+            }
+        } else {
+            comments += "<div>";
+            comments += "<h6>등록된 댓글이 없습니다.</h6>";
+            comments += "</div>";
+        }
+        $('#count').html(cCount);
+        $('#result').html(comments);
+    }
+
+    function showUpdateTextarea(commentId) {
+        var updateField = document.getElementById("commentUpdate" + commentId);
+        updateField.style.display = "block";
+    }
+
+    function closeTextarea(commentId) {
+        var updateField = document.getElementById("commentUpdate" + commentId);
+        updateField.style.display = "none";
+    }
+
+    function showCcmtTextarea(commentId) {
+        var updateField = document.getElementById("cComment" + commentId);
+        updateField.style.display = "block";
+    }
+
+    function closeCTextarea(commentId) {
+        var updateField = document.getElementById("cComment" + commentId);
+        updateField.style.display = "none";
+    }
+
+    $(function () {
+        $('#commentWrite').click(function () {
+            console.log("ajax 실행");
+            $.ajax({
+                url: "/hontrip/mate/comment_insert",
+                data: {
+                    mateBoardId: $('#mateBoardId').val(),
+                    content: $('#cmtContent').val(),
+                    userId: $('#userId').val(),
+                    nickname: $('#nickName').val()
+                },
+                dataType: "json",
+                success: function (cmtListRe) {
+                    console.log(cmtListRe)
+                    updateCommentSection(cmtListRe);
+                    $('#cmtContent').val("");
+                },
+                error: function () {
+                    alert("실패!");
+                } // error
+            });
+        }); // commentWrite
+
+        //댓글,답글 삭제
+        $(document).on('click', '.commentDelete', function () {
+            let commentId = $(this).data("comment-id");
+            $.ajax({
+                url: "/hontrip/mate/comment_delete",
+                dataType: "json",
+                data: {
+                    commentId: commentId,
+                    mateBoardId: $('#mateBoardId').val(),
+                    userId: $('#userId').val(),
+                    nickname: $('#nickName').val()
+                },
+                success: function (cmtListRe) {
+                    updateCommentSection(cmtListRe);
+                },
+                error: function () {
+                    console.log("삭제 실패");
+                }
+            })
+        }) // commentDelete
+
+
+        //댓글 수정
+        $(document).on('click', '.updateComment', function () {
+            let commentId = $(this).data("comment-id");
+            let content = $('#updateContent' + commentId).val(); // 올바른 값을 가져오기 위해 .val() 사용
+            $.ajax({
+                url: "/hontrip/mate/comment_edit",
+                dataType: "json",
+                data: {
+                    commentId: commentId,
+                    mateBoardId: $('#mateBoardId').val(),
+                    content: content
+                },
+                success: function (cmtListRe) {
+                    updateCommentSection(cmtListRe);
+                },
+                error: function () {
+                    console.log("수정 실패");
+                }
+            })
+        }) // commentUpdate
+
+        //답글 수정
+        $(document).on('click', '.cCommentWrite', function () {
+            let commentId = $(this).data("comment-id");
+            let content = $('#cContent' + commentId).val(); // 올바른 값을 가져오기 위해 .val() 사용
+            $.ajax({
+                url: "/hontrip/mate/reply_insert",
+                dataType: "json",
+                data: {
+                    mateBoardId: $('#mateBoardId').val(),
+                    content: content,
+                    userId: $('#userId').val(),
+                    nickname: $('#nickName').val(),
+                    commentSequence: '1',
+                    commentId: commentId,
+                    indentationNumber: commentId
+                },
+                success: function (cmtListRe) {
+                    updateCommentSection(cmtListRe);
+                },
+                error: function () {
+                    console.log("수정 실패");
+                }
+            })
+        }) // commentUpdate
+
+
+    }); // $
+
 }

@@ -20,22 +20,22 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Service
-//@PropertySource("classpath:properties/user/naver.properties")
+@PropertySource("classpath:properties/user/naver.properties")
 public class NaverService implements OauthService{
     @Value("${naver.client.id}")
-    private String NAVER_CLIENT_ID= null; //네이버 인증 ID
+    private String NAVER_CLIENT_ID; //네이버 인증 ID
     @Value("${naver.client.secret}")
-    private String NAVER_CLIENT_SECRET= null; //네이버 보안 문자열
+    private String NAVER_CLIENT_SECRET; //네이버 보안 문자열
     @Value("${naver.redirect.url}")
-    private String NAVER_REDIRECT_URL= null;  //네이버 callback 처리 경로
+    private String NAVER_REDIRECT_URL;  //네이버 callback 처리 경로
     @Value("${naver.auth.url}")
-    private String NAVER_AUTH_URL= null;  //네이버 인증 url
+    private String NAVER_AUTH_URL;  //네이버 인증 url
     @Value("${naver.api.url}")
-    private String NAVER_API_URL= null;   //네이버 api url
+    private String NAVER_API_URL;   //네이버 api url
     @Value("${naver.logout.redirect.url}")
-    private String NAVER_LOGOUT_REDIRECT_URI= null;
+    private String NAVER_LOGOUT_REDIRECT_URI;
     @Value("${naver.ssl.api.url}")
-    private String NAVER_SSL_API_URL= null;
+    private String NAVER_SSL_API_URL;
 
     public String getLoginUrl() {//네이버 인가코드 발급 url
         String naverAuthUri = NAVER_AUTH_URL + "/oauth2.0/authorize"

@@ -1,5 +1,6 @@
 package com.multi.hontrip.user.dao;
 
+import com.multi.hontrip.user.dto.UserDTO;
 import com.multi.hontrip.user.dto.UserInsertDTO;
 import com.multi.hontrip.user.dto.WithdrawUserDTO;
 import lombok.RequiredArgsConstructor;
@@ -49,4 +50,7 @@ public class UserDAO {
         return sqlSessionTemplate.selectOne("userMapper.findProviderAndSocialIDById",id);
     }
 
+    public UserInsertDTO getUserInfoBySessionId(Long userId) {    //세션아이디로 사용자 정보 가져오기
+        return sqlSessionTemplate.selectOne("userMapper.findUserInfoBySessionId",userId);
+    }
 }
