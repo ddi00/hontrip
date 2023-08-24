@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,14 +40,14 @@ var mapContainer = document.getElementById('map'),
 
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
 
-<c:forEach items="${mymap}" var="recordLocationDTO">
+<c:forEach items="${mymap}" var="locationDTO">
     var marker = new kakao.maps.Marker({ // 마커 생성
         map: map,
-        position: new kakao.maps.LatLng(${recordLocationDTO.lat}, ${recordLocationDTO.lon}) // 마커 위치 설정
+        position: new kakao.maps.LatLng(${locationDTO.lat}, ${locationDTO.lon}) // 마커 위치 설정
     });
 
     var infowindow = new kakao.maps.InfoWindow({
-        content: '<div>id: ${recordLocationDTO.id}, city: ${recordLocationDTO.city}</div>' // 인포윈도우 내용 설정
+        content: '<div>id: ${locationDTO.id}, city: ${locationDTO.city}</div>' // 인포윈도우 내용 설정
     });
 
     // 마커 클릭 이벤트 등록
@@ -56,7 +55,7 @@ var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
            $.ajax({
                type: "GET", // 요청 메소드 (GET 또는 POST)
                url: "list-mylocation", // 요청할 URL
-               data: { locationId: ${recordLocationDTO.id} }, // 마커의 locationId를 전달
+               data: { locationId: ${locationDTO.id} }, // 마커의 locationId를 전달
                dataType: "html", // 응답 데이터 타입 (HTML로 가정)
                success: function(response) {
                 $("#list-mylocation-result").html(response); // 응답 받은 HTML을 list-mylocation-result 영역에 추가
@@ -130,7 +129,7 @@ $(document).ready(function() {
 <div id="mylist-section">
 <a href="feedlist?isVisible=1"><button>공유피드</button></a><br>
 <a href="createpost"><button>게시글작성버튼</button></a><br>
-내 게시물 전체 리스트 ( user_id : 1로 임의설정)
+내 게시물 전체 리스트
 <hr color="red">
     <c:forEach items="${mylist}" var="createPostDTO">
                     유저정보 : ${createPostDTO.userId},
