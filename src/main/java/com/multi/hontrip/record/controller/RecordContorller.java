@@ -93,7 +93,7 @@ public class RecordContorller {
     }
 
 
-    @GetMapping("list-mylocation") // 마커클릭시 내 게시물 해당지역 리스트 가져오기
+    @GetMapping("list-mylocation") //  마커클릭시 내 게시물 해당지역 리스트 가져오기
     public void getListMyLocation(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("id");
         System.out.println("User ID from Session: " + userId); //세션 확인 코드
