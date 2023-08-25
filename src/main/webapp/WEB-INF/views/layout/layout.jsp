@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/plan.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/user.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/chat.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/record.css"/>">
+
 
     <script type="text/javascript" src="<c:url value="/resources/assets/js/plugins.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/assets/js/theme.js"/>" defer></script>
@@ -21,6 +23,7 @@
     <script type="text/javascript" src="<c:url value="/resources/js/user.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/mate.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/pagination.js"/>" defer></script>
+
 </head>
 <body>
 <div class="content-wrapper">

@@ -118,6 +118,9 @@ public class RecordService {
     public List<CreatePostDTO> getListMyLocation2(String city, int userId) {
         return recordDAO.getListMyLocation2(city, userId);
     }
+    public List<CreatePostDTO> getListMyLocation3(Long locationId, int userId) {
+        return recordDAO.getListMyLocation3(locationId, userId);
+    }
     public List<PostInfoDTO> getFeedList(int isVisible) {
         return recordDAO.getFeedList(isVisible);
     }
