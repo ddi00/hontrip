@@ -29,6 +29,10 @@ public class MateCommentDAO {
         my.update("mateBbs.commentUpdate", mateCommentDTO);
     }
 
+    public int commentCount(long mateBoardId){
+        return my.selectOne("mateBbs.commentListCount", mateBoardId);
+    }
+
     public int replyInsert(MateCommentDTO mateCommentDTO) {
         return my.insert("mateBbs.replyInsert", mateCommentDTO);
     }

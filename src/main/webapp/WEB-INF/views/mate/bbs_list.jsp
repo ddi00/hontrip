@@ -2,20 +2,18 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ page import="com.multi.hontrip.mate.dto.Region" %>
             <script type="text/javascript" src="../resources/js/jquery-3.7.0.js"></script>
-            <link rel="stylesheet" type="text/css" href="../resources/css/styles.css">
             <div class="container">
                 <div class="row justify-content-center">
                         <div class="col-md-offset-2">
                             <div class="text-left">
                                 <form name="mate_search" autocomplete="off">
-                                    <!-- 지역 선택 드롭다운 메뉴 -->
-                                    <select id="location" name="location" size="1">
-                                        <option selected value="">지역 선택</option>
-                                        <!-- 지역 목록을 순회하며 옵션 항목 생성 -->
-                                        <c:forEach items="${Region.values()}" var="location">
-                                            <option value="${location.regionNum}">${location.regionStr}</option>
-                                        </c:forEach>
-                                    </select>
+                             <!-- 지역 선택 드롭다운 메뉴 -->
+                                    <ul class="list-unstyled tag-list mb-0 flex-lg-wrap" style="width: 100%">
+                                <c:forEach items="${Region.values()}" var="location">
+                                    <button class="searchBtn btn btn-soft-ash btn-sm rounded-pill mb-2" style="width: 14%" data-region="${location.regionNum}">
+                                        ${location.regionStr}</button>
+                                </c:forEach>
+                                </ul>
                                     <!-- 검색 유형 선택 드롭다운 메뉴 -->
                                     <select class="form-select" id="searchType" name="searchType">
                                         <option value="title">제목</option>
@@ -27,7 +25,7 @@
                                     <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Text Input">
                                     <!-- 검색 버튼 -->
                                     <div class="offset-md-11 text-right">
-                                    <button id="searchBtn" class="btn btn-outline-gradient gradient-3 rounded-pill btn-lg px-8">검색</button>
+                                    <button class="searchBtn btn btn-outline-gradient gradient-3 rounded-pill btn-lg px-8">검색</button>
                                     </div>
                                 </form>
                             </div>

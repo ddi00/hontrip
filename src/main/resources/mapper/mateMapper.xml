@@ -173,6 +173,12 @@
 		WHERE mate_board_id = #{mateBoardId}
 		ORDER BY mc.comment_sequence ASC;
 	</select>
+	<select id ="commentListCount" resultType="Integer">
+		SELECT COUNT(*) AS commentCount
+		FROM mate_comment mc
+		JOIN user u ON mc.user_id = u.id
+		WHERE mc.mate_board_id = #{mateBoardId};
+	</select>
 	<insert id="commentInsert" parameterType="mateCommentDTO">
 		INSERT INTO mate_comment
 		(mate_board_id, user_id, content, comment_sequence, indentation_number)
