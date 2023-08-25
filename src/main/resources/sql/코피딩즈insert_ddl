@@ -9,109 +9,99 @@ INSERT INTO age_range (id, range_description) VALUES
     (7, '50-59'),
     (8, '60-');
 
--- user 값 넣기
-INSERT INTO user (id, provider, social_id, nickname, profile_image, gender, age_range_id, email, access_token, expires_in, refresh_token, refresh_token_expires_in, created_at)
+INSERT INTO `location` (`id`, `city`, `lat`, `lon`)
 VALUES
-    (1, 'Google', 123456789, 'Alice', 'profile1.jpg', 1, 4, 'alice@example.com', 'access_token_1', '2023-12-31', 'refresh_token_1', '2023-12-31', NOW()),
-    (2, 'Facebook', 987654321, 'Bob', 'profile2.jpg', 2, 5, 'bob@example.com', 'access_token_2', '2023-12-31', 'refresh_token_2', '2023-12-31', NOW());
-
--- 여행지 테스트 레코드 삽입
-INSERT INTO spot (id, content_id, content_type, title, image, address, longitude, latitude, areacode, sigungucode)
-values
-(1, '2418778', '12', '다이나믹 메이즈 (제주 성읍점)', 'http://tong.visitkorea.or.kr/cms/resource/10/2456710_image2_1.JPG', '제주특별자치도 서귀포시 표선면 번영로 2644', '126.7847499840', '33.3990984383', '39', '3'),
-(2, '2791523', '12', '제주양떼목장', 'http://tong.visitkorea.or.kr/cms/resource/27/2800527_image2_1.jpg', '제주특별자치도 제주시 애월읍 도치돌길 289-13', '126.3652277862', '33.4113820644', '39', '4'),
-(3, '126498', '12', '롯데월드 어드벤처', 'http://tong.visitkorea.or.kr/cms/resource/75/2553575_image2_1.jpg', '서울특별시 송파구 올림픽로 240', '127.0979006014', '37.5113516917', '1', '18'),
-(4, '128776', '12', '남산 케이블카', 'http://tong.visitkorea.or.kr/cms/resource/61/1946561_image2_1.jpg', '서울특별시 중구 소파로 83', '126.9841041137', '37.5569971220', '1', '24');
-
--- 항공 테스트 레코드 삽입
-INSERT INTO flight (id, vehicle_id, airline_name, departure_airport_name, departure_time, arrival_airport_name, arrival_time, economy_charge, prestige_charge)
-VALUES
-(1, 'KE1081', '대한항공', '김포', '202308111100', '제주', '202308111210', '84400', '124400'),
-(2, 'OZ8935', '아시아나항공', '김포', '202308111040', '제주', '202308111150', '70900', '0');
-
--- 카테고리 테스트 레코드 삽입
-INSERT INTO plan_category (category_id, category_name) VALUES
-    (1, '숙박'),
-    (2, '병원'),
-    (3, '약국');
-
-    -- 숙박시설 테스트 레코드 삽입
-INSERT INTO accommodation (id, category_id, place_name, address_name, road_address_name, phone, longitude, latitude, place_url, distance, kakao_map_url) VALUES
-    (1, 1, '포시즌스호텔서울', '서울 종로구 당주동 30', '서울 종로구 새문안로 97', '02-6388-5000', '33.450701', '126.570667', '', null, ''),
-    (2, 1, '코리아나호텔', '서울 중구 태평로1가 61-1', '서울 중구 세종대로 135', '02-2171-7000', '33.450701', '126.570667', '', null, ''),
-    (3, 1, '신라스테이 광화문', '서울 종로구 수송동 156', '서울 종로구 삼봉로 71', '02-6060-9000', '33.450701', '126.570667', '', null, ''),
-    (4, 1, '메종글래드제주', '제주특별자치도 제주시 연동 263-15', '제주특별자치도 제주시 노연로 80', '064-747-5000', '126.5357', '33.3799', '', null, '');
-
-    -- 응급시설 테스트 레코드 삽입
-INSERT INTO emergency_facility (id, category_id, place_name, address_name, road_address_name, phone, longitude, latitude, place_url, distance, kakao_map_url) VALUES
-    (1, 2, '서울병원', '서울 종로구 당주동 30', '서울 종로구 새문안로 97', '02-6388-5000', '126.570667', '33.450701', '', null, ''),
-    (2, 2, '강원병원', '서울 중구 태평로1가 61-1', '서울 중구 세종대로 135', '02-2171-7000', '126.570667', '33.450701', '', null, ''),
-    (3, 3, '서울약국', '서울 종로구 수송동 156', '서울 종로구 삼봉로 71', '02-6060-9000', '126.570667', '33.450701', '', null, ''),
-    (4, 3, '강원병원', '서울 종로구 수송동 156', '서울 종로구 삼봉로 71', '02-6060-9000', '126.570667', '33.450701', '', null, '');
-
-    -- 안전정보 테스트 레코드 삽입
-INSERT INTO safety (id, create_date, location_id, location_name, md101_sn, msg, send_platform) VALUES
-    (1, '2023/06/12 18:00:10', '9619,9622', '강원도 화천군', '195557', '[화천군] 금일 21시부터 익일 03시 사이 국지성 호우, 돌풍, 번개, 우박이 예상됩니다. 비가 내리고 천둥소리가 나면 즉시 안전한 실내로 이동하시기 바랍니다.', 'cbs'),
-    (2, '2023/06/12 17:59:40', '9618,9620,9621', '강원도 화천군', '195556', '[화천군] 금일 21시부터 익일 03시 사이 국지성 호우, 돌풍, 번개, 우박이 예상됩니다. 비가 내리고 천둥소리가 나면 즉시 안전한 실내로 이동하시기 바랍니다.', 'cbs'),
-    (3, '2023/06/12 14:17:06', '19', '강원도 화천군', '195550', '[화천군] 현재 화천군지역 천둥, 번개, 우박, 강한 비가 예상되오니 시설물 관리 및 안전사고에 주의하시기 바랍니다.', 'cbs'),
-    (4, '2023/07/22 04:01:34', '221', '제주특별자치도 제주시', '199239', '[행정안전부] 오늘 04시00분 제주(제주북부,제주북부중산간) 호우경보, 산사태ㆍ상습침수 등 위험지역 대피, 외출자제 등 안전에 주의바랍니다.', 'cbs');
-
-    -- 일정 테스트 레코드 삽입
-INSERT INTO plan(id, user_id, title, start_date, end_date, memo) VALUES
-(1, 1, '제주 여행', '20230811', '20230813', '제주도 재밌겠다'),
-(2, 2, '서울 여행', '2023-08-15', '2023-08-20', '서울 관광과 음식 즐기기');
-
--- 일정-여행일 테스트 레코드 삽입
-INSERT INTO plan_day (user_id, plan_id, day_order)
-VALUES (1, 1, 1);
-INSERT INTO plan_day (user_id, plan_id, day_order)
-VALUES (1, 1, 2);
-
--- 동행 게시판 테스트 레코드 삽입
-INSERT INTO mate_board
-(id, user_id, region_id, age_range_id, title, content, thumbnail, start_date, end_date, recruit_number, gender, created_at, updated_at, is_finish)
-VALUES(1, 1, 19, 2, '8월 11-15 제주 동행하실분', '월정리 주변 여행할 예정인데 동행하실분 있을까요', 'jeju.jpg', '2023-08-11', '2023-08-15', 2, 0, '2023-08-08 12:12:39', NULL, 0);
-INSERT INTO mate_board
-(id, user_id, region_id, age_range_id, title, content, thumbnail, start_date, end_date, recruit_number, gender, created_at, updated_at, is_finish)
-VALUES(2, 2, 32, 2, '8월21일 부산 같이가실분!', '부산에서 같이 동행하실분 계신가요', 'busan.jpg', '2023-08-21', '2023-08-24', 1, 1, '2023-08-08 12:12:39', NULL, 0);
-
--- 동행 게시판 댓글 테스트 레코드 삽입
-INSERT INTO hontrip_test.mate_comment
-(id, mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number, created_at, updated_at)
-VALUES(1, 1, 2, '제주도 저도 가고싶네요', 1, 0, 0, '2023-08-08 16:59:34', NULL);
-INSERT INTO hontrip_test.mate_comment
-(id, mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number, created_at, updated_at)
-VALUES(2, 1, 1, '같이 가실래요?', 1, 1, 1, '2023-08-08 17:01:51', NULL);
-INSERT INTO hontrip_test.mate_comment
-(id, mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number, created_at, updated_at)
-VALUES(3, 2, 1, '부산 저도 가고싶네요', 1, 0, 0, '2023-08-08 17:02:39', NULL);
-
---동행 알림 테스트 레코드 삽입
-INSERT INTO mate_matching_alarm
-(id, mate_board_id, sender_id, content, created_at, is_read)
-VALUES(1, 1, 2, '같이 여행가요!', '2023-08-08 18:12:53', 0);
-INSERT INTO mate_matching_alarm
-(id, mate_board_id, sender_id, content, created_at, is_read)
-VALUES(2, 2, 1, '같이 여행가요!', '2023-08-08 18:13:10', 0);
-
-------  record_board 기록 게시물 테이블 --------
-INSERT INTO `record_board` (`user_id`, `location_id`, `title`, `content`, `is_visible`, `thumbnail`)
-VALUES (1, 2, 'Sample Title1', 'This is the content of the record.1', 0, 'sample1.jpg');
-INSERT INTO `record_board` (`user_id`, `location_id`, `title`, `content`, `is_visible`, `thumbnail`)
-VALUES (2, 3, 'Sample Title2', 'This is the content of the record.2', 1, 'sample2.jpg');
-INSERT INTO `record_board` (`user_id`, `location_id`, `title`, `content`, `is_visible`, `thumbnail`)
-VALUES (1, 4, 'Sample Title3', 'This is the content of the record.3', 1, 'sample3.jpg');
-INSERT INTO `record_board` (`user_id`, `location_id`, `title`, `content`, `is_visible`, `thumbnail`)
-VALUES (1, 2, 'Sample Title4', 'This is the content of the record.4', 1, 'sample4.jpg');
-INSERT INTO `record_board` (`user_id`, `location_id`, `title`, `content`, `is_visible`, `thumbnail`)
-VALUES (2, 3, 'Sample Title5', 'This is the content of the record.5', 0, 'sample5.jpg');
-
-------  record_comment 기록 댓글 테이블 --------
-INSERT INTO `record_comment` (`comment_writer_id`, `record_id`, `content`, `comment_sequence`, `comments_sequence`, `indentation_number`)
-VALUES (1, 1, 'This is a comment.', 1, 1, 0);
------- record_like 기록 게시물 좋아요 테이블 --------
-INSERT INTO `record_like` (`user_id`, `record_id`)
-VALUES (1, 1);
------- record_img 기록 이미지 테이블 --------
-INSERT INTO `record_img` (`img_url`, `record_id`)
-VALUES ('https://example.com/image.jpg', 1);
+(1,'서울',37.5665,126.978),
+(2,'인천',37.4563,126.7052),
+(3,'수원',37.2636,127.0286),
+(4,'성남',37.4172,127.1269),
+(5,'부천',37.5034,126.7665),
+(6,'안양',37.3943,126.9578),
+(7,'고양',37.6583,126.8327),
+(8,'용인',37.2411,127.1776),
+(9,'청주',36.6439,127.5018),
+(10,'천안',36.8151,127.113),
+(11,'전주',35.8242,127.148),
+(12,'광주',35.1595,126.8526),
+(13,'대전',36.3504,127.3845),
+(14,'포항',36.0188,129.3435),
+(15,'창원',35.2211,128.5836),
+(16,'안산',37.3218,126.8309),
+(17,'공주',36.4566,127.1242),
+(18,'군산',35.9679,126.7364),
+(19,'제주',33.489,126.4983),
+(20,'경주',35.8428,129.2117),
+(21,'여수',34.7604,127.6623),
+(22,'거제',34.88,128.6139),
+(23,'순천',34.95,127.4897),
+(24,'아산',36.7842,127.0018),
+(25,'이천',37.2794,127.4422),
+(26,'구미',36.1213,128.3448),
+(27,'김천',36.1397,128.1131),
+(28,'하남',37.5398,127.2143),
+(29,'김포',37.6153,126.7151),
+(30,'원주',37.3441,127.9462),
+(31,'의정부',37.7391,127.0339),
+(32,'부산',35.1796,129.0756),
+(33,'안동',36.5662,128.7237),
+(34,'구리',37.6016,127.1432),
+(35,'포천',37.8944,127.2008),
+(36,'경산',35.8236,128.7378),
+(37,'남양주',37.6352,127.2165),
+(38,'춘천',37.8797,127.7308),
+(39,'하동',35.0551,127.7555),
+(40,'정읍',35.5697,126.8518),
+(41,'양주',37.7749,127.0456),
+(42,'여주',37.2958,127.6378),
+(43,'김제',35.8036,126.8888),
+(44,'정선',37.1469,128.8262),
+(45,'태백',37.1743,128.9859),
+(46,'고성',34.9752,128.3235),
+(47,'영천',35.9737,128.9382),
+(48,'경산시',35.8236,128.7378),
+(49,'상주',36.4158,128.1572),
+(50,'영덕',36.4186,129.3746),
+(51,'문경',36.5852,128.1951),
+(52,'고흥',34.6115,127.2756),
+(53,'광양',34.9526,127.7286),
+(54,'함안',35.2766,128.3722),
+(55,'거창',35.6864,127.9118),
+(56,'함양',35.5218,127.7258),
+(57,'산청',35.4135,127.8776),
+(58,'하동',35.0551,127.7555),
+(59,'합천',35.5702,128.1558),
+(60,'의령',35.3223,128.2879),
+(61,'함평',35.0666,126.5184),
+(62,'창녕',35.5447,128.4926),
+(63,'무안',34.9906,126.4847),
+(64,'영암',34.7979,126.6968),
+(65,'봉화',36.9465,128.9144),
+(66,'의성',36.3544,128.6957),
+(67,'청송',36.4351,129.0425),
+(68,'청도',35.6486,128.728),
+(69,'영양',36.6594,129.1154),
+(70,'영덕',36.4186,129.3746),
+(71,'군위',36.2397,128.5727),
+(72,'구미시',36.1213,128.3448),
+(73,'영주',36.8311,128.625),
+(74,'예천',36.6579,128.4381),
+(75,'의성군',36.3544,128.6957),
+(76,'영천시',35.9737,128.9382),
+(77,'울진',36.991,129.4115),
+(78,'경주시',35.8428,129.2117),
+(79,'칠곡',35.9442,128.4858),
+(80,'청도군',35.6486,128.728),
+(81,'성주',35.9145,128.2902),
+(82,'영천군',35.9737,128.9382),
+(83,'봉화군',36.9465,128.9144),
+(84,'김천시',36.1397,128.1131),
+(85,'부안군',35.7293,126.7356),
+(86,'괴산군',36.8008,127.7975),
+(87,'진천군',36.8629,127.4375),
+(88,'청주시',36.6439,127.5018),
+(89,'옥천군',36.3017,127.5652),
+(90,'단양군',36.9836,128.3696),
+(91,'보령시',36.3499,126.5933),
+(92,'서천군',36.0803,126.7072),
+(93,'금산군',36.105,127.4779),
+(94,'천안시',36.8151,127.113);
