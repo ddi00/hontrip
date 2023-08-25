@@ -1,188 +1,45 @@
-<li class="nav-item dropdown" style="margin-left: 5%;"><a class="nav-link dropdown-toggle" href="#"
-                                                          data-bs-toggle="dropdown">Dropdown</a>
-    <ul class="dropdown-menu">
-        <li class="nav-item"><a class="dropdown-item" href="#">Action</a></li>
-        <li class="dropdown dropdown-submenu dropend"><a class="dropdown-item dropdown-toggle" href="#"
-                                                         data-bs-toggle="dropdown">Dropdown</a>
-            <ul class="dropdown-menu">
-                <li class="nav-item"><a class="dropdown-item" href="#">Action</a></li>
-                <li class="nav-item"><a class="dropdown-item" href="#">Another Action</a></li>
-            </ul>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<li class="nav-item dropdown" style="width:30%;"><a class="nav-link dropdown-toggle" href="#"
+                                                    data-bs-toggle="dropdown">Dropdown</a>
+    <ul class="dropdown-menu" style="padding: 2px 2px 2px 2px;">
+
+        <li class="nav-item">
+            (양혜원)님이 동행을 신청했어요!
+            <span class="row justify-content-between align-items-center" style="width:100%;">
+                    <span class="d-none d-lg-block col-1 text-right text-body">
+                        <img class="avatar w-6" src="..." alt="프로필이미지"/>
+                    </span>
+                    <span class="d-none d-lg-block col-1 text-right text-body"
+                          style="width:60%; word-wrap: normal; font-size: 12px;">
+                        저랑 같이가요!!!!!!! 정말 가고싶습니다!!!!
+                    </span>
+                    <span class="mb-2 mb-md-0 d-flex align-items-center text-body">
+                       <a id="mateBoardChatButton" href="../mate/1">채팅</a>
+                    </span>
+                    <span class="mb-2 mb-md-0 d-flex align-items-center text-body">
+                       <a id="mateBoardAlarmDelete" href="../mate/1">채팅</a>
+                    </span>
+                </span>
         </li>
-        <li class="nav-item"><a class="dropdown-item" href="#">Another Action</a></li>
+
+        <li class="nav-item">
+            <div class="p-3">
+                <br>
+                <span class="justify-content-between col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
+                    <img class="avatar w-5" src="..." alt="프로필이미지"/>
+                        <span class=" mb-2 mb-md-0 d-flex align-items-center text-body">같이 여행가요!!와아와 정말재밌겠다 하하하하하핳하</span>
+                        <span class="mb-2 mb-md-0 d-flex align-items-center text-body"><i
+                                class="uil uil-comments"></i></span>
+                    </span>
+            </div>
+            <!-- /.card-body -->
+        </li>
+        <hr style="margin: 0">
+
+
     </ul>
 </li>
 
 
-<section class="wrapper bg-light">
-    <div class="container py-14 py-md-16">
-        <div class="row text-center">
-            <div class="col-xl-10 mx-auto">
-                <h2 class="fs-15 text-uppercase text-muted mb-3">Job Positions</h2>
-                <h3 class="display-4 mb-10 px-xxl-15">We’re always searching for amazing people to join our team. Take a
-                    look at our current openings.</h3>
-            </div>
-            <!-- /column -->
-        </div>
-        <!-- /.row -->
-        <div class="row">
-            <div class="col-xl-10 mx-auto">
-                <form class="filter-form mb-10">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="form-select-wrapper">
-                                <select class="form-select" aria-label="">
-                                    <option selected>Position</option>
-                                    <option value="position1">Business</option>
-                                    <option value="position2">Design</option>
-                                    <option value="position3">Development</option>
-                                    <option value="position4">Engineering</option>
-                                    <option value="position5">Finance</option>
-                                    <option value="position6">Marketing</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="form-select-wrapper">
-                                <select class="form-select" aria-label="">
-                                    <option selected>Type</option>
-                                    <option value="type1">Full-time</option>
-                                    <option value="type3">Part-time</option>
-                                    <option value="type4">Remote</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="form-select-wrapper">
-                                <select class="form-select" aria-label="">
-                                    <option selected>Location</option>
-                                    <option value="location1">Chicago, US</option>
-                                    <option value="location3">Michigan, US</option>
-                                    <option value="location2">New York, US</option>
-                                    <option value="location4">Los Angles, US</option>
-                                    <option value="location5">Moscow, Russia</option>
-                                    <option value="location6">Sydney, Australia</option>
-                                    <option value="location7">Birmingham, UK</option>
-                                    <option value="location8">Manchester, UK</option>
-                                    <option value="location9">Beijing, China</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div class="job-list mb-10">
-                    <h3 class="mb-4">Design</h3>
-                    <a href="#" class="card mb-4 lift">
-                        <div class="card-body p-5">
-							<span class="row justify-content-between align-items-center">
-								<span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
-									<span class="avatar bg-red text-white w-9 h-9 fs-17 me-3">GD</span> Senior Graphic Designer </span>
-								<span class="col-5 col-md-3 text-body d-flex align-items-center">
-									<i class="uil uil-clock me-1"></i> Full time </span>
-								<span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
-									<i class="uil uil-location-arrow me-1"></i> San Francisco, US </span>
-								<span class="d-none d-lg-block col-1 text-center text-body">
-									<i class="uil uil-angle-right-b"></i>
-								</span>
-							</span>
-                        </div>
-                        <!-- /.card-body -->
-                    </a>
-                    <!-- /.card -->
-                    <a href="#" class="card mb-4 lift">
-                        <div class="card-body p-5">
-							<span class="row justify-content-between align-items-center">
-								<span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
-									<span class="avatar bg-green text-white w-9 h-9 fs-17 me-3">UX</span> UI/UX Designer </span>
-								<span class="col-5 col-md-3 text-body d-flex align-items-center">
-									<i class="uil uil-clock me-1"></i> Remote </span>
-								<span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
-									<i class="uil uil-location-arrow me-1"></i> Anywhere </span>
-								<span class="d-none d-lg-block col-1 text-center text-body">
-									<i class="uil uil-angle-right-b"></i>
-								</span>
-							</span>
-                        </div>
-                        <!-- /.card-body -->
-                    </a>
-                    <!-- /.card -->
-                    <a href="#" class="card mb-4 lift">
-                        <div class="card-body p-5">
-							<span class="row justify-content-between align-items-center">
-								<span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
-									<span class="avatar bg-yellow text-white w-9 h-9 fs-17 me-3">AN</span> Multimedia Artist &amp; Animator </span>
-								<span class="col-5 col-md-3 text-body d-flex align-items-center">
-									<i class="uil uil-clock me-1"></i> Full time </span>
-								<span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
-									<i class="uil uil-location-arrow me-1"></i> Birmingham, UK </span>
-								<span class="d-none d-lg-block col-1 text-center text-body">
-									<i class="uil uil-angle-right-b"></i>
-								</span>
-							</span>
-                        </div>
-                        <!-- /.card-body -->
-                    </a>
-                    <!-- /.card -->
-                </div>
-                <div class="job-list">
-                    <h3 class="mb-4">Development</h3>
-                    <a href="#" class="card mb-4 lift">
-                        <div class="card-body p-5">
-							<span class="row justify-content-between align-items-center">
-								<span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
-									<span class="avatar bg-purple text-white w-9 h-9 fs-17 me-3">FE</span> Front End Developer </span>
-								<span class="col-5 col-md-3 text-body d-flex align-items-center">
-									<i class="uil uil-clock me-1"></i> Part time </span>
-								<span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
-									<i class="uil uil-location-arrow me-1"></i> Sydney, AU </span>
-								<span class="d-none d-lg-block col-1 text-center text-body">
-									<i class="uil uil-angle-right-b"></i>
-								</span>
-							</span>
-                        </div>
-                        <!-- /.card-body -->
-                    </a>
-                    <!-- /.card -->
-                    <a href="#" class="card mb-4 lift">
-                        <div class="card-body p-5">
-							<span class="row justify-content-between align-items-center">
-								<span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
-									<span class="avatar bg-orange text-white w-9 h-9 fs-17 me-3">MD</span> Mobile Developer </span>
-								<span class="col-5 col-md-3 text-body d-flex align-items-center">
-									<i class="uil uil-clock me-1"></i> Full-time </span>
-								<span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
-									<i class="uil uil-location-arrow me-1"></i> San Francisco, US </span>
-								<span class="d-none d-lg-block col-1 text-center text-body">
-									<i class="uil uil-angle-right-b"></i>
-								</span>
-							</span>
-                        </div>
-                        <!-- /.card-body -->
-                    </a>
-                    <!-- /.card -->
-                    <a href="#" class="card mb-4 lift">
-                        <div class="card-body p-5">
-							<span class="row justify-content-between align-items-center">
-								<span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
-									<span class="avatar bg-pink text-white w-9 h-9 fs-17 me-3">NT</span> .NET Developer </span>
-								<span class="col-5 col-md-3 text-body d-flex align-items-center">
-									<i class="uil uil-clock me-1"></i> Full time </span>
-								<span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
-									<i class="uil uil-location-arrow me-1"></i> Manchester, UK </span>
-								<span class="d-none d-lg-block col-1 text-center text-body">
-									<i class="uil uil-angle-right-b"></i>
-								</span>
-							</span>
-                        </div>
-                        <!-- /.card-body -->
-                    </a>
-                    <!-- /.card -->
-                </div>
-            </div>
-            <!-- /column -->
-        </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container -->
-</section>
-<!-- /section -->

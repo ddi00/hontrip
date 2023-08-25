@@ -59,10 +59,6 @@ public class MateDAO {
         return my.selectOne("mateBbs.findUserGenderAgeById", id);
     }
 
-    public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
-        return my.insert("mateBbs.insertMateMatchingAlarm", mateMatchingAlarmDTO);
-    }
-
     public int checkApply(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
         return my.selectOne("mateBbs.checkApply", mateMatchingAlarmDTO);
     }

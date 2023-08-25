@@ -145,11 +145,6 @@ public class MateServiceImpl implements MateService {
         return mateDAO.findUserGenderAgeById(id);
     }
 
-    //동행 신청 메세지 전송하기
-    @Override
-    public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
-        return mateDAO.insertMatchingAlarm(mateMatchingAlarmDTO);
-    }
 
     //유저가 동행인 신청을 했는지 확인
     @Override

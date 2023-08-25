@@ -61,7 +61,7 @@
 %>
 
 <div class="content-wrapper">
-    <header class="wrapper bg-soft-primary">
+    <header class="wrapper">
         <nav class="navbar navbar-expand-lg center-nav transparent navbar-light">
             <div class="container flex-lg-row flex-nowrap align-items-center">
                 <div class="navbar-brand w-100">
@@ -102,7 +102,7 @@
         <!-- /.offcanvas -->
     </header>
     <!-- /header -->
-    <section class="wrapper bg-soft-primary">
+    <section class="wrapper">
         <div class="container pt-10 pb-15 pt-md-12 pb-md-15 text-center">
             <div class="row">
                 <div class="col-md-5 col-xl-8 mx-auto">
@@ -286,10 +286,10 @@
                         <div class="blog single mt-n15">
                             <div class="card">
                                 <form action="editpage" method="post">
-                                    <figure class="card-img-top"><img
+                                    <img
                                             src="<c:url value='../resources/img/mateImg/${dto.thumbnail}'/>"
-                                            alt="여행지 사진"/>
-                                    </figure>
+                                            alt="여행지 사진" style="width: 100%; height:600px; border-top-left-radius: 12px;
+                                            border-top-right-radius: 12px;"/>
                                     <div class="card-body" style="padding-top: 0;">
                                         <div class="classic-view">
 

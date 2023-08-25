@@ -1,6 +1,4 @@
 //동행인 신청 알림창 숨기기 -> 신청 버튼을 클린 한 후 보여주기 show()
-$('#alertDiv').hide();
-
 
 if (window.location.href.includes('/mate/insert')) {
 
@@ -40,7 +38,7 @@ if (window.location.href.includes('/mate/insert')) {
             }
 
             const formData = new FormData();
-            formData.append("userId", $('#userId').val())
+            formData.append("userId", $('#writerId').val())
             formData.append("file", $('#imageInput')[0].files[0])
             formData.append("regionId", $("input[name='regionId']:checked").val())
             formData.append("ageRangeId", $('#ageRangeId').val())
@@ -319,10 +317,12 @@ if (window.location.href.includes('/mate/editpage')) {
 // 동행인 상세게시판
 if (window.location.href.includes('/mate/')) {
     function applyMate() {
+        /*
 
-        console.log($('#mateBoardId').val(), $('#mateSenderId').val(),
-            $('#mateSenderNickName').val(), $('#mateSenderProfileImage'),
-            $('#userId').val(), $("#applicationMessage").val())
+                console.log($('#mateBoardId').val(), $('#mateSenderId').val(),
+                    $('#mateSenderNickName').val(), $('#mateSenderProfileImage'),
+                    $('#writerId').val(), $("#applicationMessage").val())
+        */
 
         //로그인 안했을 경우 로그인창을 띄움ss
         if ($('#mateSenderId').val() == "") {
@@ -434,7 +434,7 @@ if (window.location.href.includes('/mate/')) {
                 //동행인 신청 알람 보내기
                 sendAlarm($('#mateBoardId').val(), $('#mateSenderId').val(),
                     $('#mateSenderNickName').val(), $('#mateSenderProfileImage'),
-                    $('#userId').val(), $("#applicationMessage").val())
+                    $('#writerId').val(), $("#applicationMessage").val())
 
                 //동행인 신청 버튼 비활성화
                 $('#application').attr('disabled', 'disabled');
