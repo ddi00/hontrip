@@ -6,7 +6,7 @@
     <title><tiles:getAsString name="title"/></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="<%= request.getContextPath() %>/resources/assets/img/favicon.png">
+    <link rel="shortcut icon" href="<%= request.getContextPath() %>/resources/img/common/favicon2.png">
     <link rel="stylesheet" href="<c:url value="/resources/assets/css/plugins.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/assets/css/style.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/mate.css"/>">
@@ -23,6 +23,7 @@
     <script type="text/javascript" src="<c:url value="/resources/js/user.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/mate.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/pagination.js"/>" defer></script>
+
 
 </head>
 <body>

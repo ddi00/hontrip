@@ -26,4 +26,6 @@ public interface UserService {  //회원 관련 서비스
     UserInfoDTO getUserInfoBySessionId(Long userId);    //세션 아이디로 사용자 정보 가져오기
 
     String reAcceptTerms(Long userId); // 약관 재동의 받기
+
+    UserInfoDTO refreshUserInfo(Long userId);   //사용자 정보 갱신
 }
