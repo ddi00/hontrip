@@ -89,7 +89,7 @@ public class RecordContorller {
     @GetMapping("mylist") // 내 게시물 전체 가져오기
     public String getMyList(Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("id");
-        List<CreatePostDTO> getMyList = recordService.getMyList(userId); //dto는 long, db는 int라 형변환 필요
+        List<PostInfoDTO> getMyList = recordService.getMyList(userId); //dto는 long, db는 int라 형변환 필요
         List<LocationDTO> getMyMap = recordService.getMyMap(userId); // 지도 정보 가져오기
         List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
         model.addAttribute("mylist", getMyList);
@@ -103,25 +103,17 @@ public class RecordContorller {
     @GetMapping("list-mylocation") //  마커클릭시 내 게시물 해당지역 리스트 가져오기
     public void getListMyLocation(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("id");
-        List<CreatePostDTO> getListMyLocation = recordService.getListMyLocation(locationId, userId.intValue());
+        List<PostInfoDTO> getListMyLocation = recordService.getListMyLocation(locationId, userId);
         List<LocationDTO> getMyMap = recordService.getMyMap(userId);
         model.addAttribute("mylist", getListMyLocation); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
     }
 
-    @GetMapping("list-mylocation2") // 검색어입력시 내 게시물 해당지역 리스트 가져오기
-    public void getListMyLocation2(@RequestParam("city") String city, Model model, HttpSession session) {
-        Long userId = (Long) session.getAttribute("id");
-        List<CreatePostDTO> getListMyLocation2 = recordService.getListMyLocation2(city, userId.intValue());
-        List<LocationDTO> getMyMap = recordService.getMyMap(userId);
-        model.addAttribute("mylist", getListMyLocation2); // mylist 모델에 데이터 추가
-        model.addAttribute("mymap", getMyMap);
-    }
 
     @GetMapping("list-mylocation3") // 검색어입력시 내 게시물 해당지역 리스트 가져오기
     public void getListMyLocation3(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("id");
-        List<CreatePostDTO> getListMyLocation3 = recordService.getListMyLocation3(locationId, userId.intValue());
+        List<PostInfoDTO> getListMyLocation3 = recordService.getListMyLocation3(locationId, userId.intValue());
         List<LocationDTO> getMyMap = recordService.getMyMap(userId);
         model.addAttribute("mylist", getListMyLocation3); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
