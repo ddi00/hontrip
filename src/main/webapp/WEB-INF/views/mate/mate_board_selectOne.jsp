@@ -7,7 +7,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
 <script type="text/javascript" src="../resources/js/jquery-3.7.0.js"></script>
 <input hidden id="userId" name="userId" value="<c:out value="${sessionScope.id}"/>">
 <input hidden id="nickName" name="nickName" value="<c:out value="${sessionScope.username}" />">
@@ -362,7 +361,7 @@
                                                     </div>
                                                     <div class="mb-0 mb-md-16">
                                                         <div class="dropdown share-dropdown btn-group">
-                                                            <c:if test="${dto.isFinish eq 0 && dto.userId ne user}">
+                                                            <c:if test="${dto.isFinish eq 0 && dto.userId ne mateSenderId}">
                                                                 <%-- <button id="application"
                                                                          class="btn btn-sm btn-red rounded-pill btn-icon btn-icon-start dropdown-toggle mb-0 me-0"
                                                                          data-bs-toggle="dropdown" aria-haspopup="true"
@@ -437,7 +436,7 @@
                                                                     <li class="post-comments"><i
                                                                             class="uil uil-comment"></i>댓글개수
                                                                     </li>
-                                                                    <c:if test="${dto.userId eq user}">
+                                                                    <c:if test="${dto.userId eq mateSenderId}">
 
                                                                         <button
                                                                                 id="edit" type="submit"
