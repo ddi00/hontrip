@@ -20,13 +20,12 @@ public class AlarmServiceImpl implements AlarmService {
 
     //동행인 매칭 알림 리스트 가져오기
     public List<MateMatchingAlarmDTO> getAllAlarmByUserId(long userId) {
-
-        return null;
+        return alarmDAO.getAllAlarmByUserId(userId);
     }
 
 
     //동행인 매칭 알림 삭제
     public int deleteByAlarmId(long alarmId) {
-        return 1;
+        return alarmDAO.deleteByAlarmId(alarmId);
     }
 }

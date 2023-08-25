@@ -1,5 +1,6 @@
 package com.multi.hontrip.mate.alarm;
 
+import com.multi.hontrip.common.RequiredSessionCheck;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,15 +49,19 @@ public class AlarmController {
     }
 
     //동행인 매칭 알림 리스트 가져오기
-    public String getAllAlarmByUserId(long userId, Model model) {
-
-        /* model.addAttribute("alarmDto", alarmDto);*/
-        return "/layout/user_header";
+    @GetMapping("/mate/alarm_list")
+    @RequiredSessionCheck
+    public String getAllAlarmByUserId(Model model, HttpSession session) {
+        long userId = (long) session.getAttribute("id");
+        List<MateMatchingAlarmDTO> alarmList = alarmService.getAllAlarmByUserId(userId);
+        model.addAttribute("alarmList", alarmList);
+        return "/mate/mate_application_alarm";
     }
 
 
     //동행인 매칭 알림 삭제
-    public void deleteByAlarmId(long alarmId) {
-
+    @GetMapping("/mate/delete_alarm")
+    public int deleteByAlarmId(long alarmId) {
+        return alarmService.deleteByAlarmId(alarmId);
     }
 }

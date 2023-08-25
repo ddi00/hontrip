@@ -27,6 +27,10 @@
     <script type="text/javascript" src="<c:url value="/resources/js/pagination.js"/>" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        /* $(document).ready(function () {
+             $('#alertDiv').hide();
+         });*/
+
         //이건 셀렉트원에서 -> 동행인신청버튼누르고 + 신청조건에 맞는사람일경우에 넣기
         let stompClient = null;
         $(document).ready(function () {
@@ -41,7 +45,7 @@
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function (frame) {
                 console.log(frame);
-                stompClient.subscribe('/sub/' + $('#mateLoginUserId').val(), function (result) {
+                stompClient.subscribe('/sub/' + <c:out value="${sessionScope.id}"/>, function (result) {
                     applyAlarm(JSON.parse(result.body));
                 })
             })
@@ -56,18 +60,11 @@
         }
 
         function applyAlarm(result) {
-            $('#alertDiv').show();
-            $('#alertSpan').text(result.senderNickname + "님이 동행을 신청했어요!");
+            alert(result.senderNickname + "님이 동행을 신청했어요!");
         }
     </script>
 </head>
 <body>
-<%--동행인 신청 알림창--%>
-<div class="alert alert-warning alert-icon alert-dismissible fade show" role="alert" id="alertDiv"
-     style="position: relative; z-index:4; width:25%;">
-    <i class="uil uil-bell"></i><span id="alertSpan"></span> <a href="#" class="alert-link hover"></a>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
 <div class="content-wrapper">
     <tiles:insertAttribute name="header"/>
     <tiles:insertAttribute name="body"/>
