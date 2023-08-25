@@ -1,100 +1,146 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.multi.hontrip.mate.dto.Region" %>
-<script type="text/javascript" src="../resources/js/jquery-3.7.0.js"></script>
-<script src="resources/js/sockjs-0.3.4.js"></script>
-<script src="resources/js/stomp.js"></script>
-<script>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <%@ page import="com.multi.hontrip.mate.dto.Region" %>
+            <script type="text/javascript" src="../resources/js/jquery-3.7.0.js"></script>
+            <link rel="stylesheet" type="text/css" href="../resources/css/styles.css">
+            <div class="container">
+                <div class="row justify-content-center">
+                        <div class="col-md-offset-2">
+                            <div class="text-left">
+                                <form name="mate_search" autocomplete="off">
+                                    <!-- 지역 선택 드롭다운 메뉴 -->
+                                    <select id="location" name="location" size="1">
+                                        <option selected value="">지역 선택</option>
+                                        <!-- 지역 목록을 순회하며 옵션 항목 생성 -->
+                                        <c:forEach items="${Region.values()}" var="location">
+                                            <option value="${location.regionNum}">${location.regionStr}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <!-- 검색 유형 선택 드롭다운 메뉴 -->
+                                    <select class="form-select" id="searchType" name="searchType">
+                                        <option value="title">제목</option>
+                                        <option value="content">내용</option>
+                                        <option value="title_content">제목+내용</option>
+                                        <option value="nickname">작성자</option>
+                                    </select>
+                                    <!-- 검색어 입력 필드 -->
+                                    <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Text Input">
+                                    <!-- 검색 버튼 -->
+                                    <div class="offset-md-11 text-right">
+                                    <button id="searchBtn" class="btn btn-outline-gradient gradient-3 rounded-pill btn-lg px-8">검색</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
 
-
-    <%--let stompClient = null;--%>
-    <%--$(document).ready(function () {--%>
-    <%--    if ($('mateLoginUserId') != "" && stompClient == null) {--%>
-    <%--        connectStomp()--%>
-    <%--    }--%>
-    <%--});--%>
-
-    <%--//웹소켓 연결 + 알림을 받기 위해 자신의 아이디를 구독--%>
-    <%--function connectStomp() {--%>
-    <%--    let socket = new SockJS('${pageContext.request.contextPath}/matews');--%>
-    <%--    stompClient = Stomp.over(socket);--%>
-    <%--    stompClient.connect({}, function (frame) {--%>
-    <%--        console.log(frame);--%>
-    <%--        stompClient.subscribe('/sub/' + $('#mateLoginUserId').val(), function (result) {--%>
-    <%--            applyAlarm(JSON.parse(result.body));--%>
-    <%--        })--%>
-    <%--    })--%>
-    <%--}--%>
-
-    /*function applyAlarm(result) {
-        /!*let response = document.getElementById('alarmResult');
-        let p = document.createElement('p');
-        p.innerHTML = "senderId :" + result.senderId + ", message: " + result.content;
-        response.appendChild(p);*!/
-        $('#alertSpan').text("senderId :" + result.senderId + ", message: " + result.content);
-    }*/
-
-</script>
-<div>
-    <select id="location" name="location" size="1">
-        <option selected value="">지역 선택</option>
-        <c:forEach items="${Region.values()}" var="location">
-            <option value="${location.regionNum}"> ${location.regionStr} </option>
-        </c:forEach>
-    </select>
-</div>
-<div>
-    <form name="mate_search" autocomplete="off">
-        </select>
-        <select id="searchType" name="searchType">
-            <option value="title">제목</option>
-            <option value="content">내용</option>
-            <option value="title_content">제목+내용</option>
-            <option value="nickname">작성자</option>
-        </select>
-        <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력해주세요"></input>
-        <button id="searchBtn" class="btn btn-primary mr-2">검색</button>
-    </form>
-</div>
-<table class="table table-borderless">
-    <tr>
-        <td>이미지</td>
-        <td>제목</td>
-        <td>글쓴이</td>
-        <td>모집 희망 나이대</td>
-        <td>여행 시작일</td>
-        <td>여행 종료일</td>
-    </tr>
-    <tbody id=list-area>
-    <c:forEach items="${list}" var="one">
-        <tr>
-            <td><img src="${one.thumbnail}"></td>
-            <td><a href="../mate/${one.mateBoardId}">${one.title}</a></td>
-            <td>${one.nickname}</td>
-            <td>${one.ageRange}</td>
-            <td>${one.startDate}</td>
-            <td>${one.endDate}</td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
-<hr color="blue">
-<div class="paging">
-    <button class="pageBtn prevBtn" data-page="${pageDTO.firstPageNoOnPageList - 1}"><</button>
-
-    <c:set var="startPage" value="${pageDTO.firstPageNoOnPageList}"/>
-    <c:set var="endPage" value="${pageDTO.lastPageNoOnPageList}"/>
-
-    <c:forEach var="num" begin="${startPage}" end="${endPage}">
-        <c:choose>
-            <c:when test="${num == pageDTO.page}">
-                <button class="pageBtn active" data-page="${num}">${num}</button>
-            </c:when>
-            <c:otherwise>
-                <button class="pageBtn" data-page="${num}">${num}</button>
-            </c:otherwise>
-        </c:choose>
-    </c:forEach>
-
-    <button class="pageBtn nextBtn" data-page="${pageDTO.lastPageNoOnPageList + 1}">></button>
-</div>
+                    </div>
+                     <div class="offset-md-11 text-right">
+                                                <!-- 추가적인 내용이 있다면 여기에 작성할 수 있습니다. -->
+                                                <a href="../mate/insert"><span class="underline-3 style-1 yellow">게시물 작성하기</span></a><br>
+                                            </div>
+                    <section class="wrapper bg-light">
+                        <div class="container py-14 py-md-16">
+                            <div class="row gx-lg-8 gx-xl-12">
+                                <div class="col-lg-12">
+                                    <div class="blog grid grid-view">
+                                        <div class="row isotope gx-md-8 gy-8 mb-8"
+                                            style="display: flex; flex-wrap: wrap;">
+                                            <c:forEach items="${list}" var="one" varStatus="loop">
+                                                <div class="col-md-6 col-lg-4">
+                                                    <article class="item post">
+                                                        <div class="card">
+                                                            <figure class="card-img-top overlay overlay-1 hover-scale">
+                                                                <a href="../mate/${one.mateBoardId}">
+                                                                    <img
+                                                                        src="<c:url value='/resources/img/mateImg/${one.thumbnail}'/>">
+                                                                    <span class="bg"></span>
+                                                                </a>
+                                                                <figcaption>
+                                                                    <h5 class="from-top mb-0">Read More</h5>
+                                                                </figcaption>
+                                                            </figure>
+                                                            <div class="card-body">
+                                                                <div class="post-header">
+                                                                    <div class="post-category text-line">
+                                                                        <a href="#" class="hover"
+                                                                            rel="category">${one.nickname}</a>
+                                                                    </div>
+                                                                    <h2 class="post-title h3 mt-1 mb-3">
+                                                                        <a class="link-dark"
+                                                                            href="../mate/${one.mateBoardId}">${one.title}</a>
+                                                                    </h2>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-footer">
+                                                            <ul class="post-meta d-flex mb-0">
+                                                                <li class="post-date"><i
+                                                                        class="uil uil-calendar-alt"></i><span>${one.startDate}
+                                                                    </span></li>
+                                                                <li class="post-date"><i
+                                                                        class="uil uil-calendar-alt"></i><span>${one.endDate}</span>
+                                                                </li>
+                                                                <li class="post-comments"><a href="#"><i
+                                                                            class="uil uil-comment"></i>3</a></li>
+                                                                <li class="post-likes ms-auto"><a href="#"><i
+                                                                            class="uil uil-heart-alt"></i>3</a></li>
+                                                            </ul>
+                                                            <!-- /.post-meta -->
+                                                        </div>
+                                                    </article>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <nav class="d-flex" aria-label="pagination">
+                                    <ul class="pagination">
+                                        <c:set var="startPage" value="${pageDTO.firstPageNoOnPageList}" />
+                                        <c:set var="endPage" value="${pageDTO.lastPageNoOnPageList}" />
+                                        <li class="page-item disabled">
+                                            <button class="page-link pageBtn prevBtn"
+                                                data-page="${pageDTO.firstPageNoOnPageList - 1}"><i
+                                                    class="uil uil-arrow-left"></i></button>
+                                        </li>
+                                        <c:forEach var="num" begin="${startPage}" end="${endPage}">
+                                            <c:choose>
+                                                <c:when test="${num == pageDTO.page}">
+                                                    <li class="page-item active">
+                                                        <button class="page-link pageBtn active"
+                                                            data-page="${num}">${num}</button>
+                                                    </li>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <li class="page-item">
+                                                        <button class="page-link pageBtn"
+                                                            data-page="${num}">${num}</button>
+                                                    </li>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                        <c:choose>
+                                            <c:when test="${pageDTO.pages > pageDTO.lastPageNoOnPageList}">
+                                                <li class="page-item">
+                                                    <button class="page-link pageBtn nextBtn"
+                                                        data-page="${pageDTO.lastPageNoOnPageList + 1}">
+                                                        <i class="uil uil-arrow-right"></i>
+                                                    </button>
+                                                </li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li class="page-item disabled">
+                                                    <button class="page-link pageBtn nextBtn"
+                                                        data-page="${pageDTO.lastPageNoOnPageList + 1}">
+                                                        <i class="uil uil-arrow-right"></i>
+                                                </li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </ul>
+                                    <!-- /.pagination -->
+                                </nav>
+                            </div>
+                        </div>
+                </div>
+                </section>
+            </div>

@@ -7,10 +7,12 @@
 마커클릭한 내 게시물 해당지역 리스트
 <hr color="red">
     <c:forEach items="${mylist}" var="createPostDTO">
+      <div id ="mylistone">
+        <img src="<c:url value='/${createPostDTO.thumbnail}'/>"width="300" height="180"><br>,
         유저정보 : ${createPostDTO.userId},
         지역id : ${createPostDTO.locationId},
-        썸네일 : ${createPostDTO.thumbnail},
         글제목 : ${createPostDTO.title},
         공개여부: ${createPostDTO.isVisible} <br>
+      </div>
     </c:forEach>
 

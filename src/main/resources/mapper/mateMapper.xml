@@ -76,7 +76,7 @@
     </insert>
 
 
-    <select id="list" resultType="mateBoardListDTO">
+    <select id="list" resultType="mateBoardListDTO" parameterType="map">
         SELECT
         mb.id AS mateBoardId,
         u.nickname AS nickname,
@@ -169,11 +169,11 @@
 		mc.user_id AS userId,
 		mc.content,
 		mc.comment_sequence AS commentSequence,
-		mc.comments_sequence AS commentsSequence,
 		mc.indentation_number AS indentationNumber,
 		mc.created_at AS createdAt,
 		mc.updated_at AS updatedAt,
-		u.nickname As nickname
+		u.nickname As nickname,
+		u.profile_image AS profileImage
 		FROM mate_comment mc
 		JOIN user u ON mc.user_id = u.id
 		WHERE mate_board_id = #{mateBoardId}
@@ -181,14 +181,14 @@
 	</select>
 	<insert id="commentInsert" parameterType="mateCommentDTO">
 		INSERT INTO mate_comment
-		(mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number)
-		VALUES (#{mateBoardId}, #{userId}, #{content}, 0, 0, 0);
+		(mate_board_id, user_id, content, comment_sequence, indentation_number)
+		VALUES (#{mateBoardId}, #{userId}, #{content}, 0, 0);
 	</insert>
 
 	<insert id="replyInsert" parameterType="mateCommentDTO">
 		INSERT INTO mate_comment
-		(mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number)
-		VALUES (#{mateBoardId}, #{userId}, #{content}, #{commentSequence}, 0, #{indentationNumber});
+		(mate_board_id, user_id, content, comment_sequence, indentation_number)
+		VALUES (#{mateBoardId}, #{userId}, #{content}, #{commentSequence}, #{indentationNumber});
 	</insert>
 
 	<insert id="commentDelete" parameterType="mateCommentDTO">

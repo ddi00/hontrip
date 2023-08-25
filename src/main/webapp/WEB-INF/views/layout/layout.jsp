@@ -1,14 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-    //*세션에서 유저아이디 불러옴 -> 없으면 no 있으면 유저아이디*//*
-    if (session.getAttribute("id") != null) {
-        long userId = (long) session.getAttribute("id");
-        request.setAttribute("user", userId);
-    }
-%>
-<input hidden id="mateLoginUserId" value="${user}">
 <html>
 <head>
     <title><tiles:getAsString name="title"/></title>
@@ -21,6 +13,9 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/plan.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/user.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/chat.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/record.css"/>">
+
+
     <script type="text/javascript" src="<c:url value="/resources/assets/js/plugins.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/assets/js/theme.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.7.0.js"/>" defer></script>

@@ -8,6 +8,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<script type="text/javascript" src="../resources/js/jquery-3.7.0.js"></script>
+<input hidden id="userId" name="userId" value="<c:out value="${sessionScope.id}"/>">
+<input hidden id="nickName" name="nickName" value="<c:out value="${sessionScope.username}" />">
+<input hidden id="profileImage" name="profileImage" value="<c:out value="${sessionScope.profileImage}" />">
+
+
+
 <%
     //*세션에서 유저아이디 불러옴 -> 없으면 no 있으면 유저아이디*//*
     if (session.getAttribute("id") != null) {
@@ -53,29 +60,6 @@
     }
 %>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="resources/js/sockjs-0.3.4.js"></script>
-<script src="resources/js/stomp.js"></script>
-<script>
-    console.log($('#mateLoginUserId').val())
-    let stompClient = null;
-    $(document).ready(function () {
-        console.log('gg')
-        connectStomp()
-    });
-
-    //웹소켓 연결 + 알림을 받기 위해 자신의 아이디를 구독
-    function connectStomp() {
-        let socket = new SockJS('${pageContext.request.contextPath}/matews');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, function (frame) {
-            console.log(frame);
-            stompClient.subscribe('/sub/1', function (result) {
-                applyAlarm(JSON.parse(result.body));
-            })
-        })
-    }
-</script>
 <div class="content-wrapper">
     <header class="wrapper bg-soft-primary">
         <nav class="navbar navbar-expand-lg center-nav transparent navbar-light">
@@ -311,7 +295,7 @@
 
 
                                             <input hidden name="id" value=${dto.id}>
-                                            <input hidden id="userId" name="userId" value=${dto.userId}>
+                                            <input hidden id="writerId" name="userId" value=${dto.userId}>
                                             <input hidden name="title" value="${dto.title}">
                                             <input hidden name="content" value="${dto.content}">
                                             <input hidden name="thumbnail" value="${dto.thumbnail}">
@@ -492,43 +476,6 @@
                                                         </figure>
                                                         <div>
                                                             <h6 class="comment-author"><a href="#"
-                                                                                          class="link-dark">Connor
-                                                                Gibson</a></h6>
-                                                            <ul class="post-meta">
-                                                                <li><i class="uil uil-calendar-alt"></i>14 Jan 2022
-                                                                </li>
-                                                            </ul>
-                                                            <!-- /.post-meta -->
-                                                        </div>
-                                                        <!-- /div -->
-                                                    </div>
-                                                    <!-- /div -->
-                                                    <div class="mt-3 mt-md-0 ms-auto">
-                                                        <a href="#"
-                                                           class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                                                class="uil uil-comments"></i> Reply</a>
-                                                    </div>
-                                                    <!-- /div -->
-                                                </div>
-                                                <!-- /.comment-header -->
-                                                <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam
-                                                    venenatis
-                                                    vestibulum. Duis mollis, est non commodo luctus, nisi erat
-                                                    porttitor
-                                                    ligula, eget lacinia odio sem nec elit. Sed posuere consectetur
-                                                    est
-                                                    at
-                                                    lobortis integer posuere erat ante.</p>
-                                            </li>
-                                            <li class="comment">
-                                                <div class="comment-header d-md-flex align-items-center">
-                                                    <div class="d-flex align-items-center">
-                                                        <figure class="user-avatar"><img class="rounded-circle"
-                                                                                         alt=""
-                                                                                         src=""/>
-                                                        </figure>
-                                                        <div>
-                                                            <h6 class="comment-author"><a href="#"
                                                                                           class="link-dark">Nikolas
                                                                 Brooten</a></h6>
                                                             <ul class="post-meta">
@@ -638,41 +585,7 @@
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li class="comment">
-                                                <div class="comment-header d-md-flex align-items-center">
-                                                    <div class="d-flex align-items-center">
-                                                        <figure class="user-avatar"><img class="rounded-circle"
-                                                                                         alt=""
-                                                                                         src=""/>
-                                                        </figure>
-                                                        <div>
-                                                            <h6 class="comment-author"><a href="#"
-                                                                                          class="link-dark">Lou
-                                                                Bloxham</a></h6>
-                                                            <ul class="post-meta">
-                                                                <li><i class="uil uil-calendar-alt"></i>3 May 2022
-                                                                </li>
-                                                            </ul>
-                                                            <!-- /.post-meta -->
-                                                        </div>
-                                                        <!-- /div -->
-                                                    </div>
-                                                    <!-- /div -->
-                                                    <div class="mt-3 mt-md-0 ms-auto">
-                                                        <a href="#"
-                                                           class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                                                class="uil uil-comments"></i> Reply</a>
-                                                    </div>
-                                                    <!-- /div -->
-                                                </div>
-                                                <!-- /.comment-header -->
-                                                <p>Sed posuere consectetur est at lobortis. Vestibulum id ligula
-                                                    porta
-                                                    felis
-                                                    euismod semper. Cum sociis natoque penatibus et magnis dis
-                                                    parturient
-                                                    montes, nascetur ridiculus mus.</p>
-                                            </li>
+
                                         </ol>
                                     </div>
                                     <!-- /#comments -->
@@ -688,7 +601,7 @@
                                     댓글 수
                                     <div id="count"></div>
                                     <br>
-                                    <div id="result" style="background: skyblue;">
+                                    <div id="result">
                                         <c:choose>
                                             <c:when test="${list.isEmpty()}">
                                                 <h6>등록된 댓글이 없습니다.</h6>
@@ -696,15 +609,38 @@
                                             <c:otherwise>
                                                 <c:forEach items="${list}" var="commentList">
                                                     <c:if test="${commentList.commentSequence eq '0'}">
-                                                        <tr id="comment_tr${commentList.commentId}">
-                                                            <td>
+                                                        <tr id="comment_tr${commentList.commentId}"><td>
+                                               <li class="comment">
+                                               <div class="comment-header d-md-flex align-items-center">
+                                                   <div class="d-flex align-items-center">
+                                                       <figure class="user-avatar"><img class="rounded-circle"alt=""src="${commentList.profileImage}"/>
+                                                       </figure>
+                                                       <div>
+                                                           <h6 class="comment-author"><a href="#"class="link-dark">${commentList.nickname}</a></h6>
+                                                           <ul class="post-meta">
+                                                               <li><i class="uil uil-calendar-alt"></i>${commentList.createdAt}</li>
+                                                           </ul>
+                                                           <!-- /.post-meta -->
+                                                       </div>
+                                                       <!-- /div -->
+                                                   </div>
+                                                   <!-- /div -->
+                                                   <div class="mt-3 mt-md-0 ms-auto">
+                                                       <a href="#"
+                                                          class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
+                                                               class="uil uil-comments"></i> 답글달기</a>
+                                                   </div>
+                                                   <!-- /div -->
+                                               </div>
+                                               <!-- /.comment-header -->
+                                               <p>${commentList.content}</p>
                                                                 댓글 작성자 : ${commentList.nickname}, 댓글 내용
                                                                 : ${commentList.content}, 작성날짜
                                                                 : ${commentList.createdAt}
                                                                 <a href="javascript:void(0);"
                                                                    onclick="showCcmtTextarea(${commentList.commentId})">답글
                                                                     달기</a>
-                                                                <c:if test="${commentList.nickname eq 'Alice'}">
+                                                                <c:if test="${commentList.nickname eq nickName}">
                                                                     <a href="javascript:void(0);"
                                                                        onclick="showUpdateTextarea(${commentList.commentId})">수정</a>
                                                                     <button type="button" class="commentDelete"
@@ -717,7 +653,7 @@
                                                                     <c:if test="${commentList.commentId eq reComment.indentationNumber}">
                                                                         <br>
                                                                         --> 댓글 작성자 : ${reComment.nickname}, 댓글 내용 : ${reComment.content}, 작성날짜 : ${reComment.createdAt}
-                                                                        <c:if test="${reComment.nickname eq 'Alice'}">
+                                                                        <c:if test="${reComment.nickname eq nickName}">
                                                                             <a href="javascript:void(0);"
                                                                                onclick="showUpdateTextarea(${reComment.commentId})">수정</a>
                                                                             <button type="button" class="commentDelete"

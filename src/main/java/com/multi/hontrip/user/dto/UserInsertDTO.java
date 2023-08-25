@@ -25,8 +25,9 @@ public class UserInsertDTO {  //DB에 입력할 소셜 인증 사용자 정보
     private String refreshToken;    //리프레시토큰
     private LocalDateTime refreshTokenExpiresAt;    //리프레시토큰 만료일자
     private LocalDateTime createdAt;    //생성일자
+    private String state;   //요청 상태정보 null이거나 re-access거나
 
-    public static UserDTO convertToInsertUserDTO(UserInsertDTO userInsertDTO,String logOutUrl) { //user DB 입력 정보를 UserDTO에 넣기
+    public static UserDTO convertToInsertUserDTO(UserInsertDTO userInsertDTO) { //user DB 입력 정보를 UserDTO에 넣기
         String ageRange= AgeRange.getDescriptionFromId(userInsertDTO.getAgeRangeId());
         String gender = Gender.getDescriptionFromId(userInsertDTO.getGender());
         return UserDTO.builder()
@@ -36,6 +37,7 @@ public class UserInsertDTO {  //DB에 입력할 소셜 인증 사용자 정보
                 .ageRange(ageRange)
                 .gender(gender)
                 .email(userInsertDTO.getEmail())
+                .state(userInsertDTO.getState())
                 .build();
     }
 }

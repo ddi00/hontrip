@@ -120,6 +120,14 @@
 		ORDER BY rb.id DESC;
 	</select>
 
+	<!-- 내 게시물 드롭다운 선택한 지역 리스트 가져오기 -->
+	<select id="listmylocation3" resultType="createPostDTO" parameterType="java.util.Map">
+		SELECT title, thumbnail, user_id, is_visible, location_id
+		FROM record_board
+		WHERE user_id = #{userId} AND location_id = #{locationId}
+		ORDER BY id DESC;
+	</select>
+
 	<!-- 공유피드 전체 리스트 가져오기 -->
 	<select id="feedlist" resultType="postInfoDTO">
 		SELECT
