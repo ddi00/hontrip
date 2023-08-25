@@ -1,22 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <script type="text/javascript" src="../resources/js/jquery-3.7.0.js" ></script>
-
-</head>
-<body>
-
 <div id="map-container">
   <div id="map"></div>
 </div>
-
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${appkey}"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${appkey}&autoload=true"></script>
 <script>
 
 var mapContainer = document.getElementById('map'),
@@ -180,6 +168,3 @@ $(document).ready(function() {
 
 <!-- 드롭다운 선택 시 해당 지역 게시물 표시 부분 -->
 <div id="list-mylocation-result3" ></div>
-
-</body>
-</html>

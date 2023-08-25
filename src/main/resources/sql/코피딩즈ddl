@@ -1,4 +1,37 @@
+drop database hontrip;
+
+create database hontrip;
+
+use hontrip;
+
+select *from user;
 -- hontrip.accommodation definition
+CREATE TABLE `age_range` (
+  `id` int NOT NULL,
+  `range_description` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- hontrip.`user` definition
+
+CREATE TABLE `user` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `provider` varchar(20) NOT NULL,
+  `social_id` varchar(255) NOT NULL,
+  `nickname` varchar(255) DEFAULT NULL,
+  `profile_image` varchar(1000) DEFAULT NULL,
+  `gender` tinyint DEFAULT NULL,
+  `age_range_id` int DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `access_token` varchar(255) DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `refresh_token` varchar(255) DEFAULT NULL,
+  `refresh_token_expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `age_range_id` (`age_range_id`),
+  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`age_range_id`) REFERENCES `age_range` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `accommodation` (
   `accommodation_id` bigint NOT NULL AUTO_INCREMENT,
@@ -21,11 +54,7 @@ CREATE TABLE `accommodation` (
 
 -- hontrip.age_range definition
 
-CREATE TABLE `age_range` (
-  `id` int NOT NULL,
-  `range_description` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 
 -- hontrip.emergency_facility definition
@@ -103,29 +132,6 @@ CREATE TABLE `spot` (
   UNIQUE KEY `unique_name` (`content_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
--- hontrip.`user` definition
-
-CREATE TABLE `user` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `provider` varchar(20) NOT NULL,
-  `social_id` varchar(255) NOT NULL,
-  `nickname` varchar(255) DEFAULT NULL,
-  `profile_image` varchar(1000) DEFAULT NULL,
-  `gender` tinyint DEFAULT NULL,
-  `age_range_id` int DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `access_token` varchar(255) DEFAULT NULL,
-  `expires_at` timestamp NULL DEFAULT NULL,
-  `refresh_token` varchar(255) DEFAULT NULL,
-  `refresh_token_expires_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `age_range_id` (`age_range_id`),
-  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`age_range_id`) REFERENCES `age_range` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-
 -- hontrip.mate_board definition
 
 CREATE TABLE `mate_board` (
@@ -172,14 +178,13 @@ CREATE TABLE `mate_comment` (
   `user_id` bigint NOT NULL COMMENT '댓글 작성자 아이디',
   `content` varchar(255) NOT NULL COMMENT '내용',
   `comment_sequence` int NOT NULL COMMENT '댓글순서',
-  `comments_sequence` int NOT NULL DEFAULT '0' COMMENT '대댓글순서',
   `indentation_number` int NOT NULL DEFAULT '0' COMMENT '들여쓰기횟수',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성 일자',
   `updated_at` timestamp NULL DEFAULT NULL COMMENT '수정일자',
   PRIMARY KEY (`id`),
   KEY `mate_board_id` (`mate_board_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `mate_comment_ibfk_1` FOREIGN KEY (`mate_board_id`) REFERENCES `mate_board` (`id`),
+  CONSTRAINT fk_mate_comment_mate_board FOREIGN KEY (mate_board_id) REFERENCES mate_board(id) ON DELETE CASCADE,
   CONSTRAINT `mate_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -196,8 +201,8 @@ CREATE TABLE `mate_matching_alarm` (
   PRIMARY KEY (`id`),
   KEY `mate_board_id` (`mate_board_id`),
   KEY `sender_id` (`sender_id`),
-  CONSTRAINT `mate_matching_alarm_ibfk_1` FOREIGN KEY (`mate_board_id`) REFERENCES `mate_board` (`id`),
-  CONSTRAINT `mate_matching_alarm_ibfk_2` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`)
+  CONSTRAINT mate_matching_alarm_ibfk_1 FOREIGN KEY (mate_board_id) REFERENCES hontrip.mate_board(id) ON DELETE CASCADE,
+  CONSTRAINT mate_matching_alarm_ibfk_2 FOREIGN KEY (sender_id) REFERENCES hontrip.`user`(id) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -248,7 +253,6 @@ CREATE TABLE `record_comment` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `comment_sequence` int DEFAULT NULL,
-  `comments_sequence` int DEFAULT NULL,
   `indentation_number` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `record_id` (`record_id`),
