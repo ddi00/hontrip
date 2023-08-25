@@ -1,5 +1,3 @@
-//동행인 신청 알림창 숨기기 -> 신청 버튼을 클린 한 후 보여주기 show()
-
 if (window.location.href.includes('/mate/insert')) {
 
     //인서트창으로 돌아오지 못하게 막음
