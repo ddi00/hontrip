@@ -1,7 +1,6 @@
 package com.multi.hontrip.mate.alarm;
 
 import com.multi.hontrip.mate.dao.AlarmDAO;
-import com.multi.hontrip.mate.service.AlarmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

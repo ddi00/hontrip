@@ -1,6 +1,4 @@
-package com.multi.hontrip.mate.service;
-
-import com.multi.hontrip.mate.alarm.MateMatchingAlarmDTO;
+package com.multi.hontrip.mate.alarm;
 
 import java.util.List;
 
