@@ -1,5 +1,6 @@
 package com.multi.hontrip.mate.dao;
 
+import com.multi.hontrip.mate.alarm.MateMatchingAlarmDTO;
 import com.multi.hontrip.mate.dto.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,13 +59,7 @@ public class MateDAO {
         return my.selectOne("mateBbs.findUserGenderAgeById", id);
     }
 
-    public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
-        return my.insert("mateBbs.insertMateMatchingAlarm", mateMatchingAlarmDTO);
-    }
-
     public int checkApply(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
-        int num = my.selectOne("mateBbs.checkApply", mateMatchingAlarmDTO);
-        System.out.println(num);
         return my.selectOne("mateBbs.checkApply", mateMatchingAlarmDTO);
     }
 

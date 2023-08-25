@@ -1,5 +1,6 @@
 package com.multi.hontrip.mate.service;
 
+import com.multi.hontrip.mate.alarm.MateMatchingAlarmDTO;
 import com.multi.hontrip.mate.dao.MateCommentDAO;
 import com.multi.hontrip.mate.dao.MateDAO;
 import com.multi.hontrip.mate.dto.*;
@@ -82,7 +83,6 @@ public class MateServiceImpl implements MateService {
         String savedFileName = file.getOriginalFilename();
         mateBoardInsertDTO.setThumbnail(savedFileName);
         String uploadPath = servletContext.getRealPath("/") + relativePath + savedFileName;
-        System.out.println("업로드 경로:" + uploadPath);
         File target = new File(uploadPath);
         try {
             file.transferTo(target);
@@ -145,11 +145,6 @@ public class MateServiceImpl implements MateService {
         return mateDAO.findUserGenderAgeById(id);
     }
 
-    //동행 신청 메세지 전송하기
-    @Override
-    public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
-        return mateDAO.insertMatchingAlarm(mateMatchingAlarmDTO);
-    }
 
     //유저가 동행인 신청을 했는지 확인
     @Override

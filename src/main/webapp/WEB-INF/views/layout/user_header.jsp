@@ -15,13 +15,13 @@
                             aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body ms-lg-auto d-flex flex-column h-100">
-                   <ul class="navbar-nav">
-                       <li class="nav-item"><a class="nav-link" href="#">메뉴1</a></li>
-                       <li class="nav-item"><a class="nav-link" href="/hontrip/record/mylist">기록</a></li>
-                       <li class="nav-item"><a class="nav-link" href="#">메뉴1</a></li>
-                       <li class="nav-item"><a class="nav-link" href="#">메뉴1</a></li>
-                       <li class="nav-item"><a class="nav-link" href="#">메뉴1</a></li>
-                   </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="#">메뉴1</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/hontrip/record/mylist">기록</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/hontrip/mate/bbs_list">동행인</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">메뉴1</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">메뉴1</a></li>
+                    </ul>
                     <!-- /.navbar-nav -->
                 </div>
                 <!-- /.offcanvas-body -->
