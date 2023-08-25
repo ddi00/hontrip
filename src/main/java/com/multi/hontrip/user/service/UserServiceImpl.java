@@ -97,6 +97,24 @@ public class UserServiceImpl implements UserService{   //사용자 회원처리
     }
 
     @Override
+    public UserInfoDTO refreshUserInfo(Long userId) {
+        UserSocialInfoDTO userSocialInfo = userDAO.getSocialInfoById(userId);  // 공급자 검색
+        UserInsertDTO userInsertDTO;
+        if(userSocialInfo.getProvider().equals("kakao")) {  // 카카오만 필수동의랑 선택동의가 나누어져 있음
+            userInsertDTO = kakaoService.refreshUserInfo(userSocialInfo);   // 탈퇴시키고 재가입 시키기 - 재가입 시킬 url을 반환
+        }else if(userSocialInfo.getProvider().equals("naver")){
+            userInsertDTO = naverService.refreshUserInfo(userSocialInfo);
+        }else {
+            throw new IllegalArgumentException("지원하지 않는 소셜 프로바이더 입니다");
+        }
+        //DB정보 저장
+        userInsertDTO.setId(userId);    //id 넣어서 해당 정보 update
+        userDAO.updateUserInfo(userInsertDTO);  // update
+
+        return UserInfoDTO.convertFromUserDTO(userInsertDTO);
+    }
+
+    @Override
     public String getUserLogOutUrl(Long id) {       // id로 공급자 검색해서 로그아웃 url 반환
         String provider = userDAO.getProviderById(id);  // 공급자 검색
         if(provider.equals("kakao")) {

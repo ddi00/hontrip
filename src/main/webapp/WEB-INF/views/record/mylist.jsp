@@ -81,42 +81,6 @@ function makeOutListener(infowindow) {
 
 </script>
 
-<!-- 검색어 입력창을 포함한 컨테이너 -->
-<div id="search-container">
-  <input type="text" id="city" placeholder="장소 검색어를 입력하세요">
-  <button id="searchButton">검색</button>
-</div>
-
-<!-- 검색어 입력시 ajax -->
-<script>
-$(document).ready(function() {
-  // 검색 버튼 클릭 이벤트 처리
-  $('#searchButton').click(function() {
-    // 초기화
-      $("#mylist-section").hide();
-      $("#list-mylocation-result").hide();
-      $("#list-mylocation-result3").hide();
-    var city = $('#city').val();
-     // 검색어가 비어있지 않을 경우에만 Ajax 요청
-    if (city !== '') {
-      // Ajax 요청
-      $.ajax({
-        type: 'GET',
-        url: "list-mylocation2",
-        data: { city: city },
-        success: function(response) {
-          // 결과를 결과창에 표시
-            $("#list-mylocation-result2").html(response).show(); // 결과를 표시하도록 변경
-        },
-        error: function() {
-          // 오류 처리
-          alert('검색한 자료가 없습니다.');
-        }
-      });
-    }
-  });
-});
-</script>
 
 <!-- 드롭다운 컨테이너 -->
   <select id="locationDropdown">
@@ -161,25 +125,56 @@ $(document).ready(function() {
 <a href="createpost"><button>게시글작성버튼</button></a><br>
 내 게시물 전체 리스트
 <hr color="red">
-    <c:forEach items="${mylist}" var="createPostDTO">
-        <div id = "mylistone">
-                    <img src="<c:url value='/${createPostDTO.thumbnail}'/>"width="300" height="180"><br>,
-                    유저정보 : ${createPostDTO.userId},
-                    지역id : ${createPostDTO.locationId},
-                    글제목 : ${createPostDTO.title},
-                    공개여부: ${createPostDTO.isVisible} <br>
-        </div>
+  <section id="snippet-1" class="wrapper bg-light wrapper-border">
+            <div class="container pt-15 pt-md-17 pb-13 pb-md-15">
+              <div class="swiper-container blog grid-view mb-6" data-margin="30" data-dots="true" data-items-xl="3"
+                data-items-md="2" data-items-xs="1">
+                <div class="swiper">
+                  <div class="swiper-wrapper">
+
+    <c:forEach items="${mylist}" var="postInfoDTO">
+
+                    <div class="swiper-slide">
+                      <article>
+                        <figure class="overlay overlay-1 hover-scale rounded mb-5"><a href="/hontrip/record/postinfo?id=${postInfoDTO.boardId}">
+                           <img src="<c:url value='/${postInfoDTO.thumbnail}'/>" alt="" style="width: 200px; height: 150px;" /></a>
+                          <figcaption>
+                            <h5 class="from-top mb-0">Read More</h5>
+                          </figcaption>
+                        </figure>
+                        <div class="post-header">
+                          <div class="post-category text-line">
+                            <a href="#" class="hover" rel="category">소분류</a>
+                          </div>
+                          <!-- /.post-category -->
+                          <h2 class="post-title h3 mt-1 mb-3"><a class="link-dark" href="../../blog-post.html">${postInfoDTO.title}
+                              </a></h2>
+                        </div>
+                        <!-- /.post-header -->
+                        <div class="post-footer">
+                          <ul class="post-meta">
+                            <li class="post-date"><i class="uil uil-calendar-alt"></i><span>14 Apr 2022</span></li>
+                            <li class="post-comments"><a href="#"><i class="uil uil-comment"></i>4</a></li>
+                          </ul>
+                        </div><!-- /.post-footer -->
+                      </article>
+                    </div>
+
     </c:forEach>
+            </div>
+          </div>
+       </div>
+     </div>
+  </section>
 </div>
 
 <!-- 마커 클릭 시 해당 지역 게시물 표시 부분 -->
 <div id="list-mylocation-result" ></div>
-
-<!-- 검색어 검색 시 해당 지역 게시물 표시 부분 -->
-<div id="list-mylocation-result2" ></div>
 
 <!-- 드롭다운 선택 시 해당 지역 게시물 표시 부분 -->
 <div id="list-mylocation-result3" ></div>
 
 </body>
 </html>
+
+

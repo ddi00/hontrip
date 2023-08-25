@@ -150,8 +150,20 @@ public class NaverService implements OauthService{
     }
 
     @Override
-    public String reAcceptTerms(UserSocialInfoDTO userSocialInfoDTO) {
+    public String reAcceptTerms(UserSocialInfoDTO userSocialInfoDTO) {  //인터페이스의 폐해.. 안씀
         return null;
+    }
+
+    @Override
+    public UserInsertDTO refreshUserInfo(UserSocialInfoDTO userSocialInfo) {  //사용자 정보 갱신
+        OauthTokenDTO tokenDTO = OauthTokenDTO.builder()
+                .tokenType("Bearer")
+                .accessToken(userSocialInfo.getAccessToken())
+                .build();
+        UserInsertDTO userInsertDTO = getUserInfoWithToken(tokenDTO);
+        userInsertDTO.setExpiresAt(userSocialInfo.getExpiresAt());
+        userInsertDTO.setRefreshTokenExpiresAt(userSocialInfo.getRefreshTokenExpiresAt());
+        return userInsertDTO;
     }
 
     private UserInsertDTO jsonConverToDTO(ResponseEntity<String> response,OauthTokenDTO tokenDTO) { // 입력받은 사용자 json정보를 파싱해서 dto에 넣음

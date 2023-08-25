@@ -11,11 +11,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section class="wrapper bg-gray">
     <div class="container pt-10 pb-14 pb-md-16">
-       <a href="mate/bbs_list?page=1">게시물 전체 목록</a>
+       <a href="mate/bbs_list">게시물 전체 목록</a>
         <br>
         동행인 매칭<br>
         <a href="mate/insert">동행인 매칭 게시글 작성</a><br>
-        <a href="mate/9">동행인 매칭 게시글 상세페이지</a><br>
+        <a href="mate/12">동행인 매칭 게시글 상세페이지</a><br>
         <a href="mate/chat-view">채팅</a><br>
         <br>
         <a href="plan/create">일정 생성</a><br>

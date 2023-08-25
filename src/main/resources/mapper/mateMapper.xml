@@ -70,12 +70,6 @@
         where id = #{id}
     </delete>
 
-    <insert id="insertMateMatchingAlarm" parameterType="mateMatchingAlarmDTO">
-        insert into mate_matching_alarm (mate_board_id, sender_id, content)
-        values (#{mateBoardId}, #{senderId}, #{content})
-    </insert>
-
-
     <select id="list" resultType="mateBoardListDTO" parameterType="map">
         SELECT
         mb.id AS mateBoardId,
@@ -169,11 +163,11 @@
 		mc.user_id AS userId,
 		mc.content,
 		mc.comment_sequence AS commentSequence,
-		mc.comments_sequence AS commentsSequence,
 		mc.indentation_number AS indentationNumber,
 		mc.created_at AS createdAt,
 		mc.updated_at AS updatedAt,
-		u.nickname As nickname
+		u.nickname As nickname,
+		u.profile_image AS profileImage
 		FROM mate_comment mc
 		JOIN user u ON mc.user_id = u.id
 		WHERE mate_board_id = #{mateBoardId}
@@ -181,18 +175,19 @@
 	</select>
 	<insert id="commentInsert" parameterType="mateCommentDTO">
 		INSERT INTO mate_comment
-		(mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number)
-		VALUES (#{mateBoardId}, #{userId}, #{content}, 0, 0, 0);
+		(mate_board_id, user_id, content, comment_sequence, indentation_number)
+		VALUES (#{mateBoardId}, #{userId}, #{content}, 0, 0);
 	</insert>
 
 	<insert id="replyInsert" parameterType="mateCommentDTO">
 		INSERT INTO mate_comment
-		(mate_board_id, user_id, content, comment_sequence, comments_sequence, indentation_number)
-		VALUES (#{mateBoardId}, #{userId}, #{content}, #{commentSequence}, 0, #{indentationNumber});
+		(mate_board_id, user_id, content, comment_sequence, indentation_number)
+		VALUES (#{mateBoardId}, #{userId}, #{content}, #{commentSequence}, #{indentationNumber});
 	</insert>
 
 	<insert id="commentDelete" parameterType="mateCommentDTO">
-		DELETE FROM mate_comment
+		DELETE
+		FROM mate_comment
 		WHERE id = #{commentId};
 	</insert>
 
@@ -201,6 +196,32 @@
 		SET content = #{content}
 		WHERE id = #{commentId};
 	</insert>
+
+	<!-- 알림 -->
+	<insert id="insertMateMatchingAlarm" parameterType="mateMatchingAlarmDTO">
+		insert into mate_matching_alarm (mate_board_id, sender_id, content)
+		values (#{mateBoardId}, #{senderId}, #{content})
+	</insert>
+
+	<select id="getAllAlarmByUserId" parameterType="long" resultType="mateMatchingAlarmDTO">
+		SELECT mma.id,
+			   mma.mate_board_id as mateBoardId,
+			   #{userId}         as receiverId,
+			   mma.sender_id     as senderId,
+			   u.nickname        as senderNickname,
+			   u.profile_image   as senderProfileImage,
+			   mma.content
+		FROM mate_matching_alarm mma
+				 JOIN `user` u ON u.id = mma.sender_id
+		WHERE mma.mate_board_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{userId})
+		order by mma.id desc;
+	</select>
+
+	<delete id="deleteByAlarmId" parameterType="long">
+		delete
+		from mate_matching_alarm
+		where id = #{alarmId}
+	</delete>
 
 </mapper>
 
