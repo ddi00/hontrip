@@ -11,7 +11,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section class="wrapper bg-gray">
     <div class="container pt-10 pb-14 pb-md-16">
-       <a href="mate/bbs_list?page=1">게시물 전체 목록</a>
+       <a href="mate/bbs_list">게시물 전체 목록</a>
         <br>
         동행인 매칭<br>
         <a href="mate/insert">동행인 매칭 게시글 작성</a><br>
