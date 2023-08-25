@@ -1,11 +1,13 @@
 package com.multi.hontrip.record.controller;
 
+import com.multi.hontrip.common.RequiredSessionCheck;
 import com.multi.hontrip.record.dto.CommentDTO;
 import com.multi.hontrip.record.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +21,8 @@ public class CommentController {
 
     @ResponseBody
     @GetMapping("create_comment") // 댓글 작성
-    public Map<String, Object> createComment(CommentDTO commentDTO) {
+    @RequiredSessionCheck
+    public Map<String, Object> createComment(CommentDTO commentDTO, HttpSession httpSession) {
         commentService.createCmt(commentDTO);
         List<CommentDTO> commentList = commentService.selectPostComment(commentDTO.getRecordId());
         List<CommentDTO> reCommentList = commentService.reCommentList(commentList); // 답글만 담겨있음
