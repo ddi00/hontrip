@@ -50,7 +50,7 @@
                                 <div class="comment-header d-md-flex align-items-center">
                                     <div class="d-flex align-items-center">
                                         <figure class="user-avatar"><img class="rounded-circle"
-                                                alt="" src="./assets/img/avatars/u2.jpg" /></figure>
+                                                alt="" src="\${commentList.profileImg}" /></figure>
                                         <div>
                                             <h6 class="comment-author"><a href="#"
                                                     class="link-dark">\${commentList.cmtUserNickName}</a>
@@ -108,7 +108,7 @@
                                             <div class="d-flex align-items-center">
                                                 <figure class="user-avatar"><img
                                                         class="rounded-circle" alt=""
-                                                        src="./assets/img/avatars/u3.jpg" />
+                                                        src="\${replyList.profileImg}" />
                                                 </figure>
                                                 <div>
                                                     <h6 class="comment-author"><a href="#"
@@ -161,23 +161,30 @@
 
         $(function() {
             $('#commentWrite').click(function() {
-                console.log("ajax 실행");
-                $.ajax({
-                    url: "create_comment",
-                    dataType: "json",
-                    data: {
-                        recordId: ${postInfoDTO.boardId},
-                        cmtContent: $('#cmtContent').val(),
-                        cmtWriterId: ${userId}
-                    },
-                    success: function(cmtListRe) {
-                        updateCommentSection(cmtListRe);
-                    },
-                    error: function() {
-                        alert("실패!");
-                    } // error
-                });
-            }); // commentWrite
+                    console.log("ajax 실행");
+                    var commentContent = $('#cmtContent').val().trim();
+                    if (commentContent === "") {
+                        alert("댓글을 입력해 주세요.");
+                        return;
+                    }
+
+                    $.ajax({
+                        url: "create_comment",
+                        dataType: "json",
+                        data: {
+                            recordId: ${postInfoDTO.boardId},
+                            cmtContent: commentContent,
+                            cmtWriterId: ${userId}
+                        },
+                        success: function(cmtListRe) {
+                            updateCommentSection(cmtListRe);
+                            $('#cmtContent').val(""); // 댓글 전송 후 입력칸 비우기
+                        },
+                        error: function() {
+                            alert("실패!");
+                        } // error
+                    });
+                }); // commentWrite
 
 
             $(document).on('click', '.commentDelete', function() {
@@ -289,6 +296,7 @@
                             data-nav="true" data-thumbs="true">
                             <div class="swiper">
                                 <div class="swiper-wrapper">
+
                                     <c:forEach items="${postImgList}" var="postImgDTO">
                                         <div class="swiper-slide">
                                             <figure class="rounded"><img src="<c:url value='/${postImgDTO.imgUrl}'/>"
@@ -298,6 +306,7 @@
                                                         class="uil uil-focus-add"></i></a></figure>
                                         </div>
                                     </c:forEach>
+
                                     <!--/.swiper-slide -->
                                 </div>
                                 <!--/.swiper-wrapper -->
@@ -330,7 +339,7 @@
                                                     <div class="comment-header d-md-flex align-items-center">
                                                         <div class="d-flex align-items-center">
                                                             <figure class="user-avatar"><img class="rounded-circle"
-                                                                    alt="" src="./assets/img/avatars/u2.jpg" /></figure>
+                                                                    alt="" src="${commentDTO.profileImg}" /></figure>
                                                             <div>
                                                                 <h6 class="comment-author"><a href="#"
                                                                         class="link-dark">${commentDTO.cmtUserNickName}</a>
@@ -393,7 +402,7 @@
                                                                         <div class="d-flex align-items-center">
                                                                             <figure class="user-avatar"><img
                                                                                     class="rounded-circle" alt=""
-                                                                                    src="./assets/img/avatars/u3.jpg" />
+                                                                                    src="${reComment.profileImg}" />
                                                                             </figure>
                                                                             <div>
                                                                                 <h6 class="comment-author"><a href="#"
