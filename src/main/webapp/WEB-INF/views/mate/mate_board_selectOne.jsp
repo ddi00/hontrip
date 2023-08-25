@@ -436,7 +436,6 @@
                                                                     <li class="post-comments"><i
                                                                             class="uil uil-comment"></i>댓글개수
                                                                     </li>
-                                                                    <c:if test="${dto.userId eq mateSenderId}">
                                                                     <c:if test="${dto.userId eq user}">
 
                                                                         <button
