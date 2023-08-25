@@ -15,13 +15,9 @@ public class PostInfoDTO {
     private String thumbnail;
     private String createdAt;
     private String updatedAt;
+    private String startDate;
+    private String endDate;
     private int isVisible;
     private int likeCount;
-    private String cmtUserNickName;
-    private String cmtContent;
-    private int cmtSequence;
-    private int indentationNum;
-    private String cmtCreatedAt;
-    private String cmtUpdatedAt;
     private long locationId;
 }
