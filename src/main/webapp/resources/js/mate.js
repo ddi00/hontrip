@@ -38,7 +38,7 @@ if (window.location.href.includes('/mate/insert')) {
             }
 
             const formData = new FormData();
-            formData.append("userId", $('#writerId').val())
+            formData.append("userId", $('#userId').val())
             formData.append("file", $('#imageInput')[0].files[0])
             formData.append("regionId", $("input[name='regionId']:checked").val())
             formData.append("ageRangeId", $('#ageRangeId').val())
@@ -62,6 +62,7 @@ if (window.location.href.includes('/mate/insert')) {
                     url: "insert",
                     data: formData,
                     success: function (boardId) {
+                        console.log(boardId)
                         location.href =
                             boardId
                     },
