@@ -1,17 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="planday">
-    <insert id="insert" parameterType="PlanDayDTO">
-        INSERT INTO plan_day (plan_id, day_date, day_summary)
-        VALUES (#{planId}, #{dayDate}, #{daySummary})
+<mapper namespace="planDay">
+    <insert id="insert" parameterType="hashmap">
+        INSERT INTO plan_day (plan_id, user_id, day_order)
+        SELECT #{planId}, #{userId}, #{dayOrder} FROM plan_day
+        WHERE NOT EXISTS (
+            SELECT plan_id, user_id, day_order FROM plan_day
+            WHERE plan_id = #{planId} AND user_id = #{userId} AND day_order = #{dayOrder}
+        )LIMIT 1
     </insert>
 
-    <select id="getByPlanId" parameterType="Long" resultType="PlanDayDTO">
-        SELECT id, plan_id, day_date, day_summary
+    <select id="getPlanDays" parameterType="hashmap" resultType="PlanDayDTO">
+        SELECT *
         FROM plan_day
-        WHERE plan_id = #{planId}
+        WHERE plan_id = #{planId} AND user_id = #{userId}
     </select>
+
+    <select id="getPlanWithDayOrder" parameterType="hashmap" resultType="PlanDayDTO">
+        SELECT *
+        FROM plan_day
+        WHERE plan_id = #{planId} and user_id = #{userId} and day_order = #{dayOrder}
+    </select>
+
+    <update id="updateSpot" parameterType="hashmap">
+        update plan_day
+        set spot_id = #{spotId}
+        where plan_id = #{planId} and user_id = #{userId} and day_order = #{dayOrder}
+    </update>
+
+    <update id="updateFlight" parameterType="hashmap">
+        update plan_day
+        set flight_id = #{flightId}
+        where plan_id = #{planId} and user_id = #{userId} and day_order = #{dayOrder}
+    </update>
+
+
     <!--<insert id="insert" parameterType="PlanDayDTO"
             useGeneratedKeys="true"
             keyProperty="id">

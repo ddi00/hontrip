@@ -5,7 +5,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class MateDAO {
@@ -13,8 +15,15 @@ public class MateDAO {
     SqlSessionTemplate my;
 
     public List<MateBoardListDTO> list(MatePageDTO pageDTO) {
+        Map<String,Object> param = new HashMap<>();
 
-        return my.selectList("mateBbs.list", pageDTO);
+        param.put("searchType",pageDTO.getSearchType());
+        param.put("keyword",pageDTO.getKeyword());
+        param.put("start",pageDTO.getStart());
+        param.put("end",pageDTO.getEnd());
+
+        System.out.println("end -> " + pageDTO.getEnd());
+        return my.selectList("mateBbs.list", param);
     }
 
     public MateBoardListDTO one(long mateBoardId) {

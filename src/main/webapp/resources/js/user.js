@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
   if (window.location.href.includes('/user/my-page')) {
     // 회원 정보 가져오기
@@ -16,3 +15,4 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
     }
   }
 });
+

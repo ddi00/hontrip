@@ -36,6 +36,7 @@
         <typeAlias type="com.multi.hontrip.user.dto.UserDTO" alias="userDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.user.dto.UserInsertDTO" alias="userInsertDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.user.dto.WithdrawUserDTO" alias="withdrawUserDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.user.dto.UserSocialInfoDTO" alias="userSocialInfoDTO"></typeAlias>
 
         <!--record-->
         <typeAlias type="com.multi.hontrip.record.dto.CreatePostDTO" alias="createPostDTO"></typeAlias>
@@ -50,6 +51,7 @@
         <typeHandler handler="com.multi.hontrip.mate.dto.RegionTypeHandler"/>
         <typeHandler handler="com.multi.hontrip.mate.dto.AgeRangeTypeHandler"/>
         <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.LocalDateTimeTypeHandler"/>
     </typeHandlers>
 
     <mappers>

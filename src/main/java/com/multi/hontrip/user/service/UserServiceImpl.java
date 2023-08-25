@@ -23,22 +23,19 @@ public class UserServiceImpl implements UserService{   //사용자 회원처리
     @Override
     public List<LoginUrlData> getUrls(){   //로그인 가능한 소셜ouath주소 리스트로 저장
         List<LoginUrlData> urlList = new ArrayList<>();
-        urlList.add(new LoginUrlData("kakao",kakaoService.getLoginUrl(),"/resources/img/user/kakao_login_medium_narrow.png"));    //카카오
+        urlList.add(new LoginUrlData("kakao",kakaoService.getLoginUrl()+"&state=none","/resources/img/user/kakao_login_medium_narrow.png"));    //카카오
         urlList.add(new LoginUrlData("naver",naverService.getLoginUrl(),"/resources/img/user/btnG_완성형.png"));   //네이버
         return urlList;
     }
 
     @Override
-    public UserDTO getUserInfoByAuth(HttpServletRequest request, String provider) throws Exception { //소셜 인증정보를 통해 DB저장
-        UserInsertDTO userInsertDTO =null;  //DB에 입력할 정보
-        String logOutUrl = null;
-        if(provider.equals("kakao")){   //카카오 인증인 경우
-            userInsertDTO=kakaoService.getOauthInfo(request.getParameter("code"),null);  //카카오 인증 받아오기
-        }else if(provider.equals("naver")){
-            userInsertDTO=naverService.getOauthInfo(request.getParameter("code"),request.getParameter("state"));
-        }
+    public UserDTO getUserInfoByAuth(HttpServletRequest request, String provider){ //소셜 인증정보를 통해 DB저장
+        String code = request.getParameter("code");
+        String state = request.getParameter("state");
 
-        // 기존 회원 판별
+        UserInsertDTO userInsertDTO = getUserInsertDTO(provider,code,state);
+
+        //소셜 로그인 기반으로 기존 회원 여부 판단
         Long userId = userDAO.findIdByProviderAndSocialID(userInsertDTO.getProvider(),userInsertDTO.getSocialId());
         if(userId==null){ //db 신규저장
            userInsertDTO = userDAO.saveUserInfo(userInsertDTO); //신규 회원 저장
@@ -46,7 +43,17 @@ public class UserServiceImpl implements UserService{   //사용자 회원처리
             userInsertDTO.setId(userId);    //id 넣어서 해당 정보 update
             userDAO.updateUserInfo(userInsertDTO);  // update
         }
-        return UserInsertDTO.convertToInsertUserDTO(userInsertDTO,logOutUrl); // 세션에 넣을 정보 저장
+        return UserInsertDTO.convertToInsertUserDTO(userInsertDTO); // 세션에 넣을 정보 저장
+    }
+
+    private UserInsertDTO getUserInsertDTO(String provider, String code, String state) {    // provider에 따른 인증정보 가져오기
+        if(provider.equals("kakao")){
+            return kakaoService.getOauthInfo(code,state);  //카카오 인증 받아오기
+        }else if(provider.equals("naver")){
+            return naverService.getOauthInfo(code,state);
+        }else {
+            throw new IllegalArgumentException("지원하지 않는 소셜 프로바이더 입니다");
+        }
     }
 
     @Override
@@ -77,17 +84,16 @@ public class UserServiceImpl implements UserService{   //사용자 회원처리
     @Override
     public UserInfoDTO getUserInfoBySessionId(Long userId) {    //세션아이디로 회원정보 가져오기
         UserInsertDTO userDTO = userDAO.getUserInfoBySessionId(userId);
-        String gender = Gender.getDescriptionFromId(userDTO.getGender());
-        String ageRange = AgeRange.getDescriptionFromId(userDTO.getAgeRangeId());   // TODO 디비로 조인했어야 했음
+        return UserInfoDTO.convertFromUserDTO(userDTO);
+    }
 
-        return UserInfoDTO.builder()
-                .provider(userDTO.getProvider())
-                .nickName(userDTO.getNickName())
-                .profileImage(userDTO.getProfileImage())
-                .email(userDTO.getEmail())
-                .gender(gender)
-                .ageRange(ageRange)
-                .build();
+    @Override
+    public String reAcceptTerms(Long userId) { // 재동의 받기
+        UserSocialInfoDTO userSocialInfo = userDAO.getSocialInfoById(userId);  // 공급자 검색
+        if(userSocialInfo.getProvider().equals("kakao")) {  // 카카오만 필수동의랑 선택동의가 나누어져 있음
+            return kakaoService.reAcceptTerms(userSocialInfo);   // 탈퇴시키고 재가입 시키기 - 재가입 시킬 url을 반환
+        }
+        return null;
     }
 
     @Override

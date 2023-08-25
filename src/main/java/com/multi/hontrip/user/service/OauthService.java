@@ -2,6 +2,7 @@ package com.multi.hontrip.user.service;
 
 import com.multi.hontrip.user.dto.OauthTokenDTO;
 import com.multi.hontrip.user.dto.UserInsertDTO;
+import com.multi.hontrip.user.dto.UserSocialInfoDTO;
 import com.multi.hontrip.user.dto.WithdrawUserDTO;
 
 public interface OauthService { // Oauth Service 처리
@@ -13,5 +14,7 @@ public interface OauthService { // Oauth Service 처리
 
     String getLogOutUrl();  // 로그아웃 url 가져오기
 
-    String quiteSicalOauth(WithdrawUserDTO withdrawUserDTO);
+    String quiteSicalOauth(WithdrawUserDTO withdrawUserDTO);    // 카카오-서비스 끊기
+
+    String reAcceptTerms(UserSocialInfoDTO userSocialInfoDTO); // 재동의 받기
 }
