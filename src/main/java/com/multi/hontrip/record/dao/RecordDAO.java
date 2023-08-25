@@ -42,25 +42,19 @@ public class RecordDAO {
         sqlSessionTemplate.delete("record.deletePost", id);
     }
 
-    public List<CreatePostDTO> getMyList(Long userId){ //내 게시물 전체 리스트 가져오기
+    public List<PostInfoDTO> getMyList(Long userId){ //내 게시물 전체 리스트 가져오기
         return sqlSessionTemplate.selectList("record.mylist", userId);
     }
 
-    public List<CreatePostDTO> getListMyLocation(Long locationId, int userId) {
+    public List<PostInfoDTO> getListMyLocation(Long locationId, Long userId) {
         Map<String, Object> params = new HashMap<>();
         params.put("locationId", locationId);
         params.put("userId", userId);
         return sqlSessionTemplate.selectList("record.listmylocation", params);
     }
 
-    public List<CreatePostDTO> getListMyLocation2(String city, int userId ) { // 내 게시물 검색한 지역 리스트 가져오기
-        Map<String, Object> params = new HashMap<>();
-        params.put("city", city);
-        params.put("userId", userId);
-        return sqlSessionTemplate.selectList("record.listmylocation2", params);
-    }
 
-    public List<CreatePostDTO> getListMyLocation3(Long locationId, int userId ) { // 내 게시물 검색한 지역 리스트 가져오기
+    public List<PostInfoDTO> getListMyLocation3(Long locationId, int userId ) { // 내 게시물 검색한 지역 리스트 가져오기
         Map<String, Object> params = new HashMap<>();
         params.put("locationId", locationId);
         params.put("userId", userId);
