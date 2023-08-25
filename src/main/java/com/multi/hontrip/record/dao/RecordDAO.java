@@ -53,12 +53,18 @@ public class RecordDAO {
         return sqlSessionTemplate.selectList("record.listmylocation", params);
     }
 
-
     public List<CreatePostDTO> getListMyLocation2(String city, int userId ) { // 내 게시물 검색한 지역 리스트 가져오기
         Map<String, Object> params = new HashMap<>();
         params.put("city", city);
         params.put("userId", userId);
         return sqlSessionTemplate.selectList("record.listmylocation2", params);
+    }
+
+    public List<CreatePostDTO> getListMyLocation3(Long locationId, int userId ) { // 내 게시물 검색한 지역 리스트 가져오기
+        Map<String, Object> params = new HashMap<>();
+        params.put("locationId", locationId);
+        params.put("userId", userId);
+        return sqlSessionTemplate.selectList("record.listmylocation3", params);
     }
 
     public List<PostInfoDTO> getFeedList(int isVisible){ //공유피드 전체 리스트 가져오기

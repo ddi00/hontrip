@@ -6,6 +6,9 @@ import com.multi.hontrip.record.service.CommentService;
 import com.multi.hontrip.record.service.LocationService;
 import com.multi.hontrip.record.service.RecordService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +24,14 @@ import java.util.List;
 @Controller
 @RequestMapping("record")
 @RequiredArgsConstructor
+@PropertySource("classpath:properties/record/appkey.properties")
 public class RecordContorller {
-
     private final RecordService recordService;
     private final CommentService commentService;
     private final LocationService locationService;
+
+    @Value("${map.appkey}")
+    private String MAP_KEY ; //카카오 인증 ID
 
     @GetMapping("createpost")// 게시물 작성폼에 위치 정보 가져오기
     @RequiredSessionCheck
@@ -83,12 +89,13 @@ public class RecordContorller {
     @GetMapping("mylist") // 내 게시물 전체 가져오기
     public String getMyList(Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("id");
-        System.out.println("User ID from Session: " + userId);
-
         List<CreatePostDTO> getMyList = recordService.getMyList(userId); //dto는 long, db는 int라 형변환 필요
         List<LocationDTO> getMyMap = recordService.getMyMap(userId); // 지도 정보 가져오기
+        List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
         model.addAttribute("mylist", getMyList);
         model.addAttribute("mymap", getMyMap);
+        model.addAttribute("locationList", locationList);
+        model.addAttribute("appkey",MAP_KEY);
         return "/record/mylist"; // 기존의 뷰 이름 반환
     }
 
@@ -96,8 +103,6 @@ public class RecordContorller {
     @GetMapping("list-mylocation") //  마커클릭시 내 게시물 해당지역 리스트 가져오기
     public void getListMyLocation(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("id");
-        System.out.println("User ID from Session: " + userId); //세션 확인 코드
-
         List<CreatePostDTO> getListMyLocation = recordService.getListMyLocation(locationId, userId.intValue());
         List<LocationDTO> getMyMap = recordService.getMyMap(userId);
         model.addAttribute("mylist", getListMyLocation); // mylist 모델에 데이터 추가
@@ -107,12 +112,20 @@ public class RecordContorller {
     @GetMapping("list-mylocation2") // 검색어입력시 내 게시물 해당지역 리스트 가져오기
     public void getListMyLocation2(@RequestParam("city") String city, Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("id");
-        //System.out.println("User ID from Session: " + userId); 세션 확인 코드
-
         List<CreatePostDTO> getListMyLocation2 = recordService.getListMyLocation2(city, userId.intValue());
         List<LocationDTO> getMyMap = recordService.getMyMap(userId);
         model.addAttribute("mylist", getListMyLocation2); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
+    }
+
+    @GetMapping("list-mylocation3") // 검색어입력시 내 게시물 해당지역 리스트 가져오기
+    public void getListMyLocation3(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("id");
+        List<CreatePostDTO> getListMyLocation3 = recordService.getListMyLocation3(locationId, userId.intValue());
+        List<LocationDTO> getMyMap = recordService.getMyMap(userId);
+        model.addAttribute("mylist", getListMyLocation3); // mylist 모델에 데이터 추가
+        model.addAttribute("mymap", getMyMap);
+
     }
 
     @GetMapping("feedlist") // 공유피드 리스트 가져오기

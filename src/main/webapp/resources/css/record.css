@@ -1,0 +1,13 @@
+#map-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* 상단 정렬을 위해 align-items 값을 변경 */
+}
+
+#map {
+  width: 80%;
+  height: 350px;
+}
+
+}
