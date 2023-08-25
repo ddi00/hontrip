@@ -7,6 +7,7 @@ import com.multi.hontrip.user.dto.UserInfoDTO;
 import com.multi.hontrip.user.dto.WithdrawUserDTO;
 import com.multi.hontrip.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -105,5 +106,16 @@ public class UserController {
     public RedirectView reacceptTerms(HttpSession session){// 재동의 - 카카오 싱크를 사용하지 않기 때문에 탈퇴시키고 가입 화면으로 보내야함
         Long userId = (Long)session.getAttribute("id");
         return new RedirectView(userService.reAcceptTerms(userId));
+    }
+    @GetMapping("refresh-userInfo")
+    @RequiredSessionCheck
+    public ResponseEntity<UserInfoDTO> refreshUserInfo(HttpSession session){
+        Long userId = (Long)session.getAttribute("id");
+        UserInfoDTO userInfoDTO = userService.refreshUserInfo(userId);
+        //세션 정보 갱신
+        session.setAttribute("nickName", userInfoDTO.getNickName());
+        session.setAttribute("profileImage", userInfoDTO.getProfileImage());
+
+        return ResponseEntity.ok(userInfoDTO);
     }
 }

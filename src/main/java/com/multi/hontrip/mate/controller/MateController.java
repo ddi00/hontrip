@@ -2,6 +2,8 @@ package com.multi.hontrip.mate.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.multi.hontrip.common.RequiredSessionCheck;
+import com.multi.hontrip.mate.alarm.MateMatchingAlarmDTO;
 import com.multi.hontrip.mate.dto.*;
 import com.multi.hontrip.mate.service.MateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,10 +125,8 @@ public class MateController {
 
     /* 동행인게시판 글 작성 get 매핑*/
     @GetMapping("/insert")
+    @RequiredSessionCheck
     public String insert(HttpSession session) {
-        if (session.getAttribute("id") == null) {
-            return "error";
-        }
         return "/mate/mate_board_insert";
     }
 
@@ -201,24 +201,6 @@ public class MateController {
         return "redirect:/mate/" + mateBoardInsertDTO.getId();
     }
 
-
-    //return값이 필요한 이유 -> ajax에서 불렀을때 리턴값이 없으면 404뜸
-    @PostMapping("insertMatchingAlarm")
-    @ResponseBody
-    public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
-
-        /*MateApplicationNotificationDTO mateApplicationNotificationDTO = MateApplicationNotificationDTO.builder()
-                .content("같이 여행갑시다!!")
-                .isRead(false)
-                .mateBoardURL("http://localhost:8080/hontrip/mate/262")
-                .senderId(4)
-                .receiverId(1)
-                .id(7)
-                .build();
-
-        notificationService.send(mateApplicationNotificationDTO);*/
-        return mateService.insertMatchingAlarm(mateMatchingAlarmDTO);
-    }
 
     /* 동행 신청자의 신청 여부를 확인*/
     @GetMapping("checkApply")
