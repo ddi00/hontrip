@@ -14,9 +14,7 @@
                         <li class="nav-item"><a class="nav-link" href="#">메뉴1</a></li>
                         <li class="nav-item"><a class="nav-link" href="/hontrip/record/mylist">기록</a></li>
                         <li class="nav-item"><a class="nav-link" href="/hontrip/mate/bbs_list">동행인</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">메뉴1</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">메뉴1</a></li>
-                    </ul>
+                      </ul>
                     <!-- /.navbar-nav -->
                 </div>
                 <!-- /.offcanvas-body -->
@@ -26,7 +24,7 @@
                 <ul class="navbar-nav flex-row align-items-center ms-auto">
                     <li class="nav-item dropdown language-select">
                         <c:if test="${empty sessionScope.id}"> <!-- 세션에 ID값이 없는 경우, 로그인 링크 출력 -->
-                            <a href="/hontrip/user/sign-in" class="vertical-center"><i class="uil uil-user-circle"><span class="kor-font-small">로그인</span></i></a>
+                            <a href="/hontrip/user/sign-in" class="vertical-center"><i class="uil uil-user-circle"><span class="kor-font main-color">로그인</span></i></a>
                         </c:if>
                         <c:if test="${not empty sessionScope.id}"> <!-- 세션에 ID값이 없는 경우, 로그인 링크 출력 -->
                             <a class="nav-link dropdown-item dropdown-toggle d-flex" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
