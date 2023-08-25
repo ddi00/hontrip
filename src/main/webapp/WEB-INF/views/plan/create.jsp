@@ -5,7 +5,7 @@
         <hr class="my-8"/>
         <form id="myForm" action="insert" method="post">
             <div class="mb-3">
-                <label for="title" class="form-label">여행 제목</label>
+                <label for="title" class="form-label">일정명</label>
                 <input type="text" id="title" name="title" class="form-control" required>
             </div>
             <div class="row mb-3">

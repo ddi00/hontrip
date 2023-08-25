@@ -19,8 +19,11 @@ public interface SpotService {
     // 여행지 키워드로 조회 및 데이터 파싱
     void parseData(SpotSearchDTO spotSearchDTO) throws IOException, ParserConfigurationException, SAXException;
 
+    // 여행지 검색
+    List<SpotDTO> searchSpots(SpotSearchDTO spotSearchDTO) throws IOException, ParserConfigurationException, SAXException;
+
     // 여행지 단일 조회
-    SpotDTO one(String contentId);
+    SpotDTO findSpot(String contentId);
 
     // 여행지 목록 조회
     List<SpotDTO> list(SpotSearchDTO spotSearchDTO);

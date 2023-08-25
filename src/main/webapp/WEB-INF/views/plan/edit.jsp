@@ -10,12 +10,12 @@
             <input type="hidden" id="id" name="id" value="${plan.id}">
             <input type="hidden" id="userId" name="userId" value="${plan.userId}">
             <div class="mb-3">
-                <label for="title" class="form-label">Title:</label>
+                <label for="title" class="form-label">일정명</label>
                 <input type="text" id="title" name="title" value="${plan.title}" class="form-control" readonly>
             </div>
             <div class="row mb-3">
                 <div class="col">
-                    <label for="startDate" class="form-label">시작일</label>
+                    <label for="startDate" class="form-label">출발일</label>
                     <input type="date" id="startDate" name="startDate"
                            value="${plan.startDate}"
                            class="form-control" readonly>
@@ -47,7 +47,7 @@
             <div class="row" id="selected-spots-<%= i + 1 %>">
 
                 <c:set var="index" value="<%= i+1%>" />
-                <c:forEach items="${addedSpots}" var="spot">
+                <c:forEach items="${existingSpots}" var="spot">
                     <c:if test="${spot.dayOrder eq index}">
                         <div class='row my-5'>
                             <span class='col-2'><img src="${spot.image}" width="55px" height="45px"></span>
@@ -130,7 +130,6 @@
             data: {
                 planId: planId,
                 userId: userId, // 일단 구현하고 세션으로
-                startDate: startDate,
                 dayOrder: index,
                 category: category,
                 keyword: keyword
