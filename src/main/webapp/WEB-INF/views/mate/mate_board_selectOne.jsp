@@ -7,7 +7,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
 <script type="text/javascript" src="../resources/js/jquery-3.7.0.js"></script>
 <input hidden id="userId" name="userId" value="<c:out value="${sessionScope.id}"/>">
 <input hidden id="nickName" name="nickName" value="<c:out value="${sessionScope.username}" />">
@@ -19,7 +18,11 @@
     //*세션에서 유저아이디 불러옴 -> 없으면 no 있으면 유저아이디*//*
     if (session.getAttribute("id") != null) {
         long userId = (long) session.getAttribute("id");
-        request.setAttribute("user", userId);
+        String userProfileImage = session.getAttribute("profileImage").toString();
+        String userNickName = session.getAttribute("nickName").toString();
+        request.setAttribute("mateSenderId", userId);
+        request.setAttribute("mateSenderProfileImage", userProfileImage);
+        request.setAttribute("mateSenderNickName", userNickName);
     }
 %>
 <%
@@ -57,7 +60,7 @@
 %>
 
 <div class="content-wrapper">
-    <header class="wrapper bg-soft-primary">
+    <header class="wrapper">
         <nav class="navbar navbar-expand-lg center-nav transparent navbar-light">
             <div class="container flex-lg-row flex-nowrap align-items-center">
                 <div class="navbar-brand w-100">
@@ -98,7 +101,7 @@
         <!-- /.offcanvas -->
     </header>
     <!-- /header -->
-    <section class="wrapper bg-soft-primary">
+    <section class="wrapper">
         <div class="container pt-10 pb-15 pt-md-12 pb-md-15 text-center">
             <div class="row">
                 <div class="col-md-5 col-xl-8 mx-auto">
@@ -125,7 +128,9 @@
                         <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         <div class="row">
                             <input hidden id="mateBoardId" value="${dto.id}">
-                            <input hidden id="mateBoardGuest" value="${user}">
+                            <input hidden id="mateSenderId" value="${mateSenderId}">
+                            <input hidden id="mateSenderNickName" value="${mateSenderNickName}">
+                            <input hidden id="mateSenderProfileImage" value="${mateSenderProfileImage}">
                             <input hidden id="mateBoardGenderStr" value="${dto.gender.genderStr}">
                             <input hidden id="ageRangeJS" value="${ageRangeJS}">
 
@@ -280,16 +285,16 @@
                         <div class="blog single mt-n15">
                             <div class="card">
                                 <form action="editpage" method="post">
-                                    <figure class="card-img-top"><img
+                                    <img
                                             src="<c:url value='../resources/img/mateImg/${dto.thumbnail}'/>"
-                                            alt="여행지 사진"/>
-                                    </figure>
+                                            alt="여행지 사진" style="width: 100%; height:600px; border-top-left-radius: 12px;
+                                            border-top-right-radius: 12px;"/>
                                     <div class="card-body" style="padding-top: 0;">
                                         <div class="classic-view">
 
 
                                             <input hidden name="id" value=${dto.id}>
-                                            <input hidden name="userId" value=${dto.userId}>
+                                            <input hidden id="writerId" name="userId" value=${dto.userId}>
                                             <input hidden name="title" value="${dto.title}">
                                             <input hidden name="content" value="${dto.content}">
                                             <input hidden name="thumbnail" value="${dto.thumbnail}">
@@ -356,7 +361,7 @@
                                                     </div>
                                                     <div class="mb-0 mb-md-16">
                                                         <div class="dropdown share-dropdown btn-group">
-                                                            <c:if test="${dto.isFinish eq 0 && dto.userId ne user}">
+                                                            <c:if test="${dto.isFinish eq 0 && dto.userId ne mateSenderId}">
                                                                 <%-- <button id="application"
                                                                          class="btn btn-sm btn-red rounded-pill btn-icon btn-icon-start dropdown-toggle mb-0 me-0"
                                                                          data-bs-toggle="dropdown" aria-haspopup="true"
@@ -428,6 +433,10 @@
                                                                     <li class="post-comments"><i
                                                                             class="uil uil-eye"></i>조회수
                                                                     </li>
+                                                                    <li class="post-comments"><i
+                                                                            class="uil uil-comment"></i>댓글개수
+                                                                    </li>
+                                                                    <c:if test="${dto.userId eq mateSenderId}">
                                                                     <c:if test="${dto.userId eq user}">
 
                                                                         <button

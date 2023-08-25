@@ -9,13 +9,13 @@
                         <div class="card-body">
                             <div class="d-flex flex-row d-flex align-items-center">
                                 <div class="d-flex align-items-center">
-                                    <figure class="user-avatar">
+                                    <figure class="user-avatar" id="userProfileImage">
                                         <img class="rounded-circle w-15" src="<c:url value="${userInfo.profileImage}"/>"
                                              alt="${userInfo.nickName}의 프로필 이미지">
                                     </figure>
                                     <div>
-                                        <h6>${userInfo.nickName}</h6>
-                                        <span class="post-meta fs-15">${userInfo.email}</span>
+                                        <h6 id="userNickName">${userInfo.nickName}</h6>
+                                        <span class="post-meta fs-15" id="userEmail">${userInfo.email}</span>
                                     </div>
                                     <!-- figure area -->
                                 </div>
@@ -26,8 +26,8 @@
                                             <i class="uil uil-file-check-alt"></i> 동의정보갱신
                                         </a>
                                     </c:if>
-                                    <a href=""
-                                       class="btn btn-sm btn-soft-ash rounded-pill btn-icon btn-icon-start mb-0">
+                                    <a href="/hontrip/user//refresh-userInfo"
+                                       class="btn btn-sm btn-soft-ash rounded-pill btn-icon btn-icon-start mb-0" id="refreshUserInfoButton">
                                         <i class="uil uil-sync"></i> 회원정보갱신
                                     </a>
                                     <a href="/hontrip/user/withdraw"
@@ -51,7 +51,7 @@
                                     <i class="uil uil-exclamation-triangle"></i>※ 정보 이용에 모두 동의하지 않으면 서비스를 정상적으로 이용할 수
                                     없습니다.
                                 </div>
-                                <table class="table">
+                                <table class="table" id="userInfoTable">
                                     <thead>
                                     <tr>
                                         <th scope="col">항목</th>
@@ -69,7 +69,7 @@
                                     </tr>
                                     <tr>
                                         <td>닉네임</td>
-                                        <td>${userInfo.nickName}</td>
+                                        <td id="nickNameInfo">${userInfo.nickName}</td>
                                     </tr>
                                     <tr>
                                         <td>성별</td>

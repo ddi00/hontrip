@@ -10,12 +10,10 @@
     }
 %>
 
-<section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-light-600 text-white"
-         data-image-src="<c:url value='/resources/assets/img/photos/datachef_gradation.png'/>"
-         style="background-image: url('<c:url value='/resources/assets/img/photos/bg13.jpg'/>');">
+<section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-light-600 text-white">
     <div class="content-wrapper">
         <section class="wrapper bg-xs-none">
-            <div class="container pt-12 pb-10 pt-md-15 pb-md-12">
+            <div class="container pt-8 pb-10 pt-md-15 pb-md-12">
                 <!-- /.row -->
             </div>
             <!-- /.container -->

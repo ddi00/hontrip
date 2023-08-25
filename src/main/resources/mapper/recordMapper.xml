@@ -96,36 +96,42 @@
 	</delete>
 
 	<!-- 내 게시물 전체 리스트 가져오기 -->
-	<select id="mylist" resultType="createPostDTO" parameterType="Long">
-		SELECT title, thumbnail, user_id, is_visible, location_id
-		FROM record_board
-		WHERE user_id = #{userId}
-		ORDER BY id DESC;
+	<select id="mylist" resultType="postInfoDTO" parameterType="Long">
+		SELECT
+		rb.id AS boardId,
+		loc.city As city,
+		u.nickname AS nickName,
+		rb.title AS title,
+		rb.thumbnail AS thumbnail ,
+		rb.created_at AS createdAt,
+		rb.updated_at AS updatedAt,
+		rb.is_visible AS isVisible,
+		(SELECT COUNT(*) FROM record_like rl WHERE rl.record_id = rb.id) AS likeCount
+		FROM
+		record_board rb
+		LEFT JOIN user u ON rb.user_id = u.id
+		LEFT JOIN location loc ON rb.location_id = loc.id
+		LEFT JOIN record_like rl ON rb.id = rl.record_id
+		WHERE
+		u.id  = #{userId}
+		GROUP BY
+		rb.id;
+
 	</select>
 
 	<!-- 내 게시물 마커 클릭한 지역 리스트 가져오기 -->
-	<select id="listmylocation" resultType="createPostDTO" parameterType="java.util.Map">
+	<select id="listmylocation" resultType="postInfoDTO" parameterType="java.util.Map">
 		SELECT title, thumbnail, user_id, is_visible, location_id
 		FROM record_board
 		WHERE user_id = #{userId} AND location_id = #{locationId}
 		ORDER BY id DESC;
-	</select>
-
-	<!-- 내 게시물 검색한 지역 리스트 가져오기 -->
-	<select id="listmylocation2" resultType="createPostDTO" parameterType="java.util.Map">
-		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id
-		FROM record_board rb
-		JOIN location l ON rb.location_id = l.id
-		WHERE rb.user_id = #{userId} AND l.city = #{city}
-		ORDER BY rb.id DESC;
 	</select>
 
 	<!-- 내 게시물 드롭다운 선택한 지역 리스트 가져오기 -->
-	<select id="listmylocation3" resultType="createPostDTO" parameterType="java.util.Map">
+	<select id="listmylocation3" resultType="postInfoDTO" parameterType="java.util.Map">
 		SELECT title, thumbnail, user_id, is_visible, location_id
 		FROM record_board
 		WHERE user_id = #{userId} AND location_id = #{locationId}
-		ORDER BY id DESC;
 	</select>
 
 	<!-- 공유피드 전체 리스트 가져오기 -->

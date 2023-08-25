@@ -1,5 +1,6 @@
 package com.multi.hontrip.common;
 
+import com.multi.hontrip.exception.AlreadySessionExistException;
 import com.multi.hontrip.exception.SessionExpiredException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -28,4 +29,24 @@ public class SessionCheckAdvice {
             throw new SessionExpiredException("로그인되어 있지 않습니다.");
         }
     }
+
+    @Before("@annotation(NoSessionRequired)")
+    public void checkNoSession(JoinPoint joinPoint) throws AlreadySessionExistException {
+        Object[] args = joinPoint.getArgs();
+        HttpSession session = null;
+
+        for (Object arg : args) {   //argument에 Session 있어야 함
+            if (arg instanceof HttpSession) {
+                session = (HttpSession) arg;
+                break;
+            }
+        }
+        if (session != null) {
+            Object userId = session.getAttribute("id");
+            if (userId != null) {
+                throw new AlreadySessionExistException("이미 로그인한 사용자입니다.");
+            }
+        }
+    }
+
 }
