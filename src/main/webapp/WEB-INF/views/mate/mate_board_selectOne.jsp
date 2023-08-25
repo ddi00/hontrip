@@ -428,9 +428,6 @@
                                                                     <li class="post-comments"><i
                                                                             class="uil uil-eye"></i>조회수
                                                                     </li>
-                                                                    <li class="post-comments"><i
-                                                                            class="uil uil-comment"></i>댓글개수
-                                                                    </li>
                                                                     <c:if test="${dto.userId eq user}">
 
                                                                         <button
@@ -458,141 +455,21 @@
                                         </div>
 
                                         <!-- /.swiper-container -->
-
-
-                                        <ol id="singlecomments" class="commentlist">
-                                            <li class="comment">
-                                                <div class="comment-header d-md-flex align-items-center">
-                                                    <div class="d-flex align-items-center">
-                                                        <figure class="user-avatar"><img class="rounded-circle"
-                                                                                         alt=""
-                                                                                         src=""/>
-                                                        </figure>
-                                                        <div>
-                                                            <h6 class="comment-author"><a href="#"
-                                                                                          class="link-dark">Nikolas
-                                                                Brooten</a></h6>
-                                                            <ul class="post-meta">
-                                                                <li><i class="uil uil-calendar-alt"></i>21 Feb 2022
-                                                                </li>
-                                                            </ul>
-                                                            <!-- /.post-meta -->
-                                                        </div>
-                                                        <!-- /div -->
-                                                    </div>
-                                                    <!-- /div -->
-                                                    <div class="mt-3 mt-md-0 ms-auto">
-                                                        <a href="#"
-                                                           class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                                                class="uil uil-comments"></i> Reply</a>
-                                                    </div>
-                                                    <!-- /div -->
-                                                </div>
-                                                <!-- /.comment-header -->
-                                                <p>Quisque tristique tincidunt metus non aliquam. Quisque ac risus
-                                                    sit
-                                                    amet
-                                                    quam sollicitudin vestibulum vitae malesuada libero. Mauris
-                                                    magna
-                                                    elit,
-                                                    suscipit non ornare et, blandit a tellus. Pellentesque dignissim
-                                                    ornare
-                                                    faucibus mollis.</p>
-                                                <ul class="children">
-                                                    <li class="comment">
-                                                        <div class="comment-header d-md-flex align-items-center">
-                                                            <div class="d-flex align-items-center">
-                                                                <figure class="user-avatar"><img
-                                                                        class="rounded-circle"
-                                                                        alt=""
-                                                                        src=""/>
-                                                                </figure>
-                                                                <div>
-                                                                    <h6 class="comment-author"><a href="#"
-                                                                                                  class="link-dark">Pearce
-                                                                        Frye</a></h6>
-                                                                    <ul class="post-meta">
-                                                                        <li><i class="uil uil-calendar-alt"></i>22
-                                                                            Feb
-                                                                            2022
-                                                                        </li>
-                                                                    </ul>
-                                                                    <!-- /.post-meta -->
-                                                                </div>
-                                                                <!-- /div -->
-                                                            </div>
-                                                            <!-- /div -->
-                                                            <div class="mt-3 mt-md-0 ms-auto">
-                                                                <a href="#"
-                                                                   class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                                                        class="uil uil-comments"></i> Reply</a>
-                                                            </div>
-                                                            <!-- /div -->
-                                                        </div>
-                                                        <!-- /.comment-header -->
-                                                        <p>Cras mattis consectetur purus sit amet fermentum. Integer
-                                                            posuere
-                                                            erat a ante venenatis dapibus posuere velit aliquet.
-                                                            Etiam
-                                                            porta
-                                                            sem malesuada magna mollis.</p>
-                                                        <ul class="children">
-                                                            <li class="comment">
-                                                                <div class="comment-header d-md-flex align-items-center">
-                                                                    <div class="d-flex align-items-center">
-                                                                        <figure class="user-avatar"><img
-                                                                                class="rounded-circle" alt=""
-                                                                                src=""/>
-                                                                        </figure>
-                                                                        <div>
-                                                                            <h6 class="comment-author"><a href="#"
-                                                                                                          class="link-dark">Nikolas
-                                                                                Brooten</a></h6>
-                                                                            <ul class="post-meta">
-                                                                                <li>
-                                                                                    <i class="uil uil-calendar-alt"></i>4
-                                                                                    Apr 2022
-                                                                                </li>
-                                                                            </ul>
-                                                                            <!-- /.post-meta -->
-                                                                        </div>
-                                                                        <!-- /div -->
-                                                                    </div>
-                                                                    <!-- /div -->
-                                                                    <div class="mt-3 mt-md-0 ms-auto">
-                                                                        <a href="#"
-                                                                           class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                                                                class="uil uil-comments"></i> Reply</a>
-                                                                    </div>
-                                                                    <!-- /div -->
-                                                                </div>
-                                                                <!-- /.comment-header -->
-                                                                <p>Nullam id dolor id nibh ultricies vehicula ut id.
-                                                                    Cras
-                                                                    mattis consectetur purus sit amet fermentum.
-                                                                    Aenean
-                                                                    eu
-                                                                    leo quam. Pellentesque ornare sem lacinia aenean
-                                                                    bibendum nulla consectetur.</p>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-
-                                        </ol>
                                     </div>
                                     <!-- /#comments -->
                                 </form>
-                                <hr>
+                                <div id = clc>
+                                <i class="uil uil-comment"><h3 class="mb-6">${commentListCount} Comments</h3></i>
+                                </div>
                                 <div id="comments">
-                                    <h3 class="mb-6">5 Comments</h3>
-                                    <hr>
-                                    댓글작성: <input id="cmtContent" style="background: gray">
-                                    <button type="button" id="commentWrite">작 성</button>
-                                    <br>
-                                    <br>
-                                    댓글 수
+                                    <div class="form-floating mb-4">
+                                      <textarea id="cmtContent" class="form-control" placeholder="Textarea" style="height: 150px; border: 2px solid #000;" required></textarea>
+                                      <label for="textareaExample">Textarea</label>
+                                    </div>
+                                    <!-- /.form-floating -->
+                                    <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-soft-ash rounded-pill" id="commentWrite">작 성</button>
+                                    </div>
                                     <div id="count"></div>
                                     <br>
                                     <div id="result">
@@ -620,7 +497,7 @@
                                                    </div>
                                                    <!-- /div -->
                                                    <div class="mt-3 mt-md-0 ms-auto">
-                                                       <a href="#"
+                                                       <a href="javascript:void(0);" onclick="showCcmtTextarea(${commentList.commentId})"
                                                           class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
                                                                class="uil uil-comments"></i> 답글달기</a>
                                                    </div>
@@ -628,32 +505,72 @@
                                                </div>
                                                <!-- /.comment-header -->
                                                <p>${commentList.content}</p>
-                                                                댓글 작성자 : ${commentList.nickname}, 댓글 내용
-                                                                : ${commentList.content}, 작성날짜
-                                                                : ${commentList.createdAt}
-                                                                <a href="javascript:void(0);"
-                                                                   onclick="showCcmtTextarea(${commentList.commentId})">답글
-                                                                    달기</a>
-                                                                <c:if test="${commentList.nickname eq nickName}">
-                                                                    <a href="javascript:void(0);"
-                                                                       onclick="showUpdateTextarea(${commentList.commentId})">수정</a>
-                                                                    <button type="button" class="commentDelete"
-                                                                            data-comment-id="${commentList.commentId}">
-                                                                        삭제
-                                                                    </button>
-                                                                </c:if>
+                                               <c:if test="${commentList.nickname eq nickName}">
+                                             <a href="javascript:void(0);"
+                                                onclick="showUpdateTextarea(${commentList.commentId})">수정</a>
+                                                <div class="d-flex justify-content-end">
+                                             <button type="button" class="commentDelete btn btn-soft-ash rounded-pill"data-comment-id="${commentList.commentId}">
+                                             삭제
+                                             </button>
+                                             </div>
+                                         </c:if>
+                                               <div id="commentUpdate${commentList.commentId}"
+                                                    style="display: none">
+                                                   <textarea id="updateContent${commentList.commentId}"
+                                                             placeholder="수정글을 입력해주세요">${commentList.content}</textarea>
+                                                   <br>
+                                                   <button type="button" class="updateComment"
+                                                           data-comment-id="${commentList.commentId}">
+                                                       수정
+                                                   </button>
+                                                   <a href="javascript:void(0);"
+                                                      onclick="closeTextarea(${commentList.commentId})">취소</a>
+                                               </div>
+
+                                               <div id="cComment${commentList.commentId}"
+                                                    style="display: none">
+                                                   <div class="form-floating mb-4">
+                                              <textarea id="cContent${commentList.commentId}" class="form-control" placeholder="답글을 입력해주세요" style="height: 150px; border: 2px solid #000;" required></textarea>
+                                              <label for="textareaExample">Textarea</label>
+                                            </div>
+                                             <br>
+                                                   <button type="button" class="cCommentWrite btn btn-soft-ash rounded-pill"
+                                                           data-comment-id="${commentList.commentId}">
+                                                       답글 전송
+                                                   </button>
+                                                   <a href="javascript:void(0);"
+                                                      onclick="closeCTextarea(${commentList.commentId})">취소</a>
+                                                   <br>
+                                               </div>
 
                                                                 <c:forEach items="${reCommentList}" var="reComment">
                                                                     <c:if test="${commentList.commentId eq reComment.indentationNumber}">
-                                                                        <br>
-                                                                        --> 댓글 작성자 : ${reComment.nickname}, 댓글 내용 : ${reComment.content}, 작성날짜 : ${reComment.createdAt}
+                                                               <ul class="children">
+                                                                    <li class="comment">
+                                                                        <div class="comment-header d-md-flex align-items-center">
+                                                                            <div class="d-flex align-items-center">
+                                                                                <figure class="user-avatar"><img class="rounded-circle" alt="" src="${reComment.profileImage}"/>
+                                                                                </figure>
+                                                                                <div>
+                                                                                    <h6 class="comment-author"><a href="#" class="link-dark">${reComment.nickname}</a></h6>
+                                                                                    <ul class="post-meta"> <li><i class="uil uil-calendar-alt"></i>${reComment.createdAt}</li>
+                                                                                    </ul>
+                                                                                    <!-- /.post-meta -->
+                                                                                </div>
+                                                                                <!-- /div -->
+                                                                            </div>
+                                                                            <!-- /div -->
+                                                                        </div>
+                                                                        <!-- /.comment-header -->
+                                                                        <p>${reComment.content}</p>
                                                                         <c:if test="${reComment.nickname eq nickName}">
                                                                             <a href="javascript:void(0);"
                                                                                onclick="showUpdateTextarea(${reComment.commentId})">수정</a>
-                                                                            <button type="button" class="commentDelete"
-                                                                                    data-comment-id="${reComment.commentId}">
-                                                                                삭제
-                                                                            </button>
+                                                                            <div class="d-flex justify-content-end">
+                                                                     <button type="button" class="commentDelete btn btn-soft-ash rounded-pill"data-comment-id="${reComment.commentId}">
+                                                                     삭제
+                                                                     </button>
+                                                                     </div>
                                                                             <div id="commentUpdate${reComment.commentId}"
                                                                                  style="display: none">
                                                                                 <textarea
@@ -673,33 +590,7 @@
                                                                     </c:if>
                                                                 </c:forEach>
                                                                 <br>
-
-                                                                <div id="commentUpdate${commentList.commentId}"
-                                                                     style="display: none">
-                                                                    <textarea id="updateContent${commentList.commentId}"
-                                                                              placeholder="수정글을 입력해주세요">${commentList.content}</textarea>
-                                                                    <br>
-                                                                    <button type="button" class="updateComment"
-                                                                            data-comment-id="${commentList.commentId}">
-                                                                        수정
-                                                                    </button>
-                                                                    <a href="javascript:void(0);"
-                                                                       onclick="closeTextarea(${commentList.commentId})">취소</a>
-                                                                </div>
-
-                                                                <div id="cComment${commentList.commentId}"
-                                                                     style="display: none">
-                                                                    <textarea id="cContent${commentList.commentId}"
-                                                                              placeholder="답글을 입력해주세요"></textarea>
-                                                                    <br>
-                                                                    <button type="button" class="cCommentWrite"
-                                                                            data-comment-id="${commentList.commentId}">
-                                                                        답글 전송
-                                                                    </button>
-                                                                    <a href="javascript:void(0);"
-                                                                       onclick="closeCTextarea(${commentList.commentId})">취소</a>
-                                                                    <br>
-                                                                </div>
+                                                                </ul>
                                                             </td>
                                                         </tr>
                                                     </c:if>

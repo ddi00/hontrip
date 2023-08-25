@@ -127,6 +127,10 @@ public class MateServiceImpl implements MateService {
         return reCommentList;
     }
 
+    public int commentCount(long mateBoardId){
+        return mateCommentDAO.commentCount(mateBoardId);
+    }
+
     @Override
     public int updateMateBoard(MateBoardInsertDTO mateBoardInsertDTO) {
         return mateDAO.updateMateBoard(mateBoardInsertDTO);

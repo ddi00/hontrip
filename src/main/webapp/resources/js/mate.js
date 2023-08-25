@@ -449,26 +449,59 @@ if (window.location.href.includes('/mate/')) {
         let comments = "";
         let cCount = commentListRe.list.length;
         let rCount = commentListRe.reCommentList.length;
+        let commentListCount = "";
 
         console.log(cCount)
         if (cCount > 0) {
             for (let i = 0; i < cCount; i++) {
                 let commentList = commentListRe.list[i];
                 if (commentList.commentSequence == 0) {
-                    comments += " 댓글 작성자 : " + commentList.nickname + ", ";
-                    comments += "댓글 내용 : " + commentList.content + ", ";
-                    comments += "작성날짜 : " + commentList.createdAt + ", ";
-                    comments += "<a href='javascript:void(0);' onclick='showCcmtTextarea(" + commentList.commentId + ")'>답글 달기</a>";
+                    comments += `<li class="comment">
+                        <div class="comment-header d-md-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                                <figure class="user-avatar">
+                                    <img class="rounded-circle" alt="" src="${commentList.profileImage}" />
+                                </figure>
+                                <div>
+                                    <h6 class="comment-author">
+                                        <a href="#" class="link-dark">${commentList.nickname}</a>
+                                    </h6>
+                                    <ul class="post-meta">
+                                        <li><i class="uil uil-calendar-alt"></i>${commentList.createdAt}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                    <div class="mt-3 mt-md-0 ms-auto">
+                        <a href="javascript:void(0);" onclick="showCcmtTextarea(${commentList.commentId})"
+                           class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
+                                class="uil uil-comments"></i> 답글달기</a>
+                    </div>
+                    </div>
+                    <p>${commentList.content}</p>
+                    </li>`;
 
                     if (commentList.nickname !== "Bob") {
                         comments += "<a href='javascript:void(0);' onclick='showUpdateTextarea(" + commentList.commentId + ")'>수정</a>";
-                        comments += "<button type='button' class='commentDelete' data-comment-id='" + commentList.commentId + "'>삭제</button>"
+                        comments += `<div class="d-flex justify-content-end">`
+                        comments += "<button type='button' class='commentDelete btn btn-soft-ash rounded-pill' data-comment-id='" + commentList.commentId + "'>삭제</button></div>"
                     }
                     for (let i = 0; i < rCount; i++) {
                         let replyList = commentListRe.reCommentList[i];
                         if (commentList.commentId == replyList.indentationNumber) {
-                            comments += `<br>
-                                    -->댓글 작성자 : ${replyList.nickname}, 댓글 내용 : ${replyList.content}, 작성날짜 : ${replyList.createdAt}`;
+                            comments += `<ul class="children"><li class="comment">
+                                         <div class="comment-header d-md-flex align-items-center">
+                                         <div class="d-flex align-items-center">
+                                         <figure class="user-avatar"><img class="rounded-circle" alt="" src="${replyList.profileImage}"/>
+                                         </figure>
+                                         <div>
+                                         <h6 class="comment-author"><a href="#" class="link-dark">${replyList.nickname}</a></h6>
+                                         <ul class="post-meta"> <li><i class="uil uil-calendar-alt"></i>${replyList.createdAt}</li>
+                                         </ul>
+                                         </div>
+                                         </div>
+                                         </div>
+                                         <p>${replyList.content}</p>`;
                             if (commentList.nickname !== "Bob") {
                                 comments += `
                                 <a href="javascript:void(0);" onclick="showUpdateTextarea(${replyList.commentId})">수정</a>
@@ -492,12 +525,18 @@ if (window.location.href.includes('/mate/')) {
                     comments += "<a href='javascript:void(0);' onclick='closeTextarea(" + commentList.commentId + ")'>취소</a></div>";
 
                     comments += `<div id="cComment${commentList.commentId}" style="display: none">
-                        <textarea id="cContent${commentList.commentId}" placeholder="답글을 입력해주세요"></textarea>
+                        <div class="form-floating mb-4">
+                         <textarea id="cContent${commentList.commentId}" class="form-control" placeholder="답글을 입력해주세요" style="height: 150px; border: 2px solid #000;" required></textarea>
+                         <label="textareaExample">Textarea</label>
+                       </div>
                         <br>
-                        <button type='button' class="cCommentWrite" data-comment-id="${commentList.commentId}">답글 전송</button>
+                        <button type='button' class="cCommentWrite btn btn-soft-ash rounded-pill" data-comment-id="${commentList.commentId}">답글 전송</button>
                         <a href="javascript:void(0);" onclick="closeCTextarea(${commentList.commentId})">취소</a>
                         <br>
-                    </div>`;
+                    </div>
+                    </ul>
+                      </td>
+                    </tr>`;
 
 
                 }
@@ -507,7 +546,8 @@ if (window.location.href.includes('/mate/')) {
             comments += "<h6>등록된 댓글이 없습니다.</h6>";
             comments += "</div>";
         }
-        $('#count').html(cCount);
+        commentListCount += `<i class="uil uil-comment"><h3 class="mb-6">${commentListRe.commentListCount} Comments</h3></i>`
+        $('#clc').empty().html(commentListCount);
         $('#result').html(comments);
     }
 

@@ -1,14 +1,17 @@
 $(function() {
    // 검색 버튼 클릭 시 페이지 버튼 생성 및 데이터 가져오기
-    $('#searchBtn').on('click', function() {
+    $(document).on('click', '.searchBtn', function() {
       let searchType = $('#searchType').val();
       let keyword = $('#keyword').val();
+      let region = $(this).data('region');
+
   $.ajax({
         url: '/hontrip/mate/pagination',
         data: {
           page: 1, // 검색 시 첫 페이지로 초기화
           searchType: searchType,
           keyword: keyword
+
         },
          dataType:'json',
         success: function(data) {

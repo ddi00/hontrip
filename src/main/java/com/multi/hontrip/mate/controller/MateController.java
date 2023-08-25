@@ -68,8 +68,11 @@ public class MateController {
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
         //게시물 상세의 답글 리스트 가져오기
         List<MateCommentDTO> reCommentList = mateService.reCommentList(list);
+        //게시물 상세의 댓글 개수 카운트 하기
+        int commentListCount = mateService.commentCount(mateCommentDTO.getMateBoardId());
 
         Map<String,Object> map=new HashMap<>();
+        map.put("commentListCount", commentListCount);
         map.put("list", list);
         map.put("reCommentList", reCommentList);
         return map;
@@ -84,8 +87,11 @@ public class MateController {
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
         //게시물 상세의 답글 리스트 가져오기
         List<MateCommentDTO> reCommentList = mateService.reCommentList(list);
+        //게시물 상세의 댓글 개수 카운트 하기
+        int commentListCount = mateService.commentCount(mateCommentDTO.getMateBoardId());
 
         Map<String,Object> map=new HashMap<>();
+        map.put("commentListCount", commentListCount);
         map.put("list", list);
         map.put("reCommentList", reCommentList);
         return map;
@@ -99,8 +105,11 @@ public class MateController {
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
         //게시물 상세의 답글 리스트 가져오기
         List<MateCommentDTO> reCommentList = mateService.reCommentList(list);
+        //게시물 상세의 댓글 개수 카운트 하기
+        int commentListCount = mateService.commentCount(mateCommentDTO.getMateBoardId());
 
         Map<String,Object> map=new HashMap<>();
+        map.put("commentListCount", commentListCount);
         map.put("list", list);
         map.put("reCommentList", reCommentList);
         return map;
@@ -114,8 +123,11 @@ public class MateController {
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
         //게시물 상세의 답글 리스트 가져오기
         List<MateCommentDTO> reCommentList = mateService.reCommentList(list);
+        //게시물 상세의 댓글 개수 카운트 하기
+        int commentListCount = mateService.commentCount(mateCommentDTO.getMateBoardId());
 
         Map<String,Object> map=new HashMap<>();
+        map.put("commentListCount", commentListCount);
         map.put("list", list);
         map.put("reCommentList", reCommentList);
         return map;
@@ -151,6 +163,10 @@ public class MateController {
         List<MateCommentDTO> list = mateService.commentList(id);
         //게시물 상세의 답글 리스트 가져오기
         List<MateCommentDTO> reCommentList = mateService.reCommentList(list);
+        //게시물 상세의 댓글 개수 카운트 하기
+        int commentListCount = mateService.commentCount(id);
+
+        model.addAttribute("commentListCount", commentListCount);
         model.addAttribute("list", list);
         model.addAttribute("reCommentList", reCommentList);
         model.addAttribute("dto", mateBoardSelectOneDTO);

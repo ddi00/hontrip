@@ -26,6 +26,8 @@ public interface MateService {
 
     void commentEdit(MateCommentDTO mateCommentDTO); //댓글 수정
 
+    int commentCount(long mateBoardId); //댓글 수 가져오기
+
     public void insert(MultipartFile file, MateBoardInsertDTO mateBoardInsertDTO); //동행인 게시글 작성하기
 
     public MateBoardSelectOneDTO selectOne(long id);    //동행인 상세게시글 가져오기
