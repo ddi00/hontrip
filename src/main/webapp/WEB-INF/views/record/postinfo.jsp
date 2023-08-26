@@ -40,6 +40,7 @@
             let rCount = commentListRe.reCommentList.length;
 
             if (cCount > 0) {
+                comments += "<h3 class='mb-6'>" + cCount + "Comments</h3>";
                 for (let i = 0; i < cCount; i++) {
                     let commentList = commentListRe.commentList[i];
                     if (commentList.cmtSequence == 0) {
@@ -306,8 +307,8 @@
                                     <c:forEach items="${postImgList}" var="postImgDTO">
                                         <div class="swiper-slide">
                                             <figure class="rounded"><img src="<c:url value='/${postImgDTO.imgUrl}'/>"
-                                                    width="300" height="180" srcset="./assets/img/photos/shs1@2x.jpg 2x"
-                                                    alt="" /><a class="item-link" href="./assets/img/photos/shs1@2x.jpg"
+                                                    srcset="<c:url value='/${postImgDTO.imgUrl}'/>"
+                                                    alt="" /><a class="item-link" href="<c:url value='/${postImgDTO.imgUrl}'/>"
                                                     data-glightbox data-gallery="product-group"><i
                                                         class="uil uil-focus-add"></i></a></figure>
                                         </div>
@@ -336,6 +337,7 @@
                 <div class="card-body">
                     <hr />
                     <div id="result">
+                        <h3 class="mb-6">${postInfoDTO.cmtCount} Comments</h3>
                         <c:choose>
                             <c:when test="${commentList.isEmpty()}">
                                 <h6>등록된 댓글이 없습니다.</h6>

@@ -19,5 +19,6 @@ public class PostInfoDTO {
     private String endDate;
     private int isVisible;
     private int likeCount;
+    private int cmtCount;
     private long locationId;
 }

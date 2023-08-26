@@ -45,12 +45,14 @@
 		rb.start_date AS startDate,
 		rb.end_date AS endDate,
 		rb.is_visible AS isVisible,
-		COUNT(rl.id) AS likeCount
+		COUNT(rl.id) AS likeCount,
+		COUNT(rc.id) AS cmtCount
 		FROM
 		record_board rb
 		LEFT JOIN user u ON rb.user_id = u.id
 		LEFT JOIN location loc ON rb.location_id = loc.id
 		LEFT JOIN record_like rl ON rb.id = rl.record_id
+		LEFT JOIN record_comment rc ON rb.id = rc.record_id
 		WHERE
 		rb.id = #{id}
 		GROUP BY
@@ -95,6 +97,11 @@
 	<delete id="deleteComment">
 		DELETE FROM record_comment
 		WHERE id = #{id};
+	</delete>
+
+	<delete id="deleteReComment">
+		DELETE FROM record_comment
+		WHERE indentation_number = #{id};
 	</delete>
 
 	<!-- 내 게시물 전체 리스트 가져오기 -->
