@@ -9,6 +9,29 @@
     <title>Insert title here</title>
     <script type="text/javascript" src="../resources/js/jquery-3.7.0.js" ></script>
 
+<style>
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px; /* 상단 여백 조정 */
+    height: 50vh; /* 화면 높이에 맞추기 위해 설정 (선택 사항) */
+  }
+
+  .buttons .card-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* 요소가 너무 많으면 여러 줄로 나눠줌 */
+  }
+
+  .buttons .btn,
+  .buttons select {
+    margin: 0 100px; /* 버튼 사이의 간격 조정 */
+  }
+</style>
+
 </head>
 <body>
 
@@ -41,16 +64,15 @@ var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
        kakao.maps.event.addListener(marker, 'click',
        function() {
          // 초기화
-         $("#mylist-section").hide();
-         $("#list-mylocation-result2").hide();
-         $("#list-mylocation-result3").hide();
+         $("#mylist_section").hide();
+         $("#list_mylocation_click_dropdownt").hide();
            $.ajax({
                type: "GET",
-               url: "list-mylocation", // 요청할 URL
+               url: "list_mylocation_click", // 요청할 URL
                data: { locationId: ${locationDTO.id} }, // 마커의 locationId를 전달
                dataType: "html",
                success: function(response) {
-                 $("#list-mylocation-result").html(response).show(); // 결과를 표시하도록 변경
+                 $("#list_mylocation_click_result").html(response).show(); // 결과를 표시하도록 변경
                },
                error: function() {
                    // 에러 처리
@@ -82,13 +104,6 @@ function makeOutListener(infowindow) {
 </script>
 
 
-<!-- 드롭다운 컨테이너 -->
-  <select id="locationDropdown">
-    <option value="" disabled selected>지역을 선택하세요</option>
-    <c:forEach items="${locationList}" var="locationDTO">
-        <option value="${locationDTO.id}">${locationDTO.city}</option>
-    </c:forEach>
-  </select>
 
 <!-- 드롭박스 선택시 ajax -->
 <script>
@@ -96,18 +111,17 @@ function makeOutListener(infowindow) {
     // 드롭다운 선택 이벤트 처리
     $('#locationDropdown').change(function() {
       // 초기화
-      $("#mylist-section").hide();
-      $("#list-mylocation-result").hide();
-      $("#list-mylocation-result2").hide();
+      $("#mylist_section").hide();
+      $("#list_mylocation_click_result").hide();
 
       var selectedLocationId = $(this).val();
 
       $.ajax({
         type: 'GET',
-        url: "list-mylocation3",
+        url: "list_mylocation_dropdown",
         data: { locationId: selectedLocationId },
         success: function(response) {
-          $("#list-mylocation-result3").html(response).show();
+          $("#list_mylocation_dropdown_result").html(response).show();
         },
         error: function() {
           // 오류 처리
@@ -120,48 +134,39 @@ function makeOutListener(infowindow) {
 
 
 <!-- 내 게시물 표시 부분 -->
-<div id="mylist-section">
-<a href="feedlist?isVisible=1"><button>공유피드</button></a><br>
-<a href="createpost"><button>게시글작성버튼</button></a><br>
-내 게시물 전체 리스트
-<hr color="red">
-  <section id="snippet-1" class="wrapper bg-light wrapper-border">
-            <div class="container pt-15 pt-md-17 pb-13 pb-md-15">
-              <div class="swiper-container blog grid-view mb-6" data-margin="30" data-dots="true" data-items-xl="3"
-                data-items-md="2" data-items-xs="1">
-                <div class="swiper">
-                  <div class="swiper-wrapper">
+<div id="mylist_section">
+     <section class="buttons">
+       <div class="card-body">
+         <a href="feedlist?isVisible=1" class="btn btn-yellow rounded-pill mb-2 me-1">공유피드</a>
+         <a href="createpost" class="btn btn-yellow rounded-pill mb-2 me-1">게시글작성</a>
+
+        <!-- 드롭다운 컨테이너 -->
+           <select id="locationDropdown">
+             <option value="" disabled selected>지역을 선택하세요</option>
+             <c:forEach items="${locationList}" var="locationDTO">
+                 <option value="${locationDTO.id}">${locationDTO.city}</option>
+             </c:forEach>
+           </select>
+     </section>
+
+    <section class="wrapper">
+      <div class="container pt-12 pt-md-0 pb-16 pb-md-18">
+        <div class="grid grid-view projects-masonry mt-md-n20 mt-lg-n22 mb-20">
+          <div class="row g-8 g-lg-10 isotope">
 
     <c:forEach items="${mylist}" var="postInfoDTO">
-
-                    <div class="swiper-slide">
-                      <article>
-                        <figure class="overlay overlay-1 hover-scale rounded mb-5"><a href="/hontrip/record/postinfo?id=${postInfoDTO.boardId}">
-                           <img src="<c:url value='/${postInfoDTO.thumbnail}'/>" alt="" style="width: 200px; height: 150px;" /></a>
-                          <figcaption>
-                            <h5 class="from-top mb-0">Read More</h5>
-                          </figcaption>
-                        </figure>
-                        <div class="post-header">
-                          <div class="post-category text-line">
-                            <a href="#" class="hover" rel="category">소분류</a>
+                    <div class="project item col-md-6 col-xl-4 workshop">
+                      <div class="card shadow-lg">
+                        <figure class="card-img-top itooltip itooltip-aqua" title='<h5 class="mb-0">클릭하여 상세게시물 보기</h5>'><a href="/hontrip/record/postinfo?id=${postInfoDTO.boardId}"> <img src="<c:url value='/${postInfoDTO.thumbnail}'/>" alt="" /></a></figure>
+                        <div class="card-body p-7">
+                          <div class="post-header">
+                            <div class="post-category text-line mb-2 text-aqua">${postInfoDTO.city}</div>
+                            <h3 class="mb-0">${postInfoDTO.title}</h3>
                           </div>
-                          <!-- /.post-category -->
-                          <h2 class="post-title h3 mt-1 mb-3"><a class="link-dark" href="../../blog-post.html">${postInfoDTO.title}
-                              </a></h2>
-                        </div>
-                        <!-- /.post-header -->
-                        <div class="post-footer">
-                          <ul class="post-meta">
-                            <li class="post-date"><i class="uil uil-calendar-alt"></i><span>14 Apr 2022</span></li>
-                            <li class="post-comments"><a href="#"><i class="uil uil-comment"></i>4</a></li>
-                          </ul>
-                        </div><!-- /.post-footer -->
-                      </article>
-                    </div>
-
+                        </div>  <!-- /.card-body -->
+                      </div> <!-- /.card -->
+                     </div> <!-- /.project -->
     </c:forEach>
-            </div>
           </div>
        </div>
      </div>
@@ -169,10 +174,10 @@ function makeOutListener(infowindow) {
 </div>
 
 <!-- 마커 클릭 시 해당 지역 게시물 표시 부분 -->
-<div id="list-mylocation-result" ></div>
+<div id="list_mylocation_click_result" ></div>
 
 <!-- 드롭다운 선택 시 해당 지역 게시물 표시 부분 -->
-<div id="list-mylocation-result3" ></div>
+<div id="list_mylocation_dropdown_result" ></div>
 
 </body>
 </html>

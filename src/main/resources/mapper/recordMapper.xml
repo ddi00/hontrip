@@ -122,18 +122,25 @@
 	</select>
 
 	<!-- 내 게시물 마커 클릭한 지역 리스트 가져오기 -->
-	<select id="listmylocation" resultType="postInfoDTO" parameterType="java.util.Map">
-		SELECT title, thumbnail, user_id, is_visible, location_id
-		FROM record_board
-		WHERE user_id = #{userId} AND location_id = #{locationId}
-		ORDER BY id DESC;
+	<select id="list_mylocation_click" resultType="postInfoDTO" parameterType="java.util.Map">
+		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId
+		FROM
+		record_board rb
+		LEFT JOIN user u ON rb.user_id = u.id
+		LEFT JOIN location loc ON rb.location_id = loc.id
+		LEFT JOIN record_like rl ON rb.id = rl.record_id
+		WHERE u.id = #{userId} AND loc.id = #{locationId}
 	</select>
 
 	<!-- 내 게시물 드롭다운 선택한 지역 리스트 가져오기 -->
-	<select id="listmylocation3" resultType="postInfoDTO" parameterType="java.util.Map">
-		SELECT title, thumbnail, user_id, is_visible, location_id
-		FROM record_board
-		WHERE user_id = #{userId} AND location_id = #{locationId}
+	<select id="list_mylocation_dropdown" resultType="postInfoDTO" parameterType="java.util.Map">
+		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId
+		FROM
+		record_board rb
+		LEFT JOIN user u ON rb.user_id = u.id
+		LEFT JOIN location loc ON rb.location_id = loc.id
+		LEFT JOIN record_like rl ON rb.id = rl.record_id
+		WHERE u.id = #{userId} AND loc.id = #{locationId}
 	</select>
 
 	<!-- 공유피드 전체 리스트 가져오기 -->
