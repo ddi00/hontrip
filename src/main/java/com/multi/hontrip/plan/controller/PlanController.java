@@ -50,14 +50,11 @@ public class PlanController {
                          Model model, HttpSession session) {
         session.getAttribute("id");
         PlanDTO plan = planService.findPlan(planId); // 단일 일정 조회
-
         // 일차 계산
         int numOfDays = planService.calculateDays(plan.getStartDate(), plan.getEndDate());
-
         // 기존에 추가되어 있던 여행지 담을 리스트
         List<SpotLoadDTO> addedSpots = planService.loadExistingSpots(plan, numOfDays);
 
-        System.out.println(addedSpots);
         model.addAttribute("addedSpots", addedSpots);
         model.addAttribute("numOfDays", numOfDays);
         model.addAttribute("plan", plan);
@@ -98,44 +95,12 @@ public class PlanController {
                                  @RequestParam("userId") Long userId,
                                  @RequestParam("dayOrder") int dayOrder,
                                  @RequestParam("spotContentId") String spotContentId, Model model) {
-
-        PlanDayDTO planDayDTO = planService.findPlanWithDay(planId, userId, dayOrder);
-        System.out.println("update-plan-spot : " + planDayDTO);
-        try {
-            if (planDayDTO != null) {
-                if (!planDayDTO.getSpotId().isEmpty()) {
-                    String existingSpots = planDayDTO.getSpotId();
-                    String newSpots = existingSpots + ":" + spotContentId; // 이미 존재하면 : 추가
-                    planDayDTO.setSpotId(newSpots);
-                } else {
-                    planDayDTO.setSpotId(spotContentId);
-                }
-            } else {
-                PlanDayDTO newPlanDayDTO = new PlanDayDTO();
-                newPlanDayDTO.setPlanId(planId);
-                newPlanDayDTO.setUserId(userId);
-                newPlanDayDTO.setDayOrder(dayOrder);
-                newPlanDayDTO.setSpotId(spotContentId);
-            }
-
-        } catch (NullPointerException e) {
-            planDayDTO.setSpotId("");
-            planDayDTO.setSpotId(spotContentId);
-        }
-
         // plan-day에 여행지 정보 추가
-        planService.addSpot(planDayDTO);
-        System.out.println("add success : " + planDayDTO);
-
-        SpotDTO spotDTO = spotService.findSpot(spotContentId);
-        SpotAddDTO spotAddDTO = new SpotAddDTO();
-        spotAddDTO.setContentId(spotContentId);
-        spotAddDTO.setTitle(spotDTO.getTitle());
-        spotAddDTO.setImage(spotDTO.getImage());
-        spotAddDTO.setPlanId(planId);
+        planService.addSpot(planService.addSpotToDay(planId, userId, dayOrder, spotContentId));
+        System.out.println("add success");
 
         model.addAttribute("planId", planId);
-        return spotAddDTO;
+        return planService.createSpotAddDTO(planId, spotContentId);
     }
 
     // 일정 수정 - 기존

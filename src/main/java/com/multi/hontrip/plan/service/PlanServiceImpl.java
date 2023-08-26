@@ -125,6 +125,7 @@ public class PlanServiceImpl implements PlanService{
     @Override
     public PlanDayDTO addSpotToDay(Long planId, Long userId, int dayOrder, String spotContentId) {
         PlanDayDTO planDayDTO = findPlanWithDay(planId, userId, dayOrder);
+        System.out.println("update-plan-spot : " + planDayDTO);
         try {
             if (planDayDTO != null) {
                 if (!planDayDTO.getSpotId().isEmpty()) {

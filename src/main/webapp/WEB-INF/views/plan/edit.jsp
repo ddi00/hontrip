@@ -92,7 +92,7 @@
 </section>
 <script>
     let planId = "${plan.id}";
-    let userId = <%=userId%>;
+    let userId = <%= userId%>;
 
     // 일차마다 부착된 여행지 검색 버튼 클릭 시 여행지 검색 창 show
     $(document).ready(function () {
@@ -163,7 +163,6 @@
             } // 첫 번째 error
         }); // 첫 번째 ajax
     } // getSpotList
-
 
     // 여행지 추가 메소드
     const addSpot = function (index, spotId) {
