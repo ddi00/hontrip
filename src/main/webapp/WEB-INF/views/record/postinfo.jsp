@@ -57,14 +57,17 @@
                                             </h6>
                                             <ul class="post-meta">
                                                 <li><i
-                                                        class="uil uil-calendar-alt"></i>\${commentList.cmtCreatedAt}
+                                                        class="uil uil-calendar-alt"></i>작성날짜 \${commentList.cmtCreatedAt}
+                                                </li>
+                                                <li><i
+                                                        class="uil uil-calendar-alt"></i>수정날짜 \${commentList.cmtUpdatedAt}
                                                 </li>`;
                         if (commentList.cmtWriterId == ${ userId }) {
                             comments += `
-                                                <li><button><a href="javascript:void(0);"
+                                                <li><button class="btn btn-soft-primary btn-sm rounded-pill"><a href="javascript:void(0);"
                                                 onclick="showUpdateTextarea(\${commentList.cmtId})">수정</a></button>
                                                 </li>
-                                                <li><button class="commentDelete"
+                                                <li><button class="commentDelete btn btn-soft-primary btn-sm rounded-pill"
                                                         data-comment-id="\${commentList.cmtId}">삭제</button>
                                                 </li>`;
                         }
@@ -116,16 +119,19 @@
                                                     </h6>
                                                     <ul class="post-meta">
                                                         <li><i
-                                                                class="uil uil-calendar-alt"></i>\${replyList.cmtCreatedAt}
+                                                                class="uil uil-calendar-alt"></i>작성날짜 \${replyList.cmtCreatedAt}
+                                                        </li>
+                                                        <li><i
+                                                                class="uil uil-calendar-alt"></i>수정날짜 \${replyList.cmtUpdatedAt}
                                                         </li>`;
                                 if (replyList.cmtWriterId == ${ userId }) {
                                     comments += `
-                                                            <li><button><a
+                                                            <li><button class="btn btn-soft-primary btn-sm rounded-pill"><a
                                                                     href="javascript:void(0);"
                                                                     onclick="showUpdateTextarea(\${replyList.cmtId})">수정</a></button>
                                                             </li>
                                                             <li><button
-                                                                    class="commentDelete"
+                                                                    class="commentDelete btn btn-soft-primary btn-sm rounded-pill"
                                                                     data-comment-id="\${replyList.cmtId}">삭제</button>
                                                             </li>`;
                                 }
@@ -266,11 +272,11 @@
                     <!-- /.post-category -->
                     <h1 class="display-1 mb-4">${postInfoDTO.title}</h1>
                     <ul class="post-meta mb-5">
-                        <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${postInfoDTO.createdAt}</span>
+                        <li class="post-date"><i class="uil uil-calendar-alt"></i><span>여행기간 ${postInfoDTO.startDate}~${postInfoDTO.endDate}</span>
                         </li>
                         <li class="post-author"><a href="#"><i
                                     class="uil uil-user"></i><span>${postInfoDTO.nickName}</span></a></li>
-                        <li class="post-comments"><span> ${postInfoDTO.city}</span></a></li>
+                        <li class="post-comments"><span>지역 ${postInfoDTO.city}</span></a></li>
                         <li class="post-likes"><i class="uil uil-heart-alt"></i><span>
                                 ${postInfoDTO.likeCount}</span></a></li>
                     </ul>
@@ -322,6 +328,10 @@
                     <!-- /.swiper -->
                 </div>
                 <!-- /.swiper-container -->
+                <a class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0" href="updatepost?id=${postInfoDTO.boardId}">수 정</a>
+                <a class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0" href="deletepost?id=${postInfoDTO.boardId}">삭 제</a>
+                <p>작성날짜 ${postInfoDTO.createdAt}</p>
+                <p>수정날짜 ${postInfoDTO.updatedAt}</p>
                 <p>${postInfoDTO.content}</p>
                 <div class="card-body">
                     <hr />
@@ -346,13 +356,17 @@
                                                                 </h6>
                                                                 <ul class="post-meta">
                                                                     <li><i
-                                                                            class="uil uil-calendar-alt"></i>${commentDTO.cmtCreatedAt}
+                                                                            class="uil uil-calendar-alt"></i>작성날짜 ${commentDTO.cmtCreatedAt}
+                                                                    </li>
+                                                                    <li><i
+                                                                            class="uil uil-calendar-alt"></i>수정날짜 ${commentDTO.cmtUpdatedAt}
                                                                     </li>
                                                                     <c:if test="${commentDTO.cmtWriterId eq userId}">
-                                                                        <li><button><a href="javascript:void(0);"
-                                                                                    onclick="showUpdateTextarea(${commentDTO.cmtId})">수정</a></button>
+                                                                        <li><a href="javascript:void(0);"
+                                                                                    class="btn btn-soft-primary btn-sm rounded-pill"
+                                                                                    onclick="showUpdateTextarea(${commentDTO.cmtId})">수정</a>
                                                                         </li>
-                                                                        <li><button class="commentDelete"
+                                                                        <li><button class="commentDelete btn btn-soft-primary btn-sm rounded-pill"
                                                                                 data-comment-id="${commentDTO.cmtId}">삭제</button>
                                                                         </li>
                                                                     </c:if>
@@ -377,7 +391,7 @@
                                                     <div id="commentUpdate${commentDTO.cmtId}" style="display: none">
                                                         <textarea id="updateContent${commentDTO.cmtId}"
                                                             placeholder="수정글을 입력해주세요">${commentDTO.cmtContent}</textarea>
-                                                        <button class="updateComment"
+                                                        <button  class="updateComment"
                                                             data-comment-id="${commentDTO.cmtId}">수정 하기</button>
                                                         <a href="javascript:void(0);"
                                                             onclick="closeTextarea(${commentDTO.cmtId})">취소</a>
@@ -412,13 +426,16 @@
                                                                                     <li><i
                                                                                             class="uil uil-calendar-alt"></i>${reComment.cmtCreatedAt}
                                                                                     </li>
+                                                                                    <li><i
+                                                                                            class="uil uil-calendar-alt"></i>수정날짜 ${reComment.cmtUpdatedAt}
+                                                                                    </li>
                                                                                     <c:if
                                                                                         test="${reComment.cmtWriterId eq userId}">
-                                                                                        <li><button><a
+                                                                                        <li><button class="btn btn-soft-primary btn-sm rounded-pill"><a
                                                                                                     href="javascript:void(0);"
                                                                                                     onclick="showUpdateTextarea(${reComment.cmtId})">수정</a></button>
                                                                                         </li>
-                                                                                        <li><button
+                                                                                        <li><button class="btn btn-soft-primary btn-sm rounded-pill"
                                                                                                 class="commentDelete"
                                                                                                 data-comment-id="${reComment.cmtId}">삭제</button>
                                                                                         </li>

@@ -91,10 +91,30 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="mateDates1">
+                                <input
+                                        name="startDate"
+                                        type="date"
+                                        class="form-control"
+                                        required
+                                >
+                                -
+                                <input
+                                        name="endDate"
+                                        type="date"
+                                        class="form-control"
+                                        required
+                                >
+                            </div>
+                        </div>
+                        <div id="mateDateEmptyWarning" class="mateBoardEmptyWarning">여행 기간을 선택하세요
+                        </div>
+
                         <div class="col-12">
                             제목
                             <div class="form-floating">
                                 <input type="text" name="title" class="form-control">
+                                <label for="textInputExample">Title*</label>
                             </div>
                         </div>
                         <div class="col-12">
@@ -102,6 +122,7 @@
                             <div class="form-floating">
                                 <textarea input name="content" class="form-control" placeholder="content"
                                                                 style="height: 180px"></textarea>
+                                <label for="textInputExample">Content*</label>
                             </div>
                         </div>
                         <div class="col-md-5">

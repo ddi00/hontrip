@@ -13,8 +13,8 @@
 	</insert>
 
 	<insert id="createPost" parameterType="createPostDTO" keyProperty="id" useGeneratedKeys="true">
-		INSERT INTO record_board (user_id, location_id, title, content, is_visible, thumbnail)
-		VALUES (#{userId}, #{locationId}, #{title}, #{content}, #{isVisible}, #{thumbnail});
+		INSERT INTO record_board (user_id, location_id, title, content, is_visible, thumbnail, start_date, end_date)
+		VALUES (#{userId}, #{locationId}, #{title}, #{content}, #{isVisible}, #{thumbnail}, #{startDate}, #{endDate});
 	</insert>
 
 	<insert id="createPostImg" parameterType="postImgDTO" keyProperty="id" useGeneratedKeys="true">
@@ -42,6 +42,8 @@
 		rb.thumbnail AS thumbnail ,
 		rb.created_at AS createdAt,
 		rb.updated_at AS updatedAt,
+		rb.start_date AS startDate,
+		rb.end_date AS endDate,
 		rb.is_visible AS isVisible,
 		COUNT(rl.id) AS likeCount
 		FROM

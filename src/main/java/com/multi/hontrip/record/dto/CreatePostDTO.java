@@ -13,4 +13,6 @@ public class CreatePostDTO {
     private String thumbnail;
     private String createdAt;
     private String updatedAt;
+    private String startDate;
+    private String endDate;
 }
