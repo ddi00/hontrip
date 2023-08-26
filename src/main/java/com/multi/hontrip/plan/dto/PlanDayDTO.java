@@ -10,7 +10,7 @@ import java.sql.Date;
 @Getter
 @Setter
 public class PlanDayDTO {
-    private Long id;        // 일정-일 id
+//    private Long id;        // 일정-일 id
     private Long userId;    // 유저 id
     private Long planId;    // 일정 id
     private String spotId;    // 여행지 id
