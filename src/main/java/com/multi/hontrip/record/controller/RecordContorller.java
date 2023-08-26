@@ -89,33 +89,37 @@ public class RecordContorller {
     @GetMapping("mylist") // 내 게시물 전체 가져오기
     public String getMyList(Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("id");
-        List<PostInfoDTO> getMyList = recordService.getMyList(userId); //dto는 long, db는 int라 형변환 필요
+        List<PostInfoDTO> getMyList = recordService.getMyList(userId);
         List<LocationDTO> getMyMap = recordService.getMyMap(userId); // 지도 정보 가져오기
         List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
         model.addAttribute("mylist", getMyList);
         model.addAttribute("mymap", getMyMap);
         model.addAttribute("locationList", locationList);
         model.addAttribute("appkey",MAP_KEY);
+        System.out.println("마커클릭 정보 확인1"+ getMyList);
+        System.out.println("마커클릭 정보 확인2"+ getMyMap);
         return "/record/mylist"; // 기존의 뷰 이름 반환
     }
 
 
-    @GetMapping("list-mylocation") //  마커클릭시 내 게시물 해당지역 리스트 가져오기
-    public void getListMyLocation(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
+    @GetMapping("list_mylocation_click") //  마커클릭시 내 게시물 해당지역 리스트 가져오기
+    public void getListMyLocationClick(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("id");
-        List<PostInfoDTO> getListMyLocation = recordService.getListMyLocation(locationId, userId);
+        List<PostInfoDTO> getListMyLocationClick = recordService.getListMyLocationClick(locationId, userId);
         List<LocationDTO> getMyMap = recordService.getMyMap(userId);
-        model.addAttribute("mylist", getListMyLocation); // mylist 모델에 데이터 추가
+        model.addAttribute("mylist", getListMyLocationClick); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
+        System.out.println("마커클릭 정보 확인1"+ getListMyLocationClick);
+        System.out.println("마커클릭 정보 확인2"+ getMyMap);
     }
 
 
-    @GetMapping("list-mylocation3") // 검색어입력시 내 게시물 해당지역 리스트 가져오기
-    public void getListMyLocation3(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
+    @GetMapping("list_mylocation_dropdown") // 검색어입력시 내 게시물 해당지역 리스트 가져오기
+    public void getListMyLocationDrowDown(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("id");
-        List<PostInfoDTO> getListMyLocation3 = recordService.getListMyLocation3(locationId, userId.intValue());
+        List<PostInfoDTO> getListMyLocationDrowDown = recordService.getListMyLocationDrowDown(locationId, userId);
         List<LocationDTO> getMyMap = recordService.getMyMap(userId);
-        model.addAttribute("mylist", getListMyLocation3); // mylist 모델에 데이터 추가
+        model.addAttribute("mylist", getListMyLocationDrowDown); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
 
     }

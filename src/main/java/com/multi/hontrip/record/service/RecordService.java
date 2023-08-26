@@ -112,11 +112,11 @@ public class RecordService {
     public List<PostInfoDTO> getMyList(Long userId) {
         return recordDAO.getMyList(userId);
     }
-    public List<PostInfoDTO> getListMyLocation(Long locationId, Long userId) {
-        return recordDAO.getListMyLocation(locationId, userId);
+    public List<PostInfoDTO> getListMyLocationClick(Long locationId, Long userId) {
+        return recordDAO.getListMyLocationClick(locationId, userId);
     }
-    public List<PostInfoDTO> getListMyLocation3(Long locationId, int userId) {
-        return recordDAO.getListMyLocation3(locationId, userId);
+    public List<PostInfoDTO> getListMyLocationDrowDown(Long locationId, Long userId) {
+        return recordDAO.getListMyLocationDrowDown(locationId, userId);
     }
     public List<PostInfoDTO> getFeedList(int isVisible) {
         return recordDAO.getFeedList(isVisible);
