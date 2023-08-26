@@ -31,5 +31,7 @@ public interface PlanService {
 
     SpotAddDTO createSpotAddDTO(Long planId, String spotContentId); // 추가 여행지 반환
 
-    void addSpotToDay(Long planId, Long userId, int dayOrder, String spotContentId); // 일정-일차 여행지 정보 추가
+    PlanDayDTO addSpotToDay(Long planId, Long userId, int dayOrder, String spotContentId); // 일정-일차 여행지 정보 추가
+
+    void addSpot(PlanDayDTO planDayDTO);
 }

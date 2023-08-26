@@ -1,5 +1,6 @@
 package com.multi.hontrip.plan.controller;
 
+import com.multi.hontrip.common.RequiredSessionCheck;
 import com.multi.hontrip.plan.dto.SpotDTO;
 import com.multi.hontrip.plan.dto.SpotSearchDTO;
 import com.multi.hontrip.plan.service.SpotService;
@@ -9,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 
-import javax.servlet.http.HttpSession;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
@@ -32,7 +32,7 @@ public class SpotController {
 
     // 여행지 검색 목록
     @PostMapping("/search")
-    public String searchSpot(@ModelAttribute("SpotSearchDTO") SpotSearchDTO spotSearchDTO, Model model, HttpSession session)
+    public String searchSpot(@ModelAttribute("SpotSearchDTO") SpotSearchDTO spotSearchDTO, Model model)
             throws ParserConfigurationException, SAXException, IOException {
 
         List<SpotDTO> spotList = spotService.searchSpots(spotSearchDTO); // 여행지 검색

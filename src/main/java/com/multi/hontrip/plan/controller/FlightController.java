@@ -104,7 +104,6 @@ public class FlightController {
 
         flightSearchDTO.setDepAirportName(depAirportName);
         flightSearchDTO.setArrAirportName(arrAirportName);
-
         flightSearchDTO.setStartRowNum(startRowNum);
         flightSearchDTO.setEndRowNum(endRowNum);
         flightSearchDTO.setRowCount(rowCount);

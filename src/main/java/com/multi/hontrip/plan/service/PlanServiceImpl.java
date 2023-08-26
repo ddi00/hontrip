@@ -74,13 +74,12 @@ public class PlanServiceImpl implements PlanService{
     } // 일차 계산
 
     public List<SpotLoadDTO> loadExistingSpots(PlanDTO plan, int numOfDays) {
-
         // 기존에 추가되어 있던 여행지 담을 리스트
         List<SpotLoadDTO> addedSpots = new ArrayList<>();
 
         // 여행일만큼 plan-day 생성
         for (int i = 0; i < numOfDays; i++) {
-            PlanDayDTO planDayDTO = new PlanDayDTO();
+            PlanDayDTO planDayDTO = new PlanDayDTO(); // 일차 생성 위한 빈 DTO
             planDayDTO.setPlanId(plan.getId());
             planDayDTO.setUserId(plan.getUserId());
             planDayDTO.setDayOrder(i + 1);
@@ -89,8 +88,8 @@ public class PlanServiceImpl implements PlanService{
             // 일정의 각 일차 가져옴
             PlanDayDTO planDayDTO2 = findPlanWithDay(plan.getId(), plan.getUserId(), i + 1);
             try {
-                if (planDayDTO2 != null) {
-                    if (!planDayDTO2.getSpotId().isEmpty()) {
+//                if (planDayDTO2 != null) {
+                    if (!planDayDTO2.getSpotId().isEmpty()) { // 이미 추가된 여행지가 있을 경우
                         String existingSpots = planDayDTO2.getSpotId();
                         String[] SpotContentIds = existingSpots.split(":");  // ':'로 나눠진 spotContentId 분리
                         for (int j = 0; j < SpotContentIds.length; j++) {
@@ -99,18 +98,14 @@ public class PlanServiceImpl implements PlanService{
                             spotLoadDTO.setUserId(plan.getUserId());
                             spotLoadDTO.setDayOrder(i + 1);
                             spotLoadDTO.setContentId(SpotContentIds[j]);
+                            // 분리된 여행지 콘텐츠 id로 여행지명과 이미지 가져옴
                             SpotDTO spotDTO = spotService.findSpot(SpotContentIds[j]);
                             spotLoadDTO.setTitle(spotDTO.getTitle());
                             spotLoadDTO.setImage(spotDTO.getImage());
                             addedSpots.add(spotLoadDTO);
                         }
-                    } else {
-
-                    }
-                }
-            }catch (NullPointerException e){
-
-            }
+                    } else {}
+            }catch (NullPointerException e){}
         }
         return addedSpots;
     } // 일정에 저장된 기존의 여행지 로드
@@ -128,8 +123,7 @@ public class PlanServiceImpl implements PlanService{
     } // 추가 여행지 반환
 
     @Override
-    public void addSpotToDay(Long planId, Long userId, int dayOrder, String spotContentId) {
-
+    public PlanDayDTO addSpotToDay(Long planId, Long userId, int dayOrder, String spotContentId) {
         PlanDayDTO planDayDTO = findPlanWithDay(planId, userId, dayOrder);
         try {
             if (planDayDTO != null) {
@@ -146,14 +140,17 @@ public class PlanServiceImpl implements PlanService{
                 newPlanDayDTO.setUserId(userId);
                 newPlanDayDTO.setDayOrder(dayOrder);
                 newPlanDayDTO.setSpotId(spotContentId);
-
             }
-
         } catch (NullPointerException e) {
             planDayDTO.setSpotId("");
             planDayDTO.setSpotId(spotContentId);
         }
 
-        planDayDAO.updateSpot(planDayDTO);
+//        planDayDAO.updateSpot(planDayDTO);
+        return planDayDTO;
     } // 일정-일차 여행지 정보 추가
+
+    public void addSpot(PlanDayDTO planDayDTO){
+        planDayDAO.updateSpot(planDayDTO);
+    }
 }

@@ -1,5 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    if (session.getAttribute("id") != null) {
+        Long userId = (Long) session.getAttribute("id");
+        request.setAttribute("userId", userId);
+    }
+%>
 <section class="wrapper bg-light">
     <div class="container mt-15 mb-20">
         <div class="row d-flex justify-content-center">
