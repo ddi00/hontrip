@@ -308,7 +308,7 @@
                                         <div class="swiper-slide">
                                             <figure class="rounded"><img src="<c:url value='/${postImgDTO.imgUrl}'/>"
                                                     srcset="<c:url value='/${postImgDTO.imgUrl}'/>"
-                                                    alt="" /><a class="item-link" href="<c:url value='/${postImgDTO.imgUrl}'/>"
+                                                    alt="" /><a class="item-link" href="/hontrip/${postImgDTO.imgUrl}"
                                                     data-glightbox data-gallery="product-group"><i
                                                         class="uil uil-focus-add"></i></a></figure>
                                         </div>

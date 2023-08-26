@@ -234,13 +234,15 @@ CREATE TABLE `record_board` (
   `is_visible` tinyint NOT NULL,
   `thumbnail` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `location_id` (`location_id`),
   CONSTRAINT `record_board_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `record_board_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `location` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 
 -- hontrip.record_comment definition
