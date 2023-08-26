@@ -27,6 +27,7 @@ public class CommentService {
     //댓글 삭제
     public void deleteCmt(long id) {
         commentDAO.deleteComment(id);
+        commentDAO.deleteReComment(id);
     }
 
     //댓글 수정
