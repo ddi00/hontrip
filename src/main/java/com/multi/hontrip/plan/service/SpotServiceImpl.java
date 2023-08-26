@@ -11,6 +11,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -101,9 +102,24 @@ public class SpotServiceImpl implements SpotService {
         }
     }
 
+    // 여행지 검색
+    public List<SpotDTO> searchSpots(SpotSearchDTO spotSearchDTO) throws IOException, ParserConfigurationException, SAXException {
+        List<SpotDTO> spotList = new ArrayList<>();
+        // 사용자 검색 범주에 따라 키워드 검색 / 지역 검색으로 분기
+        if (spotSearchDTO.getCategory().equals("keyword")){
+            parseData(spotSearchDTO); // api 호출하여 키워드로 여행지 조회
+            spotList = list(spotSearchDTO); // DB에서 조건에 맞는 데이터 select
+
+        }else if (spotSearchDTO.getCategory().equals("area")){
+            parseData(spotSearchDTO); // api 호출하여 지역명으로 여행지 조회
+            spotList = list(spotSearchDTO); // DB에서 조건에 맞는 데이터 select
+        }
+        return spotList;
+    }
+
     // 여행지 단일 조회
     @Override
-    public SpotDTO one(String contentId) {
+    public SpotDTO findSpot(String contentId) {
         return spotDAO.one(contentId); // 여행지 콘텐츠 id로 조회 (※ 여행지 id 아님)
     }
 

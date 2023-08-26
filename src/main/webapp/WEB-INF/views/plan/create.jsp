@@ -1,11 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    if (session.getAttribute("id") != null) {
+        long userId = (long) session.getAttribute("id");
+        request.setAttribute("userId", userId);
+    }
+%>
 <section class="wrapper bg-light">
     <div class="container-fluid container mt-15 mb-20 w-75">
         <h2>여행 일정 생성</h2>
         <hr class="my-8"/>
         <form id="myForm" action="insert" method="post">
             <div class="mb-3">
-                <label for="title" class="form-label">여행 제목</label>
+                <label for="title" class="form-label">일정명</label>
                 <input type="text" id="title" name="title" class="form-control" required>
             </div>
             <div class="row mb-3">

@@ -5,8 +5,8 @@
             <div class="card mt-2">
                 <div class="card-body">
                     사용자 id : ${plan.userId} <br>
-                    제목 : ${plan.title} <br>
-                    시작일 : ${plan.startDate}<br>
+                    일정명 : ${plan.title} <br>
+                    출발일 : ${plan.startDate}<br>
                     종료일 : ${plan.endDate}<br>
                     메모 : ${plan.memo} <br>
                     생성일시 : <fmt:formatDate value="${plan.createdAt}" pattern="yyyy-MM-dd HH:mm" type="date"/> <br>

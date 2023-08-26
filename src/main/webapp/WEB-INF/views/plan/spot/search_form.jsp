@@ -1,4 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    if (session.getAttribute("id") != null) {
+        Long userId = (Long) session.getAttribute("id");
+        request.setAttribute("userId", userId);
+    }
+%>
 <section class="wrapper bg-light">
     <div class="container-fluid container mt-15 mb-20 w-75">
         <h3>여행지 검색</h3><br>

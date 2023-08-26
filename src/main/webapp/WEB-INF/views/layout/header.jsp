@@ -11,7 +11,7 @@
             <div class="navbar-collapse offcanvas offcanvas-nav offcanvas-start">
                 <div class="offcanvas-body ms-lg-auto d-flex flex-column h-100">
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="#">메뉴1</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/hontrip/plan/list">계획</a></li>
                         <li class="nav-item"><a class="nav-link" href="/hontrip/record/mylist">기록</a></li>
                         <li class="nav-item"><a class="nav-link" href="/hontrip/mate/bbs_list">동행인</a></li>
                       </ul>

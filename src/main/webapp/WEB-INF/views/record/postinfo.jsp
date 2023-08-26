@@ -297,9 +297,9 @@
         <div class="row">
             <div class="col-lg-10 mx-auto">
                 <div class="blog single mt-n17">
-                    <div class="card">
+                    <div class="card mb-2">
 
-                        <div class="swiper-container swiper-thumbs-container" data-margin="10" data-dots="false"
+                        <div class="swiper-container" data-margin="10" data-dots="false"
                             data-nav="true" data-thumbs="true">
                             <div class="swiper">
                                 <div class="swiper-wrapper">
