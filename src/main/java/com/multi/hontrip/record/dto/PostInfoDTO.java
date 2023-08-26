@@ -9,6 +9,7 @@ public class PostInfoDTO {
     private long userId;
     private String city;
     private String nickName;
+    private String pofileImg;
     private String title;
     private String imgUrl;
     private String content;

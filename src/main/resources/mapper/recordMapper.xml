@@ -36,6 +36,7 @@
 		rb.id AS boardId,
 		loc.city As city,
 		u.nickname AS nickName,
+		u.profile_image AS profileImg,
 		u.id AS userId,
 		rb.title AS title,
 		rb.content AS content,
