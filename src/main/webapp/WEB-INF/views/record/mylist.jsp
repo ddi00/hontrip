@@ -9,6 +9,29 @@
     <title>Insert title here</title>
     <script type="text/javascript" src="../resources/js/jquery-3.7.0.js" ></script>
 
+<style>
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px; /* 상단 여백 조정 */
+    height: 50vh; /* 화면 높이에 맞추기 위해 설정 (선택 사항) */
+  }
+
+  .buttons .card-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* 요소가 너무 많으면 여러 줄로 나눠줌 */
+  }
+
+  .buttons .btn,
+  .buttons select {
+    margin: 0 100px; /* 버튼 사이의 간격 조정 */
+  }
+</style>
+
 </head>
 <body>
 
@@ -41,16 +64,15 @@ var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
        kakao.maps.event.addListener(marker, 'click',
        function() {
          // 초기화
-         $("#mylist-section").hide();
-         $("#list-mylocation-result2").hide();
-         $("#list-mylocation-result3").hide();
+         $("#mylist_section").hide();
+         $("#list_mylocation_click_dropdownt").hide();
            $.ajax({
                type: "GET",
-               url: "list-mylocation", // 요청할 URL
+               url: "list_mylocation_click", // 요청할 URL
                data: { locationId: ${locationDTO.id} }, // 마커의 locationId를 전달
                dataType: "html",
                success: function(response) {
-                 $("#list-mylocation-result").html(response).show(); // 결과를 표시하도록 변경
+                 $("#list_mylocation_click_result").html(response).show(); // 결과를 표시하도록 변경
                },
                error: function() {
                    // 에러 처리
@@ -81,50 +103,7 @@ function makeOutListener(infowindow) {
 
 </script>
 
-<!-- 검색어 입력창을 포함한 컨테이너 -->
-<div id="search-container">
-  <input type="text" id="city" placeholder="장소 검색어를 입력하세요">
-  <button id="searchButton">검색</button>
-</div>
 
-<!-- 검색어 입력시 ajax -->
-<script>
-$(document).ready(function() {
-  // 검색 버튼 클릭 이벤트 처리
-  $('#searchButton').click(function() {
-    // 초기화
-      $("#mylist-section").hide();
-      $("#list-mylocation-result").hide();
-      $("#list-mylocation-result3").hide();
-    var city = $('#city').val();
-     // 검색어가 비어있지 않을 경우에만 Ajax 요청
-    if (city !== '') {
-      // Ajax 요청
-      $.ajax({
-        type: 'GET',
-        url: "list-mylocation2",
-        data: { city: city },
-        success: function(response) {
-          // 결과를 결과창에 표시
-            $("#list-mylocation-result2").html(response).show(); // 결과를 표시하도록 변경
-        },
-        error: function() {
-          // 오류 처리
-          alert('검색한 자료가 없습니다.');
-        }
-      });
-    }
-  });
-});
-</script>
-
-<!-- 드롭다운 컨테이너 -->
-  <select id="locationDropdown">
-    <option value="" disabled selected>지역을 선택하세요</option>
-    <c:forEach items="${locationList}" var="locationDTO">
-        <option value="${locationDTO.id}">${locationDTO.city}</option>
-    </c:forEach>
-  </select>
 
 <!-- 드롭박스 선택시 ajax -->
 <script>
@@ -132,18 +111,17 @@ $(document).ready(function() {
     // 드롭다운 선택 이벤트 처리
     $('#locationDropdown').change(function() {
       // 초기화
-      $("#mylist-section").hide();
-      $("#list-mylocation-result").hide();
-      $("#list-mylocation-result2").hide();
+      $("#mylist_section").hide();
+      $("#list_mylocation_click_result").hide();
 
       var selectedLocationId = $(this).val();
 
       $.ajax({
         type: 'GET',
-        url: "list-mylocation3",
+        url: "list_mylocation_dropdown",
         data: { locationId: selectedLocationId },
         success: function(response) {
-          $("#list-mylocation-result3").html(response).show();
+          $("#list_mylocation_dropdown_result").html(response).show();
         },
         error: function() {
           // 오류 처리
@@ -156,30 +134,52 @@ $(document).ready(function() {
 
 
 <!-- 내 게시물 표시 부분 -->
-<div id="mylist-section">
-<a href="feedlist?isVisible=1"><button>공유피드</button></a><br>
-<a href="createpost"><button>게시글작성버튼</button></a><br>
-내 게시물 전체 리스트
-<hr color="red">
-    <c:forEach items="${mylist}" var="createPostDTO">
-        <div id = "mylistone">
-                    <img src="<c:url value='/${createPostDTO.thumbnail}'/>"width="300" height="180"><br>,
-                    유저정보 : ${createPostDTO.userId},
-                    지역id : ${createPostDTO.locationId},
-                    글제목 : ${createPostDTO.title},
-                    공개여부: ${createPostDTO.isVisible} <br>
-        </div>
+<div id="mylist_section">
+     <section class="buttons">
+       <div class="card-body">
+         <a href="feedlist?isVisible=1" class="btn btn-yellow rounded-pill mb-2 me-1">공유피드</a>
+         <a href="createpost" class="btn btn-yellow rounded-pill mb-2 me-1">게시글작성</a>
+
+        <!-- 드롭다운 컨테이너 -->
+           <select id="locationDropdown">
+             <option value="" disabled selected>지역을 선택하세요</option>
+             <c:forEach items="${locationList}" var="locationDTO">
+                 <option value="${locationDTO.id}">${locationDTO.city}</option>
+             </c:forEach>
+           </select>
+     </section>
+
+    <section class="wrapper">
+      <div class="container pt-12 pt-md-0 pb-16 pb-md-18">
+        <div class="grid grid-view projects-masonry mt-md-n20 mt-lg-n22 mb-20">
+          <div class="row g-8 g-lg-10 isotope">
+
+    <c:forEach items="${mylist}" var="postInfoDTO">
+                    <div class="project item col-md-6 col-xl-4 workshop">
+                      <div class="card shadow-lg">
+                        <figure class="card-img-top itooltip itooltip-aqua" title='<h5 class="mb-0">클릭하여 상세게시물 보기</h5>'><a href="/hontrip/record/postinfo?id=${postInfoDTO.boardId}"> <img src="<c:url value='/${postInfoDTO.thumbnail}'/>" alt="" /></a></figure>
+                        <div class="card-body p-7">
+                          <div class="post-header">
+                            <div class="post-category text-line mb-2 text-aqua">${postInfoDTO.city}</div>
+                            <h3 class="mb-0">${postInfoDTO.title}</h3>
+                          </div>
+                        </div>  <!-- /.card-body -->
+                      </div> <!-- /.card -->
+                     </div> <!-- /.project -->
     </c:forEach>
+          </div>
+       </div>
+     </div>
+  </section>
 </div>
 
 <!-- 마커 클릭 시 해당 지역 게시물 표시 부분 -->
-<div id="list-mylocation-result" ></div>
-
-<!-- 검색어 검색 시 해당 지역 게시물 표시 부분 -->
-<div id="list-mylocation-result2" ></div>
+<div id="list_mylocation_click_result" ></div>
 
 <!-- 드롭다운 선택 시 해당 지역 게시물 표시 부분 -->
-<div id="list-mylocation-result3" ></div>
+<div id="list_mylocation_dropdown_result" ></div>
 
 </body>
 </html>
+
+

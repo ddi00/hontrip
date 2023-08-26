@@ -13,8 +13,8 @@
 	</insert>
 
 	<insert id="createPost" parameterType="createPostDTO" keyProperty="id" useGeneratedKeys="true">
-		INSERT INTO record_board (user_id, location_id, title, content, is_visible, thumbnail)
-		VALUES (#{userId}, #{locationId}, #{title}, #{content}, #{isVisible}, #{thumbnail});
+		INSERT INTO record_board (user_id, location_id, title, content, is_visible, thumbnail, start_date, end_date)
+		VALUES (#{userId}, #{locationId}, #{title}, #{content}, #{isVisible}, #{thumbnail}, #{startDate}, #{endDate});
 	</insert>
 
 	<insert id="createPostImg" parameterType="postImgDTO" keyProperty="id" useGeneratedKeys="true">
@@ -42,13 +42,17 @@
 		rb.thumbnail AS thumbnail ,
 		rb.created_at AS createdAt,
 		rb.updated_at AS updatedAt,
+		rb.start_date AS startDate,
+		rb.end_date AS endDate,
 		rb.is_visible AS isVisible,
-		COUNT(rl.id) AS likeCount
+		COUNT(rl.id) AS likeCount,
+		COUNT(rc.id) AS cmtCount
 		FROM
 		record_board rb
 		LEFT JOIN user u ON rb.user_id = u.id
 		LEFT JOIN location loc ON rb.location_id = loc.id
 		LEFT JOIN record_like rl ON rb.id = rl.record_id
+		LEFT JOIN record_comment rc ON rb.id = rc.record_id
 		WHERE
 		rb.id = #{id}
 		GROUP BY
@@ -95,37 +99,55 @@
 		WHERE id = #{id};
 	</delete>
 
+	<delete id="deleteReComment">
+		DELETE FROM record_comment
+		WHERE indentation_number = #{id};
+	</delete>
+
 	<!-- 내 게시물 전체 리스트 가져오기 -->
-	<select id="mylist" resultType="createPostDTO" parameterType="Long">
-		SELECT title, thumbnail, user_id, is_visible, location_id
-		FROM record_board
-		WHERE user_id = #{userId}
-		ORDER BY id DESC;
+	<select id="mylist" resultType="postInfoDTO" parameterType="Long">
+		SELECT
+		rb.id AS boardId,
+		loc.city As city,
+		u.nickname AS nickName,
+		rb.title AS title,
+		rb.thumbnail AS thumbnail ,
+		rb.created_at AS createdAt,
+		rb.updated_at AS updatedAt,
+		rb.is_visible AS isVisible,
+		(SELECT COUNT(*) FROM record_like rl WHERE rl.record_id = rb.id) AS likeCount
+		FROM
+		record_board rb
+		LEFT JOIN user u ON rb.user_id = u.id
+		LEFT JOIN location loc ON rb.location_id = loc.id
+		LEFT JOIN record_like rl ON rb.id = rl.record_id
+		WHERE
+		u.id  = #{userId}
+		GROUP BY
+		rb.id;
+
 	</select>
 
 	<!-- 내 게시물 마커 클릭한 지역 리스트 가져오기 -->
-	<select id="listmylocation" resultType="createPostDTO" parameterType="java.util.Map">
-		SELECT title, thumbnail, user_id, is_visible, location_id
-		FROM record_board
-		WHERE user_id = #{userId} AND location_id = #{locationId}
-		ORDER BY id DESC;
-	</select>
-
-	<!-- 내 게시물 검색한 지역 리스트 가져오기 -->
-	<select id="listmylocation2" resultType="createPostDTO" parameterType="java.util.Map">
-		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id
-		FROM record_board rb
-		JOIN location l ON rb.location_id = l.id
-		WHERE rb.user_id = #{userId} AND l.city = #{city}
-		ORDER BY rb.id DESC;
+	<select id="list_mylocation_click" resultType="postInfoDTO" parameterType="java.util.Map">
+		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId
+		FROM
+		record_board rb
+		LEFT JOIN user u ON rb.user_id = u.id
+		LEFT JOIN location loc ON rb.location_id = loc.id
+		LEFT JOIN record_like rl ON rb.id = rl.record_id
+		WHERE u.id = #{userId} AND loc.id = #{locationId}
 	</select>
 
 	<!-- 내 게시물 드롭다운 선택한 지역 리스트 가져오기 -->
-	<select id="listmylocation3" resultType="createPostDTO" parameterType="java.util.Map">
-		SELECT title, thumbnail, user_id, is_visible, location_id
-		FROM record_board
-		WHERE user_id = #{userId} AND location_id = #{locationId}
-		ORDER BY id DESC;
+	<select id="list_mylocation_dropdown" resultType="postInfoDTO" parameterType="java.util.Map">
+		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId
+		FROM
+		record_board rb
+		LEFT JOIN user u ON rb.user_id = u.id
+		LEFT JOIN location loc ON rb.location_id = loc.id
+		LEFT JOIN record_like rl ON rb.id = rl.record_id
+		WHERE u.id = #{userId} AND loc.id = #{locationId}
 	</select>
 
 	<!-- 공유피드 전체 리스트 가져오기 -->

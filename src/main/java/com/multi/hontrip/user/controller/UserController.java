@@ -1,5 +1,6 @@
 package com.multi.hontrip.user.controller;
 
+import com.multi.hontrip.common.NoSessionRequired;
 import com.multi.hontrip.common.RequiredSessionCheck;
 import com.multi.hontrip.user.dto.LoginUrlData;
 import com.multi.hontrip.user.dto.UserDTO;
@@ -7,6 +8,7 @@ import com.multi.hontrip.user.dto.UserInfoDTO;
 import com.multi.hontrip.user.dto.WithdrawUserDTO;
 import com.multi.hontrip.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +28,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/sign-in")
-    public ModelAndView signIn(ModelAndView modelAndView){  //소셜 로그인 페이지로 이동
+    @NoSessionRequired
+    public ModelAndView signIn(ModelAndView modelAndView,HttpSession session){  //소셜 로그인 페이지로 이동
         //모델에 로그인할 수 있는 url을 담아서 전달 - 네이버, 구글, 카카오...
         List<LoginUrlData> loginUrls = userService.getUrls();
         modelAndView.addObject("urls",loginUrls);
@@ -35,8 +38,10 @@ public class UserController {
     }
 
     @GetMapping("/{provider}/callback")
+    @NoSessionRequired
     public String callback(@PathVariable("provider")String provider,
-                           HttpServletRequest request) throws Exception{   //소셜 로그인 Oauth 인증 callback  처리
+                           HttpServletRequest request,
+                           HttpSession session) throws Exception{   //소셜 로그인 Oauth 인증 callback  처리
         //인증 처리 - 네이버랑 카카오랑 callback값이 다름
         UserDTO member = userService.getUserInfoByAuth(request,provider);
 
@@ -44,7 +49,6 @@ public class UserController {
         if(member.getState().equals("reAccessTerms")) { // 재동의 후 받는 값이라면 내 정보로 가야함
             redirectUrl="user/my-page";
         }else{ // 재동의가 아닌 나머지 값은 신규 가입처리
-            HttpSession session = request.getSession();
             session.setAttribute("id", member.getId());
             session.setAttribute("nickName", member.getNickName());
             session.setAttribute("profileImage", member.getProfileImage());
@@ -105,5 +109,16 @@ public class UserController {
     public RedirectView reacceptTerms(HttpSession session){// 재동의 - 카카오 싱크를 사용하지 않기 때문에 탈퇴시키고 가입 화면으로 보내야함
         Long userId = (Long)session.getAttribute("id");
         return new RedirectView(userService.reAcceptTerms(userId));
+    }
+    @GetMapping("refresh-userInfo")
+    @RequiredSessionCheck
+    public ResponseEntity<UserInfoDTO> refreshUserInfo(HttpSession session){
+        Long userId = (Long)session.getAttribute("id");
+        UserInfoDTO userInfoDTO = userService.refreshUserInfo(userId);
+        //세션 정보 갱신
+        session.setAttribute("nickName", userInfoDTO.getNickName());
+        session.setAttribute("profileImage", userInfoDTO.getProfileImage());
+
+        return ResponseEntity.ok(userInfoDTO);
     }
 }

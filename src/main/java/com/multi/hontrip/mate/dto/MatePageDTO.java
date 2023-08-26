@@ -30,6 +30,8 @@ public class MatePageDTO {
 	private String searchType;
 	//검색어
 	private String keyword;
+	//지역
+	private String region;
 
 	public void setStartEnd(int page) {
 		start = 6;

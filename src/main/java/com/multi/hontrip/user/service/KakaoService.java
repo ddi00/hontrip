@@ -168,6 +168,18 @@ public class KakaoService implements OauthService { //카카오 oauth 인증 처
         }
     }
 
+    @Override
+    public UserInsertDTO refreshUserInfo(UserSocialInfoDTO userSocialInfo) {
+        OauthTokenDTO tokenDTO = OauthTokenDTO.builder()
+                .tokenType("Bearer")
+                .accessToken(userSocialInfo.getAccessToken())
+                .build();
+        UserInsertDTO userInsertDTO = getUserInfoWithToken(tokenDTO);
+        userInsertDTO.setExpiresAt(userSocialInfo.getExpiresAt());
+        userInsertDTO.setRefreshTokenExpiresAt(userSocialInfo.getRefreshTokenExpiresAt());
+        return userInsertDTO;
+    }
+
     private UserInsertDTO jsonConverToDTO(ResponseEntity<String> response, OauthTokenDTO tokenDTO) {
         //json 파싱
         JsonParser parser = new JsonParser();

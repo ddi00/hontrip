@@ -60,6 +60,7 @@ if (window.location.href.includes('/mate/insert')) {
                     url: "insert",
                     data: formData,
                     success: function (boardId) {
+                        console.log(boardId)
                         location.href =
                             boardId
                     },
@@ -312,12 +313,18 @@ if (window.location.href.includes('/mate/editpage')) {
 }
 
 
-/!*동행인 상세게시판*!/
+// 동행인 상세게시판
 if (window.location.href.includes('/mate/')) {
     function applyMate() {
+        /*
+
+                console.log($('#mateBoardId').val(), $('#mateSenderId').val(),
+                    $('#mateSenderNickName').val(), $('#mateSenderProfileImage'),
+                    $('#writerId').val(), $("#applicationMessage").val())
+        */
 
         //로그인 안했을 경우 로그인창을 띄움ss
-        if ($('#mateBoardGuest').val() == "") {
+        if ($('#mateSenderId').val() == "") {
             location.href = "../user/sign-in"
             //로그인 했을 경우
         } else {
@@ -325,7 +332,7 @@ if (window.location.href.includes('/mate/')) {
             $.ajax({
                 url: "findUserGenderAge",
                 data: {
-                    id: $('#mateBoardGuest').val()
+                    id: $('#mateSenderId').val()
                 },
                 dataType: "json",
                 success: function (json) {
@@ -350,7 +357,7 @@ if (window.location.href.includes('/mate/')) {
 
                     //모집조건에 부합하다면
                     //성별, 연령대 아무나 처리
-                    if (json.id == $('#mateBoardGuest').val() && (json.gender === $('#mateBoardGenderStr').val() ||
+                    if (json.id == $('#mateSenderId').val() && (json.gender === $('#mateBoardGenderStr').val() ||
                             $('#mateBoardGenderStr').val() == "성별무관" || json.gender == "NONE")
                         && (ageRangeStrArr.includes(json.ageRange) || ageRangeStrArr.includes("전연령")
                             || ageRangeStrArr.length == 0 || json.ageRange == "AGE_UNKNOWN")) {
@@ -392,9 +399,23 @@ if (window.location.href.includes('/mate/')) {
         $('#deleteButton').click();
     }
 
+    /* 셀렉트원에서 -> 동행인신청버튼누르고 + 신청조건에 맞는사람일경우에 넣기 */
+
+    /* 동행인 신청 알림 */
+    function sendAlarm(mateBoardId, senderId, senderNickname, senderProfileImage, receiverId, content) {
+        stompClient.send('/pub/mate', {},
+            JSON.stringify({
+                'mateBoardId': mateBoardId,
+                'senderId': senderId,
+                'senderNickname': senderNickname,
+                // 'senderProfileImage':senderProfileImage,
+                'receiverId': receiverId,
+                'content': content
+            }))
+    }
+
     //동행인신청메세지 모달에서 전송버튼을 눌렀을때
     function send() {
-
         if ($('#applicationMessage').val().trim() == "") {
             $('#applicationMessage').val("같이 여행가요")
         }
@@ -403,12 +424,17 @@ if (window.location.href.includes('/mate/')) {
             url: "insertMatchingAlarm",
             data: {
                 mateBoardId: $('#mateBoardId').val(),
-                senderId: $('#mateBoardGuest').val(),
+                senderId: $('#mateSenderId').val(),
                 content: $("#applicationMessage").val()
             },
             success: function () {
                 //동행 신청 메세지를 전송한 후, 모달을 끄고
                 location.reload()
+                //동행인 신청 알람 보내기
+                sendAlarm($('#mateBoardId').val(), $('#mateSenderId').val(),
+                    $('#mateSenderNickName').val(), $('#mateSenderProfileImage'),
+                    $('#writerId').val(), $("#applicationMessage").val())
+
                 //동행인 신청 버튼 비활성화
                 $('#application').attr('disabled', 'disabled');
             }, error: function (e) {
@@ -418,8 +444,7 @@ if (window.location.href.includes('/mate/')) {
     }
 
     $(document).ready(function () {
-        let login = $('#mateBoardGuest').val();
-
+        let login = $('#mateSenderId').val();
 
         //로그인 했고,
         if (login != "") {
@@ -428,7 +453,7 @@ if (window.location.href.includes('/mate/')) {
             $.ajax({
                 url: "checkApply",
                 data: {
-                    senderId: $('#mateBoardGuest').val(),
+                    senderId: $('#mateSenderId').val(),
                     mateBoardId: $('#mateBoardId').val()
                 },
                 dataType: "json",
@@ -449,26 +474,59 @@ if (window.location.href.includes('/mate/')) {
         let comments = "";
         let cCount = commentListRe.list.length;
         let rCount = commentListRe.reCommentList.length;
+        let commentListCount = "";
 
         console.log(cCount)
         if (cCount > 0) {
             for (let i = 0; i < cCount; i++) {
                 let commentList = commentListRe.list[i];
                 if (commentList.commentSequence == 0) {
-                    comments += " 댓글 작성자 : " + commentList.nickname + ", ";
-                    comments += "댓글 내용 : " + commentList.content + ", ";
-                    comments += "작성날짜 : " + commentList.createdAt + ", ";
-                    comments += "<a href='javascript:void(0);' onclick='showCcmtTextarea(" + commentList.commentId + ")'>답글 달기</a>";
+                    comments += `<li class="comment">
+                        <div class="comment-header d-md-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                                <figure class="user-avatar">
+                                    <img class="rounded-circle" alt="" src="${commentList.profileImage}" />
+                                </figure>
+                                <div>
+                                    <h6 class="comment-author">
+                                        <a href="#" class="link-dark">${commentList.nickname}</a>
+                                    </h6>
+                                    <ul class="post-meta">
+                                        <li><i class="uil uil-calendar-alt"></i>${commentList.createdAt}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                    <div class="mt-3 mt-md-0 ms-auto">
+                        <a href="javascript:void(0);" onclick="showCcmtTextarea(${commentList.commentId})"
+                           class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
+                                class="uil uil-comments"></i> 답글달기</a>
+                    </div>
+                    </div>
+                    <p>${commentList.content}</p>
+                    </li>`;
 
                     if (commentList.nickname !== "Bob") {
                         comments += "<a href='javascript:void(0);' onclick='showUpdateTextarea(" + commentList.commentId + ")'>수정</a>";
-                        comments += "<button type='button' class='commentDelete' data-comment-id='" + commentList.commentId + "'>삭제</button>"
+                        comments += `<div class="d-flex justify-content-end">`
+                        comments += "<button type='button' class='commentDelete btn btn-soft-ash rounded-pill' data-comment-id='" + commentList.commentId + "'>삭제</button></div>"
                     }
                     for (let i = 0; i < rCount; i++) {
                         let replyList = commentListRe.reCommentList[i];
                         if (commentList.commentId == replyList.indentationNumber) {
-                            comments += `<br>
-                                    -->댓글 작성자 : ${replyList.nickname}, 댓글 내용 : ${replyList.content}, 작성날짜 : ${replyList.createdAt}`;
+                            comments += `<ul class="children"><li class="comment">
+                                         <div class="comment-header d-md-flex align-items-center">
+                                         <div class="d-flex align-items-center">
+                                         <figure class="user-avatar"><img class="rounded-circle" alt="" src="${replyList.profileImage}"/>
+                                         </figure>
+                                         <div>
+                                         <h6 class="comment-author"><a href="#" class="link-dark">${replyList.nickname}</a></h6>
+                                         <ul class="post-meta"> <li><i class="uil uil-calendar-alt"></i>${replyList.createdAt}</li>
+                                         </ul>
+                                         </div>
+                                         </div>
+                                         </div>
+                                         <p>${replyList.content}</p>`;
                             if (commentList.nickname !== "Bob") {
                                 comments += `
                                 <a href="javascript:void(0);" onclick="showUpdateTextarea(${replyList.commentId})">수정</a>
@@ -492,12 +550,18 @@ if (window.location.href.includes('/mate/')) {
                     comments += "<a href='javascript:void(0);' onclick='closeTextarea(" + commentList.commentId + ")'>취소</a></div>";
 
                     comments += `<div id="cComment${commentList.commentId}" style="display: none">
-                        <textarea id="cContent${commentList.commentId}" placeholder="답글을 입력해주세요"></textarea>
+                        <div class="form-floating mb-4">
+                         <textarea id="cContent${commentList.commentId}" class="form-control" placeholder="답글을 입력해주세요" style="height: 150px; border: 2px solid #000;" required></textarea>
+                         <label="textareaExample">Textarea</label>
+                       </div>
                         <br>
-                        <button type='button' class="cCommentWrite" data-comment-id="${commentList.commentId}">답글 전송</button>
+                        <button type='button' class="cCommentWrite btn btn-soft-ash rounded-pill" data-comment-id="${commentList.commentId}">답글 전송</button>
                         <a href="javascript:void(0);" onclick="closeCTextarea(${commentList.commentId})">취소</a>
                         <br>
-                    </div>`;
+                    </div>
+                    </ul>
+                      </td>
+                    </tr>`;
 
 
                 }
@@ -507,7 +571,8 @@ if (window.location.href.includes('/mate/')) {
             comments += "<h6>등록된 댓글이 없습니다.</h6>";
             comments += "</div>";
         }
-        $('#count').html(cCount);
+        commentListCount += `<i class="uil uil-comment"><h3 class="mb-6">${commentListRe.commentListCount} Comments</h3></i>`
+        $('#clc').empty().html(commentListCount);
         $('#result').html(comments);
     }
 
