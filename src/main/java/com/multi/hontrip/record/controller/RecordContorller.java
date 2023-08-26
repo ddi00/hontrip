@@ -69,7 +69,9 @@ public class RecordContorller {
     @GetMapping("updatepost") // 게시물 수정 페이지 + 수정 정보
     public String updatePostInfoView(@RequestParam("id") long id, Model model) {
         PostInfoDTO postInfoDTO = recordService.selectPostInfo(id);
+        List<PostImgDTO> postImgList = recordService.selectPostImg(id); //게시물 이미지
         model.addAttribute("postInfoDTO", postInfoDTO);
+        model.addAttribute("postImgList", postImgList);
         return "/record/updatepost";
     }
 

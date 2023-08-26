@@ -80,7 +80,12 @@
 
 	<update id="updatePostInfo" parameterType="postInfoDTO">
 		UPDATE record_board
-		SET title = #{title}, content = #{content}, is_visible = #{isVisible}, thumbnail = #{thumbnail}
+		SET title = #{title},
+			content = #{content},
+			is_visible = #{isVisible},
+			thumbnail = #{thumbnail},
+			start_date = #{startDate},
+			end_date = #{endDate}
 		WHERE id = #{id};
 	</update>
 
