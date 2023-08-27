@@ -22,6 +22,15 @@
 		VALUES (#{imgUrl}, #{recordId});
 	</insert>
 
+	<insert id="insertLike" parameterType="postLikeDTO" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO record_like (user_id, record_id)
+		VALUES(#{userId}, #{recordId});
+	</insert>
+
+	<select id="selectLike" parameterType="postLikeDTO" resultType="postLikeDTO">
+		SELECT * FROM record_like WHERE user_id = #{userId} AND  record_id = #{recordId};
+	</select>
+
 	<select id="postImgList" resultType="postImgDTO">
 		SELECT id AS imgId, img_url AS imgUrl, record_id As recordId
 		FROM record_img WHERE record_id = #{recordId};

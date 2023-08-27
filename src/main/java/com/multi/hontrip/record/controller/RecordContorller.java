@@ -1,14 +1,17 @@
 package com.multi.hontrip.record.controller;
 
 import com.multi.hontrip.common.RequiredSessionCheck;
+import com.multi.hontrip.record.dao.PostLikeDAO;
 import com.multi.hontrip.record.dto.*;
 import com.multi.hontrip.record.service.CommentService;
 import com.multi.hontrip.record.service.LocationService;
+import com.multi.hontrip.record.service.PostLikeService;
 import com.multi.hontrip.record.service.RecordService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +32,7 @@ public class RecordContorller {
     private final RecordService recordService;
     private final CommentService commentService;
     private final LocationService locationService;
+    private final PostLikeService postLikeService;
 
     @Value("${map.appkey}")
     private String MAP_KEY ; //카카오 인증 ID
@@ -88,6 +92,14 @@ public class RecordContorller {
     public String deletePost(@RequestParam long id, HttpSession httpSession) {
         recordService.deletePostInfo(id);
         return "redirect:/record/mylist"; // 삭제후 내 피드로 이동
+    }
+
+    @GetMapping("like_post") // 게시물 좋아요
+    @RequiredSessionCheck
+    public ResponseEntity<PostLikeDTO> likeCount(PostLikeDTO postLikeDTO, HttpSession httpSession) {
+        postLikeService.likePost(postLikeDTO);
+        PostLikeDTO likeOne = postLikeService.selectLike(postLikeDTO);
+        return ResponseEntity.ok(likeOne);
     }
 
     @GetMapping("mylist") // 내 게시물 전체 가져오기

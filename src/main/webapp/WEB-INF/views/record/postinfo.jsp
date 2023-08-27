@@ -170,7 +170,6 @@
 
         $(function() {
             $('#commentWrite').click(function() {
-                    console.log("ajax 실행");
                     var commentContent = $('#cmtContent').val().trim();
                     if (commentContent === "") {
                         alert("댓글을 입력해 주세요.");
@@ -259,7 +258,23 @@
                 })
             }) // recomment
 
-
+            $('#postLikes').click(function() {
+                console.log("ajax실행");
+                 $.ajax({
+                    url: "like_post",
+                    data:{
+                        recordId: ${postInfoDTO.boardId},
+                        userId: ${userId}
+                    },
+                    success: function(like) {
+                        console.log("좋아요 성공");
+                        console.log(like.userId);
+                    },
+                    error: function() {
+                        console.log("좋아요 실패");
+                    }
+                })
+            }) // like
 
         }); // $
 
@@ -314,6 +329,8 @@
                                 <!-- /.post-header -->
                                 <div class="post-content">
                                     <p>${postInfoDTO.content}</p>
+                                    <button id="postLikes" class="btn btn-primary btn-sm rounded-pill">좋아요</button>
+                                    <button id="likeCancel" class="btn btn-primary btn-sm rounded-pill">좋아요 취소</button>
                                 </div>
                                 <!-- /.post-content -->
                             </div>
@@ -326,12 +343,17 @@
                                             ${postInfoDTO.updatedAt}</span></li>
                                     <li class="post-author"><a href="#"><i
                                                 class="uil uil-user"></i><span>${postInfoDTO.nickName}</span></a></li>
-                                    <li class="post-likes ms-auto"><a href="#"><i
-                                                class="uil uil-heart-alt"></i>${postInfoDTO.likeCount}</a></li>
+                                    <li class="post-likes ms-auto">
+
+                                            <div id="likeCountSection"><i class="uil uil-heart-alt"></i>
+                                            ${postInfoDTO.likeCount}
+                                                </div></li>
+                                    <c:if test="${postInfoDTO.userId eq userId}">
                                     <li class="post-likes"><a
                                             href="/hontrip/record/updatepost?id=${postInfoDTO.boardId}">수 정</a></li>
                                     <li class="post-likes"><a
                                             href="/hontrip/record/deletepost?id=${postInfoDTO.boardId}">삭 제</a></li>
+                                    </c:if>
                                 </ul>
                                 <!-- /.post-meta -->
                             </div>
