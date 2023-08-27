@@ -3,18 +3,18 @@
 <mapper namespace="plan">
 	<insert id="insert" parameterType="planDTO"
 			useGeneratedKeys="true"
-			keyProperty="id">
+			keyProperty="plan_id">
 		insert into plan (user_id, title, start_date, end_date, memo, created_at, updated_at)
 		values (#{userId}, #{title}, #{startDate}, #{endDate}, #{memo}, now(), now())
 	</insert>
 	<update id="update" parameterType="PlanDTO">
 		update plan
 		set title = #{title}, start_date = #{startDate}, end_date = #{endDate}, memo = #{memo}, updated_at = now()
-		where id = #{id}
+		where plan_id = #{planId} and user_id = #{userId}
 	</update>
 	<select id="one" parameterType="hashmap" resultType="PlanDTO">
 		select
-		    id,
+		    plan_id,
 		    user_id,
 		    title,
 		    start_date,
@@ -23,15 +23,15 @@
 		    created_at,
 		    updated_at
 		from plan
-		where id = #{id}
+		where plan_id = #{planId} and user_id = #{userId}
 	</select>
 	<select id="count" parameterType="Long" resultType="int">
-		select count(id) from plan
+		select count(plan_id) from plan
 		where user_id = ${userId}
 	</select>
 	<select id="all" parameterType="hashmap" resultType="PlanDTO">
 		select
-			id,
+			plan_id,
 			user_id,
 			title,
 			start_date,
@@ -44,6 +44,6 @@
 	</select>
 	<delete id="delete" parameterType="hashmap">
 		delete from plan
-		where id = #{id}
+		where plan_id = #{planId} and user_id = #{userId}
 	</delete>
 </mapper>

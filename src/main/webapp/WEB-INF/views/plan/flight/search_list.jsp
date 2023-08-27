@@ -1,12 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%
-    if (session.getAttribute("id") != null) {
-        Long userId = (Long) session.getAttribute("id");
-        request.setAttribute("userId", userId);
-    }
-%>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <section class="wrapper bg-light">
     <div class="container-fluid container mt-15 mb-15 w-75 p-3">

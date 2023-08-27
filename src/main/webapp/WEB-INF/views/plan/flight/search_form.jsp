@@ -1,11 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix='form' uri="http://www.springframework.org/tags/form" %>
-<%
-    if (session.getAttribute("id") != null) {
-        Long userId = (Long) session.getAttribute("id");
-        request.setAttribute("userId", userId);
-    }
-%>
 <section class="wrapper bg-light">
     <div class="container-fluid container rounded shadow-sm mt-15 mb-20 w-75 p-3">
         <h2>항공권 검색</h2>
