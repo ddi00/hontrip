@@ -100,8 +100,8 @@ public class RecordContorller {
         model.addAttribute("mymap", getMyMap);
         model.addAttribute("locationList", locationList);
         model.addAttribute("appkey",MAP_KEY);
-        System.out.println("마커클릭 정보 확인1"+ getMyList);
-        System.out.println("마커클릭 정보 확인2"+ getMyMap);
+        System.out.println("mylist getMyList"+ getMyList);
+        System.out.println("mylist getMyMap"+ getMyMap);
         return "/record/mylist"; // 기존의 뷰 이름 반환
     }
 
@@ -111,10 +111,12 @@ public class RecordContorller {
         Long userId = (Long) session.getAttribute("id");
         List<PostInfoDTO> getListMyLocationClick = recordService.getListMyLocationClick(locationId, userId);
         List<LocationDTO> getMyMap = recordService.getMyMap(userId);
+        List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
         model.addAttribute("mylist", getListMyLocationClick); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
-        System.out.println("마커클릭 정보 확인1"+ getListMyLocationClick);
-        System.out.println("마커클릭 정보 확인2"+ getMyMap);
+        model.addAttribute("locationList", locationList);
+        System.out.println("click getListMyLocationClick"+ getListMyLocationClick);
+        System.out.println("click getMyMap"+ getMyMap);
     }
 
 
@@ -123,9 +125,12 @@ public class RecordContorller {
         Long userId = (Long) session.getAttribute("id");
         List<PostInfoDTO> getListMyLocationDrowDown = recordService.getListMyLocationDrowDown(locationId, userId);
         List<LocationDTO> getMyMap = recordService.getMyMap(userId);
+        List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
         model.addAttribute("mylist", getListMyLocationDrowDown); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
-
+        model.addAttribute("locationList", locationList);
+        System.out.println("dropdown getListMyLocationDrowDown"+ getListMyLocationDrowDown);
+        System.out.println("dropdown getMyMap"+ getMyMap);
     }
 
     @GetMapping("feedlist") // 공유피드 리스트 가져오기
