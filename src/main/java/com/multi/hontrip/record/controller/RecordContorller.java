@@ -100,8 +100,6 @@ public class RecordContorller {
         model.addAttribute("mymap", getMyMap);
         model.addAttribute("locationList", locationList);
         model.addAttribute("appkey",MAP_KEY);
-        System.out.println("mylist getMyList"+ getMyList);
-        System.out.println("mylist getMyMap"+ getMyMap);
         return "/record/mylist"; // 기존의 뷰 이름 반환
     }
 
@@ -115,8 +113,6 @@ public class RecordContorller {
         model.addAttribute("mylist", getListMyLocationClick); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
         model.addAttribute("locationList", locationList);
-        System.out.println("click getListMyLocationClick"+ getListMyLocationClick);
-        System.out.println("click getMyMap"+ getMyMap);
     }
 
 
@@ -129,8 +125,6 @@ public class RecordContorller {
         model.addAttribute("mylist", getListMyLocationDrowDown); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
         model.addAttribute("locationList", locationList);
-        System.out.println("dropdown getListMyLocationDrowDown"+ getListMyLocationDrowDown);
-        System.out.println("dropdown getMyMap"+ getMyMap);
     }
 
     @GetMapping("feedlist") // 공유피드 리스트 가져오기
