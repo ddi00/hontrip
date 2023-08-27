@@ -1,6 +1,5 @@
 package com.multi.hontrip.mate.dao;
 
-import com.multi.hontrip.mate.alarm.MateMatchingAlarmDTO;
 import com.multi.hontrip.mate.dto.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -13,19 +13,20 @@
     <div class="container pt-10 pt-md-14 pb-14 pb-md-16 text-center">
         <div class="row gx-lg-8 gx-xl-12 gy-10 gy-xl-0 mb-14 align-items-center">
             <div class="col-lg-7 order-lg-2">
-                <div class="swiper-container dots-over" data-margin="5" data-dots="true" data-nav="true" data-autoheight="true" data-autoplay="true" data-autoplaytime="4000">
+                <div class="swiper-container dots-over" data-margin="5" data-dots="true" data-nav="true"
+                     data-autoheight="true" data-autoplay="true" data-autoplaytime="4000">
                     <div class="swiper">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide bg-overlay bg-overlay-400 rounded">
-                                <img src="<c:url value="/resources/img/common/메인1.jpg"/>" alt="" />
-                             </div>
+                                <img src="<c:url value="/resources/img/common/메인1.jpg"/>" alt=""/>
+                            </div>
                             <div class="swiper-slide bg-overlay bg-overlay-400 rounded">
-                                <img src="<c:url value="/resources/img/common/메인2.jpg"/>" alt="" />
-                             </div>
+                                <img src="<c:url value="/resources/img/common/메인2.jpg"/>" alt=""/>
+                            </div>
                             <div class="swiper-slide bg-overlay bg-overlay-400 rounded">
-                                <img src="<c:url value="/resources/img/common/메인3.jpg"/>" alt="" />
-                             </div>
-                        <!--/.swiper-wrapper -->
+                                <img src="<c:url value="/resources/img/common/메인3.jpg"/>" alt=""/>
+                            </div>
+                            <!--/.swiper-wrapper -->
                         </div>
                     </div>
                     <!-- /.swiper -->
@@ -42,10 +43,8 @@
     </div>
     <div>
         나중에 여기에 조회수 순으로 기록이 들어옴
-
     </div>
     <div>
-       나중에 여기에 즐겨찾기 순으로 여행지가 들어옴
-
+        나중에 여기에 즐겨찾기 순으로 여행지가 들어옴
     </div>
 </section>

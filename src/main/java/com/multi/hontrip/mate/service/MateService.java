@@ -1,6 +1,5 @@
 package com.multi.hontrip.mate.service;
 
-import com.multi.hontrip.mate.alarm.MateMatchingAlarmDTO;
 import com.multi.hontrip.mate.dto.*;
 import org.springframework.web.multipart.MultipartFile;
 

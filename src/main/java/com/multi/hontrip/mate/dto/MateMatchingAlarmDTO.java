@@ -1,4 +1,4 @@
-package com.multi.hontrip.mate.alarm;
+package com.multi.hontrip.mate.dto;
 
 import lombok.Data;
 
@@ -12,6 +12,7 @@ public class MateMatchingAlarmDTO {
     private String senderNickname;    //동행 신청한 유저의 닉네임(신청자)
     private String senderProfileImage;   //동행 신청한 유저의 썸네일(신청자)
     private String content;     //동행 신청 메세지 내용
+    private int isRead;
 
     public long getId() {
         return id;
