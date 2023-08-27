@@ -35,7 +35,8 @@ public class CommentController {
 
     @ResponseBody
     @GetMapping("delete_comment") // 댓글 삭제
-    public Map<String, Object> deleteComment(long cmtId, long recordId) {
+    @RequiredSessionCheck
+    public Map<String, Object> deleteComment(long cmtId, long recordId, HttpSession httpSession) {
         commentService.deleteCmt(cmtId);
         List<CommentDTO> commentList = commentService.selectPostComment(recordId);
         List<CommentDTO> reCommentList = commentService.reCommentList(commentList);
@@ -48,8 +49,10 @@ public class CommentController {
 
     @ResponseBody
     @GetMapping("update_comment") // 댓글 수정
+    @RequiredSessionCheck
     public Map<String, Object> updateComment(CommentDTO commentDTO,
-                                             @RequestParam("recordId") long recordId) {
+                                             @RequestParam("recordId") long recordId,
+                                             HttpSession httpSession) {
         commentService.updateCmt(commentDTO);
         List<CommentDTO> commentList = commentService.selectPostComment(recordId);
         List<CommentDTO> reCommentList = commentService.reCommentList(commentList);
@@ -62,7 +65,8 @@ public class CommentController {
 
     @ResponseBody
     @GetMapping("create_recomment") // 답글 작성
-    public Map<String, Object> createReComment(CommentDTO commentDTO) {
+    @RequiredSessionCheck
+    public Map<String, Object> createReComment(CommentDTO commentDTO, HttpSession httpSession) {
         commentService.createReCmt(commentDTO);
         List<CommentDTO> commentList = commentService.selectPostComment(commentDTO.getRecordId());
         List<CommentDTO> reCommentList = commentService.reCommentList(commentList);

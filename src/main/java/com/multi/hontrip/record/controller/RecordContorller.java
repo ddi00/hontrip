@@ -67,9 +67,12 @@ public class RecordContorller {
     }
 
     @GetMapping("updatepost") // 게시물 수정 페이지 + 수정 정보
-    public String updatePostInfoView(@RequestParam("id") long id, Model model) {
+    @RequiredSessionCheck
+    public String updatePostInfoView(@RequestParam("id") long id, Model model, HttpSession httpSession) {
         PostInfoDTO postInfoDTO = recordService.selectPostInfo(id);
+        List<PostImgDTO> postImgList = recordService.selectPostImg(id); //게시물 이미지
         model.addAttribute("postInfoDTO", postInfoDTO);
+        model.addAttribute("postImgList", postImgList);
         return "/record/updatepost";
     }
 
@@ -81,7 +84,8 @@ public class RecordContorller {
     }
 
     @GetMapping("deletepost") // 게시물 삭제
-    public String deletePost(@RequestParam long id) {
+    @RequiredSessionCheck
+    public String deletePost(@RequestParam long id, HttpSession httpSession) {
         recordService.deletePostInfo(id);
         return "redirect:/record/mylist"; // 삭제후 내 피드로 이동
     }

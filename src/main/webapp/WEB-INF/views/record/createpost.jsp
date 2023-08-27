@@ -65,32 +65,43 @@
 
 <section class="wrapper bg-light">
     <div class="container pt-12 pt-md-14 pb-14 pb-md-16">
-        <div class="row gx-md-8 gx-xl-12 gy-12">
-            <div class="col-lg-8">
-
+        <div class="row gx-md-8 gx-12 gy-12">
+            <div class="col-lg-8 mx-auto">
                 <form action="createpost" method="post" enctype="multipart/form-data">
                     <div class="row g-3">
                         <div class="col-12">
                             <input name="userId" type="hidden" value="${userId}">
                         </div>
+                        <div>썸네일을 선택하세요</div>
                         <div class="col-12">
                             <div class="form-floating">
-                            썸네일
-                                <input name="file" id="input_img" type="file" class="form-control" required>
                                 <div class="img_wrap">
 
                                 </div>
+                                <input name="file" id="input_img" type="file" class="form-control" required>
                             </div>
                         </div>
+                        <div>이미지를 선택하세요</div>
                         <div class="col-12">
                             <div class="form-floating">
-                            이미지
-                                <input type="file" name="multifiles" id="input_imgs" class="form-control" multiple>
                                 <div class="imgs_wrap">
 
                                 </div>
+                                <input type="file" name="multifiles" id="input_imgs" class="form-control" multiple>
                             </div>
                         </div>
+                        <div>지역을 선택하세요</div>
+                        <div class="col-md-12">
+                            <div class="form-select-wrapper">
+                                <select name="locationId" class="form-select" required>
+                                    <option value="" disabled selected>지역을 선택하세요</option>
+                                    <c:forEach items="${locationList}" var="locationDTO">
+                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                        <div>여행 기간을 선택하세요</div>
                         <div class="mateDates1">
                                 <input
                                         name="startDate"
@@ -105,36 +116,8 @@
                                         class="form-control"
                                         required
                                 >
-                            </div>
                         </div>
-                        <div id="mateDateEmptyWarning" class="mateBoardEmptyWarning">여행 기간을 선택하세요
-                        </div>
-
-                        <div class="col-12">
-                            제목
-                            <div class="form-floating">
-                                <input type="text" name="title" class="form-control">
-                                <label for="textInputExample">Title*</label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            내용
-                            <div class="form-floating">
-                                <textarea input name="content" class="form-control" placeholder="content"
-                                                                style="height: 180px"></textarea>
-                                <label for="textInputExample">Content*</label>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="form-select-wrapper">
-                                <select name="locationId" class="form-select" required>
-                                    <option value="" disabled selected>지역을 선택하세요</option>
-                                    <c:forEach items="${locationList}" var="locationDTO">
-                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        </div>
+                        <div>게시물 공개 / 비공개</div>
                         <div class="col-md-4">
                             <div class="form-select-wrapper">
                                 <select name="isVisible" class="form-select" required>
@@ -143,9 +126,23 @@
                                 </select>
                             </div>
                         </div>
+                        <div>제목을 작성하시오</div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input type="text" name="title" class="form-control">
+                                <label for="textInputExample">Title*</label>
+                            </div>
+                        </div>
+                        <div>내용을 작성하시오</div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <textarea input name="content" class="form-control" placeholder="content"
+                                                                style="height: 180px"></textarea>
+                                <label for="textInputExample">Content*</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary rounded-xl">작 성</button>
                     </div>
-                    <hr class="mt-7 mb-6">
-                    <button type="submit">작 성</button>
                 </form>
             </div>
             <!-- /column -->
