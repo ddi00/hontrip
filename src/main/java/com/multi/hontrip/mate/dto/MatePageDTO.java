@@ -60,14 +60,130 @@ public class MatePageDTO {
 
 	public void setNext(){
 		next = lastPageNoOnPageList < realEnd;
-	}
+    }
 
-	public int setPages(int count) {
-		if (count % 10 == 0) {
-			pages = count / 5; //120개 --> 12pages
-		} else {
-			pages = count / 5 + 1; //122개 --> 13pages
-		}
-		return pages;
-	}
+    public int setPages(int count) {
+        if (count % 10 == 0) {
+            pages = count / 5; //120개 --> 12pages
+        } else {
+            pages = count / 5 + 1; //122개 --> 13pages
+        }
+        return pages;
+    }
+
+    public int getStart() {
+        return start;
+    }
+
+    public void setStart(int start) {
+        this.start = start;
+    }
+
+    public int getEnd() {
+        return end;
+    }
+
+    public void setEnd(int end) {
+        this.end = end;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getRecordCountPerPage() {
+        return recordCountPerPage;
+    }
+
+    public void setRecordCountPerPage(int recordCountPerPage) {
+        this.recordCountPerPage = recordCountPerPage;
+    }
+
+    public int getFirstPageNoOnPageList() {
+        return firstPageNoOnPageList;
+    }
+
+    public void setFirstPageNoOnPageList(int firstPageNoOnPageList) {
+        this.firstPageNoOnPageList = firstPageNoOnPageList;
+    }
+
+    public int getLastPageNoOnPageList() {
+        return lastPageNoOnPageList;
+    }
+
+    public void setLastPageNoOnPageList(int lastPageNoOnPageList) {
+        this.lastPageNoOnPageList = lastPageNoOnPageList;
+    }
+
+    public int getRealEnd() {
+        return realEnd;
+    }
+
+    public void setRealEnd(int realEnd) {
+        this.realEnd = realEnd;
+    }
+
+    public boolean isPrev() {
+        return prev;
+    }
+
+    public void setPrev(boolean prev) {
+        this.prev = prev;
+    }
+
+    public boolean isNext() {
+        return next;
+    }
+
+    public void setNext(boolean next) {
+        this.next = next;
+    }
+
+    public String getSearchType() {
+        return searchType;
+    }
+
+    public void setSearchType(String searchType) {
+        this.searchType = searchType;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
 }

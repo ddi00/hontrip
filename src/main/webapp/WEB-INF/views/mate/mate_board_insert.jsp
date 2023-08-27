@@ -112,7 +112,7 @@
                                             </c:forEach>
                                             </div>
 
-                                            <input hidden id="ageRangeId" name="ageRangeId">
+                                            <input hidden id="ageRangeId" name="ageRangeId" value="9">
                                             <br>
 
 

@@ -1,6 +1,12 @@
-package com.multi.hontrip.mate.alarm;
+package com.multi.hontrip.mate.controller;
 
 import com.multi.hontrip.common.RequiredSessionCheck;
+import com.multi.hontrip.mate.alarm.Message;
+import com.multi.hontrip.mate.alarm.OutputMessage;
+import com.multi.hontrip.mate.dto.AlarmPageDTO;
+import com.multi.hontrip.mate.dto.AlarmPaginationDTO;
+import com.multi.hontrip.mate.dto.MateMatchingAlarmDTO;
+import com.multi.hontrip.mate.service.AlarmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -21,7 +27,7 @@ import java.util.List;
 public class AlarmController {
 
     private final SimpMessageSendingOperations simpMessageSendingOperations;
-    private final AlarmServiceImpl alarmService;
+    private final AlarmService alarmService;
 
     @GetMapping("/mate/alarm")
     public String stompAlarm() {
@@ -51,17 +57,37 @@ public class AlarmController {
     //동행인 매칭 알림 리스트 가져오기
     @GetMapping("/mate/alarm_list")
     @RequiredSessionCheck
-    public String getAllAlarmByUserId(Model model, HttpSession session) {
-        long userId = (long) session.getAttribute("id");
-        List<MateMatchingAlarmDTO> alarmList = alarmService.getAllAlarmByUserId(userId);
-        model.addAttribute("alarmList", alarmList);
-        return "/mate/mate_application_alarm";
+    @ResponseBody
+    public List<MateMatchingAlarmDTO> getAllAlarmByUserId(AlarmPageDTO alarmPageDTO, Model model, HttpSession session) {
+        return alarmService.getAllAlarmByUserId(alarmPageDTO);
+    }
+
+    //알림 페이지네이션
+    @GetMapping("/mate/alarm_page")
+    @ResponseBody
+    @RequiredSessionCheck
+    public AlarmPaginationDTO alarmPagination(int currentPage,
+                                              int alarmNumPerPage,
+                                              int pageNumPerPagination, HttpSession session) {
+        AlarmPaginationDTO alarmPaginationDTO = new AlarmPaginationDTO();
+        alarmPaginationDTO.setOthers(alarmService.countMateAllAlarms((Long) session.getAttribute("id")),
+                currentPage, alarmNumPerPage, pageNumPerPagination);
+        return alarmPaginationDTO;
     }
 
 
     //동행인 매칭 알림 삭제
     @GetMapping("/mate/delete_alarm")
-    public int deleteByAlarmId(long alarmId) {
+    @RequiredSessionCheck
+    @ResponseBody
+    public int deleteByAlarmId(long alarmId, HttpSession session) {
         return alarmService.deleteByAlarmId(alarmId);
+    }
+
+    //총 알람 개수 가져오기
+    @GetMapping("/mate/alarm/total_count")
+    @ResponseBody
+    public int countMateAllAlarms(HttpSession session) {
+        return alarmService.countMateAllAlarms((Long) session.getAttribute("id"));
     }
 }

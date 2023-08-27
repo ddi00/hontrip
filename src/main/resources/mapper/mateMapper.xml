@@ -203,32 +203,40 @@
 		WHERE id = #{commentId};
 	</insert>
 
-	<!-- 알림 -->
 	<insert id="insertMateMatchingAlarm" parameterType="mateMatchingAlarmDTO">
 		insert into mate_matching_alarm (mate_board_id, sender_id, content)
 		values (#{mateBoardId}, #{senderId}, #{content})
 	</insert>
 
-	<select id="getAllAlarmByUserId" parameterType="long" resultType="mateMatchingAlarmDTO">
-		SELECT mma.id,
-			   mma.mate_board_id as mateBoardId,
-			   #{userId}         as receiverId,
-			   mma.sender_id     as senderId,
-			   u.nickname        as senderNickname,
-			   u.profile_image   as senderProfileImage,
-			   mma.content
-		FROM mate_matching_alarm mma
-				 JOIN `user` u ON u.id = mma.sender_id
-		WHERE mma.mate_board_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{userId})
-		order by mma.id desc;
-	</select>
+	<select id="getAllAlarmByUserId" parameterType="alarmPaginationDTO" resultType="mateMatchingAlarmDTO">
+        SELECT mma.id,
+               mma.mate_board_id as mateBoardId,
+               #{userId}         as receiverId,
+               mma.sender_id     as senderId,
+               u.nickname        as senderNickname,
+               u.profile_image   as senderProfileImage,
+               mma.content
+        FROM mate_matching_alarm mma
+                 JOIN `user` u ON u.id = mma.sender_id
+        WHERE mma.mate_board_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{userId})
+          and mma.is_read = 0
+        order by mma.id desc LIMIT #{alarmNumPerPage}
+        OFFSET #{startAlarmNum};
+    </select>
 
-	<delete id="deleteByAlarmId" parameterType="long">
-		delete
-		from mate_matching_alarm
-		where id = #{alarmId}
-	</delete>
+    <delete id="deleteByAlarmId" parameterType="long">
+        delete
+        from mate_matching_alarm
+        where id = #{alarmId}
+    </delete>
 
+    <select id="countMateAllAlarms" resultType="int">
+        SELECT count(*)
+        FROM mate_matching_alarm mma
+                 JOIN `user` u ON u.id = mma.sender_id
+        WHERE mma.mate_board_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{userId})
+          and mma.is_read = 0;
+    </select>
 </mapper>
 
 

@@ -3,7 +3,6 @@ package com.multi.hontrip.mate.controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.multi.hontrip.common.RequiredSessionCheck;
-import com.multi.hontrip.mate.alarm.MateMatchingAlarmDTO;
 import com.multi.hontrip.mate.dto.*;
 import com.multi.hontrip.mate.service.MateService;
 import org.springframework.beans.factory.annotation.Autowired;
