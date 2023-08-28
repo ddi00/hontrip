@@ -1,9 +1,6 @@
 package com.multi.hontrip.plan.service;
 
-import com.multi.hontrip.plan.dto.PlanDTO;
-import com.multi.hontrip.plan.dto.PlanDayDTO;
-import com.multi.hontrip.plan.dto.SpotAddDTO;
-import com.multi.hontrip.plan.dto.SpotLoadDTO;
+import com.multi.hontrip.plan.dto.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -34,4 +31,14 @@ public interface PlanService {
     PlanDayDTO addSpotToDay(Long planId, Long userId, int dayOrder, String spotContentId); // 일정-일차 여행지 정보 추가
 
     void addSpot(PlanDayDTO planDayDTO);
+
+    List<AccommodationLoadDTO> loadExistingAccommodations(PlanDTO plan, int numOfDays);
+
+    AccommodationAddDTO createAccommodationAddDTO(Long planId, String accommodationId);
+
+    PlanDayDTO addAccommodationToDay(Long planId, Long userId, int dayOrder, String accommodationId);
+
+    void addAccommodation(PlanDayDTO planDayDTO);
+
+
 }

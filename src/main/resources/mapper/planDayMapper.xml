@@ -34,6 +34,12 @@
         where plan_id = #{planId} and user_id = #{userId} and day_order = #{dayOrder}
     </update>
 
+    <update id="updateAccommodation" parameterType="hashmap">
+        update plan_day
+        set accommodation_id = #{accommodationId}
+        where plan_id = #{planId} and user_id = #{userId} and day_order = #{dayOrder}
+    </update>
+
 
     <!--<insert id="insert" parameterType="PlanDayDTO"
             useGeneratedKeys="true"

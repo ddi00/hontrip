@@ -19,11 +19,14 @@ public class PlanServiceImpl implements PlanService{
 
     private final SpotService spotService;
 
+    private final AccommodationService accommodationService;
+
     @Autowired
-    public  PlanServiceImpl(PlanDAO planDAO, PlanDayDAO planDayDAO, SpotService spotService){
+    public  PlanServiceImpl(PlanDAO planDAO, PlanDayDAO planDayDAO, SpotService spotService, AccommodationService accommodationService){
         this.planDAO = planDAO;
         this.planDayDAO = planDayDAO;
         this.spotService = spotService;
+        this.accommodationService = accommodationService;
     };
 
     @Transactional
@@ -153,5 +156,82 @@ public class PlanServiceImpl implements PlanService{
 
     public void addSpot(PlanDayDTO planDayDTO){
         planDayDAO.updateSpot(planDayDTO);
+    }
+
+    @Override
+    public List<AccommodationLoadDTO> loadExistingAccommodations(PlanDTO plan, int numOfDays) {
+        List<AccommodationLoadDTO> addedAccommodations = new ArrayList<>();
+
+        // Iterate through each day
+        for (int i = 0; i < numOfDays; i++) {
+            PlanDayDTO planDayDTO = new PlanDayDTO();
+            planDayDTO.setPlanId(plan.getId());
+            planDayDTO.setUserId(plan.getUserId());
+            planDayDTO.setDayOrder(i + 1);
+            insertPlanDay(planDayDTO);
+
+            // Fetch the plan-day
+            PlanDayDTO existingPlanDay = findPlanWithDay(plan.getId(), plan.getUserId(), i + 1);
+            try {
+                if (existingPlanDay != null && !existingPlanDay.getAccommodationId().isEmpty()) {
+                    String existingAccommodations = existingPlanDay.getAccommodationId();
+                    String[] AccommodationIds = existingAccommodations.split(":");
+                    for (String accommodationId : AccommodationIds) {
+                        AccommodationLoadDTO accommodationLoadDTO = new AccommodationLoadDTO();
+                        // Set the necessary fields for accommodationLoadDTO using accommodationId
+                        addedAccommodations.add(accommodationLoadDTO);
+                    }
+                }
+            } catch (NullPointerException e) {
+                // Handle null pointers if needed
+            }
+        }
+        return addedAccommodations;
+    }
+
+    public AccommodationAddDTO createAccommodationAddDTO(Long planId, String accommodationId) {
+        AccommodationDTO accommodationDTO = accommodationService.one(Long.parseLong(accommodationId));
+
+        AccommodationAddDTO accommodationAddDTO = new AccommodationAddDTO();
+        accommodationAddDTO.setAccommodationId(Long.valueOf(accommodationId));
+        accommodationAddDTO.setPlaceName(accommodationDTO.getPlaceName());
+        accommodationAddDTO.setPlanId(planId);
+
+        return accommodationAddDTO;
+    }
+
+    @Override
+    public PlanDayDTO addAccommodationToDay(Long planId, Long userId, int dayOrder, String accommodationId) {
+        PlanDayDTO planDayDTO = findPlanWithDay(planId, userId, dayOrder);
+
+        try {
+            if (planDayDTO != null) {
+                if (!planDayDTO.getAccommodationId().isEmpty()) {
+                    String existingAccommodations = planDayDTO.getAccommodationId();
+                    String newAccommodations = existingAccommodations + ":" + accommodationId;
+                    planDayDTO.setAccommodationId(newAccommodations);
+                } else {
+                    planDayDTO.setAccommodationId(accommodationId);
+                }
+            } else {
+                PlanDayDTO newPlanDayDTO = new PlanDayDTO();
+                newPlanDayDTO.setPlanId(planId);
+                newPlanDayDTO.setUserId(userId);
+                newPlanDayDTO.setDayOrder(dayOrder);
+                newPlanDayDTO.setAccommodationId(accommodationId);
+                planDayDTO = newPlanDayDTO; // Set the created DTO back to planDayDTO
+            }
+        } catch (NullPointerException e) {
+            planDayDTO.setAccommodationId("");
+            planDayDTO.setAccommodationId(accommodationId);
+        }
+
+        addAccommodation(planDayDTO); // Call the method to update the plan-day
+        return planDayDTO;
+    }
+
+    @Override
+    public void addAccommodation(PlanDayDTO planDayDTO) {
+        planDayDAO.updateAccommodation(planDayDTO);
     }
 }

@@ -2,6 +2,7 @@ package com.multi.hontrip.plan.controller;
 
 import com.multi.hontrip.common.RequiredSessionCheck;
 import com.multi.hontrip.plan.dto.*;
+import com.multi.hontrip.plan.service.AccommodationService;
 import com.multi.hontrip.plan.service.PlanService;
 import com.multi.hontrip.plan.service.SpotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,13 @@ import java.util.List;
 public class PlanController {
     private final PlanService planService;
     private final SpotService spotService;
+    private final AccommodationService accommodationService;
 
     @Autowired
-    public PlanController(PlanService planService, SpotService spotService) {
+    public PlanController(PlanService planService, SpotService spotService, AccommodationService accommodationService) {
         this.planService = planService;
         this.spotService = spotService;
+        this.accommodationService = accommodationService;
     }
 
     // 일정 생성
@@ -110,6 +113,48 @@ public class PlanController {
 //        planService.update(planDTO);
 //        return "redirect:/plan/list"; // 일정 수정 후 일정 목록으로 리다이렉트
 //    }
+
+    @RequestMapping(value = "detail/search-accommodation")
+    public String filterAccommodationList(
+            @RequestParam(name = "addressName", required = false) String addressName,
+            @RequestParam(name = "placeName", required = false) String placeName,
+            @RequestParam(name = "categoryName", required = false) String categoryName,
+            @RequestParam(name = "filterType", required = false) String filterType,
+            Model model
+    ) {
+        List<AccommodationDTO> list;
+
+        if ("address_place".equals(filterType) && addressName != null && placeName != null) {
+            list = accommodationService.filterByAddressAndPlaceName(addressName, placeName);
+        } else if (addressName != null && categoryName != null) {
+            list = accommodationService.filterByAddressAndCategoryName(addressName, categoryName);
+        } else if ("address".equals(filterType) && addressName != null) {
+            list = accommodationService.filterByAddress(addressName);
+        } else if ("place_name".equals(filterType) && placeName != null) {
+            list = accommodationService.filterByPlaceName(placeName);
+        } else if (categoryName != null) {
+            list = accommodationService.filterByCategory(categoryName);
+        } else {
+            list = accommodationService.list();
+        }
+
+        model.addAttribute("list", list);
+        return "/plan/edit";
+    }
+
+    @RequestMapping("/detail/update-plan-accommodation")
+    @ResponseBody
+    public AccommodationAddDTO updateAccommodation(@RequestParam("planId") Long planId,
+                                 @RequestParam("userId") Long userId,
+                                 @RequestParam("dayOrder") int dayOrder,
+                                 @RequestParam("accommodationId") String accommodationId, Model model) {
+        // plan-day에 여행지 정보 추가
+        planService.addAccommodation(planService.addAccommodationToDay(planId, userId, dayOrder, accommodationId));
+        System.out.println("add success");
+
+        model.addAttribute("planId", planId);
+        return planService.createAccommodationAddDTO(planId, accommodationId);
+    }
 
     // 일정 삭제
     @RequestMapping("/delete")
