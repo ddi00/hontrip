@@ -94,31 +94,4 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("my-page")
-    @RequiredSessionCheck
-    public ModelAndView myPageView(HttpSession session,ModelAndView modelAndView){  //마이페이지 - 세션 아이디로 사용자 정보 가져오기
-        Long userId = (Long)session.getAttribute("id");
-        UserInfoDTO userInfo = userService.getUserInfoBySessionId(userId);
-        modelAndView.setViewName("/user/my-page");
-        modelAndView.addObject("userInfo",userInfo);
-        return modelAndView;
-    }
-
-    @GetMapping("reaccept-terms")
-    @RequiredSessionCheck
-    public RedirectView reacceptTerms(HttpSession session){// 재동의 - 카카오 싱크를 사용하지 않기 때문에 탈퇴시키고 가입 화면으로 보내야함
-        Long userId = (Long)session.getAttribute("id");
-        return new RedirectView(userService.reAcceptTerms(userId));
-    }
-    @GetMapping("refresh-userInfo")
-    @RequiredSessionCheck
-    public ResponseEntity<UserInfoDTO> refreshUserInfo(HttpSession session){
-        Long userId = (Long)session.getAttribute("id");
-        UserInfoDTO userInfoDTO = userService.refreshUserInfo(userId);
-        //세션 정보 갱신
-        session.setAttribute("nickName", userInfoDTO.getNickName());
-        session.setAttribute("profileImage", userInfoDTO.getProfileImage());
-
-        return ResponseEntity.ok(userInfoDTO);
-    }
 }

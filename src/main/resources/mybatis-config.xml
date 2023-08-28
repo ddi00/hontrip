@@ -39,6 +39,7 @@
         <typeAlias type="com.multi.hontrip.user.dto.UserInsertDTO" alias="userInsertDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.user.dto.WithdrawUserDTO" alias="withdrawUserDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.user.dto.UserSocialInfoDTO" alias="userSocialInfoDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.user.dto.MyRecordDTO" alias="myRecordDTO"></typeAlias>
 
         <!--record-->
         <typeAlias type="com.multi.hontrip.record.dto.CreatePostDTO" alias="createPostDTO"></typeAlias>
@@ -71,6 +72,7 @@
         <mapper resource="mapper/chatMapper.xml"/>
         <!-- user -->
         <mapper resource="mapper/userMapper.xml"/>
+        <mapper resource="mapper/myPageMapper.xml"/>
         <!-- record -->
         <mapper resource="mapper/recordMapper.xml"/>
     </mappers>
