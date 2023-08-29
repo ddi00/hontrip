@@ -31,7 +31,7 @@ public class MatePageDTO {
 	//검색어
 	private String keyword;
 	//지역
-	private String region;
+	private long regionId;
 
 	public void setStartEnd(int page) {
 		start = 6;

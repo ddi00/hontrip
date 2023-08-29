@@ -1,139 +1,160 @@
+$(document).ready(function () {
+        // 세션 스토리지에서 검색 조건 및 지역 정보 가져오기
+            let savedSearchType = sessionStorage.getItem('searchType');
+            let savedKeyword = sessionStorage.getItem('keyword');
+            let savedRegion = sessionStorage.getItem('selectedRegion');
+
+            // 검색 조건과 지역 정보 복원
+            if (savedSearchType) {
+                $('#searchType').val(savedSearchType);
+            }
+            if (savedKeyword) {
+                $('#keyword').val(savedKeyword);
+            }
+            if (savedRegion) {
+                // 선택된 버튼 강조 표시
+                $('.regionBtn').removeClass('btn-orange');
+                $('.regionBtn').addClass('btn-soft-orange');
+                $('.regionBtn[data-region="' + savedRegion + '"]').removeClass('btn-soft-orange');
+                $('.regionBtn[data-region="' + savedRegion + '"]').addClass('btn-orange');
+            }
+
+            // 검색 조건 초기화
+            if (!savedSearchType) {
+                sessionStorage.removeItem('searchType');
+            }
+            if (!savedKeyword) {
+                sessionStorage.removeItem('keyword');
+            }
+            if (!savedRegion) {
+                sessionStorage.removeItem('selectedRegion');
+            }
+                let savedPage = sessionStorage.getItem('savedPage');
+
+                // 세션 스토리지에 저장된 페이지 정보가 있는 경우, 해당 페이지로 데이터 로딩 및 페이지 버튼 생성
+                if (savedPage) {
+                    loadPageData(savedPage);
+                } else {
+                    loadPageData(1); // 기본 페이지 번호
+                }
+
+});
 $(function() {
    // 검색 버튼 클릭 시 페이지 버튼 생성 및 데이터 가져오기
-    $(document).on('click', '.searchBtn', function() {
-      let searchType = $('#searchType').val();
-      let keyword = $('#keyword').val();
-      let region = $(this).data('region');
+  $(document).on('click', '.searchBtn', function() {
+          let searchType = $('#searchType').val();
+          let keyword = $('#keyword').val();
 
-  $.ajax({
-        url: '/hontrip/mate/pagination',
-        data: {
-          page: 1, // 검색 시 첫 페이지로 초기화
-          searchType: searchType,
-          keyword: keyword
+          // 세션 스토리지에 검색 조건 저장
+          sessionStorage.setItem('searchType', searchType);
+          sessionStorage.setItem('keyword', keyword);
+          // regionId 세션 삭제
+          sessionStorage.removeItem('selectedRegion');
 
-        },
-         dataType:'json',
-        success: function(data) {
-        console.log(JSON.stringify(data), "data");
-        let str = '';
-        for (let i = 0; i < data.list.length; i++) {
-            let one = data.list[i];
-            str += `<div class="col-md-6">
-                <article class="item post" style="width: 49%; height: 530px;">
-                  <div class="card">
-                    <figure class="card-img-top overlay overlay-1 hover-scale">
-                <a href="../mate/${one.mateBoardId}">
-                  <img src="<c:url value='/resources/img/mateImg/${one.thumbnail}'/>">
-                  <span class="bg"></span>
-                </a>
-                <figcaption>
-                  <h5 class="from-top mb-0">Read More</h5>
-                </figcaption>
-              </figure>
-              <div class="card-body">
-                <div class="post-header">
-                  <div class="post-category text-line">
-                    <a href="#" class="hover" rel="category">${one.nickname}</a>
-                  </div>
-                  <h2 class="post-title h3 mt-1 mb-3">
-                    <a class="link-dark" href="../mate/${one.mateBoardId}">${one.title}</a>
-                  </h2>
-                </div>
-              </div>
-            </div>
-            <div class="card-footer">
-                                  <ul class="post-meta d-flex mb-0">
-                                    <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.startDate} </span></li>
-                                    <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.endDate}</span></li>
-                                    <li class="post-comments"><a href="#"><i class="uil uil-comment"></i>3</a></li>
-                                    <li class="post-likes ms-auto"><a href="#"><i class="uil uil-heart-alt"></i>3</a></li>
-                                  </ul>
-                                  <!-- /.post-meta -->
-                                </div>
-          </article>
-        </div>`;
-        }
-
-          //alert(str);
-          $('.row.isotope').empty().html(str);
-          // 페이지 버튼 다시 생성
-          generatePageButtons(1, data.pageDTO.pageSize, data.pageDTO.firstPageNoOnPageList, data.pageDTO.lastPageNoOnPageList, data.pageDTO.realEnd);
-        },
-        error: function() {
-          alert("실패");
-        }
+          loadPageData(1); // 검색 버튼 클릭 시 첫 페이지 데이터 로드
       });
-    });
+
   $(document).on('click', '.pageBtn', function() {
     let page = $(this).data('page');
-    console.log("page >> " + page);
-
-    let searchType = $('#searchType').val();
-    let keyword = $('#keyword').val();
-
-    $.ajax({
-      url: '/hontrip/mate/pagination',
-      data: {
-        page: page,
-        searchType: searchType,
-        keyword: keyword
-      },
-      dataType:'json',
-      success: function(data) {
-      console.log(JSON.stringify(data), "data");
-         let str = '';
-                 for (let i = 0; i < data.list.length; i++) {
-                     let one = data.list[i];
-                     let thumbnail = one.thumbnail;
-                     let imagePath = `/resources/img/mateImg/${thumbnail}`;
-                     str += ` <div class="col-md-6 col-lg-4">
-                                       <article class="item post">
-                                         <div class="card">
-                                           <figure class="card-img-top overlay overlay-1 hover-scale">
-                                       <a href="../mate/${one.mateBoardId}">
-                                         <img src="../${imagePath}">
-                                         <span class="bg"></span>
-                                       </a>
-                                       <figcaption>
-                                         <h5 class="from-top mb-0">Read More</h5>
-                                       </figcaption>
-                                     </figure>
-                                     <div class="card-body">
-                                       <div class="post-header">
-                                         <div class="post-category text-line">
-                                           <a href="#" class="hover" rel="category">${one.nickname}</a>
-                                         </div>
-                                         <h2 class="post-title h3 mt-1 mb-3">
-                                           <a class="link-dark" href="../mate/${one.mateBoardId}">${one.title}</a>
-                                         </h2>
-                                       </div>
-                                     </div>
-                                   </div>
-                                   <div class="card-footer">
-                                                         <ul class="post-meta d-flex mb-0">
-                                                           <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.startDate} </span></li>
-                                                           <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.endDate}</span></li>
-                                                           <li class="post-comments"><a href="#"><i class="uil uil-comment"></i>3</a></li>
-                                                           <li class="post-likes ms-auto"><a href="#"><i class="uil uil-heart-alt"></i>3</a></li>
-                                                         </ul>
-                                                         <!-- /.post-meta -->
-                                                       </div>
-                                 </article>
-                               </div>`;
-                 }
-                  $('.row.isotope').empty().html(str);
-
-                  // 페이지 버튼 다시 생성
-                  let pageSize = data.pageDTO.pageSize;
-                  generatePageButtons(page, data.pageDTO.pageSize, data.pageDTO.firstPageNoOnPageList, data.pageDTO.lastPageNoOnPageList, data.pageDTO.realEnd);
-
-                },
-      error: function() {
-        alert("실패");
-      }
+    loadPageData(page);
     });
   });
+
+  $('.regionBtn').click(function() {
+          let selectedRegion = $(this).data('region');
+
+          // 선택된 지역 값을 세션 스토리지에 저장
+          sessionStorage.setItem('selectedRegion', selectedRegion);
+
+          // 선택된 버튼 강조 표시
+          $('.regionBtn').removeClass('btn-orange');
+          $('.regionBtn').addClass('btn-soft-orange');
+          $(this).removeClass('btn-soft-orange');
+          $(this).addClass('btn-orange');
+
+          // 세션 스토리지에서 검색 조건 초기화
+          sessionStorage.removeItem('searchType');
+          sessionStorage.removeItem('keyword');
+          $('#searchType').val('');
+          $('#keyword').val('');
+
+          loadPageData(1); // 지역 버튼 클릭 시 첫 페이지 데이터 로드
+      });
+//페이징 처리
+function loadPageData(page) {
+    let searchType = $('#searchType').val();
+    let keyword = $('#keyword').val();
+    let selectedRegion = sessionStorage.getItem('selectedRegion');
+
+    if (!selectedRegion) {
+        selectedRegion = 0;
+        sessionStorage.setItem('selectedRegion', selectedRegion);
+    }
+
+    $.ajax({
+        url: '/hontrip/mate/pagination',
+        data: {
+            page: page,
+            searchType: searchType,
+            keyword: keyword,
+            regionId: selectedRegion
+        },
+        dataType: 'json',
+        success: function(data) {
+            let str = '';
+            for (let i = 0; i < data.list.length; i++) {
+                let one = data.list[i];
+                let thumbnail = one.thumbnail;
+                                     let imagePath = `/resources/img/mateImg/${thumbnail}`;
+                                     str += ` <div class="col-md-6 col-lg-4">
+                                                       <article class="item post">
+                                                         <div class="card">
+                                                           <figure class="card-img-top overlay overlay-1 hover-scale">
+                                                       <a href="../mate/${one.mateBoardId}">
+                                                         <img src="../${imagePath}">
+                                                         <span class="bg"></span>
+                                                       </a>
+                                                       <figcaption>
+                                                         <h5 class="from-top mb-0">Read More</h5>
+                                                       </figcaption>
+                                                     </figure>
+                                                     <div class="card-body">
+                                                       <div class="post-header">
+                                                         <div class="post-category text-line">
+                                                           <a href="#" class="hover" rel="category">${one.nickname}</a>
+                                                         </div>
+                                                         <h2 class="post-title h3 mt-1 mb-3">
+                                                           <a class="link-dark" href="../mate/${one.mateBoardId}">${one.title}</a>
+                                                         </h2>
+                                                       </div>
+                                                     </div>
+                                                   </div>
+                                                   <div class="card-footer">
+                                                                         <ul class="post-meta d-flex mb-0">
+                                                                           <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.startDate} </span></li>
+                                                                           <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.endDate}</span></li>
+                                                                           <li class="post-comments"><a href="#"><i class="uil uil-comment"></i>3</a></li>
+                                                                           <li class="post-likes ms-auto"><a href="#"><i class="uil uil-heart-alt"></i>3</a></li>
+                                                                         </ul>
+                                                                         <!-- /.post-meta -->
+                                                                       </div>
+                                                 </article>
+                                               </div>`;
+            }
+
+            // 데이터 삽입 및 페이지 버튼 다시 생성
+            $('.row.isotope').empty().html(str);
+            generatePageButtons(page, data.pageDTO.pageSize, data.pageDTO.firstPageNoOnPageList, data.pageDTO.lastPageNoOnPageList, data.pageDTO.realEnd);
+
+            // 페이지 정보 저장
+            sessionStorage.setItem('savedPage', page);
+        },
+        error: function() {
+            alert("실패");
+        }
+    });
+}
+
   //페이지 버튼 생성하는 메서드
   function generatePageButtons(page, pageSize, firstPageNoOnPageList, lastPageNoOnPageList, realEnd) {
     let pagingHtml = "";
@@ -181,4 +202,3 @@ if (endPage < realEnd) {
     $('.pagination').empty().html(pagingHtml);
   }
 
-});
