@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- 드롭다운 선택 시 해당 지역 게시물 리스트 -->
-<div id="list_mylocation_click_section">
+<div id="list_mylocation_dropdown_section">
     <section class="wrapper">
         <div class="container pt-12 pt-md-0 pb-16 pb-md-18">
             <div class="grid grid-view projects-masonry mt-md-n20 mt-lg-n22 mb-20">
