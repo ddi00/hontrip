@@ -47,3 +47,7 @@
   --bs-btn-disabled-bg: #FF5A46;
   --bs-btn-disabled-border-color: #FF5A46;
 }
+
+.main-slide {
+  height: auto !important;
+}
