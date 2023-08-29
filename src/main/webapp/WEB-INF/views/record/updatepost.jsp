@@ -75,7 +75,7 @@
                                 <label for="textInputExample">Content*</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary rounded-xl">수정완료</button>
+                        <button type="submit" class="btn btn-orange rounded-xl">수정완료</button>
                     </div>
                 </form>
             </div>
