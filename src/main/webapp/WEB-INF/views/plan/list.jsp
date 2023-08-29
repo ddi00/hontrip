@@ -18,13 +18,13 @@
                 <div class="card mt-2">
                     <div class="card-body">
                         작성자 : ${userId} <br>
-                        제목 : <a href="detail?planId=${plan.id}" class="custom-a">${plan.title}</a> <br>
+                        제목 : <a href="detail?userId=${userId}&planId=${plan.planId}" class="custom-a">${plan.title}</a> <br>
                         시작일 : ${plan.startDate} <br>
                         종료일 : ${plan.endDate} <br>
                         생성일시 : <fmt:formatDate value="${plan.createdAt}" pattern="yyyy-MM-dd" type="date"/> <br>
                         <br>
                         <button type="button" class="btn btn-custom1">
-                            <a href="delete?planId=${plan.id}" role="button" class="text-white">삭제</a>
+                            <a href="delete?userId=${userId}&planId=${plan.planId}" role="button" class="text-white">삭제</a>
                         </button>
                     </div>
                 </div>
