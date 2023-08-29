@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <%
     long userId = 0;
     if (session.getAttribute("id") != null) {
@@ -51,7 +51,8 @@
                 <label>Day <%=i + 1%>
                 </label><br>
                 <div id="add-buttons" class="mt-5">
-                    <button type="button" id="add-spot-<%=i + 1%>" class="btn btn-soft-orange rounded-pill">여행지 추가</button>
+                    <button type="button" id="add-spot-<%=i + 1%>" class="btn btn-soft-orange rounded-pill">여행지 추가
+                    </button>
                 </div>
                 <br>
 
@@ -104,7 +105,7 @@
                             </div>
                             <input type="text" id="keyword-<%=i + 1%>" name="keyword-<%=i + 1%>"
                                    class="custom-form-control col-md-7 me-2">
-                            <button type="button" id="search-button-<%=i + 1%>" class="btn btn-yellow col-md-2">
+                            <button type="button" id="search-spot-button-<%=i + 1%>" class="btn btn-orange col-md-2">
                                 검색
                             </button>
                         </div>
@@ -124,14 +125,24 @@
         <hr class="my-8"/>
         <div class="row gx-md-8 gx-xl-12 gy-8">
             <div class="col-lg-6" style="border-right: 2px solid #F5F5F5;">
-        <button type="button" class="add-flight btn btn-soft-green rounded-pill">항공권 추가</button>
-        <button type="button" class="add-accom btn btn-soft-yellow rounded-pill">숙소 추가</button>
+                <button id="add-flight" type="button" class="btn btn-soft-green rounded-pill">항공권 추가</button>
+                <div class="card my-2" id="selected-flights">
+
+                </div>
+                <hr class="my-8"/>
+                <button id="add-accom" type="button" class="btn btn-soft-yellow rounded-pill">숙소 추가</button>
+            </div>
+            <div class="col-lg-6">
+                <jsp:include page="flight/search_form_for_plan.jsp" />
+                <%--                항공권 검색 폼      --%>
+                <div class="search-flight-results mt-2" id="search-flight-results">
+
+                </div>
+                <%--                여행지 검색 결과--%>
             </div>
         </div>
         <hr class="my-8"/>
-        <div class="align-self-end">
-            <button type="submit" class="btn btn-yellow col-md-2" form="planForm">수정</button>
-        </div>
+        <button type="submit" class="btn btn-orange col-md-2 align-self-end" form="planForm">수정</button>
     </div>
     <%--    container   --%>
 </section>
@@ -154,7 +165,7 @@
 
     // 여행지 검색 버튼 클릭 시 여행지 검색 결과 표시
     $(document).ready(function () {
-        $('[id^="search-button-"]').click(function () {
+        $('[id^="search-spot-button-"]').click(function () {
             let searchBtnId = $(this).attr('id');
             let dayOrder = parseInt(searchBtnId.split('-')[2]);
             let categoryId = 'category-' + dayOrder;
@@ -246,8 +257,8 @@
                 selectedSpotDivHTML += "<path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z' fill='red'></path></svg>"
                 selectedSpotDivHTML += "</button></span></div>"
 
-                $('#' + selectedSpotsDivId).append(selectedSpotDivHTML); // 검색 결과를 해당 div에 삽입
-                $('#' + selectedSpotsDivId).show();
+                $("#selected-flights").append(selectedSpotDivHTML); // 검색 결과를 해당 div에 삽입
+                $("#selected-flights").show();
             },
             error: function () {
                 alert("여행지 추가에 실패했습니다.");
@@ -285,5 +296,52 @@
             }
         });
     })
-    // 항공권 추가 버튼 이벤트 처리
+
+    //항공권 추가 버튼 이벤트 처리
+    $(document).ready(function () {
+        $("#search-flight-form").hide();
+        $("#search-flight-results").hide();
+        $("#selected-flights").hide();
+
+        $("#add-flight").click(function () {
+            $("#search-flight-form").show();
+            $("#search-flight-button").click(function () {
+                $("#search-flight-results").empty();
+                let depAirportName = $("#depAirportName").children("option:selected").val();
+                let arrAirportName = $("#arrAirportName").children("option:selected").val();
+                let depDate = $("#depDate").val();
+                getFlightList(depAirportName, arrAirportName, depDate);
+            });
+        });
+    });
+
+    // 검색 항공권 리스트 반환 메소드
+    const getFlightList = function (depAirportName, arrAirportName, depDate) {
+        $("#search-flight-results").empty();
+        $.ajax({
+            method: "get",
+            url: "detail/search-flight",
+            contentType: "application/json; charset=UTF-8",
+            dataType: "html",
+            async: false,
+            data: {
+                userId: userId,
+                planId: planId,
+                depAirportName: depAirportName,
+                arrAirportName: arrAirportName,
+                depDate: depDate
+            },
+            success: function (data) {
+                // $("#search-flight-form").hide(); // form 숨기기
+                $("#search-flight-results").append(data); // 검색 결과를 해당 div에 삽입
+                $("#search-flight-results").css({'overflow': 'scroll', 'width': '100%', 'height': '500px'}); // 스크롤
+                $("#search-flight-results").show();
+            },
+            error: function () {
+                alert("항공권 검색에 실패했습니다.");
+            }
+        }); // ajax
+    } // getSpotList
+
+
 </script>

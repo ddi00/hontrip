@@ -163,16 +163,20 @@ public class PlanController {
         String departure_airport_name = departure_airport.getAirportName();
         String arrival_airport_name = arrival_airport.getAirportName();
 
-        flightService.parseData(flightSearchDTO);
-        List<FlightDTO> FlightList = flightService.listFlight(flightSearchDTO);
-
-
         flightSearchDTO.setDepAirportName(departure_airport_name);
         flightSearchDTO.setArrAirportName(arrival_airport_name);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date departure_date = formatter.parse(depDate);
+        flightSearchDTO.setDepDate(departure_date);
+
+        flightService.parseData(flightSearchDTO);
+        List<FlightDTO> FlightList = flightService.listFlight(flightSearchDTO);
 
         model.addAttribute("depAirportName", departure_airport_name);
         model.addAttribute("arrAirportName", arrival_airport_name);
         model.addAttribute("depDate", depDate);
+
         if(FlightList.isEmpty()){
             model.addAttribute("message", "검색 결과가 없습니다."); // 검색 데이터 없는 경우 메시지 표시
         } else {

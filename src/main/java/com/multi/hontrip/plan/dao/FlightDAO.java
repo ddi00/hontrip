@@ -43,6 +43,23 @@ public class FlightDAO {
     // 항공편 목록 검색
     public List<FlightDTO> list(@Param("depAirportName") String depAirportName,
                                 @Param("arrAirportName") String arrAirportName,
+                                @Param("depDate") Date depDate) {
+        // HashMap 으로 다중 parameter 전달
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("depAirportName", depAirportName);
+        paramMap.put("arrAirportName", arrAirportName);
+
+        // Date 타입 depDate -> yyyy-MM-dd 형식 String 포맷팅
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String departure_date = format.format(depDate);
+        paramMap.put("depDate", departure_date);
+
+        return my.selectList("flight.list", paramMap);
+    }
+
+    // 항공편 목록 검색 (무한 스크롤)
+    public List<FlightDTO> listWithScroll(@Param("depAirportName") String depAirportName,
+                                @Param("arrAirportName") String arrAirportName,
                                 @Param("depDate") Date depDate,
                                 @Param("startRowNum") int startRowNum,
                                 @Param("rowCount") int rowCount) {
@@ -59,6 +76,6 @@ public class FlightDAO {
         paramMap.put("startRowNum", startRowNum);
         paramMap.put("rowCount", rowCount);
 
-        return my.selectList("flight.list", paramMap);
+        return my.selectList("flight.listWithScroll", paramMap);
     }
 }
