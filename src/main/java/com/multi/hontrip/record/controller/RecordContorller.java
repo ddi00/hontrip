@@ -14,15 +14,14 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("record")
@@ -63,10 +62,12 @@ public class RecordContorller {
         List<PostImgDTO> postImgList = recordService.selectPostImg(id); //게시물 이미지
         List<CommentDTO> commentList = commentService.selectPostComment(id); //게시물 댓글
         List<CommentDTO> reCommentList = commentService.reCommentList(commentList); //대댓글
+        List<PostLikeDTO> likeUserList = postLikeService.selectLikeList(id); //좋아요 누른 유저
         model.addAttribute("postInfoDTO", postInfoDTO);
         model.addAttribute("commentList", commentList);
         model.addAttribute("postImgList", postImgList);
         model.addAttribute("reCommentList", reCommentList);
+        model.addAttribute("likeUserList", likeUserList);
         return "/record/postinfo";
     }
 
@@ -94,12 +95,32 @@ public class RecordContorller {
         return "redirect:/record/mylist"; // 삭제후 내 피드로 이동
     }
 
+    @ResponseBody
     @GetMapping("like_post") // 게시물 좋아요
     @RequiredSessionCheck
-    public ResponseEntity<PostLikeDTO> likeCount(PostLikeDTO postLikeDTO, HttpSession httpSession) {
+    public Map<String, Object> likeCount(PostLikeDTO postLikeDTO, HttpSession httpSession) {
         postLikeService.likePost(postLikeDTO);
-        PostLikeDTO likeOne = postLikeService.selectLike(postLikeDTO);
-        return ResponseEntity.ok(likeOne);
+        List<PostLikeDTO> likeUserList = postLikeService.selectLikeList(postLikeDTO.getRecordId());
+        int likeCount = likeUserList.size();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("likeCount", likeCount);
+        map.put("likeUserList", likeUserList);
+        return map; // JSON 응답으로 댓글 수 리턴
+    }
+
+    @ResponseBody
+    @GetMapping("delete_like_post") // 게시물 좋아요 삭제
+    @RequiredSessionCheck
+    public Map<String, Object> unLikedPost(PostLikeDTO postLikeDTO, HttpSession httpSession) {
+        postLikeService.deleteLikePost(postLikeDTO);
+        List<PostLikeDTO> likeUserList = postLikeService.selectLikeList(postLikeDTO.getRecordId());
+        int likeCount = likeUserList.size();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("likeCount", likeCount);
+        map.put("likeUserList", likeUserList);
+        return map; // JSON 응답으로 댓글 수 리턴
     }
 
     @GetMapping("mylist") // 내 게시물 전체 가져오기

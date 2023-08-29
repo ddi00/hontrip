@@ -5,18 +5,23 @@ import com.multi.hontrip.record.dto.PostLikeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PostLikeService {
 
     private final PostLikeDAO postLikeDAO;
 
-    // 게시물 좋아요
     public void likePost(PostLikeDTO postLikeDTO) {
         postLikeDAO.insertLike(postLikeDTO);
     }
 
-    public PostLikeDTO selectLike(PostLikeDTO postLikeDTO) {
-        return postLikeDAO.selectLike(postLikeDTO);
+    public void deleteLikePost(PostLikeDTO postLikeDTO) {
+        postLikeDAO.deleteLike(postLikeDTO);
+    }
+
+    public List<PostLikeDTO> selectLikeList(long recordId) {
+        return postLikeDAO.selectLike(recordId);
     }
 }
