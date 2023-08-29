@@ -179,11 +179,4 @@ public class MatePageDTO {
         this.keyword = keyword;
     }
 
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
 }
