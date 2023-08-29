@@ -19,7 +19,7 @@
                     </button>
                 </div>
             </div>
-        <button type="button" class="btn btn-yellow my-2">
+        <button type="button" class="btn btn-orange my-2">
             <a href="list" role="button" class="text-white">목록</a>
         </button>
     </div>

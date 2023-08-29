@@ -4,7 +4,7 @@
     <div class="container-fluid container mt-15 mb-20 w-75 text-center">
         <h1 class="mt-4">필터링된 응급시설 목록</h1>
         <div class="row">
-            <a href="/hontrip/plan/emergency_facility/list" class="btn btn-yellow col-12 my-5">전체 응급시설 목록
+            <a href="/hontrip/plan/emergency_facility/list" class="btn btn-orange col-12 my-5">전체 응급시설 목록
                 </a>
             <ul class="unordered-list mt-4">
                 <c:forEach items="${list}" var="emergency_facility">

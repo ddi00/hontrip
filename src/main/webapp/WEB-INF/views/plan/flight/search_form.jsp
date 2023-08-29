@@ -67,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <input type="submit" value="항공편 검색" class="btn btn-yellow col-md-12">
+            <input type="submit" value="항공편 검색" class="btn btn-orange col-md-12">
         </form>
     </div>
 </section>

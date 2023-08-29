@@ -6,7 +6,7 @@
         <form action="safety_result" method="post" class="mb-3">
             <div class="input-group">
                 <input type="text" id="locationName" name="locationName" class="form-control" placeholder="수신지역 이름">
-                <button class="btn btn-yellow" type="submit">조회</button>
+                <button class="btn btn-orange" type="submit">조회</button>
             </div>
         </form>
     </div>

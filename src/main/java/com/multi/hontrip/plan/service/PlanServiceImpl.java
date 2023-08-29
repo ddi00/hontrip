@@ -26,8 +26,6 @@ public class PlanServiceImpl implements PlanService {
         this.spotService = spotService;
     }
 
-    ;
-
     @Transactional
     @Override
     public void insertPlan(PlanDTO planDTO) {

@@ -26,7 +26,7 @@
         </table>
         <div class="row mt-3">
             <div class="col-md-12 text-center">
-                <button class="btn btn-yellow" onclick="location.href='/hontrip/plan/safety_search'">재검색</button>
+                <button class="btn btn-orange" onclick="location.href='/hontrip/plan/safety_search'">재검색</button>
             </div>
         </div>
     </div>

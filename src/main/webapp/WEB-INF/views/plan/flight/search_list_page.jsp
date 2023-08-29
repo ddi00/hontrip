@@ -32,11 +32,11 @@
                 <div class="col-md-4">
                     <div class="d-flex flex-column align-items-center float-end">
                         <button type="button"
-                                class="btn btn-outline-yellow">
+                                class="btn btn-outline-orange">
                             예매하기
                         </button>
                         <button type="button"
-                                class="btn btn-custom1 mt-1 text-white">
+                                class="btn btn-orange mt-1 text-white">
                             추가하기
                         </button>
                     </div>

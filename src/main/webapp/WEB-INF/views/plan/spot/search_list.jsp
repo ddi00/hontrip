@@ -12,7 +12,7 @@
                     </select>
                 </div>
                 <input type="text" id="keyword" name="keyword" class="custom-form-control col-8 me-2">
-                <input type="submit" value="검색" class="btn btn-yellow col-md-2">
+                <input type="submit" value="검색" class="btn btn-orange col-md-2">
             </div>
         </form>
         <div id="spot-list" class="row justify-content-start align-content-center">

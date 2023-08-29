@@ -16,7 +16,7 @@
       <div class="mt-2">
         <h5>${spot.title}</h5>
         <p>${spot.address}</p>
-        <button id="add-spot-btn-${status.index+1}" class="btn btn-sm btn-soft-aqua"
+        <button id="add-spot-btn-${status.index+1}" class="btn btn-sm btn-soft-orange"
                 data-spot-content-day-order="${dayOrder}" data-spot-content-id="${spot.contentId}" data-spot-title="${spot.title}">
           추가</button>
       </div>
