@@ -86,7 +86,7 @@ function movePage(url) {
         const tbody = document.querySelector('#userInfoTable tbody');
         tbody.innerHTML = '';
         data.myRecordList.forEach((record, index) => {
-          const row = tbody.insertRow();
+            const row = tbody.insertRow();
           // 각 열에 데이터를 추가.
           const noCell = row.insertCell(0);
           noCell.textContent = index + 1; // No
@@ -95,7 +95,11 @@ function movePage(url) {
           cityCell.textContent = record.city; // 도시
 
           const titleCell = row.insertCell(2);
-          titleCell.textContent = record.title; // 타이틀
+          const link = document.createElement("a");   // 타이틀에 a태그
+            link.classList="page-link moveBtn main-color"
+          link.setAttribute("href", `/hontrip/record/postinfo?id=${record.boardId}`);
+          link.textContent = record.title;
+          titleCell.appendChild(link);
 
           const startDateCell = row.insertCell(3);
           startDateCell.textContent =record.startDate;// 여행시작날짜
@@ -114,6 +118,15 @@ function movePage(url) {
 
           const cmtCountCell = row.insertCell(8);
           cmtCountCell.textContent = record.cmtCount; // 답글 수
+
+          const lastCell = row.insertCell(9); // 마지막 열 (8번 열)에 추가
+          const checkbox = document.createElement("input");
+          checkbox.setAttribute("type", "checkbox");
+          checkbox.setAttribute("class", "form-check-input selectRow");
+          checkbox.setAttribute("value", record.boardId);
+          checkbox.setAttribute("required", "required");
+          lastCell.appendChild(checkbox);
+
         });
 
         // pagination 다시하기
@@ -126,7 +139,7 @@ function movePage(url) {
           const prevBtn = document.createElement('li');
           prevBtn.classList.add('page-item');
           prevBtn.innerHTML = `
-        <a class="page-link" href="#" aria-label="Previous">
+        <a class="page-link" href="#" aria-label="Previous" onclick="movePage('/hontrip/user/my-record/${pageInfo.page-1}')">
           <span aria-hidden="true"><i class="uil uil-arrow-left"></i></span>
         </a>
       `;
@@ -151,7 +164,7 @@ function movePage(url) {
             pageBtn.classList.add('active');
           }
           pageBtn.innerHTML = `
-        <a class="page-link moveBtn" href="#" onclick="movePage('/hontrip/user/my-record/' + ${pageNumber})">${pageNumber}</a>
+        <a class="page-link moveBtn" href="#" onclick="movePage('/hontrip/user/my-record/${pageNumber}')">${pageNumber}</a>
       `;
           paginationContainer.appendChild(pageBtn);
         });
@@ -161,7 +174,7 @@ function movePage(url) {
           const nextBtn = document.createElement('li');
           nextBtn.classList.add('page-item');
           nextBtn.innerHTML = `
-        <a class="page-link" href="#" aria-label="Next">
+        <a class="page-link" href="#" aria-label="Next" onclick="movePage('/hontrip/user/my-record/${pageInfo.page+1}')">
           <span aria-hidden="true"><i class="uil uil-arrow-right"></i></span>
         </a>
       `;
@@ -175,8 +188,4 @@ function movePage(url) {
       })
       .catch(error => {
       });
-
-
-
-
 }
