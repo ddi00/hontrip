@@ -27,8 +27,17 @@
 		VALUES(#{userId}, #{recordId});
 	</insert>
 
-	<select id="selectLike" parameterType="postLikeDTO" resultType="postLikeDTO">
-		SELECT * FROM record_like WHERE user_id = #{userId} AND  record_id = #{recordId};
+	<select id="selectLikeList" parameterType="long" resultType="postLikeDTO">
+		SELECT
+		rl.id AS likeId,
+		rl.user_id AS userId,
+		u.nickname AS likeUserNickname
+		FROM
+		record_like rl
+		JOIN
+		user u ON rl.user_id = u.id
+		WHERE
+		rl.record_id = #{recordId};
 	</select>
 
 	<select id="postImgList" resultType="postImgDTO">
@@ -55,13 +64,12 @@
 		rb.start_date AS startDate,
 		rb.end_date AS endDate,
 		rb.is_visible AS isVisible,
-		COUNT(rl.id) AS likeCount,
+		(SELECT COUNT(rl.id) FROM record_like rl WHERE rb.id = rl.record_id) AS likeCount,
 		COUNT(rc.id) AS cmtCount
 		FROM
 		record_board rb
 		LEFT JOIN user u ON rb.user_id = u.id
 		LEFT JOIN location loc ON rb.location_id = loc.id
-		LEFT JOIN record_like rl ON rb.id = rl.record_id
 		LEFT JOIN record_comment rc ON rb.id = rc.record_id
 		WHERE
 		rb.id = #{id}
@@ -117,6 +125,11 @@
 	<delete id="deleteReComment">
 		DELETE FROM record_comment
 		WHERE indentation_number = #{id};
+	</delete>
+
+	<delete id="deleteLike" parameterType="postLikeDTO">
+		DELETE FROM record_like
+		WHERE user_id = #{userId} AND record_id = #{recordId}
 	</delete>
 
 	<!-- 내 게시물 전체 리스트 가져오기 -->
