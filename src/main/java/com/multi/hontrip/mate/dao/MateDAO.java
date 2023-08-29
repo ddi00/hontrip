@@ -21,8 +21,9 @@ public class MateDAO {
         param.put("keyword",pageDTO.getKeyword());
         param.put("start",pageDTO.getStart());
         param.put("end",pageDTO.getEnd());
+        param.put("regionId", pageDTO.getRegionId());
 
-        System.out.println("end -> " + pageDTO.getEnd());
+        System.out.println("region -> " + pageDTO.getRegionId());
         return my.selectList("mateBbs.list", param);
     }
 
@@ -60,6 +61,10 @@ public class MateDAO {
 
     public int checkApply(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
         return my.selectOne("mateBbs.checkApply", mateMatchingAlarmDTO);
+    }
+
+    public List<MateBoardListDTO> regionList(MatePageDTO matePageDTO) {
+        return my.selectList("mateBbs.regionList", matePageDTO);
     }
 
 

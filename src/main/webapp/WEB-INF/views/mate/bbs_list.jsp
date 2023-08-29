@@ -6,16 +6,17 @@
                 <div class="row justify-content-center">
                         <div class="col-md-offset-2">
                             <div class="text-left">
-                                <form name="mate_search" autocomplete="off">
                              <!-- 지역 선택 드롭다운 메뉴 -->
                                     <ul class="list-unstyled tag-list mb-0 flex-lg-wrap" style="width: 100%">
-                                <c:forEach items="${Region.values()}" var="location">
-                                    <button class="searchBtn btn btn-soft-ash btn-sm rounded-pill mb-2" style="width: 14%" data-region="${location.regionNum}">
-                                        ${location.regionStr}</button>
+                                <c:forEach items="${Region.values()}" var="region">
+                                    <button class="regionBtn btn btn-soft-orange btn-sm rounded-pill mb-2" style="width: 14%" data-region="${region.regionNum}">
+                                        ${region.regionStr}</button>
                                 </c:forEach>
+                             <form name="mate_search" autocomplete="on">
                                 </ul>
                                     <!-- 검색 유형 선택 드롭다운 메뉴 -->
                                     <select class="form-select" id="searchType" name="searchType">
+                                    <option value="" disabled selected hidden>검색 유형</option>
                                         <option value="title">제목</option>
                                         <option value="content">내용</option>
                                         <option value="title_content">제목+내용</option>
@@ -33,7 +34,6 @@
 
                     </div>
                      <div class="offset-md-11 text-right">
-                                                <!-- 추가적인 내용이 있다면 여기에 작성할 수 있습니다. -->
                                                 <a href="../mate/insert"><span class="underline-3 style-1 yellow">게시물 작성하기</span></a><br>
                                             </div>
                     <section class="wrapper bg-light">

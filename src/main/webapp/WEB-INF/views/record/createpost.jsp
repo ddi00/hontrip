@@ -141,7 +141,7 @@
                                 <label for="textInputExample">Content*</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary rounded-xl">작 성</button>
+                        <button type="submit" class="btn btn-orange rounded-xl">작 성</button>
                     </div>
                 </form>
             </div>

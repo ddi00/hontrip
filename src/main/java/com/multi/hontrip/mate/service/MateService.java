@@ -8,6 +8,8 @@ import java.util.List;
 public interface MateService {
     List<MateBoardListDTO> list(MatePageDTO pageDTO); //게시물 리스트 가져오기
 
+    List<MateBoardListDTO> regionList(MatePageDTO pageDTO); //지역 검색 리스트 가져오기
+
     MateBoardListDTO one(long mateBoardId); //게시물 상세 가져오기
     MatePageDTO paging(MatePageDTO matePageDTO);//페이징하기
     List<LocationDTO> location(); //지역 리스트 가져오기
