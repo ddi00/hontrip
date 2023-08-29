@@ -1,85 +1,76 @@
 $(document).ready(function () {
-        // 세션 스토리지에서 검색 조건 및 지역 정보 가져오기
-            let savedSearchType = sessionStorage.getItem('searchType');
-            let savedKeyword = sessionStorage.getItem('keyword');
-            let savedRegion = sessionStorage.getItem('selectedRegion');
+    const SEARCH_TYPE_KEY = 'searchType';
+    const KEYWORD_KEY = 'keyword';
+    const SELECTED_REGION_KEY = 'selectedRegion';
+    const SAVED_PAGE_KEY = 'savedPage';
 
-            // 검색 조건과 지역 정보 복원
-            if (savedSearchType) {
-                $('#searchType').val(savedSearchType);
-            }
-            if (savedKeyword) {
-                $('#keyword').val(savedKeyword);
-            }
-            if (savedRegion) {
-                // 선택된 버튼 강조 표시
-                $('.regionBtn').removeClass('btn-orange');
-                $('.regionBtn').addClass('btn-soft-orange');
-                $('.regionBtn[data-region="' + savedRegion + '"]').removeClass('btn-soft-orange');
-                $('.regionBtn[data-region="' + savedRegion + '"]').addClass('btn-orange');
-            }
+    let savedSearchType = sessionStorage.getItem(SEARCH_TYPE_KEY);
+    let savedKeyword = sessionStorage.getItem(KEYWORD_KEY);
+    let savedRegion = sessionStorage.getItem(SELECTED_REGION_KEY);
+    let savedPage = sessionStorage.getItem(SAVED_PAGE_KEY);
 
-            // 검색 조건 초기화
-            if (!savedSearchType) {
-                sessionStorage.removeItem('searchType');
-            }
-            if (!savedKeyword) {
-                sessionStorage.removeItem('keyword');
-            }
-            if (!savedRegion) {
-                sessionStorage.removeItem('selectedRegion');
-            }
-                let savedPage = sessionStorage.getItem('savedPage');
+    // 검색 조건과 지역 정보 복원
+    if (savedSearchType){
+    $('#searchType').val(savedSearchType);
+    }
+    if (savedKeyword){
+    $('#keyword').val(savedKeyword);
+    }
+    if (savedRegion) {
+        // 선택된 버튼 강조 표시
+        $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+        $('.regionBtn[data-region="' + savedRegion + '"]').removeClass('btn-soft-orange').addClass('btn-orange');
+    }
 
-                // 세션 스토리지에 저장된 페이지 정보가 있는 경우, 해당 페이지로 데이터 로딩 및 페이지 버튼 생성
-                if (savedPage) {
-                    loadPageData(savedPage);
-                } else {
-                    loadPageData(1); // 기본 페이지 번호
-                }
+    if (!savedSearchType){
+    sessionStorage.removeItem(SEARCH_TYPE_KEY);
+    }
+    if (!savedKeyword){
+    sessionStorage.removeItem(KEYWORD_KEY);
+    }
+    if (!savedRegion){
+    sessionStorage.removeItem(SELECTED_REGION_KEY);
+    }
 
-});
-$(function() {
-   // 검색 버튼 클릭 시 페이지 버튼 생성 및 데이터 가져오기
-  $(document).on('click', '.searchBtn', function() {
-          let searchType = $('#searchType').val();
-          let keyword = $('#keyword').val();
+    // 페이지 정보가 있는 경우 해당 페이지로 데이터 로딩 및 페이지 버튼 생성
+    if (savedPage) {
+        loadPageData(savedPage);
+    } else {
+        loadPageData(1); // 기본 페이지 번호
+    }
 
-          // 세션 스토리지에 검색 조건 저장
-          sessionStorage.setItem('searchType', searchType);
-          sessionStorage.setItem('keyword', keyword);
-          // regionId 세션 삭제
-          sessionStorage.removeItem('selectedRegion');
-
-          loadPageData(1); // 검색 버튼 클릭 시 첫 페이지 데이터 로드
-      });
-
-  $(document).on('click', '.pageBtn', function() {
-    let page = $(this).data('page');
-    loadPageData(page);
+    // 검색 버튼 클릭 시 페이지 버튼 생성 및 데이터 가져오기
+    $(document).on('click', '.searchBtn', function() {
+        let searchType = $('#searchType').val();
+        let keyword = $('#keyword').val();
+        sessionStorage.setItem(SEARCH_TYPE_KEY, searchType);
+        sessionStorage.setItem(KEYWORD_KEY, keyword);
+        //regionId 세션 삭제
+        sessionStorage.removeItem(SELECTED_REGION_KEY);
+        loadPageData(1);
     });
-  });
 
-  $('.regionBtn').click(function() {
-          let selectedRegion = $(this).data('region');
+    $(document).on('click', '.pageBtn', function() {
+        let page = $(this).data('page');
+        loadPageData(page);
+    });
 
-          // 선택된 지역 값을 세션 스토리지에 저장
-          sessionStorage.setItem('selectedRegion', selectedRegion);
+    $('.regionBtn').click(function() {
+        let selectedRegion = $(this).data('region');
+        sessionStorage.setItem(SELECTED_REGION_KEY, selectedRegion);
+        $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+        $(this).removeClass('btn-soft-orange').addClass('btn-orange');
 
-          // 선택된 버튼 강조 표시
-          $('.regionBtn').removeClass('btn-orange');
-          $('.regionBtn').addClass('btn-soft-orange');
-          $(this).removeClass('btn-soft-orange');
-          $(this).addClass('btn-orange');
+        // 세션 스토리지에서 검색 조건 초기화
+            sessionStorage.removeItem(SEARCH_TYPE_KEY);
+            sessionStorage.removeItem(KEYWORD_KEY);
+            $('#searchType').val('');
+            $('#keyword').val('');
 
-          // 세션 스토리지에서 검색 조건 초기화
-          sessionStorage.removeItem('searchType');
-          sessionStorage.removeItem('keyword');
-          $('#searchType').val('');
-          $('#keyword').val('');
+        loadPageData(1);
+    });
+});
 
-          loadPageData(1); // 지역 버튼 클릭 시 첫 페이지 데이터 로드
-      });
 //페이징 처리
 function loadPageData(page) {
     let searchType = $('#searchType').val();
