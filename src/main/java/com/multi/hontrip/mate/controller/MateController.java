@@ -28,7 +28,7 @@ public class MateController {
     private MateService mateService;
 
     // 게시판 목록 가져오기
-    @GetMapping("bbs_list")
+    @GetMapping("/bbs_list")
     public String list(MatePageDTO matePageDTO, Model model, HttpSession session) {
         //페이징 변수들 계산하기
         MatePageDTO pagedDTO = mateService.paging(matePageDTO);
@@ -46,8 +46,9 @@ public class MateController {
     }
 
     //페이징 처리
-    @RequestMapping("pagination")
-    public @ResponseBody Map<String, Object> pageList(MatePageDTO matePageDTO, Model model, HttpSession session) {
+    @GetMapping("/pagination")
+    @ResponseBody
+    public Map<String, Object> pageList(MatePageDTO matePageDTO, HttpSession session) {
         //페이징 변수들 계산하기
         MatePageDTO pagedDTO = mateService.paging(matePageDTO);
         //게시물 리스트 가져오기
@@ -59,11 +60,25 @@ public class MateController {
         return map;
     }
 
+    @RequestMapping("/region_search")
+    @ResponseBody
+    public Map<String, Object> regionList(MatePageDTO matePageDTO, HttpSession session) {
+        //페이징 변수들 계산하기
+        MatePageDTO pagedDTO = mateService.paging(matePageDTO);
+        //게시물 리스트 가져오기
+        List<MateBoardListDTO> list = mateService.regionList(pagedDTO);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", list);
+        map.put("pageDTO", pagedDTO);
+        return map;
+    }
 
     //댓글 insert
     @RequestMapping("comment_insert")
     @ResponseBody
-    public Map<String,Object> insert(MateCommentDTO mateCommentDTO) {
+    @RequiredSessionCheck
+    public Map<String,Object> insert(MateCommentDTO mateCommentDTO, HttpSession httpSession) {
         int result = mateService.commentInsert(mateCommentDTO);
         //게시물 상세의 댓글 리스트 가져오기
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
@@ -82,6 +97,7 @@ public class MateController {
     //댓글 delete
     @RequestMapping("comment_edit")
     @ResponseBody
+    @RequiredSessionCheck
     public Map<String,Object> edit(MateCommentDTO mateCommentDTO) {
         mateService.commentEdit(mateCommentDTO);
         //게시물 상세의 댓글 리스트 가져오기
@@ -100,6 +116,7 @@ public class MateController {
 
     @RequestMapping("comment_delete")
     @ResponseBody
+    @RequiredSessionCheck
     public Map<String,Object> delete(MateCommentDTO mateCommentDTO) {
         mateService.commentDelete(mateCommentDTO);
         //게시물 상세의 댓글 리스트 가져오기
@@ -118,6 +135,7 @@ public class MateController {
 
     @RequestMapping("reply_insert")
     @ResponseBody
+    @RequiredSessionCheck
     public Map<String,Object> reply(MateCommentDTO mateCommentDTO) {
         int result = mateService.replyInsert(mateCommentDTO);
         //게시물 상세의 댓글 리스트 가져오기
