@@ -2,8 +2,6 @@ package com.multi.hontrip.user.service;
 
 import com.multi.hontrip.user.dto.MyRecordDTO;
 import com.multi.hontrip.user.dto.PageDTO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
