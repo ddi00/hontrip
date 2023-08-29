@@ -34,13 +34,30 @@
             updateField.style.display = "none";
         }
 
+        function updateLikeSection(likeList) {
+            let users = "";
+            let likeCnt = "";
+            likeCnt += "<a href='#' data-bs-toggle='modal' data-bs-target='#modal-02'><div id='likeCountSection'><i class='uil uil-heart-alt'></i>" + likeList.likeCount + "</div></a>";
+            $('.likeCnt').html(likeCnt);
+
+            if (likeList.likeCount > 0) {
+                for (let i = 0; i < likeList.likeCount; i++) {
+                    let postLikeDTO = likeList.likeUserList[i];
+                    users += `<p class="mb-6">\${postLikeDTO.likeUserNickname}</p>`;
+                }
+            } else {
+                users += "<h6>좋아요를 누른 사람이 없습니다.</h6>"
+            }
+            $('#likeUsers').html(users);
+        }
+
         function updateCommentSection(commentListRe) {
             let comments = "";
             let cCount = commentListRe.commentList.length;
             let rCount = commentListRe.reCommentList.length;
 
             if (cCount > 0) {
-                comments += "<h3 class='mb-6'>" + cCount + "Comments</h3>";
+                comments += "<h3 class='mb-6'>" + cCount + " Comments</h3>";
                 for (let i = 0; i < cCount; i++) {
                     let commentList = commentListRe.commentList[i];
                     if (commentList.cmtSequence == 0) {
@@ -157,9 +174,8 @@
                     }
                 }
             } else {
-                comments += "<div>";
-                comments += "<h6>등록된 댓글이 없습니다.</h6>";
-                comments += "</div>";
+                comments += "<h3 class='mb-6'>" + cCount + " Comments</h3>";
+                comments += "<div><h6>등록된 댓글이 없습니다.</h6></div>";
             }
 
             $('#count').html(cCount);
@@ -258,23 +274,40 @@
                 })
             }) // recomment
 
-            $('#postLikes').click(function() {
-                console.log("ajax실행");
-                 $.ajax({
+
+            $(".like-button").click(function () {
+                var clickedButton = $(this);
+                $.ajax({
                     url: "like_post",
                     data:{
                         recordId: ${postInfoDTO.boardId},
                         userId: ${userId}
                     },
-                    success: function(like) {
-                        console.log("좋아요 성공");
-                        console.log(like.userId);
+                    success: function(result) {
+                        updateLikeSection(result)
                     },
                     error: function() {
                         console.log("좋아요 실패");
                     }
                 })
-            }) // like
+            });
+
+            $(".unlike-button").click(function () {
+                var clickedButton = $(this);
+                $.ajax({
+                    url: "delete_like_post",
+                    data:{
+                        recordId: ${postInfoDTO.boardId},
+                        userId: ${userId}
+                    },
+                    success: function (result) {
+                        updateLikeSection(result)
+                    },
+                    error: function () {
+                        alert("Error unliking the post");
+                    }
+                });
+            });
 
         }); // $
 
@@ -329,8 +362,8 @@
                                 <!-- /.post-header -->
                                 <div class="post-content">
                                     <p>${postInfoDTO.content}</p>
-                                    <button id="postLikes" class="btn btn-primary btn-sm rounded-pill">좋아요</button>
-                                    <button id="likeCancel" class="btn btn-primary btn-sm rounded-pill">좋아요 취소</button>
+                                     <button class="like-button">Like</button>
+                                     <button class="unlike-button">UnLike</button>
                                 </div>
                                 <!-- /.post-content -->
                             </div>
@@ -343,11 +376,12 @@
                                             ${postInfoDTO.updatedAt}</span></li>
                                     <li class="post-author"><a href="#"><i
                                                 class="uil uil-user"></i><span>${postInfoDTO.nickName}</span></a></li>
-                                    <li class="post-likes ms-auto">
+                                    <li class="likeCnt post-likes ms-auto">
 
-                                            <div id="likeCountSection"><i class="uil uil-heart-alt"></i>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal-02"><div id="likeCountSection"><i class="uil uil-heart-alt"></i>
                                             ${postInfoDTO.likeCount}
-                                                </div></li>
+                                                </div></li></a>
+
                                     <c:if test="${postInfoDTO.userId eq userId}">
                                     <li class="post-likes"><a
                                             href="/hontrip/record/updatepost?id=${postInfoDTO.boardId}">수 정</a></li>
@@ -397,6 +431,7 @@
                                                                             onclick="showUpdateTextarea(${commentDTO.cmtId})">수정</a>
                                                                     </li>
                                                                     <li><button style='all: unset'
+                                                                            class="commentDelete"
                                                                             data-comment-id="${commentDTO.cmtId}">삭제</button>
                                                                     </li>
                                                                 </c:if>
@@ -520,5 +555,45 @@
     <!-- /.container -->
 </section>
 <!-- /section -->
+
+<div class="modal fade" id="modal-02" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content text-center">
+      <div class="modal-body">
+        <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="row">
+        </div>
+        <!-- /.row -->
+        <h3><i class="uil uil-heart-alt"></i>좋아요 누른 유저<i class="uil uil-heart-alt"></i></h3>
+        <div id="likeUsers">
+        <c:choose>
+          <c:when test="${likeUserList.isEmpty()}">
+            <h6>좋아요를 누른 사람이 없습니다.</h6>
+          </c:when>
+          <c:otherwise>
+          <c:forEach items="${likeUserList}" var="user">
+            <p class="mb-6">${user.likeUserNickname}</p>
+          </c:forEach>
+          </c:otherwise>
+        </c:choose>
+        </div>
+        <div class="newsletter-wrapper">
+          <div class="row">
+            <div class="col-md-10 offset-md-1">
+            </div>
+            <!-- /.newsletter-wrapper -->
+          </div>
+          <!-- /column -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!--/.modal-body -->
+    </div>
+    <!--/.modal-content -->
+  </div>
+  <!--/.modal-dialog -->
+</div>
+<!--/.modal -->
+
 </body>
 </html>
