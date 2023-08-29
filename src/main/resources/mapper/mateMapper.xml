@@ -85,22 +85,48 @@
 		JOIN user u ON mb.user_id = u.id
 		JOIN age_range ar ON mb.age_range_id = ar.id
 		<where>
-			<if test='searchType != null'>
-				<if test='searchType.equals("title")'>
-					AND title LIKE concat('%', #{keyword}, '%')
-				</if>
-				<if test='searchType.equals("content")'>
-					AND content LIKE concat('%', #{keyword}, '%')
-				</if>
-				<if test='searchType.equals("title_content")'>
-					AND title LIKE concat('%', #{keyword}, '%')
-					or content LIKE concat('%', #{keyword}, '%')
-				</if>
-				<if test='searchType.equals("nickname")'>
-					AND nickname LIKE concat('%', #{keyword}, '%')
-				</if>
-			</if>
+			<choose>
+				<when test='regionId != 0'>
+					AND mb.region_id = #{regionId}
+				</when>
+				<otherwise>
+					<if test='searchType != null'>
+						<if test='searchType.equals("title")'>
+							AND title LIKE concat('%', #{keyword}, '%')
+						</if>
+						<if test='searchType.equals("content")'>
+							AND content LIKE concat('%', #{keyword}, '%')
+						</if>
+						<if test='searchType.equals("title_content")'>
+							AND (title LIKE concat('%', #{keyword}, '%') OR content LIKE concat('%', #{keyword}, '%'))
+						</if>
+						<if test='searchType.equals("nickname")'>
+							AND nickname LIKE concat('%', #{keyword}, '%')
+						</if>
+					</if>
+				</otherwise>
+			</choose>
 		</where>
+		ORDER BY
+		mb.id DESC
+		LIMIT #{start} OFFSET #{end}
+	</select>
+
+	<select id="regionList" resultType="mateBoardListDTO" parameterType="matePageDTO">
+		SELECT
+		mb.id AS mateBoardId,
+		u.nickname AS nickname,
+		mb.content AS content,
+		mb.title AS title,
+		mb.thumbnail AS thumbnail,
+		mb.start_date AS startDate,
+		mb.end_date AS endDate,
+		ar.range_description AS ageRange
+		FROM
+		mate_board mb
+		JOIN user u ON mb.user_id = u.id
+		JOIN age_range ar ON mb.age_range_id = ar.id
+		AND mb.region_id = #{regionId}
 		ORDER BY
 		mb.id DESC
 		LIMIT #{start} OFFSET #{end}
@@ -147,9 +173,19 @@
 					AND nickname LIKE concat('%', #{keyword}, '%')
 				</if>
 			</if>
+			<if test='regionId != 0'>
+				AND mb.region_id = #{regionId}
+			</if>
 		</where>
 	</select>
 
+<!--	<select id="count" resultType="Integer">-->
+<!--		SELECT COUNT(*)-->
+<!--		FROM mate_board mb-->
+<!--		JOIN user u ON mb.user_id = u.id-->
+<!--		JOIN age_range ar ON mb.age_range_id = ar.id-->
+<!--		AND mb.region_id = #{regionId}-->
+<!--	</select>-->
 	<select id="location" resultType="locationDTO">
 		SELECT id   as locationId,
 			   city as city

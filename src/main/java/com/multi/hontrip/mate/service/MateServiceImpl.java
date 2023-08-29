@@ -31,6 +31,12 @@ public class MateServiceImpl implements MateService {
         return mateDAO.list(matePageDTO);
     }
 
+    @Override
+    public List<MateBoardListDTO> regionList(MatePageDTO matePageDTO){
+        matePageDTO.setStartEnd(matePageDTO.getPage());
+        return mateDAO.regionList(matePageDTO);
+    }
+
     public MateBoardListDTO one(long mateBoardId) {
         return mateDAO.one(mateBoardId);
     }
@@ -65,6 +71,7 @@ public class MateServiceImpl implements MateService {
         //1page당 5개의 게시물을 넣는 경우
         //페이지 수 게산
         matePageDTO.setPages(count);
+
         return matePageDTO;
     }
 

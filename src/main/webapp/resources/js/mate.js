@@ -530,7 +530,8 @@ if (window.location.href.includes('/mate/')) {
                             if (commentList.nickname !== "Bob") {
                                 comments += `
                                 <a href="javascript:void(0);" onclick="showUpdateTextarea(${replyList.commentId})">수정</a>
-                                <button type='button' class="commentDelete" data-comment-id="${replyList.commentId}">삭제</button>`;
+                                <div class="d-flex justify-content-end">
+                                <button type='button' class="commentDelete btn btn-soft-ash rounded-pill" data-comment-id="${replyList.commentId}">삭제</button></div>`;
                                 comments += `<div id="commentUpdate${replyList.commentId}" style="display: none">
                                     <textarea id="updateContent${replyList.commentId}" placeholder="수정글을 입력해주세요">${replyList.content}</textarea>
                                     <br>
@@ -598,14 +599,20 @@ if (window.location.href.includes('/mate/')) {
 
     $(function () {
         $('#commentWrite').click(function () {
-            console.log("ajax 실행");
+            var userId = $('#userId').val();
+            var nickname = $('#nickName').val();
+
+            if (!userId) {
+                        alert("로그인 해주세요.");
+                        return;
+            }
             $.ajax({
                 url: "/hontrip/mate/comment_insert",
                 data: {
                     mateBoardId: $('#mateBoardId').val(),
                     content: $('#cmtContent').val(),
-                    userId: $('#userId').val(),
-                    nickname: $('#nickName').val()
+                    userId: userId,
+                    nickname: nickname
                 },
                 dataType: "json",
                 success: function (cmtListRe) {
