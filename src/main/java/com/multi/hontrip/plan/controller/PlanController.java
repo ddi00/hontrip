@@ -2,6 +2,8 @@ package com.multi.hontrip.plan.controller;
 
 import com.multi.hontrip.common.RequiredSessionCheck;
 import com.multi.hontrip.plan.dto.*;
+import com.multi.hontrip.plan.parser.Airport;
+import com.multi.hontrip.plan.service.FlightService;
 import com.multi.hontrip.plan.service.PlanService;
 import com.multi.hontrip.plan.service.SpotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,10 @@ import org.xml.sax.SAXException;
 import javax.servlet.http.HttpSession;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -23,11 +28,13 @@ import java.util.List;
 public class PlanController {
     private final PlanService planService;
     private final SpotService spotService;
+    private final FlightService flightService;
 
     @Autowired
-    public PlanController(PlanService planService, SpotService spotService) {
+    public PlanController(PlanService planService, SpotService spotService, FlightService flightService) {
         this.planService = planService;
         this.spotService = spotService;
+        this.flightService = flightService;
     }
 
     // 일정 생성
@@ -138,13 +145,63 @@ public class PlanController {
         }
     }
 
+    // 일정 수정 - 항공권 조회
+    @RequestMapping("/detail/search-flight")
+    public String searchFlight(@RequestParam("userId") Long userId,
+                               @RequestParam("planId") Long planId,
+                               @RequestParam("depAirportName") String depAirportName,
+                               @RequestParam("arrAirportName") String arrAirportName,
+                               @RequestParam("depDate") String depDate, Model model)
+            throws ParserConfigurationException, SAXException, IOException, ParseException {
+
+        FlightSearchDTO flightSearchDTO = new FlightSearchDTO();
+
+        // Airport enum
+        Airport departure_airport = Airport.valueOf(depAirportName);
+        Airport arrival_airport = Airport.valueOf(arrAirportName);
+
+        String departure_airport_name = departure_airport.getAirportName();
+        String arrival_airport_name = arrival_airport.getAirportName();
+
+        flightService.parseData(flightSearchDTO);
+        List<FlightDTO> FlightList = flightService.listFlight(flightSearchDTO);
+
+
+        flightSearchDTO.setDepAirportName(departure_airport_name);
+        flightSearchDTO.setArrAirportName(arrival_airport_name);
+
+        model.addAttribute("depAirportName", departure_airport_name);
+        model.addAttribute("arrAirportName", arrival_airport_name);
+        model.addAttribute("depDate", depDate);
+        if(FlightList.isEmpty()){
+            model.addAttribute("message", "검색 결과가 없습니다."); // 검색 데이터 없는 경우 메시지 표시
+        } else {
+            model.addAttribute("list", FlightList);
+        }
+
+        return "/plan/flight/search_list_for_plan";
+    }
+
+
     // 일정 삭제
     @RequestMapping("/delete")
     @RequiredSessionCheck
-    public String delete(@RequestParam("userId") Long userId,
-                         @RequestParam("planId") Long planId) {
-        planService.deletePlan(planId, userId);
-        return "redirect:/plan/list"; // 일정 삭제 후 일정 목록으로 리다이렉트
+    public ResponseEntity<String> delete(@RequestParam("userId") Long userId,
+                         @RequestParam("planId") Long planId, HttpSession session) {
+        System.out.println("userId : "+userId);
+        System.out.println("planId : "+planId);
+
+        Long sessionUserId = (Long) session.getAttribute("id");
+
+        try {
+            planService.deletePlan(planId, sessionUserId);
+            System.out.println("Deleted successfully");
+            return ResponseEntity.ok("삭제 성공");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 실패");
+        }
+        //return "redirect:/plan/list"; // 일정 삭제 후 일정 목록으로 리다이렉트
     }
 
     // 일정 목록 보기
