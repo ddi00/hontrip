@@ -4,7 +4,7 @@
 
 <div id="myMateAlarmModal" class="mateAlarmModal">
     <div class="mateAlarmModal-content">
-        <span class="alarmModalAlarmLetter">알람</span><span class="mateAlarmListClose">&times;</span>
+        <span class="alarmModalAlarmLetter">알림</span><span class="mateAlarmListClose">&times;</span>
         <ul id="notificationList" class="mateAlarmUl">
         </ul>
     </div>
