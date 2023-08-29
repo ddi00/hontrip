@@ -23,16 +23,6 @@
     list-style: none
 }
 
-/*일정 상세*/
-
-#plan-detail-container ul > li {
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: white;
-}
-
 /*안전 정보*/
 #safety-table th,
 #safety-table td {
@@ -50,7 +40,7 @@ input #depDate .custom-flight-form {
     color: #60697b;
     background-color: #fefefe;
     background-clip: padding-box;
-    border: 1px solid rgba(8, 60, 130, .07);
+    border: 1px solid rgba(8, 60, 130, 0.15);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -72,7 +62,7 @@ input #depDate .custom-flight-form {
     color: #60697b;
     background-color: #fefefe;
     background-clip: padding-box;
-    border: 1px solid rgba(8, 60, 130, .07);
+    border: 1px solid rgba(8, 60, 130, 0.15);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -89,7 +79,7 @@ input #depDate .custom-flight-form {
     color: #60697b;
     background-color: #fefefe;
     background-clip: padding-box;
-    border: 1px solid rgba(8, 60, 130, .07);
+    border: 1px solid rgba(8, 60, 130, 0.15);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -103,7 +93,7 @@ input #depDate .custom-flight-form {
     --bs-card-spacer-x: 2rem;
     --bs-card-title-spacer-y: 0.5rem;
     --bs-card-border-width: 1px;
-    --bs-card-border-color: rgba(164, 174, 198, 0.2);
+    --bs-card-border-color: rgba(164, 174, 198, 0.7);
     --bs-card-border-radius: 0.4rem;
     --bs-card-inner-border-radius: 0.4rem;
     --bs-card-cap-padding-y: 0.9rem;
@@ -210,12 +200,12 @@ input #depDate .custom-flight-form {
 
 .custom-nav-tabs {
     --bs-nav-tabs-border-width: 1px;
-    --bs-nav-tabs-border-color: rgba(164, 174, 198, 0.2);
+    --bs-nav-tabs-border-color: rgba(164, 174, 198, 0.15);
     --bs-nav-tabs-border-radius: 0.4rem;
     --bs-nav-tabs-link-hover-border-color: transparent;
     --bs-nav-tabs-link-active-color: #FF5A46;
     --bs-nav-tabs-link-active-bg: #fff;
-    --bs-nav-tabs-link-active-border-color: rgba(164, 174, 198, 0.2);
+    --bs-nav-tabs-link-active-border-color: rgba(164, 174, 198, 0.15);
     border-bottom: var(--bs-nav-tabs-border-width) solid var(--bs-nav-tabs-border-color)
 }
 

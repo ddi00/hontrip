@@ -23,6 +23,9 @@ public interface FlightService {
     // 항공편 목록 조회
     List<FlightDTO> listFlight(FlightSearchDTO flightSearchDTO) throws ParseException;
 
+    // 항공편 목록 조회 (무한 스크롤)
+    List<FlightDTO> listFlightWithScroll(FlightSearchDTO flightSearchDTO) throws ParseException;
+
     // 무한 스크롤 시 목록 조회
     List<FlightDTO> loadList(FlightSearchDTO flightSearchDTO) throws ParseException;
 }

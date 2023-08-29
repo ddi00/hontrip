@@ -69,7 +69,8 @@ public class FlightController {
         flightSearchDTO.setEndRowNum(endRowNum);
         flightSearchDTO.setRowCount(rowCount);
 
-        List<FlightDTO> list = flightService.listFlight(flightSearchDTO);
+        // DB에서 출발 공항, 도착 공항, 출발일 조건에 맞는 데이터 select
+        List<FlightDTO> FlightList = flightService.listFlightWithScroll(flightSearchDTO);
 
         // 검색 대상 항공편 수
         int totalRow = flightService.countFlight(flightSearchDTO);
@@ -79,8 +80,12 @@ public class FlightController {
         model.addAttribute("totalPageCount", totalPageCount);
         model.addAttribute("totalRow", totalRow);
         model.addAttribute("pageNum", pageNum);
-        // DB에서 출발 공항, 도착 공항, 출발일 조건에 맞는 데이터 select
-        model.addAttribute("list", list);
+        if(FlightList.isEmpty()){
+            model.addAttribute("message", "검색 결과가 없습니다."); // 검색 데이터 없는 경우 메시지 표시
+        } else {
+            model.addAttribute("list", FlightList);
+        }
+
         return "/plan/flight/search_list"; // 조건에 맞는 항공편 검색 목록 반환
     }
     

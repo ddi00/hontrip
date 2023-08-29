@@ -95,7 +95,6 @@ public class FlightParser {
                 NodeList nodeList = doc.getElementsByTagName("item");   // 태그명 item
                 System.out.println("the number of parsing items : " + nodeList.getLength());
 
-
                 // 파싱 대상 수만큼 for문 반복
                 for (int i = 0; i < nodeList.getLength(); i++) {
                     Node node = nodeList.item(i);
