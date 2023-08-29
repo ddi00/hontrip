@@ -3,7 +3,7 @@
 
 <div id="myMateAlarmModal" class="mateAlarmModal">
     <div class="mateAlarmModal-content">
-        <span style="text-align: center; font-weight: bold; display: inline-block; width: 95%; font-size:15px; margin-top: 8px; margin-bottom: 10px;">알람</span><span
+        <span style="text-align: center; font-weight: bold; display: inline-block; width: 95%; font-size:15px; margin-top: 8px; margin-bottom: 10px;">알림</span><span
             class="mateAlarmListClose">&times;</span>
         <ul id="notificationList" class="mateAlarmUl">
         </ul>
