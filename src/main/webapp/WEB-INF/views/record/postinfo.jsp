@@ -9,6 +9,24 @@
         }
     %>
 <head>
+<style>
+    /* 이미지 컨테이너의 스타일 설정 */
+    .swiper-slide {
+        width: 500px;
+        height: 700px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* 실제 이미지의 스타일 설정 */
+    .swiper-slide img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+
+
     <meta charset="UTF-8">
     <title>게시물 조회</title>
     <script type="text/javascript"
@@ -57,7 +75,7 @@
             let rCount = commentListRe.reCommentList.length;
 
             if (cCount > 0) {
-                comments += "<h3 class='mb-6'>" + cCount + " Comments</h3>";
+                comments += "<h3 class='mb-6 text-orange'>" + cCount + " Comments</h3>";
                 for (let i = 0; i < cCount; i++) {
                     let commentList = commentListRe.commentList[i];
                     if (commentList.cmtSequence == 0) {
@@ -96,27 +114,29 @@
                             comments += `
                                     <a href="javascript:void(0);"
                                     onclick="showCcmtTextarea(\${commentList.cmtId})"
-                                    class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
+                                    class="btn btn-soft-orange btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
                                         class="uil uil-comments"></i> Reply</a>`;
                         }
                         comments += "</div></div>";
                         comments += `<p>\${commentList.cmtContent}</p>`;
                         comments += `
-                            <div id="commentUpdate\${commentList.cmtId}" style="display: none">
-                                <textarea id="updateContent\${commentList.cmtId}"
-                                    placeholder="수정글을 입력해주세요">\${commentList.cmtContent}</textarea>
-                                <button class="updateComment"
+                            <div id="commentUpdate\${commentList.cmtId}" style="display: none" class="form-floating mb-4">
+                                <textarea id="updateContent\${commentList.cmtId}" style="height: 80px"
+                                    placeholder="수정글을 입력해주세요" class="form-control">\${commentList.cmtContent}</textarea>
+                                <label>Update Comment *</label>
+                                <button class="updateComment btn btn-orange btn-sm rounded-pill"
                                     data-comment-id="\${commentList.cmtId}">수정 하기</button>
-                                <a href="javascript:void(0);"
+                                <a href="javascript:void(0);" class="btn btn-soft-orange btn-sm rounded-pill"
                                     onclick="closeTextarea(\${commentList.cmtId})">취소</a>
                             </div>
 
-                            <div id="cComment\${commentList.cmtId}" style="display: none">
-                                <textarea id="cContent\${commentList.cmtId}"
-                                    placeholder="답글을 입력해주세요"></textarea>
-                                <button class="cCommentWrite"
+                            <div id="cComment\${commentList.cmtId}" style="display: none" class="form-floating mb-4">
+                                <textarea id="cContent\${commentList.cmtId}" style="height: 80px"
+                                    placeholder="답글을 입력해주세요" class="form-control"></textarea>
+                                <label>ReComment *</label>
+                                <button class="cCommentWrite btn btn-orange btn-sm rounded-pill"
                                     data-comment-id="\${commentList.cmtId}">답글 전송</button>
-                                <a href="javascript:void(0);"
+                                <a href="javascript:void(0);" class="btn btn-soft-orange btn-sm rounded-pill"
                                     onclick="closeCTextarea(\${commentList.cmtId})">취소</a>
                             </div>`;
                         for (let i = 0; i < rCount; i++) {
@@ -159,13 +179,14 @@
                                 comments += `<p>\${replyList.cmtContent}</p>`;
                                 comments += `
                                         <div id="commentUpdate\${replyList.cmtId}"
-                                            style="display: none">
-                                            <textarea id="updateContent\${replyList.cmtId}"
-                                                placeholder="수정글을 입력해주세요">\${replyList.cmtContent}</textarea>
-                                            <button class="updateComment"
+                                            style="display: none" class="form-floating mb-4">
+                                            <textarea id="updateContent\${replyList.cmtId}" style="height: 80px"
+                                                placeholder="수정글을 입력해주세요" class="form-control">\${replyList.cmtContent}</textarea>
+                                            <label>Update Comment *</label>
+                                            <button class="updateComment btn btn-orange btn-sm rounded-pill"
                                                 data-comment-id="\${replyList.cmtId}">수정
                                                 하기</button>
-                                            <a href="javascript:void(0);"
+                                            <a href="javascript:void(0);" class="btn btn-soft-orange btn-sm rounded-pill"
                                                 onclick="closeTextarea(\${replyList.cmtId})">취소</a>
                                         </div></li></ul>`;
                             }
@@ -335,11 +356,9 @@
                                             <c:forEach items="${postImgList}" var="postImgDTO">
                                                 <div class="swiper-slide">
                                                     <figure class="rounded">
-                                                        <img src="<c:url value='/${postImgDTO.imgUrl}'/>"
-                                                            srcset="<c:url value='/${postImgDTO.imgUrl}'/>" alt="" /><a
-                                                            class="item-link" href="/hontrip/${postImgDTO.imgUrl}"
-                                                            data-glightbox data-gallery="product-group"><i
-                                                                class="uil uil-focus-add"></i></a>
+                                                        <a href="/hontrip/${postImgDTO.imgUrl}"
+                                                            data-glightbox data-gallery="product-group"><img src="<c:url value='/${postImgDTO.imgUrl}'/>"
+                                                            srcset="<c:url value='/${postImgDTO.imgUrl}'/>"/></a>
                                                     </figure>
                                                 </div>
                                             </c:forEach>
@@ -357,7 +376,7 @@
                                         <li class="post-date"><i class="uil uil-calendar-alt"></i><span>여행기간
                                                 ${postInfoDTO.startDate}~${postInfoDTO.endDate}</span></li>
                                     </ul>
-                                    <h2 class="post-title mt-1 mb-0">${postInfoDTO.title}</h2>
+                                    <h2 class="post-title mt-1 mb-0 text-orange">${postInfoDTO.title}</h2>
                                 </div>
                                 <!-- /.post-header -->
                                 <div class="post-content">
@@ -378,7 +397,7 @@
                                                 class="uil uil-user"></i><span>${postInfoDTO.nickName}</span></a></li>
                                     <li class="likeCnt post-likes ms-auto">
 
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal-02"><div id="likeCountSection"><i class="uil uil-heart-alt"></i>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal-02"><div id="likeCountSection"><i class="uil uil-heart-alt text-red"></i>
                                             ${postInfoDTO.likeCount}
                                                 </div></li></a>
 
@@ -400,7 +419,7 @@
                 <!-- /.blog -->
 
                 <div id="result">
-                    <h3 class="mb-6">${postInfoDTO.cmtCount} Comments</h3>
+                    <h3 class="mb-6 text-orange">${postInfoDTO.cmtCount} Comments</h3>
                     <c:choose>
                         <c:when test="${commentList.isEmpty()}">
                             <h6>등록된 댓글이 없습니다.</h6>
@@ -445,7 +464,7 @@
                                                         <c:if test="${not empty sessionScope.id}">
                                                             <a href="javascript:void(0);"
                                                                 onclick="showCcmtTextarea(${commentDTO.cmtId})"
-                                                                class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
+                                                                class="btn btn-soft-orange btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
                                                                     class="uil uil-comments"></i> Reply</a>
                                                         </c:if>
                                                     </div>
@@ -453,21 +472,23 @@
                                                 </div>
                                                 <!-- /.comment-header -->
                                                 <p>${commentDTO.cmtContent}</p>
-                                                <div id="commentUpdate${commentDTO.cmtId}" style="display: none">
-                                                    <textarea id="updateContent${commentDTO.cmtId}"
-                                                        placeholder="수정글을 입력해주세요">${commentDTO.cmtContent}</textarea>
-                                                    <button class="updateComment"
+                                                <div id="commentUpdate${commentDTO.cmtId}" style="display: none" class="form-floating mb-4">
+                                                    <textarea id="updateContent${commentDTO.cmtId}" style="height: 80px"
+                                                        placeholder="수정글을 입력해주세요" class="form-control">${commentDTO.cmtContent}</textarea>
+                                                    <label>Update Comment *</label>
+                                                    <button class="updateComment btn btn-orange btn-sm rounded-pill"
                                                         data-comment-id="${commentDTO.cmtId}">수정 하기</button>
-                                                    <a href="javascript:void(0);"
+                                                    <a href="javascript:void(0);" class="btn btn-soft-orange btn-sm rounded-pill"
                                                         onclick="closeTextarea(${commentDTO.cmtId})">취소</a>
                                                 </div>
 
-                                                <div id="cComment${commentDTO.cmtId}" style="display: none">
-                                                    <textarea id="cContent${commentDTO.cmtId}"
-                                                        placeholder="답글을 입력해주세요"></textarea>
-                                                    <button class="cCommentWrite"
+                                                <div id="cComment${commentDTO.cmtId}" style="display: none" class="form-floating mb-4">
+                                                    <textarea id="cContent${commentDTO.cmtId}" style="height: 80px"
+                                                        placeholder="답글을 입력해주세요" class="form-control"></textarea>
+                                                    <label>ReComment *</label>
+                                                    <button class="cCommentWrite btn btn-orange btn-sm rounded-pill"
                                                         data-comment-id="${commentDTO.cmtId}">답글 전송</button>
-                                                    <a href="javascript:void(0);"
+                                                    <a href="javascript:void(0);" class="btn btn-soft-orange btn-sm rounded-pill"
                                                         onclick="closeCTextarea(${commentDTO.cmtId})">취소</a>
                                                 </div>
 
@@ -515,13 +536,14 @@
                                                                 <!-- /.comment-header -->
                                                                 <p>${reComment.cmtContent}</p>
                                                                 <div id="commentUpdate${reComment.cmtId}"
-                                                                    style="display: none">
-                                                                    <textarea id="updateContent${reComment.cmtId}"
-                                                                        placeholder="수정글을 입력해주세요">${reComment.cmtContent}</textarea>
-                                                                    <button class="updateComment"
+                                                                    style="display: none" class="form-floating mb-4">
+                                                                    <textarea id="updateContent${reComment.cmtId}" style="height: 80px"
+                                                                        placeholder="수정글을 입력해주세요" class="form-control">${reComment.cmtContent}</textarea>
+                                                                    <label>Update Comment *</label>
+                                                                    <button class="updateComment btn btn-orange btn-sm rounded-pill"
                                                                         data-comment-id="${reComment.cmtId}">수정
                                                                         하기</button>
-                                                                    <a href="javascript:void(0);"
+                                                                    <a href="javascript:void(0);" class="updateComment btn btn-soft-orange btn-sm rounded-pill"
                                                                         onclick="closeTextarea(${reComment.cmtId})">취소</a>
                                                                 </div>
                                                             </li>
@@ -539,13 +561,13 @@
                 <!-- /#result -->
                 <hr />
                 <c:if test="${not empty sessionScope.id}">
-                    <h3 class="mb-3">Write a comment</h3>
+                    <h3 class="mb-3 text-orange">Write a comment</h3>
                     <div class="form-floating mb-4">
                         <textarea input id="cmtContent" name="textarea" class="form-control" placeholder="Comment"
                             style="height: 80px"></textarea>
                         <label>Comment *</label>
                     </div>
-                    <button id="commentWrite" class="btn btn-primary rounded-pill mb-0">Submit</button>
+                    <button id="commentWrite" class="btn btn-orange rounded-pill mb-0">Submit</button>
                 </c:if>
             </div>
             <!-- /column -->
