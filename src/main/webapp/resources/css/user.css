@@ -48,6 +48,18 @@
   --bs-btn-disabled-border-color: #FF5A46;
 }
 
-.main-slide {
-  height: auto !important;
+.show-sort{
+  display: block;
+}
+
+.hidden-sort{
+  display: none;
+}
+
+.sort-active{
+  text-decoration: underline;
+}
+
+.bg-main-light{
+  background: rgba(255,90,70,0.3);
 }

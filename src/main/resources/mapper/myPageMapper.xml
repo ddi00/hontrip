@@ -8,32 +8,52 @@
     </select>
     <select id="getRecordListByUserIdAndPage" resultType="myRecordDTO" parameterType="map">
         SELECT
-            rb.id AS boardId,
-            MAX(l.city) AS city, -- MAX()나 다른 집계 함수를 사용
-            rb.title,
-            rb.thumbnail,
-            DATE_FORMAT(rb.created_at, '%Y-%m-%d %H:%i:%s') AS createdAt,
-            DATE_FORMAT(rb.updated_at, '%Y-%m-%d %H:%i:%s') AS updatedAt,
-            DATE_FORMAT(rb.start_date, '%Y-%m-%d') AS startDate,
-            DATE_FORMAT(rb.end_date, '%Y-%m-%d') AS endDate,
-            rb.is_visible AS isVisible,
-            COUNT(rl.id) AS likeCount,
-            COUNT(rc.id) AS cmtCount
+            A.no,
+            A.boardId,
+            A.city,
+            A.title,
+            A.thumbnail,
+            A.createdAt,
+            A.updatedAt,
+            A.startDate,
+            A.endDate,
+            A.isVisible,
+            A.likeCount,
+            A.cmtCount
         FROM
-            record_board rb
-                INNER JOIN
-            location l ON rb.location_id = l.id
-                LEFT JOIN
-            record_like rl ON rb.id = rl.record_id
-                LEFT JOIN
-            record_comment rc ON rb.id = rc.record_id
-        WHERE
-            rb.user_id = #{userId}
-        GROUP BY
-            rb.id -- l.city 대신 rb.id만 GROUP BY에 사용
+            (
+                SELECT CONVERT(@rownum := @rownum + 1, SIGNED) AS no,
+               rb.id AS boardId,
+               MAX(l.city) AS city,
+               rb.title,
+               rb.thumbnail,
+               DATE_FORMAT(rb.created_at, '%Y-%m-%d %H:%i:%s') AS createdAt,
+               DATE_FORMAT(rb.updated_at, '%Y-%m-%d %H:%i:%s') AS updatedAt,
+               DATE_FORMAT(rb.start_date, '%Y-%m-%d') AS startDate,
+               DATE_FORMAT(rb.end_date, '%Y-%m-%d') AS endDate,
+               rb.is_visible AS isVisible,
+               COUNT(rl.id) AS likeCount,
+               COUNT(rc.id) AS cmtCount
+                FROM
+                    record_board rb
+                    INNER JOIN
+                    location l ON rb.location_id = l.id
+                    LEFT JOIN
+                    record_like rl ON rb.id = rl.record_id
+                    LEFT JOIN
+                    record_comment rc ON rb.id = rc.record_id
+                    CROSS JOIN
+                    (SELECT @rownum := 0) rownum
+                WHERE
+                    rb.user_id = #{userId}
+                GROUP BY
+                    rb.id
+                ORDER BY
+                    @rownum DESC
+            ) AS A
         ORDER BY
-            rb.created_at DESC
-        LIMIT #{offset}, #{pageSize}
+            A.no DESC
+            LIMIT #{offset}, #{pageSize}
     </select>
 </mapper>
 
