@@ -51,9 +51,7 @@
                 <label>Day <%=i + 1%>
                 </label><br>
                 <div id="add-buttons" class="mt-5">
-                    <button type="button" id="add-spot-<%=i + 1%>" class="btn btn-soft-orange">여행지 추가</button>
-                    <button type="button" id="add-flight-<%=i + 1%>" class="btn btn-soft-green">항공권 추가</button>
-                    <button type="button" id="add-accommodation-<%=i + 1%>" class="btn btn-soft-aqua">숙소 추가</button>
+                    <button type="button" id="add-spot-<%=i + 1%>" class="btn btn-soft-orange rounded-pill">여행지 추가</button>
                 </div>
                 <br>
 
@@ -66,7 +64,7 @@
                                 <span class='col-3'><img src="${spot.image}" width="88px" height="72px"></span>
                                 <span class='col-6 align-self-center'>${spot.title}</span>
                                 <span class="col-1 align-self-center"><button type="button"
-                                                                              class="btn btn-sm btn-circle btn-soft-red delete-spot-btn"
+                                                                              class="btn btn-sm delete-spot-btn"
                                                                               data-spot-content-day-order="${index}"
                                                                               data-spot-content-order="${contentOrder}"
                                                                               data-spot-content-id="${spot.contentId}">
@@ -92,13 +90,13 @@
 
                 <% for (int i = 0; i < numOfDays; i++) { %>
                 <div class="my-9" id="search-spot-form-<%=i + 1%>">
-                    <form id="search-form">
+                    <form id="spot-form">
                         <div class="custom-form-container">
                             <div class="col-md-3 me-2">
                                 <%--@declare id="search-form"--%><select class="form-select"
                                                                          id="category-<%=i + 1%>"
                                                                          name="category-<%=i + 1%>"
-                                                                         form="search-form"
+                                                                         form="spot-form"
                                                                          aria-label="검색 범주">
                                 <option value="keyword" selected>여행지명</option>
                                 <option value="area">지역명</option>
@@ -124,6 +122,13 @@
         <%--        row--%>
 
         <hr class="my-8"/>
+        <div class="row gx-md-8 gx-xl-12 gy-8">
+            <div class="col-lg-6" style="border-right: 2px solid #F5F5F5;">
+        <button type="button" class="add-flight btn btn-soft-green rounded-pill">항공권 추가</button>
+        <button type="button" class="add-accom btn btn-soft-yellow rounded-pill">숙소 추가</button>
+            </div>
+        </div>
+        <hr class="my-8"/>
         <div class="align-self-end">
             <button type="submit" class="btn btn-yellow col-md-2" form="planForm">수정</button>
         </div>
@@ -134,7 +139,7 @@
     let planId = "${plan.planId}";
     let userId = <%= userId %>;
 
-    // 일차마다 부착된 여행지 검색 버튼 클릭 시 여행지 검색 창 show
+    // 일차마다 부착된 여행지 검색 버튼 클릭 시 여행지 검색창 표시
     $(document).ready(function () {
         $('[id^="search-spot-form-"]').hide();
 
@@ -231,7 +236,7 @@
                 alert("여행지가 추가되었습니다!");
                 $('#' + searchSpotFormDivId).hide();
                 $('#' + searchSpotResultsDivId).hide();
-                //
+
                 selectedSpotDivHTML += "<div class='row ms-3 my-4'>"
                 selectedSpotDivHTML += "<span class='col-3'><img src='" + spot.image + "'width='88px' height='72px'></span>"
                 selectedSpotDivHTML += "<span class='col-6 align-self-center'>" + spot.title + "</span>"
@@ -243,14 +248,13 @@
 
                 $('#' + selectedSpotsDivId).append(selectedSpotDivHTML); // 검색 결과를 해당 div에 삽입
                 $('#' + selectedSpotsDivId).show();
-
             },
             error: function () {
                 alert("여행지 추가에 실패했습니다.");
                 $('#' + searchSpotResultsDivId).hide();
             }
-        }); // ajax
-    } // addSpot
+        });
+    }
 
     // 여행지 삭제 버튼 이벤트 처리
     $(document).on('click', '.delete-spot-btn', function () {
@@ -279,6 +283,9 @@
             error: function () {
                 alert("여행지 삭제에 실패했습니다.");
             }
-        }); // ajax
+        });
     })
+
+    // 항공권 추가 버튼 이벤트 처리
+
 </script>

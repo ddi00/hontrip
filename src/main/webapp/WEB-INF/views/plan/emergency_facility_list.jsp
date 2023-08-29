@@ -13,7 +13,7 @@
                 </select>
                 <input type="text" id="addressName" name="addressName" class="form-control me-2" placeholder="주소 입력"
                        value="">
-                <button type="submit" name="filterType" value="address" class="btn btn-yellow">검색</button>
+                <button type="submit" name="filterType" value="address" class="btn btn-orange">검색</button>
             </div>
         </form>
         <ul class="unordered-list mt-4">

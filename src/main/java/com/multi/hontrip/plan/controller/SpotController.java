@@ -26,7 +26,6 @@ public class SpotController {
 
     // 여행지 검색
     @GetMapping("/search")
-    @RequiredSessionCheck
     public String showSpotSearchForm(@ModelAttribute("SpotSearchDTO") SpotSearchDTO spotSearchDTO){
         return "/plan/spot/search_form"; // 여행지 검색 폼 반환
     }

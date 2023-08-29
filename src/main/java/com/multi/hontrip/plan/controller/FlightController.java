@@ -30,7 +30,6 @@ public class FlightController {
 
     // 항공편 검색
     @GetMapping("/search")
-    @RequiredSessionCheck
     public String showFlightSearchForm(@ModelAttribute("FlightSearchDTO") FlightSearchDTO flightSearchDTO) {
         return "/plan/flight/search_form"; // 항공편 검색 폼 반환
     }

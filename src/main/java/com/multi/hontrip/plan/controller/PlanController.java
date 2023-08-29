@@ -10,13 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponents;
 import org.xml.sax.SAXException;
 
 import javax.servlet.http.HttpSession;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -154,6 +153,13 @@ public class PlanController {
     public String list(Model model, HttpSession session) {
         Long userId = (Long)session.getAttribute("id");
         List<PlanDTO> list = planService.findPlanList(userId);
+
+        List<Integer> numOfDays = new ArrayList<>();
+        for(PlanDTO plan : list){
+            int days = planService.calculateDays(plan.getStartDate(), plan.getEndDate());
+            numOfDays.add(days);
+        }
+        model.addAttribute("numOfDays", numOfDays);
         model.addAttribute("list", list);
         return "/plan/list";
     }

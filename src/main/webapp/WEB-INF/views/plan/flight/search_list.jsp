@@ -15,7 +15,7 @@
                     <c:forEach items="${list}" var="flight">
                         <div class="card p-4 mt-2">
                             <div class="card-body align-items-center justify-content-between">
-                                <div class="row d-flex">
+                                <div class="row">
                                     <div class="col-md-4">
                                         <div id="departure-info">
                                             <span style="display:none">출발 시간</span>

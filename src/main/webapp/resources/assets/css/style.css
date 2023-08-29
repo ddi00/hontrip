@@ -5745,7 +5745,7 @@ textarea.form-control-lg {
     --bs-nav-tabs-border-color: rgba(164, 174, 198, 0.2);
     --bs-nav-tabs-border-radius: 0.4rem;
     --bs-nav-tabs-link-hover-border-color: transparent;
-    --bs-nav-tabs-link-active-color: #ff9f1c;
+    --bs-nav-tabs-link-active-color: #FF5A46;
     --bs-nav-tabs-link-active-bg: #fff;
     --bs-nav-tabs-link-active-border-color: rgba(164, 174, 198, 0.2);
     border-bottom: var(--bs-nav-tabs-border-width) solid var(--bs-nav-tabs-border-color)
@@ -5784,7 +5784,7 @@ textarea.form-control-lg {
 
 .nav-pills {
     --bs-nav-pills-border-radius: 0.4rem;
-    --bs-nav-pills-link-active-color: #ff9f1c;
+    --bs-nav-pills-link-active-color: #FF5A46;
     --bs-nav-pills-link-active-bg: #fff
 }
 
@@ -5832,14 +5832,14 @@ textarea.form-control-lg {
     --bs-navbar-padding-x: 0;
     --bs-navbar-padding-y: 0;
     --bs-navbar-color: #343f52;
-    --bs-navbar-hover-color: #ff9f1c;
+    --bs-navbar-hover-color: #FF5A46;
     --bs-navbar-disabled-color: rgba(52, 63, 82, 0.3);
-    --bs-navbar-active-color: #ff9f1c;
+    --bs-navbar-active-color: #FF5A46;
     --bs-navbar-brand-padding-y: 0;
     --bs-navbar-brand-margin-end: 0;
     --bs-navbar-brand-font-size: 0.7rem;
-    --bs-navbar-brand-color: #ff9f1c;
-    --bs-navbar-brand-hover-color: #ff9f1c;
+    --bs-navbar-brand-color: #FF5A46;
+    --bs-navbar-brand-hover-color: #FF5A46;
     --bs-navbar-nav-link-padding-x: 1rem;
     --bs-navbar-toggler-padding-y: 0.25rem;
     --bs-navbar-toggler-padding-x: 0.75rem;
@@ -37428,12 +37428,12 @@ button:focus {
 }
 
 .nav-tabs.nav-tabs-basic .nav-link:focus, .nav-tabs.nav-tabs-basic .nav-link:hover {
-    border-color: #ff9f1c
+    border-color: #FF5A46
 }
 
 .nav-tabs.nav-tabs-basic .nav-item.show .nav-link, .nav-tabs.nav-tabs-basic .nav-link.active {
-    color: #ff9f1c;
-    border-color: #ff9f1c
+    color: #FF5A46;
+    border-color: #FF5A46
 }
 
 .nav-tabs.nav-pills {
@@ -38987,7 +38987,7 @@ button.hamburger span, button.hamburger:before {
     text-align: center;
     line-height: 2.3rem;
     font-size: 1.2rem;
-    color: #ff9e1c;
+    color: #FF5A46;
     left: 0;
     top: 0;
     height: 2.3rem;

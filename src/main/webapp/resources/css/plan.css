@@ -1,6 +1,6 @@
 .btn-custom1 {
-    background-color: #ff9e1c;
-    border-color: #ff9e1c;
+    background-color: #FF5A46;
+    border-color: #FF5A46;
     color: #fff !important
 }
 
@@ -11,11 +11,11 @@
 }
 
 .custom-a:link, .custom-a:visited {
-    color: #ff9e1c;
+    color: #FF5A46;
     text-decoration: none;
 }
 .custom-a:link:active, .custom-a:visited:active {
-    color: #ff9e1c;
+    color: #FF5A46;
 }
 
 .unordered-list {
@@ -150,7 +150,7 @@ input #depDate .custom-flight-form {
     --bs-nav-link-font-size: 0.8rem;
     --bs-nav-link-font-weight: 700;
     --bs-nav-link-color: #343f52;
-    --bs-nav-link-hover-color: #ff9e1c;
+    --bs-nav-link-hover-color: #FF5A46;
     --bs-nav-link-disabled-color: #959ca9;
     display: flex;
     flex-wrap: wrap;
@@ -195,12 +195,12 @@ input #depDate .custom-flight-form {
 }
 
 .custom-nav-tabs.custom-nav-tabs-basic .custom-nav-link:focus, .custom-nav-tabs.custom-nav-tabs-basic .custom-nav-link:hover {
-    border-color: #ff9f1c
+    border-color: #FF5A46
 }
 
 .custom-nav-tabs.custom-nav-tabs-basic .custom-nav-item.show .custom-nav-link, .custom-nav-tabs.custom-nav-tabs-basic .custom-nav-link.active {
-    color: #ff9f1c;
-    border-color: #ff9f1c
+    color: #FF5A46;
+    border-color: #FF5A46
 }
 
 .custom-nav-link:focus, .custom-nav-link:hover {
@@ -213,7 +213,7 @@ input #depDate .custom-flight-form {
     --bs-nav-tabs-border-color: rgba(164, 174, 198, 0.2);
     --bs-nav-tabs-border-radius: 0.4rem;
     --bs-nav-tabs-link-hover-border-color: transparent;
-    --bs-nav-tabs-link-active-color: #ff9f1c;
+    --bs-nav-tabs-link-active-color: #FF5A46;
     --bs-nav-tabs-link-active-bg: #fff;
     --bs-nav-tabs-link-active-border-color: rgba(164, 174, 198, 0.2);
     border-bottom: var(--bs-nav-tabs-border-width) solid var(--bs-nav-tabs-border-color)
