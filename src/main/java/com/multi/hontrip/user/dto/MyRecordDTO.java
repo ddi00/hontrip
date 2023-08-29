@@ -2,8 +2,6 @@ package com.multi.hontrip.user.dto;
 
 import lombok.Data;
 
-import java.time.LocalDate;
-
 @Data
 public class MyRecordDTO {  // 내 목록에서 보여줄 기록 항목
     private long boardId;       // 기록 포스트 id

@@ -5,7 +5,8 @@
     <div class="blog single">
         <div class="card">
             <div class="card-body">
-                <table class="table" id="userInfoTable">
+                <h2 class="mb-5"><c:out value="${sessionScope.nickName}" />님의 여행기록</h2>
+                <table class="table table-striped" id="userInfoTable">
                     <thead>
                     <tr>
                         <th scope="col">No</th>
@@ -17,6 +18,7 @@
                         <th scope="col">공개여부</th>
                         <th scope="col">좋아요</th>
                         <th scope="col">코멘트</th>
+                        <th scope="col">선택</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -24,7 +26,7 @@
                         <tr>
                             <td>${loop.index + 1}</td>
                             <td>${record.city}</td>
-                            <td>${record.title}</td>
+                            <td><a class="page-link page-link moveBtn main-color" aria-label="Next" onclick="window.open('/hontrip/record/postinfo?id=${record.boardId}','','')">${record.title}</a></td>
                             <td>${record.startDate}</td>
                             <td>${record.endDate}</td>
                             <td>${record.createdAt}</td>
@@ -40,6 +42,7 @@
                             </td>
                             <td>${record.likeCount}</td>
                             <td>${record.cmtCount}</td>
+                            <td><input class="form-check-input selectRow" type="checkbox" value="${record.boardId}" required></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -49,19 +52,19 @@
                     <ul class="pagination mb-0 mx-auto">
                         <c:if test="${pageInfo.showPrev}">
                             <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
+                                <a class="page-link" href="#" aria-label="Previous" onclick="movePage('/hontrip/user/my-record/${pageInfo.page-1}')">
                                     <span aria-hidden="true"><i class="uil uil-arrow-left"></i></span>
                                 </a>
                             </li>
                         </c:if>
                         <c:forEach begin="${pageInfo.beginPage}" end="${pageInfo.endPage}" var="pageNumber">
                             <li class="page-item">
-                                <a class="page-link moveBtn" href="#" onclick="movePage('/hontrip/user/my-record/' + ${pageNumber})"><c:out value="${pageNumber}"/></a>
+                                <a class="page-link moveBtn" href="#" onclick="movePage('/hontrip/user/my-record/${pageNumber}')"><c:out value="${pageNumber}"/></a>
                             </li>
                         </c:forEach>
                         <c:if test="${pageInfo.showNext}">
                             <li class="page-item">
-                                <a class="page-link" aria-label="Next">
+                                <a class="page-link" aria-label="Next" onclick="movePage('/hontrip/user/my-record/${pageInfo.page+1}')">
                                     <span aria-hidden="true"><i class="uil uil-arrow-right"></i></span>
                                 </a>
                             </li>
