@@ -1,5 +1,6 @@
 package com.multi.hontrip.plan.controller;
 
+import com.multi.hontrip.common.RequiredSessionCheck;
 import com.multi.hontrip.plan.dto.FlightDTO;
 import com.multi.hontrip.plan.dto.FlightSearchDTO;
 import com.multi.hontrip.plan.parser.Airport;

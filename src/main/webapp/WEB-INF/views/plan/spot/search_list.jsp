@@ -1,11 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-    if (session.getAttribute("id") != null) {
-        Long userId = (Long) session.getAttribute("id");
-        request.setAttribute("userId", userId);
-    }
-%>
 <section class="wrapper bg-light">
     <div class="container-fluid container mt-15 mb-20 w-75">
         <h2>${keyword} 검색 결과</h2>
@@ -18,7 +12,7 @@
                     </select>
                 </div>
                 <input type="text" id="keyword" name="keyword" class="custom-form-control col-8 me-2">
-                <input type="submit" value="검색" class="btn btn-yellow col-md-2">
+                <input type="submit" value="검색" class="btn btn-orange col-md-2">
             </div>
         </form>
         <div id="spot-list" class="row justify-content-start align-content-center">

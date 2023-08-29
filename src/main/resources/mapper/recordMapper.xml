@@ -136,13 +136,13 @@
 	<select id="mylist" resultType="postInfoDTO" parameterType="Long">
 		SELECT
 		rb.id AS boardId,
-		loc.city As city,
-		u.nickname AS nickName,
-		rb.title AS title,
-		rb.thumbnail AS thumbnail ,
-		rb.created_at AS createdAt,
-		rb.updated_at AS updatedAt,
-		rb.is_visible AS isVisible,
+		loc.city,
+		u.nickname,
+		rb.title,
+		rb.thumbnail,
+		rb.created_at,
+		rb.updated_at,
+		rb.is_visible,
 		(SELECT COUNT(*) FROM record_like rl WHERE rl.record_id = rb.id) AS likeCount
 		FROM
 		record_board rb
@@ -151,12 +151,10 @@
 		LEFT JOIN record_like rl ON rb.id = rl.record_id
 		WHERE
 		u.id  = #{userId}
-		GROUP BY
-		rb.id;
-
+		ORDER BY rb.id DESC
 	</select>
 
-	<!-- 내 게시물 마커 클릭한 지역 리스트 가져오기 -->
+	<!-- 마커 클릭 한 해당 지역 내 게시물 가져오기 -->
 	<select id="list_mylocation_click" resultType="postInfoDTO" parameterType="java.util.Map">
 		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId
 		FROM
@@ -165,9 +163,25 @@
 		LEFT JOIN location loc ON rb.location_id = loc.id
 		LEFT JOIN record_like rl ON rb.id = rl.record_id
 		WHERE u.id = #{userId} AND loc.id = #{locationId}
+		ORDER BY rb.id DESC
 	</select>
 
-	<!-- 내 게시물 드롭다운 선택한 지역 리스트 가져오기 -->
+	<!-- 공유피드에서 드롭다운 전국 지역 게시물 가져오기 -->
+	<select id="list_mylocation_dropdown_all" resultType="postInfoDTO" parameterType="java.util.Map">
+		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId
+		FROM
+		record_board rb
+		LEFT JOIN user u ON rb.user_id = u.id
+		LEFT JOIN location loc ON rb.location_id = loc.id
+		LEFT JOIN record_like rl ON rb.id = rl.record_id
+		WHERE loc.id = #{locationId}
+		ORDER BY rb.id DESC
+	</select>
+
+	<!-- 공유피드에서 드롭다운 해당지역 지역 게시물 가져오기 -->
+
+
+	<!-- 드롭다운 선택한 해당 지역 내 게시물 가져오기 -->
 	<select id="list_mylocation_dropdown" resultType="postInfoDTO" parameterType="java.util.Map">
 		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId
 		FROM
@@ -176,19 +190,20 @@
 		LEFT JOIN location loc ON rb.location_id = loc.id
 		LEFT JOIN record_like rl ON rb.id = rl.record_id
 		WHERE u.id = #{userId} AND loc.id = #{locationId}
+		ORDER BY rb.id DESC
 	</select>
 
 	<!-- 공유피드 전체 리스트 가져오기 -->
 	<select id="feedlist" resultType="postInfoDTO">
 		SELECT
 		rb.id AS boardId,
-		loc.city As city,
-		u.nickname AS nickName,
-		rb.title AS title,
-		rb.thumbnail AS thumbnail ,
-		rb.created_at AS createdAt,
-		rb.updated_at AS updatedAt,
-		rb.is_visible AS isVisible,
+		loc.city,
+		u.nickname,
+		rb.title,
+		rb.thumbnail,
+		rb.created_at,
+		rb.updated_at,
+		rb.is_visible,
 		(SELECT COUNT(*) FROM record_like rl WHERE rl.record_id = rb.id) AS likeCount
 		FROM
 		record_board rb
@@ -197,11 +212,10 @@
 		LEFT JOIN record_like rl ON rb.id = rl.record_id
 		WHERE
 		rb.is_visible  = #{isVisible}
-		GROUP BY
-		rb.id;
+		ORDER BY rb.id DESC
 	</select>
 
-	<!-- 내 지도 자료 가져오기 -->
+	<!-- 내 지도에 마커 자료 가져오기 -->
 	<select id="mymap" resultType="locationDTO" parameterType="Long">
 		SELECT rb.location_id, loc.lat, loc.lon, loc.city, loc.id
 		FROM record_board rb

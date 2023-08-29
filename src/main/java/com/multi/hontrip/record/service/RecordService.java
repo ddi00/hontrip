@@ -118,6 +118,9 @@ public class RecordService {
     public List<PostInfoDTO> getListMyLocationDrowDown(Long locationId, Long userId) {
         return recordDAO.getListMyLocationDrowDown(locationId, userId);
     }
+    public List<PostInfoDTO> getListMyLocationDrowDownAll(Long locationId, Long userId) {
+        return recordDAO.getListMyLocationDrowDownAll(locationId, userId);
+    }
     public List<PostInfoDTO> getFeedList(int isVisible) {
         return recordDAO.getFeedList(isVisible);
     }

@@ -5,6 +5,8 @@ import com.multi.hontrip.plan.dto.*;
 import com.multi.hontrip.plan.service.PlanService;
 import com.multi.hontrip.plan.service.SpotService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import org.xml.sax.SAXException;
 import javax.servlet.http.HttpSession;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -43,13 +46,15 @@ public class PlanController {
         return "redirect:/plan/list"; // 일정 생성 후 일정 목록으로 리다이렉트
     }
 
-    // 일정 수정
+    // 일정 수정 - 여행지, 항공권, 숙소 추가
     @GetMapping("/detail")
-    public String update(@RequestParam("planId") Long planId,
+    @RequiredSessionCheck
+    public String updateDetail(@RequestParam("userId") Long userId,
+                         @RequestParam("planId") Long planId,
                          @ModelAttribute("planDTO") PlanDTO planDTO,
                          Model model, HttpSession session) {
         session.getAttribute("id");
-        PlanDTO plan = planService.findPlan(planId); // 단일 일정 조회
+        PlanDTO plan = planService.findPlan(planId, userId); // 단일 일정 조회
         // 일차 계산
         int numOfDays = planService.calculateDays(plan.getStartDate(), plan.getEndDate());
         // 기존에 추가되어 있던 여행지 담을 리스트
@@ -61,10 +66,17 @@ public class PlanController {
         return "/plan/edit"; // 일정 수정 폼
     }
 
+    // 일정 수정 - 기본 정보
+    @PostMapping( "/update")
+    public String updatePlan(PlanDTO planDTO) {
+        planService.updatePlan(planDTO);
+        return "redirect:/plan/detail?" + "userId=" + planDTO.getUserId() + "&planId=" + planDTO.getPlanId();
+    }
+
     // 일정 수정 - 여행지 조회
     @RequestMapping("/detail/search-spot")
-    public String searchSpot(@RequestParam("planId") Long planId,
-                             @RequestParam("userId") Long userId,
+    public String searchSpot(@RequestParam("userId") Long userId,
+                             @RequestParam("planId") Long planId,
                              @RequestParam("dayOrder") int dayOrder,
                              @RequestParam("category") String category,
                              @RequestParam("keyword") String keyword, Model model)
@@ -88,44 +100,52 @@ public class PlanController {
         return "/plan/spot/search_list_for_plan";
     }
 
-    // 일정 수정 - 조회한 여행지 목록에서 추가한 여행지 id update
+    // 일정 수정 - 조회한 여행지 목록에서 여행지 추가
     @RequestMapping("/detail/update-plan-spot")
     @ResponseBody
-    public SpotAddDTO updateSpot(@RequestParam("planId") Long planId,
-                                 @RequestParam("userId") Long userId,
+    public SpotAddDTO updateSpot(@RequestParam("userId") Long userId,
+                                 @RequestParam("planId") Long planId,
                                  @RequestParam("dayOrder") int dayOrder,
-                                 @RequestParam("spotContentId") String spotContentId, Model model) {
+                                 @RequestParam("spotContentId") String spotContentId) {
         // plan-day에 여행지 정보 추가
-        planService.addSpot(planService.addSpotToDay(planId, userId, dayOrder, spotContentId));
-        System.out.println("add success");
+        planService.addSpotToDay(planId, userId, dayOrder, spotContentId);
+        System.out.println("added successfully");
 
-        model.addAttribute("planId", planId);
+        // 추가 완료된 spot 반환
         return planService.createSpotAddDTO(planId, spotContentId);
     }
 
-    // 일정 수정 - 기존
-//    @PostMapping("/update")
-//    public String update(@ModelAttribute("planDTO") PlanDTO planDTO,
-//                         @ModelAttribute("planDayDTO") PlanDayDTO planDayDTO) {
-//        planService.update(planDTO);
-//        return "redirect:/plan/list"; // 일정 수정 후 일정 목록으로 리다이렉트
-//    }
+    // 일정 수정 - 추가한 여행지 목록에서 여행지 삭제
+    @RequestMapping("/detail/delete-plan-spot")
+    @ResponseBody
+    @RequiredSessionCheck
+    public ResponseEntity<String> deleteSpot(@RequestParam("userId") Long userId,
+                                 @RequestParam("planId") Long planId,
+                                 @RequestParam("dayOrder") int dayOrder,
+                                 @RequestParam("spotOrder") int spotOrder,
+                                 @RequestParam("spotContentId") String spotContentId, HttpSession session) {
+
+        Long sessionUserId = (Long) session.getAttribute("id");
+
+        try {
+            // plan-day에서 여행지 정보 삭제
+            planService.deleteSpotFromDay(planId, sessionUserId, dayOrder, spotOrder, spotContentId);
+            System.out.println("Deleted successfully");
+            return ResponseEntity.ok("삭제 성공");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 실패");
+        }
+    }
 
     // 일정 삭제
     @RequestMapping("/delete")
     @RequiredSessionCheck
-    public String delete(Long planId) {
-        planService.deletePlan(planId);
+    public String delete(@RequestParam("userId") Long userId,
+                         @RequestParam("planId") Long planId) {
+        planService.deletePlan(planId, userId);
         return "redirect:/plan/list"; // 일정 삭제 후 일정 목록으로 리다이렉트
     }
-
-    // 일정 상세 조회 - 기존
-//    @RequestMapping("/detail")
-//    public String one(@RequestParam("planId") Long planId, Model model) {
-//        PlanDTO planDTO = planService.one(planId);
-//        model.addAttribute("plan", planDTO);
-//        return "/plan/detail";
-//    }
 
     // 일정 목록 보기
     @RequestMapping("/list")
@@ -133,6 +153,13 @@ public class PlanController {
     public String list(Model model, HttpSession session) {
         Long userId = (Long)session.getAttribute("id");
         List<PlanDTO> list = planService.findPlanList(userId);
+
+        List<Integer> numOfDays = new ArrayList<>();
+        for(PlanDTO plan : list){
+            int days = planService.calculateDays(plan.getStartDate(), plan.getEndDate());
+            numOfDays.add(days);
+        }
+        model.addAttribute("numOfDays", numOfDays);
         model.addAttribute("list", list);
         return "/plan/list";
     }

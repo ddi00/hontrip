@@ -23,17 +23,19 @@ public class PlanDAO {
         my.update("plan.update", planDTO);
     } // update
 
-    public void delete(Long id) {
+    public void delete(Long planId, Long userId) {
         // HashMap 으로 parameter 전달 - Long 타입 전달 시 myBatis 오류 발생하여 map으로 전달
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("id", id);
+        paramMap.put("planId", planId);
+        paramMap.put("userId", userId);
         my.delete("plan.delete", paramMap);
     } // delete
 
-    public PlanDTO one(Long id) {
+    public PlanDTO one(Long planId, Long userId) {
         // HashMap 으로 parameter 전달
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("id", id);
+        paramMap.put("planId", planId);
+        paramMap.put("userId", userId);
         return my.selectOne("plan.one", paramMap);
     }  // 일정 하나
 

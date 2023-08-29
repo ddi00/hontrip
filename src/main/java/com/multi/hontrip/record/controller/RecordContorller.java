@@ -160,10 +160,23 @@ public class RecordContorller {
         model.addAttribute("locationList", locationList);
     }
 
+    @GetMapping("list_mylocation_dropdown_all") // 검색어입력시 내 게시물 해당지역 리스트 가져오기
+    public void getListMyLocationDrowDownAll(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("id");
+        List<PostInfoDTO> getListMyLocationDrowDownAll = recordService.getListMyLocationDrowDownAll(locationId, userId);
+        List<LocationDTO> getMyMap = recordService.getMyMap(userId);
+        List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
+        model.addAttribute("mylist", getListMyLocationDrowDownAll); // mylist 모델에 데이터 추가
+        model.addAttribute("mymap", getMyMap);
+        model.addAttribute("locationList", locationList);
+    }
+
     @GetMapping("feedlist") // 공유피드 리스트 가져오기
     public String getFeedList(@RequestParam("isVisible") int isVisible, Model model) {
         List<PostInfoDTO> feedlist = recordService.getFeedList(isVisible);
+        List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
         model.addAttribute("feedlist", feedlist);
+        model.addAttribute("locationList", locationList);
         return "/record/feedlist"; // feedlist.jsp 파일로 반환
     }
 

@@ -10,14 +10,14 @@
 </h3>
 <%--            검색 여행지 목록       --%>
 <c:forEach items="${list}" var="spot" varStatus="status">
-  <div class="custom-card ms-3 my-2 custom-col-3">
+  <div class="custom-card ms-3 my-2 col-5">
     <div class="custom-card-body">
       <div><img src="${spot.image}" alt="대표 이미지" class="custom-card-img"></div>
       <div class="mt-2">
         <h5>${spot.title}</h5>
         <p>${spot.address}</p>
-        <button id="add-spot-btn-${status.index+1}" class="btn btn-sm btn-soft-aqua"
-                data-spot-content-id="${spot.contentId}" data-spot-title="${spot.title}">
+        <button id="add-spot-btn-${status.index+1}" class="btn btn-sm btn-soft-orange"
+                data-spot-content-day-order="${dayOrder}" data-spot-content-id="${spot.contentId}" data-spot-title="${spot.title}">
           추가</button>
       </div>
     </div>

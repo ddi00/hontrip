@@ -1,11 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-    if (session.getAttribute("id") != null) {
-        Long userId = (Long) session.getAttribute("id");
-        request.setAttribute("userId", userId);
-    }
-%>
 <section class="wrapper bg-light">
     <div class="container-fluid container mt-15 mb-20 w-75 text-center">
         <h1 class="mb-5">응급시설 목록</h1>
@@ -19,7 +13,7 @@
                 </select>
                 <input type="text" id="addressName" name="addressName" class="form-control me-2" placeholder="주소 입력"
                        value="">
-                <button type="submit" name="filterType" value="address" class="btn btn-yellow">검색</button>
+                <button type="submit" name="filterType" value="address" class="btn btn-orange">검색</button>
             </div>
         </form>
         <ul class="unordered-list mt-4">

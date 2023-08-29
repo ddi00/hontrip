@@ -7,11 +7,11 @@ public interface OauthService { // Oauth Service 처리
 
     UserInsertDTO getOauthInfo(String code, String state);    // access 토큰을 받아옴
 
-    UserInsertDTO getUserInfoWithToken(OauthTokenDTO tokenDTO); //acess토큰으로
+    UserInsertDTO getUserInfoWithToken(OauthTokenDTO tokenDTO); //acess토큰으로 유저정보 가져오기
 
     String getLogOutUrl();  // 로그아웃 url 가져오기
 
-    String quiteSicalOauth(WithdrawUserDTO withdrawUserDTO);    // 카카오-서비스 끊기
+    String quiteSicalOauth(WithdrawUserDTO withdrawUserDTO);    // 소셜-서비스 끊기
 
     String reAcceptTerms(UserSocialInfoDTO userSocialInfoDTO); // 재동의 받기
 

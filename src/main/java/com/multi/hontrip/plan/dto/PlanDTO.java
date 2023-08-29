@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 public class PlanDTO {
 
-    private Long id; // 여행 일정 id
+    private Long planId; // 여행 일정 id
 
     private Long userId; // 사용자 id
 

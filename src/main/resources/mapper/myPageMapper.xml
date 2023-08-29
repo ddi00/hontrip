@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myPageMapper">
+    <select id="getTotalCountByUserId" resultType="int" parameterType="map">
+        select count(id)
+        from ${dbName}
+        where user_id = #{userId}
+    </select>
+    <select id="getRecordListByUserIdAndPage" resultType="myRecordDTO" parameterType="map">
+        SELECT
+            rb.id AS boardId,
+            MAX(l.city) AS city, -- MAX()나 다른 집계 함수를 사용
+            rb.title,
+            rb.thumbnail,
+            DATE_FORMAT(rb.created_at, '%Y-%m-%d %H:%i:%s') AS createdAt,
+            DATE_FORMAT(rb.updated_at, '%Y-%m-%d %H:%i:%s') AS updatedAt,
+            DATE_FORMAT(rb.start_date, '%Y-%m-%d') AS startDate,
+            DATE_FORMAT(rb.end_date, '%Y-%m-%d') AS endDate,
+            rb.is_visible AS isVisible,
+            COUNT(rl.id) AS likeCount,
+            COUNT(rc.id) AS cmtCount
+        FROM
+            record_board rb
+                INNER JOIN
+            location l ON rb.location_id = l.id
+                LEFT JOIN
+            record_like rl ON rb.id = rl.record_id
+                LEFT JOIN
+            record_comment rc ON rb.id = rc.record_id
+        WHERE
+            rb.user_id = #{userId}
+        GROUP BY
+            rb.id -- l.city 대신 rb.id만 GROUP BY에 사용
+        ORDER BY
+            rb.created_at DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,12 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix='form' uri="http://www.springframework.org/tags/form" %>
-<%
-    if (session.getAttribute("id") != null) {
-        Long userId = (Long) session.getAttribute("id");
-        request.setAttribute("userId", userId);
-    }
-%>
 <section class="wrapper bg-light">
     <div class="container-fluid container mt-15 mb-20 w-75 text-center">
         <h1>${locationName} 지역 안전정보 검색 결과</h1>
@@ -32,7 +26,7 @@
         </table>
         <div class="row mt-3">
             <div class="col-md-12 text-center">
-                <button class="btn btn-yellow" onclick="location.href='/hontrip/plan/safety_search'">재검색</button>
+                <button class="btn btn-orange" onclick="location.href='/hontrip/plan/safety_search'">재검색</button>
             </div>
         </div>
     </div>
