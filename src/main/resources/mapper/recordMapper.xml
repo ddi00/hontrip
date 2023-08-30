@@ -31,7 +31,8 @@
 		SELECT
 		rl.id AS likeId,
 		rl.user_id AS userId,
-		u.nickname AS likeUserNickname
+		u.nickname AS likeUserNickname,
+		u.profile_image AS profileImg
 		FROM
 		record_like rl
 		JOIN
