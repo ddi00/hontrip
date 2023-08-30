@@ -12,7 +12,7 @@ import java.util.List;
 public class ChatServiceImpl implements ChatService{
 
     public final ChatDAO chatDAO;
-
+/*
     @Override
     public ChatSessionInfoDTO createRoom(ChatInfoDTO chatInfoDTO) {    //신규 채팅방 생성
         //DB에 채팅방 정보 저장 - ID를 받아야 함
@@ -24,11 +24,21 @@ public class ChatServiceImpl implements ChatService{
                 .receiverId(chatInfoDTO.getGuestId())
                 .build();
     }
+    */
+
+    @Override
+    public long createRoom(ChatInfoDTO chatInfoDTO) {    //신규 채팅방 생성
+        //DB에 채팅방 정보 저장 - ID를 받아야 함
+        return chatDAO.insertChatRoom(chatInfoDTO);
+    }
+
+
     @Override
     public List<ChatSessionInfoDTO> getChatListById(Long id) {
         //db에서 사용자 id가 포함된 ChatRoom 전부 가져오기
         return chatDAO.getChatListById(id);
     }
+
     @Override
     public void saveChatContent(ChatMessageDTO chatMessage) {
         chatDAO.insertChatMessage(chatMessage);

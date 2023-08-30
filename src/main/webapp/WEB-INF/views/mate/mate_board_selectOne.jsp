@@ -13,7 +13,6 @@
 <input hidden id="profileImage" name="profileImage" value="<c:out value="${sessionScope.profileImage}" />">
 
 
-
 <%
     //*세션에서 유저아이디 불러옴 -> 없으면 no 있으면 유저아이디*//*
     if (session.getAttribute("id") != null) {
@@ -153,6 +152,7 @@
                                                     <textarea id="applicationMessage"
                                                               class="form-control mateBoardApplicationMessageTextarea"
                                                               placeholder="Textarea"
+                                                              maxlength="50"
                                                               style="height: 150px; resize: none;"
                                                               required></textarea>
                                                     <label for="applicationMessage">Textarea</label>
@@ -370,7 +370,7 @@
                                                                  </button>--%>
                                                                 <button type="button" id="application"
                                                                         onclick="applyMate()"
-                                                                        class="btn btn-danger rounded-0 mateApplyCheckButton">
+                                                                        class="btn btn-main rounded-0 mateApplyCheckButton">
                                                                     동행인 신청하기
                                                                 </button>
                                                             </c:if>
@@ -406,13 +406,11 @@
                                                     <p style="white-space:pre-wrap;">${dto.content}</p>
                                                     <!-- /.row -->
                                                 </div>
-
                                                 <!-- /.post-content -->
                                             </article>
 
 
                                             <br>
-
                                             <ul class="post-meta mb-0">
                                                 <li class="post-date"><i
                                                         class="uil uil-calendar-alt"></i><span>${createdDate}
@@ -438,7 +436,6 @@
                                                 </c:if>
                                             </ul>
 
-
                                         </div>
                                         <!-- /.classic-view -->
 
@@ -450,7 +447,7 @@
                                                 <div class="swiper-wrapper">
                                                     <div class="swiper-slide">
                                                         <article>
-                                                            <div class="post-footer"&lt;%&ndash;style="width:600px;"&ndash;%&gt;>
+                                                            <div class="post-footer" style="width:600px;">
 
                                                                 <!-- /.post-meta -->
                                                             </div>
@@ -464,7 +461,6 @@
                                             </div>
                                             <!-- /.swiper -->
                                         </div>--%>
-
                                         <!-- /.swiper-container -->
                                     </div>
                                     <!-- /#comments -->
@@ -596,13 +592,13 @@
                                                                                             </li>
                                                                                         </ul>
                                                                                         <!-- /.post-meta -->
+                                                                                    </div>
+                                                                                    <!-- /div -->
                                                                                 </div>
                                                                                 <!-- /div -->
                                                                             </div>
-                                                                            <!-- /div -->
-                                                                        </div>
-                                                                        <!-- /.comment-header -->
-                                                                        <p>${reComment.content}</p>
+                                                                            <!-- /.comment-header -->
+                                                                            <p>${reComment.content}</p>
                                                                             <c:if test="${reComment.nickname eq nickName}">
                                                                             <a href="javascript:void(0);"
                                                                                onclick="showUpdateTextarea(${reComment.commentId})">수정</a>

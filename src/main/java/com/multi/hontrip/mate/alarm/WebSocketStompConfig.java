@@ -12,10 +12,10 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 public class WebSocketStompConfig extends AbstractWebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/matews", "chat")
+        registry.addEndpoint("/matews")
                 .setAllowedOrigins("http://localhost:8080")
                 .withSockJS();
-        registry.addEndpoint("/matews", "chat");
+        registry.addEndpoint("/matews");
     }
 
     @Override

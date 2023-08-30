@@ -1,15 +1,12 @@
 package com.multi.hontrip.mate.controller;
 
 import com.multi.hontrip.common.RequiredSessionCheck;
-import com.multi.hontrip.mate.alarm.Message;
-import com.multi.hontrip.mate.alarm.OutputMessage;
 import com.multi.hontrip.mate.dto.AlarmPageDTO;
 import com.multi.hontrip.mate.dto.AlarmPaginationDTO;
 import com.multi.hontrip.mate.dto.MateMatchingAlarmDTO;
 import com.multi.hontrip.mate.service.AlarmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -29,21 +24,14 @@ public class AlarmController {
     private final SimpMessageSendingOperations simpMessageSendingOperations;
     private final AlarmService alarmService;
 
-    @GetMapping("/mate/alarm")
-    public String stompAlarm() {
-        return "/mate/mate_application_alarm";
-    }
-
     @MessageMapping("/mate") //pub/mate
-    public void send(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
+    public void sendApplyAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
         simpMessageSendingOperations.convertAndSend("/sub/" + mateMatchingAlarmDTO.getReceiverId(), mateMatchingAlarmDTO);
     }
 
-    @MessageMapping("/chat")
-    @SendTo("/topic/messages")
-    public OutputMessage send(Message message) throws Exception {
-        String time = new SimpleDateFormat("HH:mm").format(new Date());
-        return new OutputMessage(message.getFrom(), message.getText(), time);
+    @MessageMapping("/chat") //pub/chat
+    public void sendChatAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
+        simpMessageSendingOperations.convertAndSend("/sub/" + mateMatchingAlarmDTO.getReceiverId(), mateMatchingAlarmDTO);
     }
 
 
