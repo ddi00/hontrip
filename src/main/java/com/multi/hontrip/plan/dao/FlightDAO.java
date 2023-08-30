@@ -23,6 +23,14 @@ public class FlightDAO {
         my.insert("flight.insert", flightDTO);
     }
 
+    // 항공편 단일 조회
+    public FlightDTO one(Long FlightId){
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("id", FlightId);
+
+        return my.selectOne("flight.one", paramMap);
+    }
+
     // 검색 항공편 수 카운트
     public int count(@Param("depAirportName") String depAirportName,
                             @Param("arrAirportName") String arrAirportName,

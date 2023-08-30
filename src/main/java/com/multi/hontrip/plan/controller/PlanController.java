@@ -47,7 +47,7 @@ public class PlanController {
 
     @PostMapping("/insert") // plan_form에서 작성한 내용 insert
     public String insert(@ModelAttribute("planDTO") PlanDTO planDTO, HttpSession session) {
-        Long userId = (Long)session.getAttribute("id");
+        Long userId = (Long) session.getAttribute("id");
         planDTO.setUserId(userId);
         planService.insertPlan(planDTO);
         return "redirect:/plan/list"; // 일정 생성 후 일정 목록으로 리다이렉트
@@ -57,24 +57,27 @@ public class PlanController {
     @GetMapping("/detail")
     @RequiredSessionCheck
     public String updateDetail(@RequestParam("userId") Long userId,
-                         @RequestParam("planId") Long planId,
-                         @ModelAttribute("planDTO") PlanDTO planDTO,
-                         Model model, HttpSession session) {
+                               @RequestParam("planId") Long planId,
+                               @ModelAttribute("planDTO") PlanDTO planDTO,
+                               Model model, HttpSession session) {
         session.getAttribute("id");
         PlanDTO plan = planService.findPlan(planId, userId); // 단일 일정 조회
         // 일차 계산
         int numOfDays = planService.calculateDays(plan.getStartDate(), plan.getEndDate());
         // 기존에 추가되어 있던 여행지 담을 리스트
         List<SpotLoadDTO> addedSpots = planService.loadExistingSpots(plan, numOfDays);
+        // 기존에 추가되어 있던 항공권 담을 리스트
+        List<FlightLoadDTO> addedFlights = planService.loadExistingFlights(plan);
 
         model.addAttribute("addedSpots", addedSpots);
+        model.addAttribute("addedFlights", addedFlights);
         model.addAttribute("numOfDays", numOfDays);
         model.addAttribute("plan", plan);
         return "/plan/edit"; // 일정 수정 폼
     }
 
     // 일정 수정 - 기본 정보
-    @PostMapping( "/update")
+    @PostMapping("/update")
     public String updatePlan(PlanDTO planDTO) {
         planService.updatePlan(planDTO);
         return "redirect:/plan/detail?" + "userId=" + planDTO.getUserId() + "&planId=" + planDTO.getPlanId();
@@ -94,7 +97,7 @@ public class PlanController {
         spotSearchDTO.setKeyword(keyword);
 
         List<SpotDTO> spotList = spotService.searchSpots(spotSearchDTO); // 여행지 검색
-        if(spotList.isEmpty()){
+        if (spotList.isEmpty()) {
             model.addAttribute("message", "검색 결과가 없습니다."); // 검색 데이터 없는 경우 메시지 표시
         } else {
             model.addAttribute("list", spotList);
@@ -118,7 +121,7 @@ public class PlanController {
         planService.addSpotToDay(planId, userId, dayOrder, spotContentId);
         System.out.println("added successfully");
 
-        // 추가 완료된 spot 반환
+        // 추가 완료된 spotAddDTO 반환
         return planService.createSpotAddDTO(planId, spotContentId);
     }
 
@@ -127,10 +130,10 @@ public class PlanController {
     @ResponseBody
     @RequiredSessionCheck
     public ResponseEntity<String> deleteSpot(@RequestParam("userId") Long userId,
-                                 @RequestParam("planId") Long planId,
-                                 @RequestParam("dayOrder") int dayOrder,
-                                 @RequestParam("spotOrder") int spotOrder,
-                                 @RequestParam("spotContentId") String spotContentId, HttpSession session) {
+                                             @RequestParam("planId") Long planId,
+                                             @RequestParam("dayOrder") int dayOrder,
+                                             @RequestParam("spotOrder") int spotOrder,
+                                             @RequestParam("spotContentId") String spotContentId, HttpSession session) {
 
         Long sessionUserId = (Long) session.getAttribute("id");
 
@@ -177,7 +180,7 @@ public class PlanController {
         model.addAttribute("arrAirportName", arrival_airport_name);
         model.addAttribute("depDate", depDate);
 
-        if(FlightList.isEmpty()){
+        if (FlightList.isEmpty()) {
             model.addAttribute("message", "검색 결과가 없습니다."); // 검색 데이터 없는 경우 메시지 표시
         } else {
             model.addAttribute("list", FlightList);
@@ -186,14 +189,28 @@ public class PlanController {
         return "/plan/flight/search_list_for_plan";
     }
 
+    // 일정 수정 - 조회한 항공권 목록에서 항공권 추가
+    @RequestMapping("/detail/update-plan-flight")
+    @ResponseBody
+    public FlightAddDTO updateSpot(@RequestParam("userId") Long userId,
+                                @RequestParam("planId") Long planId,
+                                @RequestParam("flightId") Long flightId) {
+        // plan-day에 항공권 정보 추가
+        planService.addFlightToDay(planId, userId, flightId);
+        System.out.println("added successfully");
+
+        // 추가 완료된 flightAddDTO 반환
+        return planService.createFlightAddDTO(planId, flightId);
+    }
+
 
     // 일정 삭제
     @RequestMapping("/delete")
     @RequiredSessionCheck
     public ResponseEntity<String> delete(@RequestParam("userId") Long userId,
-                         @RequestParam("planId") Long planId, HttpSession session) {
-        System.out.println("userId : "+userId);
-        System.out.println("planId : "+planId);
+                                         @RequestParam("planId") Long planId, HttpSession session) {
+        System.out.println("userId : " + userId);
+        System.out.println("planId : " + planId);
 
         Long sessionUserId = (Long) session.getAttribute("id");
 
@@ -212,11 +229,11 @@ public class PlanController {
     @RequestMapping("/list")
     @RequiredSessionCheck
     public String list(Model model, HttpSession session) {
-        Long userId = (Long)session.getAttribute("id");
+        Long userId = (Long) session.getAttribute("id");
         List<PlanDTO> list = planService.findPlanList(userId);
 
         List<Integer> numOfDays = new ArrayList<>();
-        for(PlanDTO plan : list){
+        for (PlanDTO plan : list) {
             int days = planService.calculateDays(plan.getStartDate(), plan.getEndDate());
             numOfDays.add(days);
         }

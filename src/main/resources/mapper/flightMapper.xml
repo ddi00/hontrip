@@ -17,9 +17,9 @@
 			economy_charge = #{economyCharge}, prestige_charge = #{prestigeCharge}
 	</insert>
 <!--	항공편 단일 조회  -->
-	<select id="one" parameterType="Long" resultMap="flightResult">
+	<select id="one" parameterType="hashmap" resultMap="flightResult">
 		select
-		    id
+		    id,
 			vehicle_id,
 			airline_name,
 			departure_airport_name,

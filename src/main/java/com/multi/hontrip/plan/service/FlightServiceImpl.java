@@ -31,6 +31,13 @@ public class FlightServiceImpl implements FlightService {
         flightDAO.insert(flightDTO);
     }
 
+    // 항공편 단일 조회
+    @Override
+    public FlightDTO findFlight(Long FlightId){
+        return flightDAO.one(FlightId);
+    }
+
+
     // 검색 항공편 수 카운트
     @Override
     public int countFlight(FlightSearchDTO flightSearchDTO) throws ParseException {

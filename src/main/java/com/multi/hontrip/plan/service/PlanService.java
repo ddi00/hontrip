@@ -1,11 +1,9 @@
 package com.multi.hontrip.plan.service;
 
-import com.multi.hontrip.plan.dto.PlanDTO;
-import com.multi.hontrip.plan.dto.PlanDayDTO;
-import com.multi.hontrip.plan.dto.SpotAddDTO;
-import com.multi.hontrip.plan.dto.SpotLoadDTO;
+import com.multi.hontrip.plan.dto.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public interface PlanService {
@@ -34,5 +32,12 @@ public interface PlanService {
     SpotAddDTO createSpotAddDTO(Long planId, String spotContentId); // 추가 여행지 반환
 
     void deleteSpotFromDay(Long planId, Long userId, int dayOrder, int spotOrder, String spotContentId); // 일정-일차 여행지 정보 삭제
+
+    List<FlightLoadDTO> loadExistingFlights(PlanDTO plan); // 일정에 저장된 기존의 항공권 로드
+
+    void addFlightToDay(Long planId, Long userId, Long flightId); // 일정-일차 항공권 정보 추가
+
+    FlightAddDTO createFlightAddDTO(Long planId, Long FlightId); // 추가 항공권 반환
+
 
 }
