@@ -47,11 +47,11 @@
                                 <div class="d-flex flex-column align-items-center float-end">
                                     <button type="button"
                                             class="btn btn-outline-orange" onclick="goToAirlineHomepage('${flight.airlineName}')">
-                                        예매하기
+                                        예매
                                     </button>
                                     <button id="add-flight-btn-${status.index+1}" type="button"
                                             class="btn btn-orange mt-1 text-white" data-flight-id="${flight.id}">
-                                        추가하기
+                                        추가
                                     </button>
                                 </div>
                             </div>

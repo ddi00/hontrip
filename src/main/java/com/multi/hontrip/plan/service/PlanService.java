@@ -37,7 +37,7 @@ public interface PlanService {
 
     void addFlightToDay(Long planId, Long userId, Long flightId); // 일정-일차 항공권 정보 추가
 
-    FlightAddDTO createFlightAddDTO(Long planId, Long FlightId); // 추가 항공권 반환
+    FlightAddDTO createFlightAddDTO(Long planId, Long flightId); // 추가 항공권 반환
 
-
+    void deleteFlightFromDay(Long planId, Long userId, String flightId); // 일정-일차 항공권 정보 삭제
 }
