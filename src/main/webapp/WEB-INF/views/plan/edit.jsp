@@ -128,9 +128,9 @@
                 <button id="add-flight" type="button" class="btn btn-soft-green rounded-pill">항공권 추가</button>
 
                 <div class="mt-5 mb-2" id="selected-flights">
-                    <c:forEach items="${addedFlights}" var="flight" varStatus="status">
+                    <c:forEach items="${addedFlights}" var="flight">
                         <div class="card my-2">
-                            <div class="row ms-3 my-4">
+                            <div class="ms-3 my-4">
                                 <div class="row">
                                     <div class="col-5"><span>${flight.depAirportName}</span></div>
                                     <div class="col-5"><span>${flight.arrAirportName}</span></div>
@@ -152,7 +152,7 @@
                                     </div>
                                     <div class="col-2">
                                     <span class="align-self-start"><button type="button"
-                                                                           class="btn btn-sm delete-flight-btn"
+                                                                           class="delete-flight-btn btn btn-sm"
                                                                            data-flight-id="${flight.id}">
                                         <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16"
                                              height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"> <path
@@ -236,7 +236,6 @@
         let dayOrder = parseInt(btnId.split('-')[3]);
         let searchSpotFormDivId = 'search-spot-form-' + dayOrder;
         let searchSpotResultsDivId = 'search-spot-results-' + dayOrder;
-        console.log(dayOrder);
 
         $.ajax({
             method: "get",
@@ -375,6 +374,7 @@
         });
     });
 
+
     // 검색 항공권 리스트 반환 메소드
     const getFlightList = function (depAirportName, arrAirportName, depDate) {
         $("#search-flight-results").empty();
@@ -409,7 +409,8 @@
         }); // ajax
     } // getSpotList
 
-    // 여행지 추가 버튼 클릭 이벤트 처리
+
+    // 항공권 추가 버튼 클릭 이벤트 처리
     $(document).on('click', '[id^="add-flight-btn-"]', function () {
         let flightId = $(this).data("flight-id");
         addFlight(flightId);
@@ -438,19 +439,19 @@
                 let trimmedDepTime = flight.departureTime.substring(0, flight.departureTime.lastIndexOf(':'));
                 let trimmedArrTime = flight.arrivalTime.substring(0, flight.arrivalTime.lastIndexOf(':'));
 
-                selectedFlightDivHTML += "<div class='card my-2'><div class='row ms-3 my-4'><div class='row'>"
+                selectedFlightDivHTML += "<div class='card my-2'><div class='ms-3 my-4'><div class='row'>"
                 selectedFlightDivHTML += "<div class='col-5'><span>" + flight.depAirportName + "</span></div>"
                 selectedFlightDivHTML += "<div class='col-5'><span>" + flight.arrAirportName + "</span></div></div>"
                 selectedFlightDivHTML += "<div class='row'>"
                 selectedFlightDivHTML += "<div class='col-5'><span>" + trimmedDepTime + "</span></div>"
                 selectedFlightDivHTML += "<div class='col-5'><span>" + trimmedArrTime + "</span></div>"
-                selectedFlightDivHTML += "<span class='col-2 align-self-start'><button type='button' class='btn btn-sm delete-flight-btn'" + "'data-spot-content-id='" + flight.id + "'>"
+                selectedFlightDivHTML += "<span class='col-2 align-self-start'><button type='button' class='delete-flight-btn btn btn-sm'" + "data-flight-id='" + flight.id + "'>"
                 selectedFlightDivHTML += "<svg style='color: red' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'>"
                 selectedFlightDivHTML += "<path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z' fill='red'></path>"
                 selectedFlightDivHTML += "<path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z' fill='red'></path></svg>"
                 selectedFlightDivHTML += "</button></span></div>"
                 selectedFlightDivHTML += "<div class='row'>"
-                selectedFlightDivHTML += "<span class='col-12'><span>" + flight.vehicleId + "</span><span>" + '/' + "</span><span>" + flight.airlineName + "</span></span></div>"
+                selectedFlightDivHTML += "<span class='col-12'><span>" + flight.vehicleId + "</span><span>" + ' / ' + "</span><span>" + flight.airlineName + "</span></span></div>"
                 selectedFlightDivHTML += "</div>"
 
                 $("#selected-flights").append(selectedFlightDivHTML); // 검색 결과를 해당 div에 삽입
@@ -463,6 +464,30 @@
         });
     }
 
-    // 여행지 삭제 버튼 이벤트 처리
+    // 항공권 삭제 버튼 이벤트 처리
+    $(document).on('click', '.delete-flight-btn', function () {
+        let userId = $("#userId").val();
+        let deleteButton = $(this);
+        let flightId = $(this).data("flight-id");
+
+        $.ajax({
+            method: "get",
+            url: "detail/delete-plan-flight",
+            contentType: "application/json; charset=UTF-8",
+            async: false,
+            data: {
+                planId: planId,
+                userId: userId,
+                flightId: flightId
+            },
+            success: function (result) {
+                alert("항공권이 삭제되었습니다!");
+                deleteButton.closest(".card").remove();
+            },
+            error: function () {
+                alert("여행지 삭제에 실패했습니다.");
+            }
+        });
+    })
 
 </script>

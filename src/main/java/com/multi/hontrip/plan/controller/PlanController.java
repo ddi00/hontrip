@@ -119,7 +119,6 @@ public class PlanController {
                                  @RequestParam("spotContentId") String spotContentId) {
         // plan-day에 여행지 정보 추가
         planService.addSpotToDay(planId, userId, dayOrder, spotContentId);
-        System.out.println("added successfully");
 
         // 추가 완료된 spotAddDTO 반환
         return planService.createSpotAddDTO(planId, spotContentId);
@@ -140,7 +139,6 @@ public class PlanController {
         try {
             // plan-day에서 여행지 정보 삭제
             planService.deleteSpotFromDay(planId, sessionUserId, dayOrder, spotOrder, spotContentId);
-            System.out.println("Deleted successfully");
             return ResponseEntity.ok("삭제 성공");
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,10 +195,29 @@ public class PlanController {
                                 @RequestParam("flightId") Long flightId) {
         // plan-day에 항공권 정보 추가
         planService.addFlightToDay(planId, userId, flightId);
-        System.out.println("added successfully");
 
         // 추가 완료된 flightAddDTO 반환
         return planService.createFlightAddDTO(planId, flightId);
+    }
+
+    // 일정 수정 - 추가한 항공권 목록에서 항공권 삭제
+    @RequestMapping("/detail/delete-plan-flight")
+    @ResponseBody
+    @RequiredSessionCheck
+    public ResponseEntity<String> deleteFlight(@RequestParam("userId") Long userId,
+                                             @RequestParam("planId") Long planId,
+                                             @RequestParam("flightId") String flightId, HttpSession session) {
+
+        Long sessionUserId = (Long) session.getAttribute("id");
+
+        try {
+            // plan-day에서 항공권 정보 삭제
+            planService.deleteFlightFromDay(planId, sessionUserId, flightId);
+            return ResponseEntity.ok("삭제 성공");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 실패");
+        }
     }
 
     // 일정 삭제
