@@ -216,7 +216,7 @@
 		ORDER BY rb.id DESC
 	</select>
 
-	<!-- 공유피드에서 드롭다운 해당지역 게시물 가져오기 -->
+	<!-- 공유피드에서 버튼 클릭 해당지역 게시물 가져오기 -->
 	<select id="feedlist_by_location_pattern" resultType="postInfoDTO" parameterType="java.util.Map">
 		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId
 		FROM record_board rb
@@ -228,7 +228,7 @@
 		ORDER BY rb.id desc;
 	</select>
 
-	<!-- 공유피드에서 드롭다운 전국 게시물 가져오기 -->
+	<!-- 공유피드에서 버튼 클릭 전국 게시물 가져오기 -->
 	<select id="feedlist_by_location_pattern_all" resultType="postInfoDTO">
 		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId
 		FROM record_board rb
@@ -237,6 +237,18 @@
 		LEFT JOIN record_like rl ON rb.id = rl.record_id
 		WHERE rb.is_visible = 1
 		ORDER BY rb.id desc;
+	</select>
+
+	<!-- 공유피드에서 좋아요버튼 클릭 좋아요많은순 게시물 가져오기 -->
+	<select id="record.feedlist_like" resultType="postInfoDTO">
+		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId, COUNT(rl.record_id) AS record_like_count
+		FROM record_board rb
+		LEFT JOIN user u ON rb.user_id = u.id
+		LEFT JOIN location loc ON rb.location_id = loc.id
+		LEFT JOIN record_like rl ON rb.id = rl.record_id
+		WHERE rb.is_visible = 1
+		GROUP BY rb.id, u.id, loc.id
+		ORDER BY record_like_count DESC, rb.created_at DESC;
 	</select>
 
 </mapper>

@@ -204,23 +204,25 @@ public class RecordContorller {
         return "/record/feedlist"; // feedlist.jsp 파일로 반환
     }
 
-    @GetMapping("feedlist_dropdown") // 공유피드에서 드롭다운 선택시 리스트 가져오기
+    @GetMapping("feedlist_dropdown") // 공유피드에서 버튼 선택시 리스트 가져오기
     public void getFeedListDropdown(@RequestParam("locationIdPattern") String locationIdPattern,
                                     @RequestParam("locationIdSpecialId") String locationIdSpecialId,
                                     @RequestParam("locationIdSpecialId2") String locationIdSpecialId2,
                                     @RequestParam("locationIdSpecialId3") String locationIdSpecialId3,
                                     Model model) {
-        System.out.println("컨트롤러 확인 :"+ locationIdPattern + locationIdSpecialId);
         List<PostInfoDTO> getFeedListDropdown;
-
         if (locationIdPattern.equals("")) {
             getFeedListDropdown = recordService.getFeedListDropdownAll(locationIdPattern);
         } else {
             getFeedListDropdown = recordService.getFeedListDropdown(locationIdPattern, locationIdSpecialId, locationIdSpecialId2, locationIdSpecialId3);
         }
-
         model.addAttribute("mylist", getFeedListDropdown);
     }
 
+    @GetMapping("feedlist_like") // 공유피드 리스트 가져오기
+    public void getFeedListLike(Model model) {
+        List<PostInfoDTO> getFeedListLike = recordService.getFeedListLike();
+        model.addAttribute("feedListLike", getFeedListLike);
+    }
 }
 

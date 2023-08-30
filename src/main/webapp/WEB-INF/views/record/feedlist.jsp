@@ -6,9 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <title>feedlist</title>
-
     </head>
-
     <body>
         <!-- 피드 헤더 영역 -->
         <section class="feed-header">
@@ -17,35 +15,31 @@
             로그인 없이도 볼 수 있음
         </section>
 
-        <!-- 드롭박스 영역 -->
+        <!-- 버튼 영역 -->
         <section class="buttons">
             <div class="card-body">
-                <div>장소별</div>
-                <select id="locationDropdown">
-                    <option value="" disabled selected>지역을 선택하세요</option>
-                    <option value="allLocations">전국</option>
-                    <option value="capital-area">수도권</option>
-                    <option value="gangwon">강원</option>
-                    <option value="gyeongsang"}>경상</option>
-                    <option value="jeolla">전라</option>
-                    <option value="chungcheong">충청</option>
-                    <option value="jeju">제주</option>
-                </select>
+                <button class="btn btn-orange rounded-pill mb-2 me-1 location-button" data-location="allLocations">전국</button>
+                <button class="btn btn-orange rounded-pill mb-2 me-1 location-button" data-location="capital-area">수도권</button>
+                <button class="btn btn-orange rounded-pill mb-2 me-1 location-button" data-location="gangwon">강원</button>
+                <button class="btn btn-orange rounded-pill mb-2 me-1 location-button" data-location="gyeongsang">경상</button>
+                <button class="btn btn-orange rounded-pill mb-2 me-1 location-button" data-location="jeolla">전라</button>
+                <button class="btn btn-orange rounded-pill mb-2 me-1 location-button" data-location="chungcheong">충청</button>
+                <button class="btn btn-orange rounded-pill mb-2 me-1 location-button" data-location="jeju">제주</button>
             </div>
+            <br>
+            <button class="btn btn-main rounded-pill mb-2 me-1 like" like="like">좋아요 순</button>
         </section>
 
 
-        <!-- 드롭다운 선택 시 이벤트 처리 -->
+        <!-- 지역 버튼 선택 시 이벤트 처리 -->
         <script>
             $(document).ready(function() {
-                // 드롭다운 선택 이벤트 처리
-                $('#locationDropdown').change(function() {
+                $('.location-button').click(function() {
                     // 초기화
                     $("#feedlist_section").hide();
+                    $("#feedlist_button_like_section_result").hide();
 
-                    // 선택한 드롭다운의 value 값을 가져옵니다
-                    var selectedLocationId = $(this).val();
-                    // 선택한 옵션에 따라 locationId 패턴 값을 설정
+                    var selectedLocationId = $(this).data('location');
                     var locationIdPattern = getPattern(selectedLocationId);
                     var locationIdSpecialId = getSpecialId(selectedLocationId);
                     var locationIdSpecialId2 = getSpecialId2(selectedLocationId);
@@ -72,7 +66,7 @@
                 });
             });
 
-            // 드롭박스 권역 구분
+            // 버튼 권역 구분
             function getPattern(selectedOption) {
                 switch (selectedOption) {
                     case "allLocations":
@@ -87,12 +81,14 @@
                         return "5%"; // 전라 지역 범위 설정
                     case "chungcheong":
                     return "6%"; // 충청 지역 범위 설정
+                    case "jeju":
+                    return "9%"; // 제주지역(비여져있음 안되서 임의로 넣음)
                     default:
                         return ""; // 기본 값
                 }
             }
 
-            // 드롭박스 권역구분 - 광역시 포함하는 작업1
+            // 버튼 권역구분 - 광역시 포함하는 작업1
             function getSpecialId(selectedOption) {
                 switch (selectedOption) {
                     case "capital-area":
@@ -110,7 +106,7 @@
                 }
             }
 
-            // 드롭박스 권역구분 - 광역시 포함하는 작업2
+            // 버튼 권역구분 - 광역시 포함하는 작업2
             function getSpecialId2(selectedOption) {
                 switch (selectedOption) {
                     case "gyeongsang":
@@ -124,7 +120,7 @@
                 }
             }
 
-            // 드롭박스 권역구분 - 광역시 포함하는 작업3
+            // 버튼 권역구분 - 광역시 포함하는 작업3
             function getSpecialId3(selectedOption) {
                 switch (selectedOption) {
                     case "gyeongsang":
@@ -135,8 +131,27 @@
             }
         </script>
 
-        <!-- 드롭다운 선택 시 해당 지역 게시물 표시 부분 -->
-        <div id="feedlist_dropdown_section_result" ></div>
+        <!-- 좋아요 버튼 선택 시 이벤트 처리 -->
+        <script>
+            $(document).ready(function() {
+                $('.like').click(function() {
+                    // 초기화
+                    $("#feedlist_section").hide();
+                    $("#feedlist_dropdown_section_result").hide();
+                    $.ajax({
+                        type: 'GET',
+                        url: "feedlist_like",
+                        success: function(response) {
+                            alert("성공");
+                            $("#feedlist_button_like_section_result").html(response).show();
+                        },
+                        error: function() {
+                            alert('검색한 자료가 없습니다.');
+                        }
+                    });
+                });
+            });
+        </script>
 
         <!-- 공유피드 게시물 표시 부분 -->
         <div id="feedlist_section">
@@ -156,7 +171,6 @@
                                             <div class="post-header">
                                                 <div class="post-category text-line mb-2 text-aqua">${postInfoDTO.city}</div>
                                                 <h3 class="mb-0">${postInfoDTO.title}</h3>
-                                                <h4 class="mb-0">공개여부 : ${postInfoDTO.isVisible}</h4> <!-- 테스트 후 삭제 예정 -->
                                             </div>
                                         </div>
                                     </div>
@@ -167,5 +181,12 @@
                 </div>
             </section>
         </div>
+
+        <!-- 지역 버튼 선택 시 해당 지역 게시물 표시 부분 -->
+        <div id="feedlist_dropdown_section_result" ></div>
+
+        <!-- 좋아요 버튼 선택 시 게시물 리스트 표시 부분 -->
+        <div id="feedlist_button_like_section_result" ></div>
+
     </body>
 </html>

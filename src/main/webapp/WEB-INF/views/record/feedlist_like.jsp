@@ -2,12 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- 공유피드 버튼 선택 시 해당 지역 게시물 리스트 -->
-<div id="feedlist_dropdown_section">
+<div id="feedlist_like_section">
     <section class="wrapper">
         <div class="container pt-12 pt-md-0 pb-16 pb-md-18">
             <div class="grid grid-view projects-masonry mt-md-n20 mt-lg-n22 mb-20">
                 <div class="row g-8 g-lg-10 isotope">
-                    <c:forEach items="${mylist}" var="postInfoDTO">
+                    <c:forEach items="${feedListLike}" var="postInfoDTO">
                         <div class="project item col-md-6 col-xl-4 workshop">
                             <div class="card shadow-lg">
                                 <figure class="card-img-top itooltip itooltip-aqua" title='<h5 class="mb-0">클릭하여 상세게시물 보기</h5>'>
