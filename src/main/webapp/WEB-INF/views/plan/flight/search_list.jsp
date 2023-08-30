@@ -9,8 +9,15 @@
                 <div class="ps-8 pb-5">
                     <h5>${depDate}</h5>
                     <h3>${depAirportName}발 - ${arrAirportName}행 항공편 목록</h3>
-                    <a href="search" role="button" class="btn btn-yellow col-md-12">재검색</a>
+                    <a href="search" role="button" class="btn btn-orange col-md-12">재검색</a>
                 </div>
+
+                <h3 class="my-2 align-self-center">
+                    <c:if test="${empty list}">
+                        <c:out value="${message}"/>
+                    </c:if>
+                </h3>
+
                 <ul>
                     <c:forEach items="${list}" var="flight">
                         <div class="card p-4 mt-2">
@@ -43,12 +50,12 @@
                                     <div class="col-md-4">
                                         <div class="d-flex flex-column align-items-center float-end">
                                             <button type="button"
-                                                    class="btn btn-outline-yellow" onclick="goToAirlineHomepage('${flight.airlineName}')">
-                                                예매하기
+                                                    class="btn btn-outline-orange" onclick="goToAirlineHomepage('${flight.airlineName}')">
+                                                예매
                                             </button>
                                             <button type="button"
-                                                    class="btn btn-custom1 mt-1 text-white">
-                                                추가하기
+                                                    class="btn btn-orange mt-1 text-white">
+                                                추가
                                             </button>
                                         </div>
                                     </div>
@@ -94,12 +101,6 @@
                 </ul>
                 <ul id="flight-list">
                 </ul>
-                <%--             로딩 spinner      --%>
-                <div class="text-center">
-                    <div class="spinner-border text-warning" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -124,7 +125,6 @@
                 return;
             }
             isLoading = true;
-            $(".spinner-border").show();
             currentPage++;
             getFlightList(currentPage);
         }
@@ -146,7 +146,6 @@
             },
             success: function (result) {
                 $("#flight-list").html(result);
-                $(".spinner-border").hide();
                 isLoading = false;
             },
             error: function () {

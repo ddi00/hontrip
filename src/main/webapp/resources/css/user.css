@@ -47,3 +47,19 @@
   --bs-btn-disabled-bg: #FF5A46;
   --bs-btn-disabled-border-color: #FF5A46;
 }
+
+.show-sort{
+  display: block;
+}
+
+.hidden-sort{
+  display: none;
+}
+
+.sort-active{
+  text-decoration: underline;
+}
+
+.bg-main-light{
+  background: rgba(255,90,70,0.3);
+}

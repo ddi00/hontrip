@@ -123,14 +123,23 @@ public class RecordService {
     public List<PostInfoDTO> getListMyLocationDrowDown(Long locationId, Long userId) {
         return recordDAO.getListMyLocationDrowDown(locationId, userId);
     }
-    public List<PostInfoDTO> getListMyLocationDrowDownAll(Long locationId, Long userId) {
-        return recordDAO.getListMyLocationDrowDownAll(locationId, userId);
+
+    public List<LocationDTO> getMyMap(Long userId) {
+        return recordDAO.getMyMap(userId);
     }
+
     public List<PostInfoDTO> getFeedList(int isVisible) {
         return recordDAO.getFeedList(isVisible);
     }
-    public List<LocationDTO> getMyMap(Long userId) {
-        return recordDAO.getMyMap(userId);
+
+
+    public List<PostInfoDTO> getFeedListDropdownAll(String locationIdPattern) {
+        return recordDAO.getFeedListDropdownAll(locationIdPattern);
+    }
+
+    public List<PostInfoDTO> getFeedListDropdown(String locationIdPattern, String locationIdSpecialId, String locationIdSpecialId2, String locationIdSpecialId3) {
+        System.out.println("서비스단 확인 : " + locationIdPattern + locationIdSpecialId );
+        return recordDAO.getFeedListDropdown(locationIdPattern, locationIdSpecialId, locationIdSpecialId2, locationIdSpecialId3);
     }
 
 }

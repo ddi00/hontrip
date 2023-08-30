@@ -18,7 +18,7 @@ public class PageDTO { // 마이페이지에서 paging할 DTO
         this(totalCount,1);
     }
 
-    public PageDTO(int totalCount, int page) {
+    public PageDTO(int totalCount, int page) {  //page생성자, 각 페이징 계산
         this.totalCount = totalCount;
         this.page = page;
 
@@ -28,7 +28,7 @@ public class PageDTO { // 마이페이지에서 paging할 DTO
         showNext = endPage != totalPage;
     }
 
-    private void calculateNavigation() {
+    private void calculateNavigation() {    //navi  계산
         int halfNav = navSize / 2;
 
         if (totalPage <= navSize) {

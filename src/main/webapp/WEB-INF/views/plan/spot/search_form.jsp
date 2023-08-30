@@ -6,7 +6,7 @@
             <div class="custom-form-container">
                 <div class="col-md-2 me-2">
                     <select class="form-select" id="category" name="category" form="spot-search-form"
-                            aria-label="검색 범주">
+                            aria-label="검색 범주" style="border: 1px solid rgba(8, 60, 130, 0.2);">
                         <option value="keyword" selected>여행지명</option>
                         <option value="area">지역명</option>
                     </select>

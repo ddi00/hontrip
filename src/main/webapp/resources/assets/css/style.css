@@ -3364,7 +3364,7 @@ progress {
     color: #60697b;
     background-color: #fefefe;
     background-clip: padding-box;
-    border: 1px solid rgba(8, 60, 130, .07);
+    border: 1px solid rgba(8, 60, 130, 0.2);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -3587,7 +3587,7 @@ textarea.form-control-lg {
     background-repeat: no-repeat;
     background-position: right .75rem center;
     background-size: 20px 20px;
-    border: 1px solid rgba(8, 60, 130, .07);
+    border: 1px solid rgba(8, 60, 130, 0.2);
     border-radius: .4rem;
     box-shadow: 0 0 1.25rem rgba(30, 34, 40, .04);
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
@@ -5706,7 +5706,7 @@ textarea.form-control-lg {
     --bs-nav-link-font-size: 0.8rem;
     --bs-nav-link-font-weight: 700;
     --bs-nav-link-color: #343f52;
-    --bs-nav-link-hover-color: #ff9e1c;
+    --bs-nav-link-hover-color: #FF5A46;
     --bs-nav-link-disabled-color: #959ca9;
     display: flex;
     flex-wrap: wrap;
@@ -6321,12 +6321,12 @@ textarea.form-control-lg {
     --bs-card-spacer-x: 2rem;
     --bs-card-title-spacer-y: 0.5rem;
     --bs-card-border-width: 1px;
-    --bs-card-border-color: rgba(164, 174, 198, 0.2);
+    --bs-card-border-color: rgba(8, 60, 130, 0.15);
     --bs-card-border-radius: 0.4rem;
     --bs-card-inner-border-radius: 0.4rem;
     --bs-card-cap-padding-y: 0.9rem;
     --bs-card-cap-padding-x: 2rem;
-    --bs-card-cap-bg: transparent;
+    --bs-card-cap-bg: transparent;swiper-container dots-over
     --bs-card-bg: #fff;
     --bs-card-img-overlay-padding: 1rem;
     --bs-card-group-margin: 0.75rem;
@@ -39009,7 +39009,7 @@ button.hamburger span, button.hamburger:before {
 }
 
 .progress-wrap svg.progress-circle path {
-    stroke: #ff9e1c;
+    stroke: #FF5A46;
     stroke-width: 4;
     box-sizing: border-box;
     transition: all .2s linear
