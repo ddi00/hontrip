@@ -180,7 +180,7 @@ public class PlanController {
         model.addAttribute("arrAirportName", arrival_airport_name);
         model.addAttribute("depDate", depDate);
 
-        if (FlightList.isEmpty()) {
+        if(FlightList.isEmpty()){
             model.addAttribute("message", "검색 결과가 없습니다."); // 검색 데이터 없는 경우 메시지 표시
         } else {
             model.addAttribute("list", FlightList);
@@ -203,14 +203,13 @@ public class PlanController {
         return planService.createFlightAddDTO(planId, flightId);
     }
 
-
     // 일정 삭제
     @RequestMapping("/delete")
     @RequiredSessionCheck
     public ResponseEntity<String> delete(@RequestParam("userId") Long userId,
-                                         @RequestParam("planId") Long planId, HttpSession session) {
-        System.out.println("userId : " + userId);
-        System.out.println("planId : " + planId);
+                         @RequestParam("planId") Long planId, HttpSession session) {
+        System.out.println("userId : "+userId);
+        System.out.println("planId : "+planId);
 
         Long sessionUserId = (Long) session.getAttribute("id");
 

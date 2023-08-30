@@ -62,7 +62,7 @@
       </div>
     </div>
   </div>
-    <button type="button" id="search-flight-button" class="btn btn-orange col-md-2">
+    <button type="button" id="search-flight-button" class="btn btn-orange col-md-12">
         검색
     </button>
 </form>

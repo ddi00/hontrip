@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<div class="row d-flex justify-content-start">
-    <div class="col">
+<div class="row d-flex justify-content-center">
+    <div class="col-12">
         <div class="ps-8 pb-5">
             <h5>${depDate}</h5>
             <h3>${depAirportName}발 - ${arrAirportName}행 항공편 목록</h3>
@@ -14,10 +14,10 @@
             </c:if>
         </h3>
 
-        <ul class="me-8">
+        <ul>
             <c:forEach items="${list}" var="flight" varStatus="status">
-                <div class="card p-4 mt-2">
-                    <div class="card-body align-items-center justify-content-start">
+                <div class="card p-4 mt-2 me-7">
+                    <div class="card-body justify-content-start">
                         <div class="row">
                             <div class="col-md-4">
                                 <div id="departure-info">
@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div id="arrival-info">
+                                <div>
                                     <span style="display:none">도착 시간</span>
                                     <span>
                                 <fmt:parseDate value="${flight.arrivalTime}" var="arrivalTime"
@@ -46,17 +46,11 @@
                             <div class="col-md-4">
                                 <div class="d-flex flex-column align-items-center float-end">
                                     <button type="button"
-                                            class="btn btn-outline-orange"
-                                            onclick="goToAirlineHomepage('${flight.airlineName}')">
+                                            class="btn btn-outline-orange" onclick="goToAirlineHomepage('${flight.airlineName}')">
                                         예매하기
                                     </button>
-                                    <button type="button" id="add-flight-btn-${status.index+1}"
-                                            class="btn btn-orange mt-1 text-white"
-                                            data-flight-id="${flight.id}"
-                                            data-flight-vehicleId="${flight.vehicleId}"
-                                            data-flight-depAirport="${flight.depAirportName}"
-                                            data-flight-arrAirport="${flight.arrAirportName}"
-                                            data-flight-depDate="${depDate}">
+                                    <button id="add-flight-btn-${status.index+1}" type="button"
+                                            class="btn btn-orange mt-1 text-white" data-flight-id="${flight.id}">
                                         추가하기
                                     </button>
                                 </div>

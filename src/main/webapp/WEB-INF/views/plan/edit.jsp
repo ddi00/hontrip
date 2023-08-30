@@ -43,7 +43,7 @@
         <%--        기본 정보    --%>
 
         <div class="row gx-md-8 gx-xl-12 gy-8">
-            <div class="col-lg-6" style="border-right: 2px solid #F5F5F5;">
+            <div class="col-6" style="border-right: 2px solid #F5F5F5;">
 
                 <% int numOfDays = (int) request.getAttribute("numOfDays");
                     for (int i = 0; i < numOfDays; i++) { %>
@@ -56,7 +56,7 @@
                 </div>
                 <br>
 
-                <div class="card mt-2" id="selected-spots-<%=i + 1%>">
+                <div class="card" id="selected-spots-<%=i + 1%>">
                     <c:set var="index" value="<%=i + 1%>"/>
                     <c:set var="contentOrder" value="0"/> <!-- 초기 값 설정 -->
                     <c:forEach items="${addedSpots}" var="spot" varStatus="status">
@@ -87,7 +87,7 @@
 
             <%--        col1 일차별 항목      --%>
 
-            <div class="col-lg-6">
+            <div class="col-6">
 
                 <% for (int i = 0; i < numOfDays; i++) { %>
                 <div class="my-9" id="search-spot-form-<%=i + 1%>">
@@ -124,9 +124,10 @@
 
         <hr class="my-8"/>
         <div class="row gx-md-8 gx-xl-12 gy-8">
-            <div class="col-lg-6" style="border-right: 2px solid #F5F5F5;">
+            <div class="col-6" style="border-right: 2px solid #F5F5F5;">
                 <button id="add-flight" type="button" class="btn btn-soft-green rounded-pill">항공권 추가</button>
-                <div class="my-2" id="selected-flights">
+
+                <div class="mt-5 mb-2" id="selected-flights">
                     <c:forEach items="${addedFlights}" var="flight" varStatus="status">
                         <div class="card my-2">
                             <div class="row ms-3 my-4">
@@ -145,14 +146,14 @@
                                     <div class="col-5">
                                         <span>
                                             <fmt:parseDate value="${flight.arrivalTime}" var="arrivalTime"
-                                                   pattern="yyyy-MM-dd HH:mm:ss"/>
+                                                           pattern="yyyy-MM-dd HH:mm:ss"/>
                                             <fmt:formatDate value="${arrivalTime}" pattern="yyyy-MM-dd HH:mm"/>
                                         </span>
                                     </div>
                                     <div class="col-2">
                                     <span class="align-self-start"><button type="button"
-                                                                                  class="btn btn-sm delete-flight-btn"
-                                                                                  data-flight-id="${flight.id}">
+                                                                           class="btn btn-sm delete-flight-btn"
+                                                                           data-flight-id="${flight.id}">
                                         <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16"
                                              height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"> <path
                                                 d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
@@ -171,24 +172,27 @@
                             </div>
                         </div>
                     </c:forEach>
-
                 </div>
-                <hr class="my-8"/>
-                <button id="add-accom" type="button" class="btn btn-soft-yellow rounded-pill">숙소 추가</button>
             </div>
             <div class="col-lg-6">
                 <jsp:include page="flight/search_form_for_plan.jsp"/>
                 <%--                항공권 검색 폼      --%>
-                <div class="search-flight-results" id="search-flight-results">
+                <div class="search-flight-results mt-2" id="search-flight-results">
+
 
                 </div>
                 <%--                여행지 검색 결과--%>
             </div>
         </div>
         <hr class="my-8"/>
+        <div class="row gx-md-8 gx-xl-12 gy-8">
+            <div class="col-6" style="border-right: 2px solid #F5F5F5;">
+                <button id="add-accom" type="button" class="btn btn-soft-yellow rounded-pill">숙소 추가</button>
+            </div>
+        </div>
+        <hr class="my-8"/>
         <button type="submit" class="btn btn-orange col-md-2 align-self-end" form="planForm">수정</button>
-    </div>
-    <%--    container   --%>
+        <%--    container   --%>
 </section>
 <script>
     let planId = "${plan.planId}";
@@ -197,6 +201,13 @@
     // 일차마다 부착된 여행지 검색 버튼 클릭 시 여행지 검색창 표시
     $(document).ready(function () {
         $('[id^="search-spot-form-"]').hide();
+        let selectedSpotsDivs = $('[id^="selected-spots-"]');
+        selectedSpotsDivs.each(function () {
+            let divContents = $(this).find('div');
+            if (divContents.length === 0) {
+                $(this).hide(); // 내용이 없는 div 숨김 처리
+            }
+        });
 
         $('[id^="add-spot-"]').click(function () {
             let btnId = $(this).attr('id');
@@ -382,7 +393,7 @@
             },
             success: function (data) {
                 // $("#search-flight-form").hide(); // form 숨기기
-                $("#search-flight-results").append(data); // 검색 결과를 해당 div에 삽입
+                $("#search-flight-results").append(data); // 검색 결과를 해당 div에 삽입D
                 $("#search-flight-results").addClass("mt-5");
                 $("#search-flight-results").css({
                     'overflow-x': 'hidden',
@@ -401,10 +412,6 @@
     // 여행지 추가 버튼 클릭 이벤트 처리
     $(document).on('click', '[id^="add-flight-btn-"]', function () {
         let flightId = $(this).data("flight-id");
-        let vehicleId = $(this).data("flight-vehicleId");
-        let depAirportName = $(this).data("flight-depAirport");
-        let arrAirportName = $(this).data("flight-arrAirport");
-        let depDate = $(this).data("flight-depDate");
         addFlight(flightId);
     });
 

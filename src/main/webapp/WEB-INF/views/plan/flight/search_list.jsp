@@ -101,12 +101,6 @@
                 </ul>
                 <ul id="flight-list">
                 </ul>
-                <%--             로딩 spinner      --%>
-                <div class="text-center">
-                    <div class="spinner-border text-warning" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -131,7 +125,6 @@
                 return;
             }
             isLoading = true;
-            $(".spinner-border").show();
             currentPage++;
             getFlightList(currentPage);
         }
@@ -153,7 +146,6 @@
             },
             success: function (result) {
                 $("#flight-list").html(result);
-                $(".spinner-border").hide();
                 isLoading = false;
             },
             error: function () {
