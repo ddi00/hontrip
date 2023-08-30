@@ -17,9 +17,9 @@
 			economy_charge = #{economyCharge}, prestige_charge = #{prestigeCharge}
 	</insert>
 <!--	항공편 단일 조회  -->
-	<select id="one" parameterType="Long" resultMap="flightResult">
+	<select id="one" parameterType="hashmap" resultMap="flightResult">
 		select
-		    id
+		    id,
 			vehicle_id,
 			airline_name,
 			departure_airport_name,
@@ -39,8 +39,31 @@
 		  and arrival_airport_name = #{arrAirportName}
 		  and departure_time LIKE CONCAT(#{depDate}, '%')
 	</select>
-<!--	항공편 조회  -->
+
+	<!--	항공편 조회 -->
 	<select id="list" parameterType="hashmap" resultMap="flightResult">
+		<![CDATA[
+		select
+			id,
+			vehicle_id,
+			airline_name,
+			departure_airport_name,
+			departure_time,
+			arrival_airport_name,
+			arrival_time,
+			economy_charge,
+			prestige_charge
+		from flight
+		where
+			departure_airport_name = #{depAirportName}
+		  and arrival_airport_name = #{arrAirportName}
+		  and departure_time LIKE CONCAT(#{depDate}, '%')
+		order by departure_time
+		]]>
+	</select>
+
+<!--	항공편 조회 (무한 스크롤) -->
+	<select id="listWithScroll" parameterType="hashmap" resultMap="flightResult">
 		<![CDATA[
 		select
 		    id,

@@ -57,5 +57,14 @@ public class PlanDayDAO {
     }
 
     // 일정-해당일에 항공편 정보 추가
-    // public void updateFlight(PlanDayDTO planDayDTO){}
+     public void updateFlight(PlanDayDTO planDayDTO){
+         // HashMap 으로 다중 parameter 전달
+         Map<String, Object> paramMap = new HashMap<String, Object>();
+         paramMap.put("planId", planDayDTO.getPlanId());
+         paramMap.put("userId", planDayDTO.getUserId());
+         paramMap.put("dayOrder", planDayDTO.getDayOrder());
+         paramMap.put("flightId", planDayDTO.getFlightId());
+
+         my.update("planDay.updateFlight", paramMap);
+     }
 }
