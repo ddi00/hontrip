@@ -149,24 +149,13 @@ public class RecordContorller {
     }
 
 
-    @GetMapping("list_mylocation_dropdown") // 검색어입력시 내 게시물 해당지역 리스트 가져오기
+    @GetMapping("list_mylocation_dropdown") // 드롭다운 선택 시 내 게시물 해당지역 리스트 가져오기
     public void getListMyLocationDrowDown(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("id");
         List<PostInfoDTO> getListMyLocationDrowDown = recordService.getListMyLocationDrowDown(locationId, userId);
         List<LocationDTO> getMyMap = recordService.getMyMap(userId);
         List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
         model.addAttribute("mylist", getListMyLocationDrowDown); // mylist 모델에 데이터 추가
-        model.addAttribute("mymap", getMyMap);
-        model.addAttribute("locationList", locationList);
-    }
-
-    @GetMapping("list_mylocation_dropdown_all") // 검색어입력시 내 게시물 해당지역 리스트 가져오기
-    public void getListMyLocationDrowDownAll(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
-        Long userId = (Long) session.getAttribute("id");
-        List<PostInfoDTO> getListMyLocationDrowDownAll = recordService.getListMyLocationDrowDownAll(locationId, userId);
-        List<LocationDTO> getMyMap = recordService.getMyMap(userId);
-        List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
-        model.addAttribute("mylist", getListMyLocationDrowDownAll); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
         model.addAttribute("locationList", locationList);
     }
@@ -178,6 +167,24 @@ public class RecordContorller {
         model.addAttribute("feedlist", feedlist);
         model.addAttribute("locationList", locationList);
         return "/record/feedlist"; // feedlist.jsp 파일로 반환
+    }
+
+    @GetMapping("feedlist_dropdown") // 공유피드에서 드롭다운 선택시 리스트 가져오기
+    public void getFeedListDropdown(@RequestParam("locationIdPattern") String locationIdPattern,
+                                    @RequestParam("locationIdSpecialId") String locationIdSpecialId,
+                                    @RequestParam("locationIdSpecialId2") String locationIdSpecialId2,
+                                    @RequestParam("locationIdSpecialId3") String locationIdSpecialId3,
+                                    Model model) {
+        System.out.println("컨트롤러 확인 :"+ locationIdPattern + locationIdSpecialId);
+        List<PostInfoDTO> getFeedListDropdown;
+
+        if (locationIdPattern.equals("")) {
+            getFeedListDropdown = recordService.getFeedListDropdownAll(locationIdPattern);
+        } else {
+            getFeedListDropdown = recordService.getFeedListDropdown(locationIdPattern, locationIdSpecialId, locationIdSpecialId2, locationIdSpecialId3);
+        }
+
+        model.addAttribute("mylist", getFeedListDropdown);
     }
 
 }

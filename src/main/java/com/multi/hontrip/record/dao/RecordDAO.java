@@ -53,25 +53,35 @@ public class RecordDAO {
         return sqlSessionTemplate.selectList("record.list_mylocation_click", params);
     }
 
-    public List<PostInfoDTO> getListMyLocationDrowDown(Long locationId, Long userId ) { // 내 게시물 검색한 지역 리스트 가져오기
+    public List<PostInfoDTO> getListMyLocationDrowDown(Long locationId, Long userId ) {
         Map<String, Object> params = new HashMap<>();
         params.put("locationId", locationId);
         params.put("userId", userId);
         return sqlSessionTemplate.selectList("record.list_mylocation_dropdown", params);
     }
 
-    public List<PostInfoDTO> getListMyLocationDrowDownAll(Long locationId, Long userId ) { // 내 게시물 검색한 지역 리스트 가져오기
-        Map<String, Object> params = new HashMap<>();
-        params.put("locationId", locationId);
-        params.put("userId", userId);
-        return sqlSessionTemplate.selectList("record.list_mylocation_dropdown_all", params);
+    public List<LocationDTO> getMyMap(Long userId){ //공유피드 전체 리스트 가져오기
+        return sqlSessionTemplate.selectList("record.mymap", userId);
     }
 
     public List<PostInfoDTO> getFeedList(int isVisible){ //공유피드 전체 리스트 가져오기
         return sqlSessionTemplate.selectList("record.feedlist", isVisible);
     }
 
-    public List<LocationDTO> getMyMap(Long userId){ //공유피드 전체 리스트 가져오기
-        return sqlSessionTemplate.selectList("record.mymap", userId);
+
+    public List<PostInfoDTO> getFeedListDropdownAll(String locationIdPattern) {
+        return sqlSessionTemplate.selectList("record.feedlist_by_location_pattern_all");
     }
+
+
+    public List<PostInfoDTO> getFeedListDropdown(String locationIdPattern, String locationIdSpecialId, String locationIdSpecialId2, String locationIdSpecialId3) {
+        System.out.println("dao 확인 : " + locationIdPattern + locationIdSpecialId );
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("locationIdPattern", locationIdPattern);
+        paramMap.put("locationIdSpecialId", locationIdSpecialId);
+        paramMap.put("locationIdSpecialId2", locationIdSpecialId2);
+        paramMap.put("locationIdSpecialId3", locationIdSpecialId3);
+        return sqlSessionTemplate.selectList("record.feedlist_by_location_pattern", paramMap);
+    }
+
 }
