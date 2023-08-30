@@ -22,8 +22,8 @@ public class MateDAO {
         param.put("start",pageDTO.getStart());
         param.put("end",pageDTO.getEnd());
         param.put("regionId", pageDTO.getRegionId());
+        param.put("age", pageDTO.getAge());
 
-        System.out.println("region -> " + pageDTO.getRegionId());
         return my.selectList("mateBbs.list", param);
     }
 
@@ -65,6 +65,14 @@ public class MateDAO {
 
     public List<MateBoardListDTO> regionList(MatePageDTO matePageDTO) {
         return my.selectList("mateBbs.regionList", matePageDTO);
+    }
+
+    public List<MateSenderDTO> senderList(long id) {
+        return my.selectList("mateBbs.senderList", id);
+    }
+
+    public void viewUpdate(long id) {
+        my.update("mateBbs.viewUpdate", id);
     }
 
 

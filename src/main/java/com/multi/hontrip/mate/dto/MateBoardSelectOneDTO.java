@@ -24,5 +24,6 @@ public class MateBoardSelectOneDTO {
     private String userNickName;    //닉네임
     private String userProfileImage;    //프로필 이미지
     private AgeRange userAgeRange;        //연령대
-    private Gender userGender;      //성별
+    private Gender userGender;//성별
+    private long views; //조회수
 }

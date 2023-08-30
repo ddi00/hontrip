@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
@@ -174,7 +176,8 @@ public class MateController {
 
     /* 동행인 상세 게시글  get 매핑*/
     @GetMapping("/{id}")
-    public String selectOne(@PathVariable("id") long id, Model model, HttpSession session) {
+    public String selectOne(@PathVariable("id") long id, Model model, HttpSession session,
+                            HttpServletRequest request, HttpServletResponse response) {
         MateBoardSelectOneDTO mateBoardSelectOneDTO = mateService.selectOne(id);
         //게시물 상세의 댓글 리스트 가져오기
         List<MateCommentDTO> list = mateService.commentList(id);
@@ -182,7 +185,34 @@ public class MateController {
         List<MateCommentDTO> reCommentList = mateService.reCommentList(list);
         //게시물 상세의 댓글 개수 카운트 하기
         int commentListCount = mateService.commentCount(id);
+        //게시글 상세의 동행인 신청자 현황 가져오기
+        List<MateSenderDTO> sender = mateService.senderList(id);
 
+        // 조회수 증가 관련 로직
+        String postViewKey = "post_view_" + id;
+        boolean hasViewed = false;
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (postViewKey.equals(cookie.getName())) {
+                    hasViewed = true;
+                    break;
+                }
+            }
+        }
+
+        if (!hasViewed) {
+            mateService.incrementPostViews(id); // 조회수 증가 메서드 호출
+            // 쿠키 추가
+            Cookie viewCookie = new Cookie(postViewKey, "true");
+            viewCookie.setMaxAge(24 * 60 * 60); // 쿠키 유효기간 24시간
+            response.addCookie(viewCookie);
+
+            mateBoardSelectOneDTO.setViews(mateBoardSelectOneDTO.getViews() + 1); // 조회수 증가
+        }
+
+        model.addAttribute("sender", sender);
         model.addAttribute("commentListCount", commentListCount);
         model.addAttribute("list", list);
         model.addAttribute("reCommentList", reCommentList);

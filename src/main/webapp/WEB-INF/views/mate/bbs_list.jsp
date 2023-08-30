@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ page import="com.multi.hontrip.mate.dto.Region" %>
+        <%@ page import="com.multi.hontrip.mate.dto.AgeRange" %>
             <script type="text/javascript" src="../resources/js/jquery-3.7.0.js"></script>
             <div class="container">
                 <div class="row justify-content-center">
@@ -14,6 +15,13 @@
                                 </c:forEach>
                              <form name="mate_search" autocomplete="on">
                                 </ul>
+                                <ul class="list-unstyled tag-list mb-0 flex-lg-wrap" style="width: 100%">
+                                      <c:forEach items="${AgeRange.values()}" var="age">
+                                          <button class="ageBtn btn btn-soft-orange btn-sm rounded-pill mb-2" style="width: 14%" data-age="${age.ageRangeNum}">
+                                              ${age.ageRangeStr}</button>
+                                      </c:forEach>
+                                   <form name="mate_search" autocomplete="on">
+                                      </ul>
                                     <!-- 검색 유형 선택 드롭다운 메뉴 -->
                                     <select class="form-select" id="searchType" name="searchType">
                                     <option value="" disabled selected hidden>검색 유형</option>
