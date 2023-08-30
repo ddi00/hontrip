@@ -27,7 +27,8 @@
 			   u.nickname        as userNickName,
 			   u.profile_image   as userProfileImage,
 			   u.age_range_id    as userAgeRange,
-			   u.gender          as userGender
+			   u.gender          as userGender,
+				mb.view_count as views
 		from user u,
 			 mate_board mb
 		where mb.id = #{id}
@@ -85,48 +86,30 @@
 		JOIN user u ON mb.user_id = u.id
 		JOIN age_range ar ON mb.age_range_id = ar.id
 		<where>
-			<choose>
-				<when test='regionId != 0'>
-					AND mb.region_id = #{regionId}
-				</when>
-				<otherwise>
-					<if test='searchType != null'>
-						<if test='searchType.equals("title")'>
-							AND title LIKE concat('%', #{keyword}, '%')
-						</if>
-						<if test='searchType.equals("content")'>
-							AND content LIKE concat('%', #{keyword}, '%')
-						</if>
-						<if test='searchType.equals("title_content")'>
-							AND (title LIKE concat('%', #{keyword}, '%') OR content LIKE concat('%', #{keyword}, '%'))
-						</if>
-						<if test='searchType.equals("nickname")'>
-							AND nickname LIKE concat('%', #{keyword}, '%')
-						</if>
-					</if>
-				</otherwise>
-			</choose>
+			<if test='regionId != 0'>
+				AND mb.region_id = #{regionId}
+			</if>
+			<if test='age != null and age != ""'>
+				AND mb.age_range_id = #{age}
+			</if>
+			<if test='searchType != null'>
+				<choose>
+					<when test='searchType.equals("title")'>
+						AND title LIKE concat('%', #{keyword}, '%')
+					</when>
+					<when test='searchType.equals("content")'>
+						AND content LIKE concat('%', #{keyword}, '%')
+					</when>
+					<when test='searchType.equals("title_content")'>
+						AND (title LIKE concat('%', #{keyword}, '%') OR content LIKE concat('%', #{keyword}, '%'))
+					</when>
+					<when test='searchType.equals("nickname")'>
+						AND nickname LIKE concat('%', #{keyword}, '%')
+					</when>
+				</choose>
+			</if>
 		</where>
-		ORDER BY
-		mb.id DESC
-		LIMIT #{start} OFFSET #{end}
-	</select>
 
-	<select id="regionList" resultType="mateBoardListDTO" parameterType="matePageDTO">
-		SELECT
-		mb.id AS mateBoardId,
-		u.nickname AS nickname,
-		mb.content AS content,
-		mb.title AS title,
-		mb.thumbnail AS thumbnail,
-		mb.start_date AS startDate,
-		mb.end_date AS endDate,
-		ar.range_description AS ageRange
-		FROM
-		mate_board mb
-		JOIN user u ON mb.user_id = u.id
-		JOIN age_range ar ON mb.age_range_id = ar.id
-		AND mb.region_id = #{regionId}
 		ORDER BY
 		mb.id DESC
 		LIMIT #{start} OFFSET #{end}
@@ -176,16 +159,27 @@
 			<if test='regionId != 0'>
 				AND mb.region_id = #{regionId}
 			</if>
+			<if test='age != null and age != ""'>
+				AND mb.age_range_id = #{age}
+			</if>
 		</where>
 	</select>
 
-<!--	<select id="count" resultType="Integer">-->
-<!--		SELECT COUNT(*)-->
-<!--		FROM mate_board mb-->
-<!--		JOIN user u ON mb.user_id = u.id-->
-<!--		JOIN age_range ar ON mb.age_range_id = ar.id-->
-<!--		AND mb.region_id = #{regionId}-->
-<!--	</select>-->
+	<select id="senderList" resultType="mateSenderDTO">
+		SELECT mma.sender_id AS id,
+		u.nickname AS nickname,
+		u.profile_image AS profileImg
+		FROM mate_matching_alarm AS mma
+		JOIN user AS u ON mma.sender_id = u.id
+		WHERE mma.mate_board_id = #{id};
+	</select>
+
+	<update id="viewUpdate" parameterType="long">
+		UPDATE mate_board
+		SET view_count = view_count + 1
+		WHERE id = #{id}
+	</update>
+
 	<select id="location" resultType="locationDTO">
 		SELECT id   as locationId,
 			   city as city

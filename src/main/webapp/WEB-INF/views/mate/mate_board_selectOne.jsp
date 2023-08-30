@@ -378,6 +378,13 @@
                                                                 <a class="btn btn-secondary rounded-0 mateApplyCheckButton">모집완료</a>
                                                             </c:if>
                                                         </div>
+                                                            <div>
+                                                  <a href="#" data-bs-toggle="modal" data-bs-target="#modal-02">
+                                                  <button class="btn btn-danger rounded-0 mateApplyCheckButton">
+                                                              동행인 신청현황
+                                                  </button>
+                                                  </a>
+                                                   </div>
                                                         <!--/.share-dropdown -->
                                                     </div>
                                                 </div>
@@ -419,7 +426,7 @@
                                                 </span>
                                                 </li>
                                                 <li class="post-comments"><i
-                                                        class="uil uil-eye"></i>조회수
+                                                        class="uil uil-eye"></i>${dto.views}
                                                 </li>
                                                 <li class="post-comments"><i
                                                         class="uil uil-comment"></i>댓글개수
@@ -504,8 +511,7 @@
                                                                                     src="${commentList.profileImage}"/>
                                                                             </figure>
                                                                             <div>
-                                                                                <h6 class="comment-author"><a href="#"
-                                                                                                              class="link-dark">${commentList.nickname}</a>
+                                                                                <h6 class="comment-author"><a href="#" class="link-dark">${commentList.nickname}</a>
                                                                                 </h6>
                                                                                 <ul class="post-meta">
                                                                                     <li>
@@ -659,3 +665,49 @@
     </section>
 </div>
 <!-- /.content-wrapper -->
+<div class="modal fade" id="modal-02" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content text-center">
+                <div class="modal-body">
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="row">
+                    </div>
+                    <!-- /.row -->
+                    <h3>동행인 신청을 한 유저<i class="uil uil-comment-heart"></i></h3>
+                    <div id="likeUsers">
+                        <c:choose>
+                            <c:when test="${sender.isEmpty()}">
+                                <h6>좋아요를 누른 사람이 없습니다.</h6>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach items="${sender}" var="sender">
+                                     <div class="d-flex align-items-center">
+                                         <figure class="user-avatar me-2">
+                                             <img class="rounded-circle" alt="" src="${sender.profileImg}"/>
+                                         </figure>
+                                         <div>
+                                             <h6 class="comment-author mb-0"><a href="#" class="link-dark">${sender.nickname}</a></h6>
+                                         </div>
+                                     </div>
+
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                    <div class="newsletter-wrapper">
+                        <div class="row">
+                            <div class="col-md-10 offset-md-1">
+                            </div>
+                            <!-- /.newsletter-wrapper -->
+                        </div>
+                        <!-- /column -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!--/.modal-body -->
+            </div>
+            <!--/.modal-content -->
+        </div>
+        <!--/.modal-dialog -->
+    </div>
+    <!--/.modal -->

@@ -41,4 +41,8 @@ public interface MateService {
     public UserGenderAgeDTO findUserGenderAgeById(long id);  //동행 신청자의 성별과 연령대 가져오기
 
     public int checkApply(MateMatchingAlarmDTO mateMatchingAlarmDTO); //동행인 게시글 신청여부 확인
+
+    List<MateSenderDTO> senderList(long id);
+
+    void incrementPostViews(long id);
 }

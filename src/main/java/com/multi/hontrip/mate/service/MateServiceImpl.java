@@ -84,6 +84,12 @@ public class MateServiceImpl implements MateService {
         return mateCommentDAO.list(mateBoardId);
     }
 
+    public List<MateSenderDTO> senderList(long id){
+        return mateDAO.senderList(id);
+    }
+    public void incrementPostViews(long id){
+         mateDAO.viewUpdate(id);
+    }
     @Override
     public void insert(MultipartFile file, MateBoardInsertDTO mateBoardInsertDTO) {
         String savedFileName = file.getOriginalFilename();
