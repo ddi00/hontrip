@@ -1,7 +1,10 @@
 package com.multi.hontrip.plan.controller;
 
+import com.multi.hontrip.plan.api.AccommodationApi;
 import com.multi.hontrip.plan.dto.AccommodationDTO;
+import com.multi.hontrip.plan.parser.LocationConstants;
 import com.multi.hontrip.plan.service.AccommodationService;
+import com.multi.hontrip.record.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 // 카카오맵 api로 받아온 숙박시설 정보 보여주는 컨트롤러
 @Controller
@@ -19,14 +23,34 @@ public class AccommodationController {
     @Autowired
     AccommodationService accommodationService;
 
+    @Autowired
+    LocationService locationService;
+
     @RequestMapping("/one") // 숙박시설 1개만 보기
     public void one(Long accommodationId, Model model) {
         AccommodationDTO plan = accommodationService.one(accommodationId);
         model.addAttribute("plan", plan);
     }
 
+   /* @RequestMapping(value = "/list", method = RequestMethod.GET) // 숙박시설 리스트
+    public String showAccommodationList(Model model) {
+        List<AccommodationDTO> list = accommodationService.list();
+        model.addAttribute("list", list);
+        return "/plan/accommodation/list";
+    }*/
+
     @RequestMapping(value = "/list", method = RequestMethod.GET) // 숙박시설 리스트
     public String showAccommodationList(Model model) {
+        int radius = 20000; // 반경 20km
+
+        // 각 지역의 좌표를 사용하여 API 호출
+        for (Map.Entry<String, Map<String, String>> entry : LocationConstants.COORDINATES.entrySet()) {
+            String x = entry.getValue().get("long");  // 경도
+            String y = entry.getValue().get("lat");   // 위도
+
+            accommodationService.fetchAndSaveAccommodationData(x, y, radius);
+        }
+
         List<AccommodationDTO> list = accommodationService.list();
         model.addAttribute("list", list);
         return "/plan/accommodation/list";

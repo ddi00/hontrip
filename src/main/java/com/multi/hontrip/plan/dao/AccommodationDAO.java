@@ -73,4 +73,12 @@ public class AccommodationDAO {
         return my.selectList("accommodationMapper.searchAccommodationsWithFilter", params);
     }
 
+    public List<AccommodationDTO> searchByCoordinates(String x, String y) {
+        Map<String, String> params = new HashMap<>();
+        params.put("x", x);
+        params.put("y", y);
+        return my.selectList("accommodationMapper.searchByCoordinates", params);
+    }
+
+
 }

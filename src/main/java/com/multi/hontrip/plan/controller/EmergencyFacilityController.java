@@ -26,7 +26,7 @@ public class EmergencyFacilityController {
     public String showEmergencyFacilityList(Model model) {
         List<EmergencyFacilityDTO> list = emergencyFacilityService.list();
         model.addAttribute("list", list);
-        return "/plan/emergency_facility_list";
+        return "/plan/emergency_facility/list";
     }
 
     @PostMapping(value = "/filter_list") // 응급시설 필터
@@ -49,7 +49,7 @@ public class EmergencyFacilityController {
         }
 
         model.addAttribute("list", list);
-        return "/plan/emergency_facility_filter_list";
+        return "/plan/emergency_facility/filter_list";
     }
 
 }
