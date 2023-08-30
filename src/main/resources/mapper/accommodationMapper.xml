@@ -128,12 +128,6 @@
           and category_name LIKE CONCAT(#{categoryName}, '%')
     </select>
 
-    <select id="searchByCoordinates" resultType="AccommodationDTO">
-        SELECT * FROM accommodation
-        ORDER BY SQRT(POW(x - #{x}, 2) + POW(y - #{y}, 2))
-            LIMIT 10
-    </select>
-
  <!--   <select id="filterByPlaceNameAndCategoryName" resultType="AccommodationDTO">
         select * from accommodation
         where place_name LIKE CONCAT('%', #{placeName}, '%')

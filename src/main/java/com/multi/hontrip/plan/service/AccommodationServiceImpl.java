@@ -205,12 +205,7 @@ public class AccommodationServiceImpl implements AccommodationService {
 
     }*/
 
-    @Override
-    public List<AccommodationDTO> searchByCoordinates(String x, String y) {
-        // 여기에 x, y 좌표를 사용하여 숙소를 검색하는 로직을 추가
-        // 예: 데이터베이스에서 해당 좌표 근처의 숙소를 검색
-        return accommodationDAO.searchByCoordinates(x, y);
-    }
+
 
 
 }

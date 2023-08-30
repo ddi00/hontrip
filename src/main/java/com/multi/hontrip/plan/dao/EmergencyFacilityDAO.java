@@ -15,6 +15,26 @@ public class EmergencyFacilityDAO {
     @Autowired
     SqlSessionTemplate my;
 
+    /*public void save(EmergencyFacilityDTO dto) {
+        // MyBatis 매핑을 사용하여 DTO 데이터를 데이터베이스에 저장
+        my.insert("emergency_facility.insert", dto);
+    }*/
+
+    public void save(EmergencyFacilityDTO dto) {
+        // MyBatis 매핑을 사용하여 데이터베이스에 해당 id 값이 있는지 확인
+        if (existsById(dto.getId())) {
+            System.out.println("중복된 id 값이 이미 존재합니다. 다음 값으로 넘어갑니다.");
+            return;
+        }
+
+        // 데이터베이스에 저장
+        my.insert("emergency_facility.insert", dto);
+    }
+
+    private boolean existsById(String id) {
+        return my.selectOne("emergency_facility.existsById", id) != null;
+    }
+
     public EmergencyFacilityDTO one(Long EmergencyFacilityId) { // 응급시설 1개만 보기
         return my.selectOne("emergency_facility.one", EmergencyFacilityId);
     }  // 일정 하나

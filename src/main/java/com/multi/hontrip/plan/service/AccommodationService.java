@@ -21,7 +21,6 @@ public interface AccommodationService {
     List<AccommodationDTO> filterByCategoryAndPlaceNameAndAddress(String addressName, String categoryName, String placeName); // 숙박시설 주소|카테고리 필터
 */
 
-    List<AccommodationDTO> searchByCoordinates(String x, String y);
 
 
 }
