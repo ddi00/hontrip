@@ -53,7 +53,7 @@
             let button = "";
             let users = "";
             let likeCnt = "";
-            likeCnt += "<a href='#' data-bs-toggle='modal' data-bs-target='#modal-02'><div id='likeCountSection'><i class='uil uil-heart-alt'></i>" + likeList.likeCount + "</div></a>";
+            likeCnt += "<a href='#' data-bs-toggle='modal' data-bs-target='#modal-02'><div id='likeCountSection'><i class='uil uil-heart-alt text-red'></i>" + likeList.likeCount + "</div></a>";
             $('.likeCnt').html(likeCnt);
 
 
@@ -295,33 +295,41 @@
         }) // recomment
 
 
-        $(".like-button").click(function () {
+        $(document).on("click", ".like-button", function () {
             var clickedButton = $(this);
             $.ajax({
                 url: "like_post",
-                data:{
-                    recordId: ${postInfoDTO.boardId},
-                    userId: ${userId}
-                },
-                success: function(result) {
-                    updateLikeSection(result)
-                },
-                error: function() {
-                    console.log("좋아요 실패");
-                }
-            })
-        });
-
-        $(".unlike-button").click(function () {
-            var clickedButton = $(this);
-            $.ajax({
-                url: "delete_like_post",
-                data:{
+                data: {
                     recordId: ${postInfoDTO.boardId},
                     userId: ${userId}
                 },
                 success: function (result) {
-                    updateLikeSection(result)
+                    updateLikeSection(result);
+
+                    $('#likeBtn').empty();
+                    let btns = "<button class='unlike-button btn btn-circle btn-orange'><i class='uil uil-heart-break'></i></button>";
+                    $('#likeBtn').html(btns);
+                },
+                error: function () {
+                    console.log("좋아요 실패");
+                }
+            });
+        });
+
+        $(document).on("click", ".unlike-button", function () {
+            var clickedButton = $(this);
+            $.ajax({
+                url: "delete_like_post",
+                data: {
+                    recordId: ${postInfoDTO.boardId},
+                    userId: ${userId}
+                },
+                success: function (result) {
+                    updateLikeSection(result);
+
+                    $('#likeBtn').empty();
+                    let btns = "<button class='like-button btn btn-circle btn-orange'><i class='uil uil-heart'></i></button>";
+                    $('#likeBtn').html(btns);
                 },
                 error: function () {
                     alert("Error unliking the post");
@@ -375,14 +383,16 @@
                                     <!-- /.post-header -->
                                     <div class="post-content">
                                         <p>${postInfoDTO.content}</p>
-                                    <div id="likeBtn">
-                                        <c:if test="${userCheckLike eq 'ok'}">
-                                            <button class="unlike-button">UnLike</button>
-                                        </c:if>
-                                        <c:if test="${userCheckLike ne 'ok'}">
-                                            <button class="like-button">Like</button>
-                                        </c:if>
-                                    </div>
+                                    <c:if test="${not empty sessionScope.id}">
+                                        <div id="likeBtn">
+                                            <c:if test="${userCheckLike eq 'ok'}">
+                                                <button class="unlike-button btn btn-circle btn-orange"><i class="uil uil-heart-break"></i></button>
+                                            </c:if>
+                                            <c:if test="${userCheckLike ne 'ok'}">
+                                                <button class="like-button btn btn-circle btn-orange"><i class="uil uil-heart"></i></button>
+                                            </c:if>
+                                        </div>
+                                    </c:if>
                                     </div>
                                     <!-- /.post-content -->
                                 </div>

@@ -18,7 +18,7 @@ public class RecordDAO {
 
     private final SqlSessionTemplate sqlSessionTemplate;
 
-    public void incrementPostViews(long id) {
+    public void incrementPostViews(long id) { // 게시물 id 받아옴
         sqlSessionTemplate.update("record.incrementPostViews", id);
     }
 
