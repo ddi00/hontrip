@@ -63,6 +63,7 @@
 		rb.updated_at AS updatedAt,
 		rb.start_date AS startDate,
 		rb.end_date AS endDate,
+		rb.view_count AS views,
 		rb.is_visible AS isVisible,
 		(SELECT COUNT(rl.id) FROM record_like rl WHERE rb.id = rl.record_id) AS likeCount,
 		COUNT(rc.id) AS cmtCount
@@ -104,6 +105,12 @@
 			start_date = #{startDate},
 			end_date = #{endDate}
 		WHERE id = #{id};
+	</update>
+
+	<update id="incrementPostViews" parameterType="long">
+		UPDATE record_board
+		SET view_count = view_count + 1
+		WHERE id = #{id}
 	</update>
 
 	<update id="updateComment" parameterType="commentDTO">

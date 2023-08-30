@@ -18,6 +18,11 @@ public class RecordDAO {
 
     private final SqlSessionTemplate sqlSessionTemplate;
 
+    public void incrementPostViews(long id) {
+        sqlSessionTemplate.update("record.incrementPostViews", id);
+    }
+
+
     public void insertPost(CreatePostDTO createPostDTO) {
         sqlSessionTemplate.insert("record.createPost", createPostDTO);
     }

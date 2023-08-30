@@ -1,15 +1,15 @@
 package com.multi.hontrip.record.service;
 
 import com.multi.hontrip.record.dao.RecordDAO;
-import com.multi.hontrip.record.dto.CreatePostDTO;
-import com.multi.hontrip.record.dto.PostImgDTO;
-import com.multi.hontrip.record.dto.LocationDTO;
-import com.multi.hontrip.record.dto.PostInfoDTO;
+import com.multi.hontrip.record.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -44,6 +44,11 @@ public class RecordService {
     // 게시물 상세페이지
     public PostInfoDTO selectPostInfo(long id) {
         return recordDAO.selectPost(id);
+    }
+
+    // 게시물 조회수 증가 +1
+    public void incrementPostViews(long id) {
+        recordDAO.incrementPostViews(id);
     }
 
     // 게시물 수정
