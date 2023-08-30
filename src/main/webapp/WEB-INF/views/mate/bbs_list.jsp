@@ -37,6 +37,9 @@
                                     <button class="searchBtn btn btn-outline-gradient gradient-3 rounded-pill btn-lg px-8">검색</button>
                                     </div>
                                 </form>
+                                <button id="viewCount" class="btn btn-soft-orange btn-sm rounded-pill mb-2" style="width: 14%">
+                                  조회수 순
+                                </button>
                             </div>
                         </div>
 
@@ -86,10 +89,8 @@
                                                                 <li class="post-date"><i
                                                                         class="uil uil-calendar-alt"></i><span>${one.endDate}</span>
                                                                 </li>
-                                                                <li class="post-comments"><a href="#"><i
-                                                                            class="uil uil-comment"></i>3</a></li>
-                                                                <li class="post-likes ms-auto"><a href="#"><i
-                                                                            class="uil uil-heart-alt"></i>3</a></li>
+                                                                <li class="post-likes ms-auto">
+                                                                <i class="uil uil-user-check"></i>조회수${one.viewCount}</li>
                                                             </ul>
                                                             <!-- /.post-meta -->
                                                         </div>

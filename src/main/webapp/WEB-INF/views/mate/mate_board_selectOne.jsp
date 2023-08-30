@@ -12,8 +12,6 @@
 <input hidden id="nickName" name="nickName" value="<c:out value="${sessionScope.username}" />">
 <input hidden id="profileImage" name="profileImage" value="<c:out value="${sessionScope.profileImage}" />">
 
-
-
 <%
     //*세션에서 유저아이디 불러옴 -> 없으면 no 있으면 유저아이디*//*
     if (session.getAttribute("id") != null) {
@@ -426,10 +424,7 @@
                                                 </span>
                                                 </li>
                                                 <li class="post-comments"><i
-                                                        class="uil uil-eye"></i>${dto.views}
-                                                </li>
-                                                <li class="post-comments"><i
-                                                        class="uil uil-comment"></i>댓글개수
+                                                        class="uil uil-eye"></i>조회수 ${dto.views}
                                                 </li>
                                                 <c:if test="${dto.userId eq mateSenderId}">
 
@@ -538,8 +533,7 @@
                                                                     <a href="javascript:void(0);"
                                                                        onclick="showUpdateTextarea(${commentList.commentId})">수정</a>
                                                                     <div class="d-flex justify-content-end">
-                                                                        <button type="button"
-                                                                                class="commentDelete btn btn-soft-ash rounded-pill"
+                                                                        <button class="commentDelete btn btn-soft-ash rounded-pill"
                                                                                 data-comment-id="${commentList.commentId}">
                                                                             삭제
                                                                         </button>
@@ -550,8 +544,7 @@
                                                    <textarea id="updateContent${commentList.commentId}"
                                                              placeholder="수정글을 입력해주세요">${commentList.content}</textarea>
                                                                         <br>
-                                                                        <button type="button" class="updateComment"
-                                                                                data-comment-id="${commentList.commentId}">
+                                                                        <button class="updateComment" data-comment-id="${commentList.commentId}">
                                                                             수정
                                                                         </button>
                                                                         <a href="javascript:void(0);"
@@ -677,7 +670,7 @@
                     <div id="likeUsers">
                         <c:choose>
                             <c:when test="${sender.isEmpty()}">
-                                <h6>좋아요를 누른 사람이 없습니다.</h6>
+                                <h6>아직 신청한 사람이 없습니다.</h6>
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${sender}" var="sender">
@@ -711,3 +704,6 @@
         <!--/.modal-dialog -->
     </div>
     <!--/.modal -->
+    <script>
+        let sessionUserId = '<c:out value="${sessionScope.id}" />';
+    </script>

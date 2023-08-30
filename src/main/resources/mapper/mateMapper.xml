@@ -80,7 +80,8 @@
         mb.thumbnail AS thumbnail,
 		mb.start_date AS startDate,
 		mb.end_date AS endDate,
-		ar.range_description AS ageRange
+		ar.range_description AS ageRange,
+		mb.view_count AS viewCount
 		FROM
 		mate_board mb
 		JOIN user u ON mb.user_id = u.id
@@ -110,8 +111,14 @@
 			</if>
 		</where>
 
-		ORDER BY
-		mb.id DESC
+		<choose>
+			<when test='orderBy != null and orderBy.equals("viewCount")'>
+				ORDER BY mb.view_count DESC
+			</when>
+			<otherwise>
+				ORDER BY mb.id DESC
+			</otherwise>
+		</choose>
 		LIMIT #{start} OFFSET #{end}
 	</select>
 

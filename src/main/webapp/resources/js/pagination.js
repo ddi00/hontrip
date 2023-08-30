@@ -4,12 +4,16 @@ $(document).ready(function () {
     const SELECTED_REGION_KEY = 'selectedRegion';
     const SAVED_PAGE_KEY = 'savedPage';
     const AGE_KEY = 'selectedAge';
+    const orderBy_KEY = 'savedOrderBy'; //
+
 
     let savedSearchType = sessionStorage.getItem(SEARCH_TYPE_KEY);
     let savedKeyword = sessionStorage.getItem(KEYWORD_KEY);
     let savedRegion = sessionStorage.getItem(SELECTED_REGION_KEY);
     let savedPage = sessionStorage.getItem(SAVED_PAGE_KEY);
     let savedAge = sessionStorage.getItem(AGE_KEY);
+    let savedOrderBy = sessionStorage.getItem(orderBy_KEY);
+
 
     // 검색 조건과 지역 정보 복원
     if (savedSearchType){
@@ -28,6 +32,10 @@ $(document).ready(function () {
         $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
         $('.ageBtn[data-age="' + savedAge + '"]').removeClass('btn-soft-orange').addClass('btn-orange');
     }
+    if (savedOrderBy){
+        $('#viewCount').removeClass('btn-soft-orange').addClass('btn-orange');
+    }
+
 
 
     if (!savedSearchType){
@@ -39,9 +47,12 @@ $(document).ready(function () {
     if (!savedRegion){
     sessionStorage.removeItem(SELECTED_REGION_KEY);
     }
-    if (!savedAge){
-    sessionStorage.removeItem(AGE_KEY);
+    if (!savedOrderBy){
+        sessionStorage.removeItem(orderBy_KEY);
     }
+    if (!savedAge){
+        sessionStorage.removeItem(AGE_KEY);
+        }
 
     // 페이지 정보가 있는 경우 해당 페이지로 데이터 로딩 및 페이지 버튼 생성
     if (savedPage) {
@@ -59,8 +70,10 @@ $(document).ready(function () {
         //regionId 세션 삭제
         sessionStorage.removeItem(SELECTED_REGION_KEY);
         sessionStorage.removeItem(AGE_KEY);
+        sessionStorage.removeItem(orderBy_KEY);
         $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
         $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+        $('#viewCount').removeClass('btn-orange').addClass('btn-soft-orange');
         loadPageData(1);
     });
 
@@ -79,9 +92,11 @@ $(document).ready(function () {
             sessionStorage.removeItem(SEARCH_TYPE_KEY);
             sessionStorage.removeItem(KEYWORD_KEY);
             sessionStorage.removeItem(AGE_KEY);
+            sessionStorage.removeItem(orderBy_KEY);
             $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
             $('#searchType').val('');
             $('#keyword').val('');
+            $('#viewCount').removeClass('btn-orange').addClass('btn-soft-orange');
 
         loadPageData(1);
     });
@@ -99,12 +114,35 @@ $(document).ready(function () {
                 sessionStorage.removeItem(SEARCH_TYPE_KEY);
                 sessionStorage.removeItem(KEYWORD_KEY);
                 sessionStorage.removeItem(SELECTED_REGION_KEY);
+                sessionStorage.removeItem(orderBy_KEY);
+
                 $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
                 $('#searchType').val('');
                 $('#keyword').val('');
+                $('#viewCount').removeClass('btn-orange').addClass('btn-soft-orange');
 
             loadPageData(1);
         });
+        // 클릭 이벤트 핸들러
+        $('#viewCount').click(function() {
+            let orderBy = 'viewCount';
+            sessionStorage.setItem(orderBy_KEY, orderBy);
+
+            $('#viewCount').removeClass('btn-soft-orange').addClass('btn-orange');
+
+            // 세션 스토리지에서 검색 조건 초기화
+            sessionStorage.removeItem(SEARCH_TYPE_KEY);
+            sessionStorage.removeItem(KEYWORD_KEY);
+            sessionStorage.removeItem(SELECTED_REGION_KEY);
+            sessionStorage.removeItem(AGE_KEY);
+            $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('#searchType').val('');
+            $('#keyword').val('');
+
+            loadPageData(1);
+        });
+
 });
 
 //페이징 처리
@@ -113,6 +151,7 @@ function loadPageData(page) {
     let keyword = $('#keyword').val();
     let selectedRegion = sessionStorage.getItem('selectedRegion');
     let selectedAge = sessionStorage.getItem('selectedAge');
+    let orderBy = sessionStorage.getItem('orderBy_KEY');
 
     if (!selectedRegion) {
         selectedRegion = 0;
@@ -126,7 +165,8 @@ function loadPageData(page) {
             searchType: searchType,
             keyword: keyword,
             regionId: selectedRegion,
-            age: selectedAge
+            age: selectedAge,
+            orderBy: orderBy
         },
         dataType: 'json',
         success: function(data) {
@@ -162,8 +202,7 @@ function loadPageData(page) {
                                                                          <ul class="post-meta d-flex mb-0">
                                                                            <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.startDate} </span></li>
                                                                            <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.endDate}</span></li>
-                                                                           <li class="post-comments"><a href="#"><i class="uil uil-comment"></i>3</a></li>
-                                                                           <li class="post-likes ms-auto"><a href="#"><i class="uil uil-heart-alt"></i>3</a></li>
+                                                                           <li class="post-likes ms-auto"><i class="uil uil-user-check"></i>조회수 ${one.viewCount}</li>
                                                                          </ul>
                                                                          <!-- /.post-meta -->
                                                                        </div>
