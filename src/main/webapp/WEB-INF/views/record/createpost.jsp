@@ -95,9 +95,6 @@
                             <div class="form-select-wrapper">
                                 <select name="locationId" class="form-select" required>
                                     <option value="" disabled selected>지역을 선택하세요</option>
-                                        <optgroup label="전국">
-                                            <option id="allLocations" value="allLocations">전국</option>
-                                        </optgroup>
                                         <optgroup label="특별시/광역시">
                                             <c:forEach items="${locationList}" var="locationDTO">
                                                 <c:choose>
