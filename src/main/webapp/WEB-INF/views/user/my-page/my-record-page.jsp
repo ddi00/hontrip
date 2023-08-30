@@ -22,9 +22,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${myRecordList}" var="record" varStatus="loop">
+                    <c:forEach items="${myRecordList}" var="record">
                         <tr>
-                            <td>${loop.index + 1}</td>
+                            <td>${record.no}</td>
                             <td>${record.city}</td>
                             <td><a class="page-link page-link moveBtn main-color" aria-label="Next" onclick="window.open('/hontrip/record/postinfo?id=${record.boardId}','','')">${record.title}</a></td>
                             <td>${record.startDate}</td>

@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class MyRecordDTO {  // 내 목록에서 보여줄 기록 항목
+    private int no;             // 번소(rowNum)
     private long boardId;       // 기록 포스트 id
     private String city;        // 도시명
     private String title;       // 제목

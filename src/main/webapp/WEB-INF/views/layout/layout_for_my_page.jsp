@@ -7,7 +7,7 @@
   <title><tiles:getAsString name="title"/></title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="<%= request.getContextPath() %>/resources/img/favicon1.png">
+  <link rel="shortcut icon" href="<c:url value="/resources/img/common/favicon1.png"/>">
   <link rel="stylesheet" href="<c:url value="/resources/assets/css/plugins.css"/>">
   <link rel="stylesheet" href="<c:url value="/resources/assets/css/style.css"/>">
   <link rel="stylesheet" href="<c:url value="/resources/css/mate.css"/>">
