@@ -50,7 +50,6 @@
         }
 
         function updateLikeSection(likeList) {
-            let button = "";
             let users = "";
             let likeCnt = "";
             likeCnt += "<a href='#' data-bs-toggle='modal' data-bs-target='#modal-02'><div id='likeCountSection'><i class='uil uil-heart-alt text-red'></i>" + likeList.likeCount + "</div></a>";
@@ -60,7 +59,7 @@
             if (likeList.likeCount > 0) {
                 for (let i = 0; i < likeList.likeCount; i++) {
                     let postLikeDTO = likeList.likeUserList[i];
-                    users += `<p class="mb-6">\${postLikeDTO.likeUserNickname}</p>`;
+                    users += `<p class="mb-6"><img class="avatar w-10" src="\${postLikeDTO.profileImg}"/>\${postLikeDTO.likeUserNickname}</p>`;
                 }
             } else {
                 users += "<h6>좋아요를 누른 사람이 없습니다.</h6>"
@@ -356,7 +355,7 @@
                                             <div class="swiper-wrapper">
                                                 <c:forEach items="${postImgList}" var="postImgDTO">
                                                     <div class="swiper-slide">
-                                                        <figure class="rounded">
+                                                        <figure class="hover-scale rounded cursor-dark">
                                                             <a href="/hontrip/${postImgDTO.imgUrl}" data-glightbox
                                                                 data-gallery="product-group"><img
                                                                     src="<c:url value='/${postImgDTO.imgUrl}'/>"
@@ -526,7 +525,7 @@
                                                                         class="comment-header d-md-flex align-items-center">
                                                                         <div class="d-flex align-items-center">
                                                                             <figure class="user-avatar"><img
-                                                                                    class="rounded-circle" alt=""
+                                                                                    class="rounded-circle"
                                                                                     src="${reComment.profileImg}" />
                                                                             </figure>
                                                                             <div>
@@ -616,7 +615,8 @@
                     <div class="row">
                     </div>
                     <!-- /.row -->
-                    <h3><i class="uil uil-heart-alt"></i>좋아요 누른 유저<i class="uil uil-heart-alt"></i></h3>
+                    <h3 class="text-orange">좋아요</h3>
+                    <br>
                     <div id="likeUsers">
                         <c:choose>
                             <c:when test="${likeUserList.isEmpty()}">
@@ -624,10 +624,10 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${likeUserList}" var="user">
-                                    <p class="mb-6">${user.likeUserNickname}</p>
+                                    <p class="mb-6"><img class="avatar w-10" src="${user.profileImg}"/>${user.likeUserNickname}</p>
                                 </c:forEach>
                             </c:otherwise>
-                        </c:choose>v
+                        </c:choose>
                     </div>
                     <div class="newsletter-wrapper">
                         <div class="row">

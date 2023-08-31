@@ -5,9 +5,9 @@ import com.multi.hontrip.mate.dto.*;
 import java.util.List;
 
 public interface ChatService {
-    ChatSessionInfoDTO createRoom(ChatInfoDTO chatInfoDTO);  //채팅 관련 서비스
+    long createRoom(ChatInfoDTO chatInfoDTO);  //채팅 관련 서비스
 
-    List<ChatSessionInfoDTO> getChatListById(Long id);
+    List<ChatroomListDTO> getChatListById(Long id);
 
     void saveChatContent(ChatMessageDTO chatMessage);
 

@@ -80,7 +80,8 @@
         mb.thumbnail AS thumbnail,
 		mb.start_date AS startDate,
 		mb.end_date AS endDate,
-		ar.range_description AS ageRange
+		ar.range_description AS ageRange,
+		mb.view_count AS viewCount
 		FROM
 		mate_board mb
 		JOIN user u ON mb.user_id = u.id
@@ -110,8 +111,14 @@
 			</if>
 		</where>
 
-		ORDER BY
-		mb.id DESC
+		<choose>
+			<when test='orderBy != null and orderBy.equals("viewCount")'>
+				ORDER BY mb.view_count DESC
+			</when>
+			<otherwise>
+				ORDER BY mb.id DESC
+			</otherwise>
+		</choose>
 		LIMIT #{start} OFFSET #{end}
 	</select>
 
@@ -241,6 +248,7 @@
 	<select id="getAllAlarmByUserId" parameterType="alarmPaginationDTO" resultType="mateMatchingAlarmDTO">
         SELECT mma.id,
                mma.mate_board_id as mateBoardId,
+               mb.title          as mateBoardTitle,
                #{userId}         as receiverId,
                mma.sender_id     as senderId,
                u.nickname        as senderNickname,
@@ -248,6 +256,7 @@
                mma.content
         FROM mate_matching_alarm mma
                  JOIN `user` u ON u.id = mma.sender_id
+                 JOIN mate_board mb ON mma.mate_board_id = mb.id
         WHERE mma.mate_board_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{userId})
           and mma.is_read = 0
         order by mma.id desc LIMIT #{alarmNumPerPage}

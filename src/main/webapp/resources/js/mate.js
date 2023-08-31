@@ -39,7 +39,7 @@ if (window.location.href.includes('/mate/insert')) {
             formData.append("userId", $('#userId').val())
             formData.append("file", $('#imageInput')[0].files[0])
             formData.append("regionId", $("input[name='regionId']:checked").val())
-            formData.append("ageRangeId", $('#ageRangeId').val())
+            formData.append("ageRangeId", $("input[name='ageRangeId']:checked").val())
             formData.append("title", $('#title').val())
             formData.append("content", $('#content').val().replaceAll(/(?:\r\n|\r|\n)/g, '<br>'))
             formData.append("startDate", $('#mateStartDate').val())
@@ -243,7 +243,7 @@ if (window.location.href.includes('/mate/editpage')) {
                     data: {
                         id: $('#mateBoardId').val(),
                         regionId: $("input[name='regionId']:checked").val(),
-                        ageRangeId: $('#ageRangeId').val(),
+                        ageRangeId: $("input[name='ageRangeId']:checked").val(),
                         title: $('#title').val(),
                         content: $('#content').val().replaceAll(/(?:\r\n|\r|\n)/g, '<br>'),
                         thumbnail: $('#mateBoardThumbnail').val(),
@@ -316,13 +316,6 @@ if (window.location.href.includes('/mate/editpage')) {
 // 동행인 상세게시판
 if (window.location.href.includes('/mate/')) {
     function applyMate() {
-        /*
-
-                console.log($('#mateBoardId').val(), $('#mateSenderId').val(),
-                    $('#mateSenderNickName').val(), $('#mateSenderProfileImage'),
-                    $('#writerId').val(), $("#applicationMessage").val())
-        */
-
         //로그인 안했을 경우 로그인창을 띄움ss
         if ($('#mateSenderId').val() == "") {
             location.href = "../user/sign-in"
@@ -349,18 +342,19 @@ if (window.location.href.includes('/mate/')) {
                         ageRangeStrArr[0] = $('#ageRangeJS').val();
                     }
 
-                    /*console.log($('#ageRangeJS').val())
+                    console.log($('#ageRangeJS').val())
                     console.log("젠더 원트: " + $('#mateBoardGenderStr').val())
                     console.log("에이지 원트: " + ageRangeStrArr)
                     console.log("유저젠더: " + json.gender)
-                    console.log("유저나이: " + json.ageRange)*/
+                    console.log("유저나이: " + json.ageRange)
+                    console.log(json.ageRange == "나이정보 없음")
 
                     //모집조건에 부합하다면
                     //성별, 연령대 아무나 처리
                     if (json.id == $('#mateSenderId').val() && (json.gender === $('#mateBoardGenderStr').val() ||
-                            $('#mateBoardGenderStr').val() == "성별무관" || json.gender == "NONE")
+                            $('#mateBoardGenderStr').val() == "성별무관" || json.gender == "정보없음")
                         && (ageRangeStrArr.includes(json.ageRange) || ageRangeStrArr.includes("전연령")
-                            || ageRangeStrArr.length == 0 || json.ageRange == "AGE_UNKNOWN")) {
+                            || ageRangeStrArr.length == 0 || json.ageRange == "나이정보 없음")) {
                         $("#ableButton").click();
                         //모집조건에 부합하지 않다면
                     } else {
@@ -401,18 +395,6 @@ if (window.location.href.includes('/mate/')) {
 
     /* 셀렉트원에서 -> 동행인신청버튼누르고 + 신청조건에 맞는사람일경우에 넣기 */
 
-    /* 동행인 신청 알림 */
-    function sendAlarm(mateBoardId, senderId, senderNickname, senderProfileImage, receiverId, content) {
-        stompClient.send('/pub/mate', {},
-            JSON.stringify({
-                'mateBoardId': mateBoardId,
-                'senderId': senderId,
-                'senderNickname': senderNickname,
-                // 'senderProfileImage':senderProfileImage,
-                'receiverId': receiverId,
-                'content': content
-            }))
-    }
 
     //동행인신청메세지 모달에서 전송버튼을 눌렀을때
     function send() {
@@ -475,8 +457,6 @@ if (window.location.href.includes('/mate/')) {
         let cCount = commentListRe.list.length;
         let rCount = commentListRe.reCommentList.length;
         let commentListCount = "";
-
-        console.log(cCount)
         if (cCount > 0) {
             for (let i = 0; i < cCount; i++) {
                 let commentList = commentListRe.list[i];
@@ -506,7 +486,7 @@ if (window.location.href.includes('/mate/')) {
                     <p>${commentList.content}</p>
                     </li>`;
 
-                    if (commentList.nickname !== "Bob") {
+                    if (commentList.userId == sessionUserId) {
                         comments += "<a href='javascript:void(0);' onclick='showUpdateTextarea(" + commentList.commentId + ")'>수정</a>";
                         comments += `<div class="d-flex justify-content-end">`
                         comments += "<button type='button' class='commentDelete btn btn-soft-ash rounded-pill' data-comment-id='" + commentList.commentId + "'>삭제</button></div>"
@@ -527,13 +507,13 @@ if (window.location.href.includes('/mate/')) {
                                          </div>
                                          </div>
                                          <p>${replyList.content}</p>`;
-                            if (commentList.nickname !== "Bob") {
+                            if (commentList.userId == sessionUserId) {
                                 comments += `
                                 <a href="javascript:void(0);" onclick="showUpdateTextarea(${replyList.commentId})">수정</a>
                                 <div class="d-flex justify-content-end">
                                 <button type='button' class="commentDelete btn btn-soft-ash rounded-pill" data-comment-id="${replyList.commentId}">삭제</button></div>`;
                                 comments += `<div id="commentUpdate${replyList.commentId}" style="display: none">
-                                    <textarea id="updateContent${replyList.commentId}" placeholder="수정글을 입력해주세요">${replyList.content}</textarea>
+                                    <textarea id="updateContent${replyList.commentId}" placeholder="정글을 입력해주세요">${replyList.content}</textarea>
                                     <br>
                                     <button type='button' class="updateComment" data-comment-id="${replyList.commentId}">수정</button>
                                     <a href="javascript:void(0);" onclick="closeTextarea(${replyList.commentId})">취소</a>
@@ -616,7 +596,6 @@ if (window.location.href.includes('/mate/')) {
                 },
                 dataType: "json",
                 success: function (cmtListRe) {
-                    console.log(cmtListRe)
                     updateCommentSection(cmtListRe);
                     $('#cmtContent').val("");
                 },
@@ -629,14 +608,14 @@ if (window.location.href.includes('/mate/')) {
         //댓글,답글 삭제
         $(document).on('click', '.commentDelete', function () {
             let commentId = $(this).data("comment-id");
+            console.log(commentId);
             $.ajax({
                 url: "/hontrip/mate/comment_delete",
                 dataType: "json",
                 data: {
                     commentId: commentId,
                     mateBoardId: $('#mateBoardId').val(),
-                    userId: $('#userId').val(),
-                    nickname: $('#nickName').val()
+                    userId: $('#userId').val()
                 },
                 success: function (cmtListRe) {
                     updateCommentSection(cmtListRe);

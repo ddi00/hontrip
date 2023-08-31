@@ -1,15 +1,15 @@
 package com.multi.hontrip.mate.controller;
 
-import com.multi.hontrip.mate.dto.ChatInfoDTO;
-import com.multi.hontrip.mate.dto.ChatSessionInfoDTO;
-import com.multi.hontrip.mate.dto.ChatroomRequestDTO;
-import com.multi.hontrip.mate.dto.JoinChatInfo;
+import com.multi.hontrip.mate.dto.*;
 import com.multi.hontrip.mate.service.ChatService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -17,7 +17,37 @@ import java.util.List;
 @RequestMapping("/mate")
 public class ChatController {
     private final ChatService chatService;
+    private final SimpMessageSendingOperations simpMessageSendingOperations;
 
+    @MessageMapping("/mate/chat") //app/mate/chat <- pub
+    public void send(ChatMessageDTO chatMessageDTO) throws Exception {
+        chatMessageDTO.setSendTime(LocalDateTime.now());
+        if (chatMessageDTO.getMessageType() == MessageType.JOIN) {
+            chatMessageDTO.setMessage(chatMessageDTO.getSenderNickname() + "님이 들어왔습니다");
+        } else if (chatMessageDTO.getMessageType().equals("LEAVE")) {
+            chatMessageDTO.setMessage(chatMessageDTO.getSenderNickname() + "님이 나갔습니다");
+        }
+        chatService.saveChatContent(chatMessageDTO);
+        simpMessageSendingOperations.convertAndSend("/topic/chat/roomId/" + chatMessageDTO.getRoomId(), chatMessageDTO);
+        /*String time = new SimpleDateFormat("HH:mm").format(new Date());
+        return new OutputMessage(message.getFrom(), message.getText(), time);*/
+    }
+
+    @PostMapping("/create-chatroom")    //form으로 보낼때는 requestBody 쓰지 마시오
+    public ChatInfoDTO createChatRoom(ChatInfoDTO chatInfoDTO, ModelAndView modelAndView) { // 채팅방 새로 생성하기(post소유주만 가능)  : 채팅 후 환영인사까지 하기 위해
+        chatInfoDTO.setRoomId(chatService.createRoom(chatInfoDTO));
+        return chatInfoDTO;
+    }
+
+    @PostMapping("/chat-room-list")
+    public List<ChatroomListDTO> findAllRooms(HttpSession session) {
+        Long id = (Long) session.getAttribute("id");
+        List<ChatroomListDTO> chatRoomDTOList = chatService.getChatListById(id);
+        return chatRoomDTOList;
+    }
+
+
+/*
     @PostMapping("/create-chatroom")    //form으로 보낼때는 requestBody 쓰지 마시오
     public ModelAndView createChatRoom(ChatInfoDTO chatInfoDTO, ModelAndView modelAndView) { // 채팅방 새로 생성하기(post소유주만 가능)  : 채팅 후 환영인사까지 하기 위해
         Long roomId = chatService.getChatRoomIdByPostIdAndGuestID(chatInfoDTO);
@@ -32,12 +62,14 @@ public class ChatController {
         return modelAndView;
     }
 
-    @PostMapping("my-chat-list")
+     @PostMapping("my-chat-list")
     public List<ChatSessionInfoDTO> findAllRooms(HttpSession session) { // 내 채팅방 리스트 전체 가져오기
         Long id = (Long) session.getAttribute("id");
         List<ChatSessionInfoDTO> chatRoomDTOList = chatService.getChatListById(id);
         return chatRoomDTOList;
     }
+*/
+
 
     @GetMapping("/chat-view")
     public ModelAndView chatPage(ModelAndView modelAndView) {
@@ -46,9 +78,8 @@ public class ChatController {
     }
 
     @GetMapping("/join-chat/{roomId}")
-    public ModelAndView joinChat(@PathVariable("roomId") Long roomId,
-                                 @RequestParam("user_id") Long userId,
-                                 ModelAndView modelAndView) {
+    public JoinChatInfo joinChat(@PathVariable("roomId") Long roomId,
+                                 @RequestParam("user_id") Long userId) {
         // TODO 원래 session정보에서 sender를 가져와야 하나 지금은 Query로 가져옴
         // 쳇방 정보를 가져와야함
         ChatroomRequestDTO chatroomRequestDTO = ChatroomRequestDTO.builder()
@@ -57,9 +88,6 @@ public class ChatController {
                 .build();
         // 이전 쳇정보를 가져와야 함
         JoinChatInfo joinChatInfo = chatService.getChatRoomInfoByRoomIdAndUserId(chatroomRequestDTO);
-        //model setting
-        modelAndView.addObject("joinChatInfo",joinChatInfo);
-        modelAndView.setViewName("/mate/chatroom-view");
-        return modelAndView;
+        return joinChatInfo;
     }
 }
