@@ -7,7 +7,8 @@
                 <h1 class="display-1 fs-54 mb-5 mx-md-n5 mx-lg-0 mt-7">계획하고, <br>기록하고, <br>
                     <span class="rotator-fade main-color">함께하는 여행</span></h1>
                 <p class="lead fs-lg mb-7 ">지금부터 'HonTrip'을 통해 여행을 계획하고 / 기록하고 / 함께해보세요!</p>
-                <span><a class="btn btn-lg btn-main rounded-pill me-2" href="/hontrip/user/sign-in">가입하고 글쓰기!</a></span>
+                <span><a class="btn btn-lg btn-primary
+                 rounded-pill me-2" href="/hontrip/user/sign-in">가입하고 글쓰기!</a></span>
             </div>
             <div class="col-lg-7 order-lg-2">
                 <div class="swiper-container dots-over" data-margin="5" data-dots="true" data-nav="true" data-autoheight="true" data-autoplay="true" data-autoplaytime="4000">
