@@ -9,10 +9,24 @@
         <script type="text/javascript" src="../resources/js/jquery-3.7.0.js" ></script>
     </head>
     <body>
-        <!-- 지도 API -->
-        <div id="map-container">
-            <div id="map"></div>
-        </div>
+
+        <section class="section-frame mx-xxl-11 overflow-hidden">
+              <div class="wrapper image-wrapper bg-image bg-cover bg-overlay bg-overlay-light-500">
+                <div class="container py-16 py-md-6">
+
+                  <div class="map-wrapper d-flex">
+                    <div id="map-container">
+                      <div id="map"></div>
+                      <a href="createpost" class="btn btn-circle btn-main btn-lg" style='top: 730%; left: 48%'><i class="uil uil-plus"></i></a>
+                      <a href="feedlist" class="btn btn-circle btn-main btn-lg" style='top: 600%; left: 43.25%'><i class="uil uil-corner-up-right"></i></i></a>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.container -->
+              </div>
+              <!-- /.wrapper -->
+            </section>
+            <!-- /section -->
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${appkey}"></script>
         <script>
             var mapContainer = document.getElementById('map'),
@@ -77,8 +91,6 @@
         <!-- 버튼, 드롭박스 영역 -->
         <section class="buttons">
             <div class="card-body">
-                <a href="feedlist?isVisible=1" class="btn btn-main rounded-pill mb-2 me-1">공유피드</a>
-                <a href="createpost" class="btn btn-orange rounded-pill mb-2 me-1">게시글작성</a>
                 <select id="locationDropdown">
                     <option value="" disabled selected>지역을 선택하세요</option>
                         <optgroup label="특별시/광역시">
@@ -178,7 +190,7 @@
                                                 <img src="<c:url value='/${postInfoDTO.thumbnail}'/>" alt="" />
                                             </a>
                                         </figure>
-                                        <div class="card-body p-7">
+                                        <div class="card-body">
                                             <div class="post-header">
                                                 <div class="post-category text-line mb-2 text-aqua">${postInfoDTO.city}</div>
                                                 <h3 class="mb-0">${postInfoDTO.title}</h3>
