@@ -34,9 +34,9 @@ public class ChatServiceImpl implements ChatService{
 
 
     @Override
-    public List<ChatSessionInfoDTO> getChatListById(Long id) {
+    public List<ChatroomListDTO> getChatListById(Long id) {
         //db에서 사용자 id가 포함된 ChatRoom 전부 가져오기
-        return chatDAO.getChatListById(id);
+        return chatDAO.getChatRoomListById(id);
     }
 
     @Override

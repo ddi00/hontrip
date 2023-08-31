@@ -130,23 +130,30 @@
             }
         }
 
+
         //채팅리스트 모달 펼치기
         function clickChatIcon() {
-            console.log($('.mateChatModal').css('display'));
             if ($('.mateChatModal').css('display') == 'none') {
-                /* $.ajax({
-                     url:"
-                ${pageContext.request.contextPath}/mate/my-chat-list",
-                    success:function() {
-
+                $('.mateChatList-wrap').css('display', 'block');
+                $('.mateChatHistory-wrap').css('display', 'none');
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/mate/chat-room-list",
+                    method: "POST",
+                    success: function (chatRoomList) {
+                        console.log(chatRoomList);
+                        $('#mateChatListUl').html('');
+                        for (let i = 0; i < chatRoomList.length; i++) {
+                            $('#mateChatListUl').append('<li><a onclick="clickOneChatRoom(this)" data-value="' + chatRoomList[i].roomId + '"><span>' +
+                                chatRoomList[i].chatRoomName + '</span><br><img class="chatListOpponentImg" src="' + chatRoomList[i].opponentProfileImg + '">' + chatRoomList[i].lastMessage);
+                        }
                     },
                     error: function (e) {
                         console.log(e)
                     }
-                })*/
-                $('.mateChatModal').css('display', 'block')
+                })
+                $('.mateChatModal').css('display', 'block');
             } else if ($('.mateChatModal').css('display') == "block") {
-                $('.mateChatModal').css('display', 'none')
+                $('.mateChatModal').css('display', 'none');
             }
         }
 
@@ -204,16 +211,83 @@
                         senderNickname: guestNickname,
                         receiverId: result.ownerId,
                     }
+
                     subscribeChatRoom(result.roomId)
                     //writer 먼저 조인
                     join(writerChatMessageDTO);
                     //sender 조인
                     join(senderChatMessageDTO);
+
+                    let dataId = $(ths).data('id').split(",");
+                    let mateLiId = dataId[0];
+                    let currentPg = dataId[1];
+                    console.log(dataId);
+                    console.log("liId: " + dataId[0]);
+                    let str = '#mateAlarm' + dataId[0];
+                    console.log(str);
+
+
+                    //해당 알람 삭제 후 알람페이지 리로드
+                    $("#mateAlarm" + parseInt(dataId[0])).remove();
+                    $.ajax({
+                        url: "${pageContext.request.contextPath}/mate/delete_alarm",
+                        data: {
+                            alarmId: mateLiId
+                        },
+                        success: function (result) {
+                        },
+                        error: function (e) {
+                            console.log(e);
+                        }
+                    })
+
+                    console.log(currentPg)
+                    alarmPageClick(currentPg, 5, 5)
+
+                    //채팅모달 펼치기
+                    $('.mateChatModal').css('display', 'block');
+
+
                 },
                 error: function (e) {
                     console.log(e);
                 }
             })
+        }
+
+        //하나의 채팅방을 클릭했을 때
+        function clickOneChatRoom(ths) {
+            //채팅창 출력하기
+            $('.mateChatList-wrap').css('display', 'none');
+            $('.mateChatHistory-wrap').css('display', 'block');
+            let roomId = parseInt($(ths).data('value'));
+            console.log(roomId);
+            console.log($('#mateAlarmUserId').val())
+            $('#mateChatHistoryUl').html('');
+
+            //채팅목록 출력하기
+            $.ajax({
+                url: "${pageContext.request.contextPath}/mate/join-chat/" + roomId,
+                data: {
+                    roomId: roomId,
+                    user_id: $('#mateAlarmUserId').val()
+                },
+                success: function (result) {
+                    console.log(result);
+                    $('#mateChatSendButton').val(result.roomId);
+                    $('#mateChatRoomTitle').text(result.chatRoomName);
+                    for (let i = 0; i < result.chatMessages.length; i++) {
+                        $('#mateChatHistoryUl').append("<li>" + result.chatMessages[i].message + "</li>");
+                    }
+
+
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            })
+
+
         }
 
 
@@ -341,7 +415,6 @@
 
                     pages += '</ul></nav>';
                     $.ajax({
-
                         url: '${pageContext.request.contextPath}/mate/alarm_list',
                         data: {
                             currentPage: cPage,
@@ -362,14 +435,13 @@
                                         $('#notificationList').append('<li id="mateAlarm' + list[i].id + '" class="mateAlarmListLi" xmlns="http://www.w3.org/1999/html"><span style="font-weight: bold; font-size: 12px; width: 100%; "> ' + list[i].senderNickname + '님이 동행 신청을 했어요!</span><br><span class="spanAlarmList">' +
                                             '<img style="border-radius: 70%;" src="' +
                                             list[i].senderProfileImage + '" alt="신청자프로필이미지" width="30px;" height="30px;"> <span style="display:-webkit-box; white-space:normal; overflow: hidden;-webkit-line-clamp: 2; -webkit-box-orient: vertical; width:65%; height:40px; font-size: 13px; ">' +
-                                            list[i].content + '</span><a style="width:8%;" onclick="mateChatCreate(this)"  data-value="' + $('#mateAlarmUserNickname').val() + ',' + list[i].senderNickname + ',' + list[i].mateBoardTitle + ',' + list[i].mateBoardId + ',' + $('#mateAlarmUserId').val() + ',' + list[i].senderId + '"><i class="uil uil-comments"></i></a>' +
+                                            list[i].content + '</span><a style="width:8%;" data-currentPg="' + pagination.currentPage + '"  data-id="' + list[i].id + ',' + pagination.currentPage + '" onclick="mateChatCreate(this)"  data-value="' + $('#mateAlarmUserNickname').val() + ',' + list[i].senderNickname + ',' + list[i].mateBoardTitle + ',' + list[i].mateBoardId + ',' + $('#mateAlarmUserId').val() + ',' + list[i].senderId + '"><i class="uil uil-comments"></i></a>' +
                                             '<a id="mateAlarmCurrentPage' + pagination.currentPage + '"onclick="mateAlarmOneDelete(this)" href="#" style="width:8%;" data-id="' + list[i].id + '">x</a> </span></li>');
                                     } else {
                                         $('#notificationList').append('<li id="mateAlarm' + list[i].id + '"class="mateAlarmListLi" xmlns="http://www.w3.org/1999/html"><span style="font-weight: bold; font-size: 12px; width: 100%; "> ' + list[i].senderNickname + '님이 동행 신청을 했어요!</span><br><span class="spanAlarmList">' +
                                             '<img style="border-radius: 70%;" src="' +
                                             list[i].senderProfileImage + '" alt="신청자프로필이미지" width="30px;" height="30px;"> <span style="display:-webkit-box; white-space:normal; overflow: hidden;-webkit-line-clamp: 3; -webkit-box-orient: vertical; width:65%; height:45px; font-size: 12px; ">' +
-                                            list[i].content + '</span><a style="width:8%;" onclick="mateChatCreate(this)" data-value="' + $('#mateAlarmUserNickname').val() + ',' + list[i].senderNickname + ',' + list[i].mateBoardTitle + ',' + list[i].mateBoardId + ',' + $('#mateAlarmUserId').val() + ',' + list[i].senderId + '"><i class="uil uil-comments"></i></a>' +
-                                            '<a id="mateAlarmCurrentPage' + pagination.currentPage + '" onclick="mateAlarmOneDelete(this)" href="#" style="width:8%;" data-id="' + list[i].id + '">x</a> </span> <hr style="margin:0px;"> </li>')
+                                            list[i].content + '</span><a style="width:8%;" data-id="' + list[i].id + ',' + pagination.currentPage + '" onclick="mateChatCreate(this)" data-value="' + $('#mateAlarmUserNickname').val() + ',' + list[i].senderNickname + ',' + list[i].mateBoardTitle + ',' + list[i].mateBoardId + ',' + $('#mateAlarmUserId').val() + ',' + list[i].senderId + '"><i class="uil uil-comments"></i></a>' + '<a id="mateAlarmCurrentPage' + pagination.currentPage + '" onclick="mateAlarmOneDelete(this)" href="#" style="width:8%;" data-id="' + list[i].id + '">x</a> </span> <hr style="margin:0px;"> </li>')
                                     }
                                 }
                                 $('#notificationList').append(pages);

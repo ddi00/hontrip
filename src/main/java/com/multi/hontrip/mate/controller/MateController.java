@@ -228,6 +228,9 @@ public class MateController {
         UserGenderAgeDTO userGenderAgeDTO = mateService.findUserGenderAgeById(id);
         JsonObject user = new JsonObject();
         user.addProperty("id", userGenderAgeDTO.getId());
+        System.out.println("id:" + id);
+        System.out.println(userGenderAgeDTO.getGender());
+        System.out.println(userGenderAgeDTO.getGender().getGenderStr());
         user.addProperty("gender", userGenderAgeDTO.getGender().getGenderStr());
         user.addProperty("ageRange", userGenderAgeDTO.getAgeRange().getAgeRangeStr());
         return new Gson().toJson(user);

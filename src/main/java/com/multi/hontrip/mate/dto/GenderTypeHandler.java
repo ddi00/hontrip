@@ -1,7 +1,6 @@
 package com.multi.hontrip.mate.dto;
 
 
-import com.multi.hontrip.mate.exception.MateException;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
 import org.apache.ibatis.type.TypeHandler;
@@ -28,8 +27,6 @@ public class GenderTypeHandler implements TypeHandler<Gender> {
     private Gender getGenderNumber(int genderNumber) {
         Gender gender = null;
         switch (genderNumber) {
-            case 1:
-                gender = Gender.NONE;
             case 2:
                 gender = Gender.MALE;
                 break;
@@ -39,9 +36,8 @@ public class GenderTypeHandler implements TypeHandler<Gender> {
             case 4:
                 gender = Gender.ALLGENDER;
                 break;
-
-            default:
-                throw new MateException("GENDER EXCEPTION");
+            case 1:
+                gender = Gender.NONE;
         }
         return gender;
     }

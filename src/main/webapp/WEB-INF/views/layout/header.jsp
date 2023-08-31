@@ -24,21 +24,26 @@
     <input hidden id="mateHeaderChaRoomName">
     <div class="mateChatModal-content">
         <%--채팅방 목록--%>
-        <span class="chatModalAlarmLetter">채팅 목록</span>
-        <br>
-        <div class="mateChatListDiv">
-            <ul class="mateChatListUl">
-            </ul>
+        <div class="mateChatList-wrap">
+            <span class="chatModalAlarmLetter">채팅 목록</span>
+            <br>
+            <div class="mateChatListDiv">
+                <ul id="mateChatListUl" class="mateChatListUl">
+                </ul>
+            </div>
         </div>
+
         <%--채팅창--%>
-        <%--<span id="mateChatRoomTitle">채팅방 제목</span>
-        <div class="mateChatHistoryDiv">
-            <ul id="mateChatHistoryUl" class="mateChatHistoryUl">
-            </ul>
+        <div class="mateChatHistory-wrap">
+            <span id="mateChatRoomTitle">채팅방 제목</span>
+            <div class="mateChatHistoryDiv">
+                <ul id="mateChatHistoryUl" class="mateChatHistoryUl">
+                </ul>
+            </div>
+            <div><input type="text" id="mateChatInputMessage" placeholder="메세지를 입력해주세요.">
+                <button id="mateChatSendButton" onclick="mateChatSend(this)">전송</button>
+            </div>
         </div>
-        <div><input type="text" id="mateChatInputMessage" placeholder="메세지를 입력해주세요.">
-            <button id="mateChatSendButton" onclick="mateChatSend(this)">전송</button>
-        </div>--%>
     </div>
 </div>
 
@@ -46,7 +51,9 @@
     <jsp:include page="nav.jsp"/>
 </header>
 
-<c:if test="${not empty sessionScope.id}">
+
+<%--채팅 아이콘--%>
+<%--<c:if test="${not empty sessionScope.id}">
     <div class="chatIcon">
         <span hidden class="unreadChatCount"></span>
         <a onclick="clickChatIcon()">
@@ -59,4 +66,5 @@
             </svg>
         </a>
     </div>
-</c:if>
+</c:if>--%>
+
