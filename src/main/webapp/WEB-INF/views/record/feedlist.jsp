@@ -142,7 +142,6 @@
                         type: 'GET',
                         url: "feedlist_like",
                         success: function(response) {
-                            alert("성공");
                             $("#feedlist_button_like_section_result").html(response).show();
                         },
                         error: function() {
