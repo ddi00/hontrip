@@ -19,29 +19,24 @@
                 <div class="card p-4 mt-2 me-7">
                     <div class="card-body justify-content-start">
                         <div class="row">
-                            <div class="col-md-4">
-                                <div id="departure-info">
-                                    <span style="display:none">출발 시간</span>
+                            <div class="col-md-3">
+                                    <span><h3>${flight.depAirportName}</h3></span>
                                     <span>
                                 <fmt:parseDate value="${flight.departureTime}" var="departureTime"
                                                pattern="yyyy-MM-dd HH:mm:ss"/>
                                 <fmt:formatDate value="${departureTime}" pattern="HH:mm"/>
                                     </span>
-                                    <span style="display:none">출발 공항</span>
-                                    <span>${flight.depAirportName}</span>
-                                </div>
+                            </div>
+                            <div class="col-md-1 text-start">
+                                <i class="uil uil-plane-fly"></i>
                             </div>
                             <div class="col-md-4">
-                                <div>
-                                    <span style="display:none">도착 시간</span>
+                                    <span><h3>${flight.arrAirportName}</h3></span>
                                     <span>
                                 <fmt:parseDate value="${flight.arrivalTime}" var="arrivalTime"
                                                pattern="yyyy-MM-dd HH:mm:ss"/>
                                         <fmt:formatDate value="${arrivalTime}" pattern="HH:mm"/>
                                     </span>
-                                    <span style="display:none">도착 공항</span>
-                                    <span>${flight.arrAirportName}</span>
-                                </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="d-flex flex-column align-items-center float-end">
@@ -58,10 +53,8 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <span style="display:none">항공편명</span>
                                 <span>${flight.vehicleId}</span>
                                 <span>/</span>
-                                <span style="display:none">항공사명</span>
                                 <span>${flight.airlineName}</span>
                             </div>
                         </div>

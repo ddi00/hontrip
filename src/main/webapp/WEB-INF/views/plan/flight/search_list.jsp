@@ -23,34 +23,30 @@
                         <div class="card p-4 mt-2">
                             <div class="card-body align-items-center justify-content-between">
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div id="departure-info">
-                                            <span style="display:none">출발 시간</span>
+                                    <div class="col-md-3">
+                                            <span><h3>${flight.depAirportName}</h3></span>
                                             <span>
                                 <fmt:parseDate value="${flight.departureTime}" var="departureTime"
                                                pattern="yyyy-MM-dd HH:mm:ss"/>
                                 <fmt:formatDate value="${departureTime}" pattern="HH:mm"/>
-                                    </span>
-                                            <span style="display:none">출발 공항</span>
-                                            <span>${flight.depAirportName}</span>
-                                        </div>
+                                            </span>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div>
-                                            <span style="display:none">도착 시간</span>
+                                    <div class="col-md-1 text-start">
+                                        <i class="uil uil-plane-fly"></i>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                            <span><h3>${flight.arrAirportName}</h3></span>
                                             <span>
                                 <fmt:parseDate value="${flight.arrivalTime}" var="arrivalTime"
                                                pattern="yyyy-MM-dd HH:mm:ss"/>
                                         <fmt:formatDate value="${arrivalTime}" pattern="HH:mm"/>
-                                    </span>
-                                            <span style="display:none">도착 공항</span>
-                                            <span>${flight.arrAirportName}</span>
-                                        </div>
+                                            </span>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="d-flex flex-column align-items-center float-end">
                                             <button type="button"
-                                                    class="btn btn-outline-orange" onclick="goToAirlineHomepage('${flight.airlineName}')">
+                                                    class="btn btn-outline-orange"
+                                                    onclick="goToAirlineHomepage('${flight.airlineName}')">
                                                 예매
                                             </button>
                                             <button type="button"
@@ -155,7 +151,7 @@
     }
 
     // 예매하기 버튼 클릭 시 항공사명과 일치하는 항공사 홈페이지 새창 열기하는 메소드
-    const goToAirlineHomepage = function(airlineName){
+    const goToAirlineHomepage = function (airlineName) {
         let homepageUrl = "";
         switch (airlineName) {
             case "대한항공":

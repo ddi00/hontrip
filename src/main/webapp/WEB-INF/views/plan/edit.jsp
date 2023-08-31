@@ -11,7 +11,7 @@
 %>
 <section class="wrapper bg-light">
     <div class="container-fluid container mt-15 mb-20 w-80">
-        <h2 class="mb-4">일정 수정</h2>
+        <h2 class="mb-4">일정 상세</h2>
         <hr class="my-8"/>
 
         <form id="planForm" action="update" method="post">
@@ -132,18 +132,21 @@
                         <div class="card my-2">
                             <div class="ms-3 my-4">
                                 <div class="row">
-                                    <div class="col-5"><span>${flight.depAirportName}</span></div>
-                                    <div class="col-5"><span>${flight.arrAirportName}</span></div>
+                                    <div class="col-5 text-center"><h4>${flight.depAirportName}</h4></div>
+                                    <div class="col-1 text-start">
+                                        <i class="uil uil-plane-fly"></i>
+                                    </div>
+                                    <div class="col-4 text-center"><h4>${flight.arrAirportName}</h4></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-5">
+                                    <div class="col-6 text-center">
                                         <span>
                                             <fmt:parseDate value="${flight.departureTime}" var="departureTime"
                                                            pattern="yyyy-MM-dd HH:mm:ss"/>
                                             <fmt:formatDate value="${departureTime}" pattern="yyyy-MM-dd HH:mm"/>
                                         </span>
                                     </div>
-                                    <div class="col-5">
+                                    <div class="col-4 text-center">
                                         <span>
                                             <fmt:parseDate value="${flight.arrivalTime}" var="arrivalTime"
                                                            pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -164,7 +167,8 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                <span class="col-12"><span>${flight.vehicleId}</span>
+                                <span class="col-11 text-center">
+                                    <span>${flight.vehicleId}</span>
                                     <span> / </span>
                                     <span>${flight.airlineName}</span>
                                 </span>
