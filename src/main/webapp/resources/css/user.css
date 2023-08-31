@@ -31,6 +31,8 @@
   padding: 10px;
 }
 
+.vertical-center
+
 .btn-main {
   --bs-btn-color: #fff;
   --bs-btn-bg: #FF5A46;
@@ -61,5 +63,5 @@
 }
 
 .bg-main-light{
-  background: rgba(255,90,70,0.3);
+  background: rgba(255,90,70,0.1) !important;
 }
