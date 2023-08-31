@@ -27,10 +27,10 @@
                                 <fmt:formatDate value="${departureTime}" pattern="HH:mm"/>
                                     </span>
                             </div>
-                            <div class="col-md-1 text-start">
+                            <div class="col-md-2 text-start">
                                 <i class="uil uil-plane-fly"></i>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                     <span><h3>${flight.arrAirportName}</h3></span>
                                     <span>
                                 <fmt:parseDate value="${flight.arrivalTime}" var="arrivalTime"
@@ -38,7 +38,7 @@
                                         <fmt:formatDate value="${arrivalTime}" pattern="HH:mm"/>
                                     </span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="d-flex flex-column align-items-center float-end">
                                     <button type="button"
                                             class="btn btn-outline-orange" onclick="goToAirlineHomepage('${flight.airlineName}')">
