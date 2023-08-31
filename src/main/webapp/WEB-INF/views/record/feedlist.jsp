@@ -6,7 +6,9 @@
     <head>
         <meta charset="UTF-8">
         <title>feedlist</title>
+
     </head>
+
     <body>
         <!-- 피드 헤더 영역 -->
         <section class="feed-header">
@@ -21,106 +23,120 @@
                 <div>장소별</div>
                 <select id="locationDropdown">
                     <option value="" disabled selected>지역을 선택하세요</option>
-                        <optgroup label="전국">
-                            <option id="allLocations" value="allLocations">전국</option>
-                        </optgroup>
-                        <optgroup label="특별시/광역시">
-                            <c:forEach items="${locationList}" var="locationDTO">
-                                <c:choose>
-                                    <c:when test="${locationDTO.id >= 100 && locationDTO.id < 200}">
-                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
-                                    </c:when>
-                                </c:choose>
-                            </c:forEach>
-                        </optgroup>
-                        <optgroup label="강원도">
-                            <c:forEach items="${locationList}" var="locationDTO">
-                                <c:choose>
-                                    <c:when test="${locationDTO.id >= 200 && locationDTO.id < 300}">
-                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
-                                    </c:when>
-                                </c:choose>
-                            </c:forEach>
-                        </optgroup>
-                        <optgroup label="경기도">
-                            <c:forEach items="${locationList}" var="locationDTO">
-                                <c:choose>
-                                    <c:when test="${locationDTO.id >= 300 && locationDTO.id < 400}">
-                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
-                                    </c:when>
-                                </c:choose>
-                            </c:forEach>
-                        </optgroup>
-                        <optgroup label="경상도">
-                            <c:forEach items="${locationList}" var="locationDTO">
-                                <c:choose>
-                                    <c:when test="${locationDTO.id >= 400 && locationDTO.id < 500}">
-                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
-                                    </c:when>
-                                </c:choose>
-                            </c:forEach>
-                        </optgroup>
-                        <optgroup label="전라도">
-                            <c:forEach items="${locationList}" var="locationDTO">
-                                <c:choose>
-                                    <c:when test="${locationDTO.id >= 500 && locationDTO.id < 600}">
-                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
-                                    </c:when>
-                                </c:choose>
-                            </c:forEach>
-                        </optgroup>
+                    <option value="allLocations">전국</option>
+                    <option value="capital-area">수도권</option>
+                    <option value="gangwon">강원</option>
+                    <option value="gyeongsang"}>경상</option>
+                    <option value="jeolla">전라</option>
+                    <option value="chungcheong">충청</option>
+                    <option value="jeju">제주</option>
                 </select>
             </div>
+        </section>
 
-            <!-- 드롭다운 선택 시 이벤트 처리 -->
-            <script>
-                //전국 선택 시
-                $(document).ready(function() {
-                    $("#locationDropdown").change(function() {
-                        if ($(this).val() === "allLocations") {
-                            $.ajax({
-                                url: "list_mylocation_dropdown_all",
-                                method: "GET",
-                                data: { locationId: selectedLocationId },
-                                success: function(response) {
-                                    $("#list_mylocation_dropdown_result").html(response).show();
-                                },
-                                error: function(error) {
-                                    // 오류 처리
-                                    alert('검색한 자료가 없습니다.');
-                                }
-                            });
+
+        <!-- 드롭다운 선택 시 이벤트 처리 -->
+        <script>
+            $(document).ready(function() {
+                // 드롭다운 선택 이벤트 처리
+                $('#locationDropdown').change(function() {
+                    // 초기화
+                    $("#feedlist_section").hide();
+
+                    // 선택한 드롭다운의 value 값을 가져옵니다
+                    var selectedLocationId = $(this).val();
+                    // 선택한 옵션에 따라 locationId 패턴 값을 설정
+                    var locationIdPattern = getPattern(selectedLocationId);
+                    var locationIdSpecialId = getSpecialId(selectedLocationId);
+                    var locationIdSpecialId2 = getSpecialId2(selectedLocationId);
+                    var locationIdSpecialId3 = getSpecialId3(selectedLocationId);
+
+
+                    // 서버로 AJAX 요청 보내기
+                    $.ajax({
+                        type: 'GET',
+                        url: "feedlist_dropdown",
+                        data: {
+                            locationIdPattern: locationIdPattern,
+                            locationIdSpecialId: locationIdSpecialId,
+                            locationIdSpecialId2: locationIdSpecialId2,
+                            locationIdSpecialId3: locationIdSpecialId3
+                        },  // 선택한 값 전달
+                        success: function(response) {
+                            $("#feedlist_dropdown_section_result").html(response).show();
+                        },
+                        error: function() {
+                            alert('검색한 자료가 없습니다.');
                         }
                     });
                 });
+            });
 
-                //개별지역 선택 시
-                $(document).ready(function() {
-                    $('#locationDropdown').change(function() {
-                        // 초기화
-                        $("#feedlist_section").hide();
-                        var selectedLocationId = $(this).val();
-                        $.ajax({
-                            type: 'GET',
-                            url: "list_mylocation_dropdown",
-                            data: { locationId: selectedLocationId },
-                            success: function(response) {
-                                $("#list_mylocation_dropdown_result").html(response).show();
-                            },
-                            error: function() {
-                            // 오류 처리
-                                alert('검색한 자료가 없습니다.');
-                            }
-                        });
-                    });
-                });
+            // 드롭박스 권역 구분
+            function getPattern(selectedOption) {
+                switch (selectedOption) {
+                    case "allLocations":
+                        return ""; // 전체 범위 설정
+                    case "capital-area":
+                        return "3%"; // 수도권 지역 범위 설정
+                    case "gangwon":
+                        return "2%"; // 강원 지역 범위 설정
+                    case "gyeongsang":
+                        return "4%"; // 경상 지역 범위 설정
+                    case "jeolla":
+                        return "5%"; // 전라 지역 범위 설정
+                    case "chungcheong":
+                    return "6%"; // 충청 지역 범위 설정
+                    default:
+                        return ""; // 기본 값
+                }
+            }
 
+            // 드롭박스 권역구분 - 광역시 포함하는 작업1
+            function getSpecialId(selectedOption) {
+                switch (selectedOption) {
+                    case "capital-area":
+                        return "101";
+                    case "gyeongsang":
+                        return "102";
+                    case "jeolla":
+                        return "104";
+                    case "jeju":
+                        return "103";
+                   case "chungcheong":
+                        return "106";
+                    default:
+                        return "";
+                }
+            }
 
-            </script>
-        </section>
+            // 드롭박스 권역구분 - 광역시 포함하는 작업2
+            function getSpecialId2(selectedOption) {
+                switch (selectedOption) {
+                    case "gyeongsang":
+                        return "105";
+                    case "capital-area":
+                        return "109";
+                   case "chungcheong":
+                        return "107";
+                    default:
+                        return "";
+                }
+            }
+
+            // 드롭박스 권역구분 - 광역시 포함하는 작업3
+            function getSpecialId3(selectedOption) {
+                switch (selectedOption) {
+                    case "gyeongsang":
+                        return "108";
+                    default:
+                        return "";
+                }
+            }
+        </script>
 
         <!-- 드롭다운 선택 시 해당 지역 게시물 표시 부분 -->
-        <div id="list_mylocation_dropdown_result" ></div>
+        <div id="feedlist_dropdown_section_result" ></div>
 
         <!-- 공유피드 게시물 표시 부분 -->
         <div id="feedlist_section">

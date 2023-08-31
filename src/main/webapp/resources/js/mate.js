@@ -463,8 +463,6 @@ if (window.location.href.includes('/mate/')) {
         let cCount = commentListRe.list.length;
         let rCount = commentListRe.reCommentList.length;
         let commentListCount = "";
-
-        console.log(cCount)
         if (cCount > 0) {
             for (let i = 0; i < cCount; i++) {
                 let commentList = commentListRe.list[i];
@@ -494,7 +492,7 @@ if (window.location.href.includes('/mate/')) {
                     <p>${commentList.content}</p>
                     </li>`;
 
-                    if (commentList.nickname !== "Bob") {
+                    if (commentList.userId == sessionUserId) {
                         comments += "<a href='javascript:void(0);' onclick='showUpdateTextarea(" + commentList.commentId + ")'>수정</a>";
                         comments += `<div class="d-flex justify-content-end">`
                         comments += "<button type='button' class='commentDelete btn btn-soft-ash rounded-pill' data-comment-id='" + commentList.commentId + "'>삭제</button></div>"
@@ -515,13 +513,13 @@ if (window.location.href.includes('/mate/')) {
                                          </div>
                                          </div>
                                          <p>${replyList.content}</p>`;
-                            if (commentList.nickname !== "Bob") {
+                            if (commentList.userId == sessionUserId) {
                                 comments += `
                                 <a href="javascript:void(0);" onclick="showUpdateTextarea(${replyList.commentId})">수정</a>
                                 <div class="d-flex justify-content-end">
                                 <button type='button' class="commentDelete btn btn-soft-ash rounded-pill" data-comment-id="${replyList.commentId}">삭제</button></div>`;
                                 comments += `<div id="commentUpdate${replyList.commentId}" style="display: none">
-                                    <textarea id="updateContent${replyList.commentId}" placeholder="수정글을 입력해주세요">${replyList.content}</textarea>
+                                    <textarea id="updateContent${replyList.commentId}" placeholder="정글을 입력해주세요">${replyList.content}</textarea>
                                     <br>
                                     <button type='button' class="updateComment" data-comment-id="${replyList.commentId}">수정</button>
                                     <a href="javascript:void(0);" onclick="closeTextarea(${replyList.commentId})">취소</a>
@@ -604,7 +602,6 @@ if (window.location.href.includes('/mate/')) {
                 },
                 dataType: "json",
                 success: function (cmtListRe) {
-                    console.log(cmtListRe)
                     updateCommentSection(cmtListRe);
                     $('#cmtContent').val("");
                 },
@@ -617,14 +614,14 @@ if (window.location.href.includes('/mate/')) {
         //댓글,답글 삭제
         $(document).on('click', '.commentDelete', function () {
             let commentId = $(this).data("comment-id");
+            console.log(commentId);
             $.ajax({
                 url: "/hontrip/mate/comment_delete",
                 dataType: "json",
                 data: {
                     commentId: commentId,
                     mateBoardId: $('#mateBoardId').val(),
-                    userId: $('#userId').val(),
-                    nickname: $('#nickName').val()
+                    userId: $('#userId').val()
                 },
                 success: function (cmtListRe) {
                     updateCommentSection(cmtListRe);

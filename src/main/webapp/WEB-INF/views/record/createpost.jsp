@@ -95,9 +95,60 @@
                             <div class="form-select-wrapper">
                                 <select name="locationId" class="form-select" required>
                                     <option value="" disabled selected>지역을 선택하세요</option>
-                                    <c:forEach items="${locationList}" var="locationDTO">
-                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
-                                    </c:forEach>
+                                        <optgroup label="특별시/광역시">
+                                            <c:forEach items="${locationList}" var="locationDTO">
+                                                <c:choose>
+                                                    <c:when test="${locationDTO.id >= 100 && locationDTO.id < 200}">
+                                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </optgroup>
+                                        <optgroup label="강원도">
+                                            <c:forEach items="${locationList}" var="locationDTO">
+                                                <c:choose>
+                                                    <c:when test="${locationDTO.id >= 200 && locationDTO.id < 300}">
+                                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </optgroup>
+                                        <optgroup label="경기도">
+                                            <c:forEach items="${locationList}" var="locationDTO">
+                                                <c:choose>
+                                                    <c:when test="${locationDTO.id >= 300 && locationDTO.id < 400}">
+                                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </optgroup>
+                                        <optgroup label="경상도">
+                                            <c:forEach items="${locationList}" var="locationDTO">
+                                                <c:choose>
+                                                    <c:when test="${locationDTO.id >= 400 && locationDTO.id < 500}">
+                                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </optgroup>
+                                        <optgroup label="전라도">
+                                            <c:forEach items="${locationList}" var="locationDTO">
+                                                <c:choose>
+                                                    <c:when test="${locationDTO.id >= 500 && locationDTO.id < 600}">
+                                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </optgroup>
+                                        <optgroup label="충청도">
+                                            <c:forEach items="${locationList}" var="locationDTO">
+                                                <c:choose>
+                                                    <c:when test="${locationDTO.id >= 600 && locationDTO.id < 700}">
+                                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </optgroup>
                                 </select>
                             </div>
                         </div>

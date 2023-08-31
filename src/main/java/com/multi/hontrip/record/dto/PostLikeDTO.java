@@ -8,5 +8,6 @@ public class PostLikeDTO {
     private long userId;
     private long recordId;
     private String likeUserNickname;
+    private String profileImg;
     private int likeCount;
 }

@@ -77,8 +77,8 @@
         <!-- 버튼, 드롭박스 영역 -->
         <section class="buttons">
             <div class="card-body">
-                <a href="feedlist?isVisible=1" class="btn btn-yellow rounded-pill mb-2 me-1">공유피드</a>
-                <a href="createpost" class="btn btn-yellow rounded-pill mb-2 me-1">게시글작성</a>
+                <a href="feedlist?isVisible=1" class="btn btn-main rounded-pill mb-2 me-1">공유피드</a>
+                <a href="createpost" class="btn btn-orange rounded-pill mb-2 me-1">게시글작성</a>
                 <select id="locationDropdown">
                     <option value="" disabled selected>지역을 선택하세요</option>
                         <optgroup label="특별시/광역시">
@@ -121,6 +121,15 @@
                             <c:forEach items="${locationList}" var="locationDTO">
                                 <c:choose>
                                     <c:when test="${locationDTO.id >= 500 && locationDTO.id < 600}">
+                                        <option value="${locationDTO.id}">${locationDTO.city}</option>
+                                    </c:when>
+                                </c:choose>
+                            </c:forEach>
+                        </optgroup>
+                        <optgroup label="충청도">
+                            <c:forEach items="${locationList}" var="locationDTO">
+                                <c:choose>
+                                    <c:when test="${locationDTO.id >= 600 && locationDTO.id < 700}">
                                         <option value="${locationDTO.id}">${locationDTO.city}</option>
                                     </c:when>
                                 </c:choose>

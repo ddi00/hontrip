@@ -1,15 +1,15 @@
 package com.multi.hontrip.record.service;
 
 import com.multi.hontrip.record.dao.RecordDAO;
-import com.multi.hontrip.record.dto.CreatePostDTO;
-import com.multi.hontrip.record.dto.PostImgDTO;
-import com.multi.hontrip.record.dto.LocationDTO;
-import com.multi.hontrip.record.dto.PostInfoDTO;
+import com.multi.hontrip.record.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -44,6 +44,11 @@ public class RecordService {
     // 게시물 상세페이지
     public PostInfoDTO selectPostInfo(long id) {
         return recordDAO.selectPost(id);
+    }
+
+    // 게시물 조회수 증가 +1
+    public void incrementPostViews(long id) {
+        recordDAO.incrementPostViews(id);
     }
 
     // 게시물 수정
@@ -118,14 +123,23 @@ public class RecordService {
     public List<PostInfoDTO> getListMyLocationDrowDown(Long locationId, Long userId) {
         return recordDAO.getListMyLocationDrowDown(locationId, userId);
     }
-    public List<PostInfoDTO> getListMyLocationDrowDownAll(Long locationId, Long userId) {
-        return recordDAO.getListMyLocationDrowDownAll(locationId, userId);
+
+    public List<LocationDTO> getMyMap(Long userId) {
+        return recordDAO.getMyMap(userId);
     }
+
     public List<PostInfoDTO> getFeedList(int isVisible) {
         return recordDAO.getFeedList(isVisible);
     }
-    public List<LocationDTO> getMyMap(Long userId) {
-        return recordDAO.getMyMap(userId);
+
+
+    public List<PostInfoDTO> getFeedListDropdownAll(String locationIdPattern) {
+        return recordDAO.getFeedListDropdownAll(locationIdPattern);
+    }
+
+    public List<PostInfoDTO> getFeedListDropdown(String locationIdPattern, String locationIdSpecialId, String locationIdSpecialId2, String locationIdSpecialId3) {
+        System.out.println("서비스단 확인 : " + locationIdPattern + locationIdSpecialId );
+        return recordDAO.getFeedListDropdown(locationIdPattern, locationIdSpecialId, locationIdSpecialId2, locationIdSpecialId3);
     }
 
 }

@@ -237,6 +237,7 @@ CREATE TABLE `record_board` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
+  `view_count` bigint DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `location_id` (`location_id`),

@@ -17,7 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -57,12 +59,45 @@ public class RecordContorller {
     }
 
     @GetMapping("postinfo") // 게시물 상세 페이지 / 댓글 / 좋아요
-    public String postInfo(@RequestParam("id") long id, Model model) {
-        PostInfoDTO postInfoDTO = recordService.selectPostInfo(id); //게시물 정보
+    public String postInfo(@RequestParam("id") long id, Model model,
+                           HttpServletRequest request, HttpServletResponse response) {
+        PostInfoDTO postInfoDTO = recordService.selectPostInfo(id); // 게시물 상세 정보
+
+        // 조회수 증가 관련 로직
+        String postViewKey = "post_view_" + id;
+        boolean hasViewed = false;
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (postViewKey.equals(cookie.getName())) {
+                    hasViewed = true;
+                    break;
+                }
+            }
+        }
+
+        if (!hasViewed) {
+            recordService.incrementPostViews(id); // 조회수 증가 메서드 호출
+            // 쿠키 추가
+            Cookie viewCookie = new Cookie(postViewKey, "true");
+            viewCookie.setMaxAge(24 * 60 * 60); // 쿠키 유효기간 24시간
+            response.addCookie(viewCookie);
+
+            postInfoDTO.setViews(postInfoDTO.getViews() + 1); // 조회수 증가
+        }
+
         List<PostImgDTO> postImgList = recordService.selectPostImg(id); //게시물 이미지
         List<CommentDTO> commentList = commentService.selectPostComment(id); //게시물 댓글
         List<CommentDTO> reCommentList = commentService.reCommentList(commentList); //대댓글
         List<PostLikeDTO> likeUserList = postLikeService.selectLikeList(id); //좋아요 누른 유저
+
+        long sessionUserId = (long) request.getSession().getAttribute("id"); // 현재세션의 유저 id값
+        boolean userLikedPost = postLikeService.checkUserLikedPost(sessionUserId, id); // 좋아요 누른 유저인지 확인
+
+        if (userLikedPost) { // 좋아요를 누른 유저이면 ok
+            model.addAttribute("userCheckLike", "ok");
+        }
         model.addAttribute("postInfoDTO", postInfoDTO);
         model.addAttribute("commentList", commentList);
         model.addAttribute("postImgList", postImgList);
@@ -75,7 +110,7 @@ public class RecordContorller {
     @RequiredSessionCheck
     public String updatePostInfoView(@RequestParam("id") long id, Model model, HttpSession httpSession) {
         PostInfoDTO postInfoDTO = recordService.selectPostInfo(id);
-        List<PostImgDTO> postImgList = recordService.selectPostImg(id); //게시물 이미지
+        List<PostImgDTO> postImgList = recordService.selectPostImg(id); //게시물 이미지 view
         model.addAttribute("postInfoDTO", postInfoDTO);
         model.addAttribute("postImgList", postImgList);
         return "/record/updatepost";
@@ -149,24 +184,13 @@ public class RecordContorller {
     }
 
 
-    @GetMapping("list_mylocation_dropdown") // 검색어입력시 내 게시물 해당지역 리스트 가져오기
+    @GetMapping("list_mylocation_dropdown") // 드롭다운 선택 시 내 게시물 해당지역 리스트 가져오기
     public void getListMyLocationDrowDown(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("id");
         List<PostInfoDTO> getListMyLocationDrowDown = recordService.getListMyLocationDrowDown(locationId, userId);
         List<LocationDTO> getMyMap = recordService.getMyMap(userId);
         List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
         model.addAttribute("mylist", getListMyLocationDrowDown); // mylist 모델에 데이터 추가
-        model.addAttribute("mymap", getMyMap);
-        model.addAttribute("locationList", locationList);
-    }
-
-    @GetMapping("list_mylocation_dropdown_all") // 검색어입력시 내 게시물 해당지역 리스트 가져오기
-    public void getListMyLocationDrowDownAll(@RequestParam("locationId") Long locationId, Model model, HttpSession session) {
-        Long userId = (Long) session.getAttribute("id");
-        List<PostInfoDTO> getListMyLocationDrowDownAll = recordService.getListMyLocationDrowDownAll(locationId, userId);
-        List<LocationDTO> getMyMap = recordService.getMyMap(userId);
-        List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
-        model.addAttribute("mylist", getListMyLocationDrowDownAll); // mylist 모델에 데이터 추가
         model.addAttribute("mymap", getMyMap);
         model.addAttribute("locationList", locationList);
     }
@@ -178,6 +202,24 @@ public class RecordContorller {
         model.addAttribute("feedlist", feedlist);
         model.addAttribute("locationList", locationList);
         return "/record/feedlist"; // feedlist.jsp 파일로 반환
+    }
+
+    @GetMapping("feedlist_dropdown") // 공유피드에서 드롭다운 선택시 리스트 가져오기
+    public void getFeedListDropdown(@RequestParam("locationIdPattern") String locationIdPattern,
+                                    @RequestParam("locationIdSpecialId") String locationIdSpecialId,
+                                    @RequestParam("locationIdSpecialId2") String locationIdSpecialId2,
+                                    @RequestParam("locationIdSpecialId3") String locationIdSpecialId3,
+                                    Model model) {
+        System.out.println("컨트롤러 확인 :"+ locationIdPattern + locationIdSpecialId);
+        List<PostInfoDTO> getFeedListDropdown;
+
+        if (locationIdPattern.equals("")) {
+            getFeedListDropdown = recordService.getFeedListDropdownAll(locationIdPattern);
+        } else {
+            getFeedListDropdown = recordService.getFeedListDropdown(locationIdPattern, locationIdSpecialId, locationIdSpecialId2, locationIdSpecialId3);
+        }
+
+        model.addAttribute("mylist", getFeedListDropdown);
     }
 
 }
