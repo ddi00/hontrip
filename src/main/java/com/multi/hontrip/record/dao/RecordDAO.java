@@ -31,19 +31,19 @@ public class RecordDAO {
         sqlSessionTemplate.insert("record.createPostImg", postImgDTO);
     }
 
-    public List<PostImgDTO> selectImg(long recordId) {
+    public List<PostImgDTO> selectImg(long recordId) { // 게시물 이미지 리스트
         return sqlSessionTemplate.selectList("record.postImgList", recordId);
     }
 
-    public PostInfoDTO selectPost(long id) {
+    public PostInfoDTO selectPost(long id) { // 게시물 상세 페이지
         return sqlSessionTemplate.selectOne("record.selectPostInfo", id);
     }
 
-    public void updatePost(CreatePostDTO createPostDTO) {
+    public void updatePost(CreatePostDTO createPostDTO) { // 게시물 수정
         sqlSessionTemplate.update("record.updatePostInfo", createPostDTO);
     }
 
-    public void deletePost(long id) {
+    public void deletePost(long id) { // 게시물 삭제
         sqlSessionTemplate.delete("record.deletePost", id);
     }
 
@@ -69,8 +69,8 @@ public class RecordDAO {
         return sqlSessionTemplate.selectList("record.mymap", userId);
     }
 
-    public List<PostInfoDTO> getFeedList(int isVisible){ //공유피드 전체 리스트 가져오기
-        return sqlSessionTemplate.selectList("record.feedlist", isVisible);
+    public List<PostInfoDTO> getFeedList(){ //공유피드 전체 리스트 가져오기
+        return sqlSessionTemplate.selectList("record.feedlist");
     }
 
 

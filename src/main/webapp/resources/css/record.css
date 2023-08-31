@@ -11,17 +11,23 @@
     aspect-ratio: 1/1; /* 가로 세로 비율을 1:1로 설정합니다. */
 }
 
-/*지도*/
+
+
+/* 지도 컨테이너 스타일 */
 #map-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* 상단 정렬을 위해 align-items 값을 변경 */
+  position: relative;
+  padding-bottom: 35.75%; /* 7을 16로 나눈 비율을 사용합니다 */
+  overflow: hidden; /* 내용이 넘치지 않도록 합니다 */
+  border-radius: 30px; /* 가장자리를 둥글게 만듭니다 */
 }
 
+/* 실제 지도 스타일 */
 #map {
-  width: 80%;
-  height: 350px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /*mylist 버튼*/
