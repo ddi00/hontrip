@@ -34,6 +34,10 @@ public class MatePageDTO {
 	private long regionId;
     //나이
     private String age;
+	//정렬 조건
+	private String orderBy;
+	//조회수
+	private long viewCount;
 
 	public void setStartEnd(int page) {
 		start = 6;

@@ -37,7 +37,7 @@
                 </div>
               </div>--%>
         </form>
-        <ul class="unordered-list">
+      <%--  <ul class="unordered-list">
             <c:forEach items="${list}" var="accommodation">
                 <div class="card mt-2">
                     <div class="card-body">
@@ -51,6 +51,6 @@
                     </div>
                 </div>
             </c:forEach>
-        </ul>
+        </ul>--%>
     </div>
 </section>

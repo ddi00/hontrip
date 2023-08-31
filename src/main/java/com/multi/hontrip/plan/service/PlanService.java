@@ -40,4 +40,12 @@ public interface PlanService {
     FlightAddDTO createFlightAddDTO(Long planId, Long flightId); // 추가 항공권 반환
 
     void deleteFlightFromDay(Long planId, Long userId, String flightId); // 일정-일차 항공권 정보 삭제
+
+    List<AccommodationLoadDTO> loadExistingAccommodations(PlanDTO plan, int numOfDays);
+
+    AccommodationAddDTO createAccommodationAddDTO(Long planId, String accommodationId);
+
+    PlanDayDTO addAccommodationToDay(Long planId, Long userId, int dayOrder, String accommodationId);
+
+    void addAccommodation(PlanDayDTO planDayDTO);
 }

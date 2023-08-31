@@ -100,7 +100,7 @@ public class MateController {
     @RequestMapping("comment_edit")
     @ResponseBody
     @RequiredSessionCheck
-    public Map<String,Object> edit(MateCommentDTO mateCommentDTO) {
+    public Map<String,Object> edit(MateCommentDTO mateCommentDTO, HttpSession httpSession) {
         mateService.commentEdit(mateCommentDTO);
         //게시물 상세의 댓글 리스트 가져오기
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
@@ -119,7 +119,7 @@ public class MateController {
     @RequestMapping("comment_delete")
     @ResponseBody
     @RequiredSessionCheck
-    public Map<String,Object> delete(MateCommentDTO mateCommentDTO) {
+    public Map<String,Object> delete(MateCommentDTO mateCommentDTO, HttpSession httpSession) {
         mateService.commentDelete(mateCommentDTO);
         //게시물 상세의 댓글 리스트 가져오기
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
@@ -138,7 +138,7 @@ public class MateController {
     @RequestMapping("reply_insert")
     @ResponseBody
     @RequiredSessionCheck
-    public Map<String,Object> reply(MateCommentDTO mateCommentDTO) {
+    public Map<String,Object> reply(MateCommentDTO mateCommentDTO, HttpSession httpSession) {
         int result = mateService.replyInsert(mateCommentDTO);
         //게시물 상세의 댓글 리스트 가져오기
         List<MateCommentDTO> list = mateService.commentList(mateCommentDTO.getMateBoardId());
@@ -228,6 +228,9 @@ public class MateController {
         UserGenderAgeDTO userGenderAgeDTO = mateService.findUserGenderAgeById(id);
         JsonObject user = new JsonObject();
         user.addProperty("id", userGenderAgeDTO.getId());
+        System.out.println("id:" + id);
+        System.out.println(userGenderAgeDTO.getGender());
+        System.out.println(userGenderAgeDTO.getGender().getGenderStr());
         user.addProperty("gender", userGenderAgeDTO.getGender().getGenderStr());
         user.addProperty("ageRange", userGenderAgeDTO.getAgeRange().getAgeRangeStr());
         return new Gson().toJson(user);

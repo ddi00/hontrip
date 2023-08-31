@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Connection;
@@ -23,7 +24,7 @@ public class AccommodationApi {
 
     public static void main(String[] args) {
         // 원하는 중심 좌표 (경도, 위도)와 반경 설정
-        /*String x = "126.9784"; // 예시: 서울 중심
+        /*String x = "126.9784"; // 예시: 서울 중심/
         String y = "37.5665";*/
         /*String x = "126.5422"; // 예시: 제주도 중심
         String y = "33.3647";*/

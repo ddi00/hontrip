@@ -23,6 +23,7 @@ public class MateDAO {
         param.put("end",pageDTO.getEnd());
         param.put("regionId", pageDTO.getRegionId());
         param.put("age", pageDTO.getAge());
+        param.put("orderBy", pageDTO.getOrderBy());
 
         return my.selectList("mateBbs.list", param);
     }

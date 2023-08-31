@@ -11,10 +11,19 @@
 %>
 <section class="wrapper bg-light">
     <div class="container-fluid container mt-15 mb-20 w-75">
-        <h3 class="mb-4">내 여행 일정</h3>
-        <button type="button" class="btn btn-orange mb-3 w-100">
-            <a href="create" role="button" class="text-white">새 일정 생성</a>
-        </button>
+        <div class="row align-items-center my-5 position-relative zindex-1">
+            <div class="col-md-9 col-xl-6 pe-xl-20">
+                <h2 class="display-6 mb-0">내 여행 일정</h2>
+            </div>
+            <!--/column -->
+            <div class="col-md-3 col-xl-3 ms-md-auto mt-5 mt-md-0">
+                <button type="button" class="btn btn-orange w-100">
+                    <a href="create" role="button" class="text-white">새 일정 생성</a>
+                </button>
+            </div>
+            <!--/column -->
+        </div>
+
         <c:forEach var="plan" items="${list}" varStatus="status">
             <div class="card mt-2">
                 <div class="card-body my-2">
@@ -22,12 +31,13 @@
                         <div class="col-md-11">
                             <h3><a href="detail?userId=${userId}&planId=${plan.planId}"
                                    class="custom-a">${plan.title}</a></h3>
-                            <span>${plan.startDate} - ${plan.endDate}</span>
+
+                            <span><i class="uil uil-calendar-alt"></i> ${plan.startDate} - ${plan.endDate}</span>
                             <span class="badge bg-pale-orange text-orange rounded-pill">${numOfDays[status.index]}일</span>
                             <br> <br>
                             <span style="font-size: .7rem; color: darkgray;"><fmt:formatDate value="${plan.createdAt}"
                                                                                              pattern="yyyy-MM-dd"
-                                                                                             type="date"/> 작성</span>
+                                                                                             type="date"/><i class="uil uil-edit-alt ms-1"></i></span>
                             <br>
                         </div>
                         <div class="col-md-1">

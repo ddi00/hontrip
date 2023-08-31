@@ -4,21 +4,21 @@
 <mapper namespace="accommodation">
     <select id="one" parameterType="Long" resultType="AccommodationDTO">
         select
-        accommodation_id,
-        id,
-        place_name,
-        category_name,
-        category_group_code,
-        category_group_name,
-        phone,
-        address_name,
-        road_address_name,
-        x,
-        y,
-        place_url,
-        distance
+            accommodation_id,
+            id,
+            place_name,
+            category_name,
+            category_group_code,
+            category_group_name,
+            phone,
+            address_name,
+            road_address_name,
+            x,
+            y,
+            place_url,
+            distance
         from accommodation
-        where accommodation_id = #{accommodationId}
+        where id = #{accommodationId}
     </select>
     <select id="count" parameterType="Long" resultType="int">
         select count(accommodation_id) from accommodation
@@ -42,18 +42,18 @@
     <select id="filterByAddress" resultType="AccommodationDTO">
         select
             accommodation_id,
-               id,
-               place_name,
-               category_name,
-               category_group_code,
-               category_group_name,
-               phone,
-               address_name,
-               road_address_name,
-               x,
-               y,
-               place_url,
-               distance
+            id,
+            place_name,
+            category_name,
+            category_group_code,
+            category_group_name,
+            phone,
+            address_name,
+            road_address_name,
+            x,
+            y,
+            place_url,
+            distance
         from accommodation
         WHERE address_name LIKE CONCAT('%', #{addressName}, '%')
     </select>
@@ -128,18 +128,18 @@
           and category_name LIKE CONCAT(#{categoryName}, '%')
     </select>
 
- <!--   <select id="filterByPlaceNameAndCategoryName" resultType="AccommodationDTO">
-        select * from accommodation
-        where place_name LIKE CONCAT('%', #{placeName}, '%')
-          and category_name LIKE CONCAT(#{categoryName}, '%')
-    </select>
+    <!--   <select id="filterByPlaceNameAndCategoryName" resultType="AccommodationDTO">
+           select * from accommodation
+           where place_name LIKE CONCAT('%', #{placeName}, '%')
+             and category_name LIKE CONCAT(#{categoryName}, '%')
+       </select>
 
-    <select id="filterByCategoryAndPlaceNameAndAddress" resultType="AccommodationDTO">
-        SELECT * FROM accommodation
-        where address_name LIKE CONCAT('%', #{addressName}, '%')
-          and category_name LIKE CONCAT('%', #{categoryName}, '%')
-          and place_name LIKE CONCAT('%', #{placeName}, '%')
-    </select>-->
+       <select id="filterByCategoryAndPlaceNameAndAddress" resultType="AccommodationDTO">
+           SELECT * FROM accommodation
+           where address_name LIKE CONCAT('%', #{addressName}, '%')
+             and category_name LIKE CONCAT('%', #{categoryName}, '%')
+             and place_name LIKE CONCAT('%', #{placeName}, '%')
+       </select>-->
 
 
 </mapper>

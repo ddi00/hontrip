@@ -124,17 +124,17 @@
                                             <span class="mateOption">모집 조건 (연령대)</span>
                                             <c:forEach items="${AgeRange.values()}" var="ageRange">
                                             <c:if test="${ageRange ne AgeRange.AGE_UNKNOWN}">
-                                                <input type="checkbox" id="${ageRange.ageRangeNum}"
+                                                <input type="radio" id="${ageRange.ageRangeNum}"
                                                        class="mateCheckBox"
                                                        value="${ageRange.ageRangeNum}"
-                                                       name="age"
+                                                       name="ageRangeId"
                                                        onclick="ageRangeChecked()"><label
                                                     for="${ageRange.ageRangeNum}">${ageRange.ageRangeStr}</label></input>
                                             </c:if>
                                         </c:forEach>
                                         </div>
 
-                                        <input hidden id="ageRangeId" name="ageRangeId">
+                                        <%--<input hidden id="ageRangeId" name="ageRangeId">--%>
                                         <br>
 
 

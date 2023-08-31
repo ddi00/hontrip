@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,13 +19,15 @@ public class PlanServiceImpl implements PlanService {
     private PlanDayDAO planDayDAO;
     private final SpotService spotService;
     private final FlightService flightService;
+    private final AccommodationService accommodationService;
 
     @Autowired
-    public PlanServiceImpl(PlanDAO planDAO, PlanDayDAO planDayDAO, SpotService spotService, FlightService flightService) {
+    public PlanServiceImpl(PlanDAO planDAO, PlanDayDAO planDayDAO, SpotService spotService, FlightService flightService, AccommodationService accommodationService) {
         this.planDAO = planDAO;
         this.planDayDAO = planDayDAO;
         this.spotService = spotService;
         this.flightService = flightService;
+        this.accommodationService = accommodationService;
     }
 
     @Transactional
@@ -190,7 +191,7 @@ public class PlanServiceImpl implements PlanService {
                 String existingFlights = planDayDTO2.getFlightId();
                 String[] FlightIds = existingFlights.split(":");  // ':'로 나눠진 spotContentId 분리
                 for (int i = 0; i < FlightIds.length; i++) {
-                    FlightLoadDTO flightLoadDTO = new FlightLoadDTO(); // 일정-일차에 담긴 여행지 옮기기 위한 DTO
+                    FlightLoadDTO flightLoadDTO = new FlightLoadDTO(); // 일정에 담긴 항공권 옮기기 위한 DTO
                     flightLoadDTO.setPlanId(plan.getPlanId());
                     flightLoadDTO.setUserId(plan.getUserId());
                     flightLoadDTO.setId(Long.valueOf(FlightIds[i]));
@@ -279,4 +280,95 @@ public class PlanServiceImpl implements PlanService {
         planDayDAO.updateFlight(planDayDTO);
 
     } // 일정-일차 항공권 정보 삭제
+
+    @Override
+    public List<AccommodationLoadDTO> loadExistingAccommodations(PlanDTO plan, int numOfDays) {
+        List<AccommodationLoadDTO> addedAccommodations = new ArrayList<>();
+
+        // Iterate through each day
+        for (int i = 0; i < numOfDays; i++) {
+            PlanDayDTO planDayDTO = new PlanDayDTO();
+            planDayDTO.setPlanId(plan.getPlanId());
+            planDayDTO.setUserId(plan.getUserId());
+            planDayDTO.setDayOrder(i + 1);
+            insertPlanDay(planDayDTO);
+
+            // Fetch the plan-day
+            PlanDayDTO existingPlanDay = findPlanWithDay(plan.getPlanId(), plan.getUserId(), i + 1);
+            try {
+                if (existingPlanDay != null && !existingPlanDay.getAccommodationId().isEmpty()) {
+                    String existingAccommodations = existingPlanDay.getAccommodationId();
+                    String[] AccommodationIds = existingAccommodations.split(":");
+                    for (String accommodationId : AccommodationIds) {
+                        AccommodationLoadDTO accommodationLoadDTO = new AccommodationLoadDTO();
+                        // Set the necessary fields for accommodationLoadDTO using accommodationId
+                        addedAccommodations.add(accommodationLoadDTO);
+                    }
+                }
+            } catch (NullPointerException e) {
+                // Handle null pointers if needed
+            }
+        }
+        return addedAccommodations;
+    }
+
+    public AccommodationAddDTO createAccommodationAddDTO(Long planId, String accommodationId) {
+
+        AccommodationDTO accommodationDTO = accommodationService.one(Long.parseLong(accommodationId));
+        //AccommodationDTO accommodationDTO = accommodationService.one(accommodationId);
+        AccommodationAddDTO accommodationAddDTO = new AccommodationAddDTO();
+        accommodationAddDTO.setAccommodationId(Long.valueOf(accommodationId));
+        accommodationAddDTO.setPlaceName(accommodationDTO.getPlaceName());
+        accommodationAddDTO.setPlanId(planId);
+
+        return accommodationAddDTO;
+    }
+
+    @Override
+    public PlanDayDTO addAccommodationToDay(Long planId, Long userId, int dayOrder, String accommodationId) {
+        PlanDayDTO planDayDTO = findPlanWithDay(planId, userId, dayOrder);
+
+
+        try {
+            if (planDayDTO != null) {
+                System.out.println("when dayPlan already exists, planDayDTO != null");
+                if (!planDayDTO.getAccommodationId().isEmpty()) {
+                    String existingAccommodations = planDayDTO.getAccommodationId();
+                    String newAccommodations = existingAccommodations + ":" + accommodationId;
+                    planDayDTO.setAccommodationId(newAccommodations);
+
+                } else {
+                    planDayDTO.setAccommodationId(accommodationId);
+                }
+                // user_id, day_order 로 레코드가 존재하므로, update 를 해줘야 한다.
+            } else {
+                System.out.println("when planDayDTO===null");
+                PlanDayDTO newPlanDayDTO = new PlanDayDTO();
+                newPlanDayDTO.setPlanId(planId);
+                newPlanDayDTO.setUserId(userId);
+                newPlanDayDTO.setDayOrder(dayOrder);
+                newPlanDayDTO.setAccommodationId(accommodationId);
+                planDayDTO = newPlanDayDTO; // Set the created DTO back to planDayDTO
+                // 해당 user_id 와 day_order 로 plantDTO 가 존재하지 않으니, insert 를 해줘야 한다.
+            }
+        } catch (NullPointerException e) {
+            System.out.println("planDayDTO null exception");
+            planDayDTO.setAccommodationId("");
+            planDayDTO.setAccommodationId(accommodationId);
+        }
+
+        System.out.println("returning planDayDTO value : " + planDayDTO);
+        addAccommodation(planDayDTO); // Call the method to update the plan-day
+        return planDayDTO;
+    }
+
+    @Override
+    public void addAccommodation(PlanDayDTO planDayDTO) {
+
+        planDayDAO.updateAccommodation(planDayDTO);
+        //planDayDAO.insert(planDayDTO);
+        //System.out.println("before inserting planDayDTO : " + planDayDTO);
+        //planDayDAO.insertWithNewAccommodation(planDayDTO);
+
+    }
 }
