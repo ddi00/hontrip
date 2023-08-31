@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
     if (window.location.href.includes('/mate/create-chatroom')) {
         var chatRoomId = document.getElementById("roomId").value;
@@ -17,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
         var chatSenderId = document.getElementById("senderId").value;
         var chatReceiverId = document.getElementById("receiverId").value;
         var newFlag = document.getElementById("newFlag").value;
-        if(newFlag == 'true'){
+        if (newFlag == 'true') {
             const message = {
                 roomId: chatRoomId,
                 senderId: chatSenderId,
@@ -25,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
                 messageType: 'JOIN'
             };
             connectWebsocket(message);
-        }else{
+        } else {
             const message = {
                 roomId: chatRoomId,
                 senderId: chatSenderId,
@@ -37,12 +38,10 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
     }
 
     function connectWebsocket(data) {    // Connect는 2가지 경우 JOIN(방 만들때), ENTER(이미 생긴 방 입장할 때\
-
         const messageSendButton = document.getElementById("messge-send");
-
-        messageSendButton.addEventListener("click",function (){
+        messageSendButton.addEventListener("click", function () {
             //사용자 입력값 가져오기
-            var message=document.getElementById("chat-input-text").value;
+            var message = document.getElementById("chat-input-text").value;
             var chatMassage = {
                 messageType: 'TALK',
                 message: message
@@ -103,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
                     // chat-room-content(class name) div에 p태그로 넣기-> 텍스트 가운데
                     const p = document.createElement('p');
                     p.textContent = messageContent;
-                    p.classList='join-chat';
+                    p.classList = 'join-chat';
                     chatRoomContent.appendChild(p);
                 } else if (messageType == "ENTER") { // 그냥 입장
                     // 입장 여부를 알수 있는 영역에 입장처리
@@ -114,9 +113,9 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
                     const p = document.createElement('p');
                     p.textContent = `[${messageSenderId}] ${messageContent} [${sendTime}]`;
                     if (messageSenderId === chatSenderId) {
-                        p.classList='sender-chat';
+                        p.classList = 'sender-chat';
                     } else {
-                        p.classList='receiver-chat';
+                        p.classList = 'receiver-chat';
                     }
                     chatRoomContent.appendChild(p);
                 } else if (messageType == "OUT") {   // 나감

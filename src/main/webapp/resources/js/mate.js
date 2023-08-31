@@ -39,7 +39,7 @@ if (window.location.href.includes('/mate/insert')) {
             formData.append("userId", $('#userId').val())
             formData.append("file", $('#imageInput')[0].files[0])
             formData.append("regionId", $("input[name='regionId']:checked").val())
-            formData.append("ageRangeId", $('#ageRangeId').val())
+            formData.append("ageRangeId", $("input[name='ageRangeId']:checked").val())
             formData.append("title", $('#title').val())
             formData.append("content", $('#content').val().replaceAll(/(?:\r\n|\r|\n)/g, '<br>'))
             formData.append("startDate", $('#mateStartDate').val())
@@ -243,7 +243,7 @@ if (window.location.href.includes('/mate/editpage')) {
                     data: {
                         id: $('#mateBoardId').val(),
                         regionId: $("input[name='regionId']:checked").val(),
-                        ageRangeId: $('#ageRangeId').val(),
+                        ageRangeId: $("input[name='ageRangeId']:checked").val(),
                         title: $('#title').val(),
                         content: $('#content').val().replaceAll(/(?:\r\n|\r|\n)/g, '<br>'),
                         thumbnail: $('#mateBoardThumbnail').val(),
@@ -316,13 +316,6 @@ if (window.location.href.includes('/mate/editpage')) {
 // 동행인 상세게시판
 if (window.location.href.includes('/mate/')) {
     function applyMate() {
-        /*
-
-                console.log($('#mateBoardId').val(), $('#mateSenderId').val(),
-                    $('#mateSenderNickName').val(), $('#mateSenderProfileImage'),
-                    $('#writerId').val(), $("#applicationMessage").val())
-        */
-
         //로그인 안했을 경우 로그인창을 띄움ss
         if ($('#mateSenderId').val() == "") {
             location.href = "../user/sign-in"
@@ -349,18 +342,19 @@ if (window.location.href.includes('/mate/')) {
                         ageRangeStrArr[0] = $('#ageRangeJS').val();
                     }
 
-                    /*console.log($('#ageRangeJS').val())
+                    console.log($('#ageRangeJS').val())
                     console.log("젠더 원트: " + $('#mateBoardGenderStr').val())
                     console.log("에이지 원트: " + ageRangeStrArr)
                     console.log("유저젠더: " + json.gender)
-                    console.log("유저나이: " + json.ageRange)*/
+                    console.log("유저나이: " + json.ageRange)
+                    console.log(json.ageRange == "나이정보 없음")
 
                     //모집조건에 부합하다면
                     //성별, 연령대 아무나 처리
                     if (json.id == $('#mateSenderId').val() && (json.gender === $('#mateBoardGenderStr').val() ||
-                            $('#mateBoardGenderStr').val() == "성별무관" || json.gender == "NONE")
+                            $('#mateBoardGenderStr').val() == "성별무관" || json.gender == "정보없음")
                         && (ageRangeStrArr.includes(json.ageRange) || ageRangeStrArr.includes("전연령")
-                            || ageRangeStrArr.length == 0 || json.ageRange == "AGE_UNKNOWN")) {
+                            || ageRangeStrArr.length == 0 || json.ageRange == "나이정보 없음")) {
                         $("#ableButton").click();
                         //모집조건에 부합하지 않다면
                     } else {
@@ -401,18 +395,6 @@ if (window.location.href.includes('/mate/')) {
 
     /* 셀렉트원에서 -> 동행인신청버튼누르고 + 신청조건에 맞는사람일경우에 넣기 */
 
-    /* 동행인 신청 알림 */
-    function sendAlarm(mateBoardId, senderId, senderNickname, senderProfileImage, receiverId, content) {
-        stompClient.send('/pub/mate', {},
-            JSON.stringify({
-                'mateBoardId': mateBoardId,
-                'senderId': senderId,
-                'senderNickname': senderNickname,
-                // 'senderProfileImage':senderProfileImage,
-                'receiverId': receiverId,
-                'content': content
-            }))
-    }
 
     //동행인신청메세지 모달에서 전송버튼을 눌렀을때
     function send() {

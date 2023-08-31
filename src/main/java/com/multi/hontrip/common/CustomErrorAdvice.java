@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @ControllerAdvice
 public class CustomErrorAdvice {    //에러 전역처리 
-    @ExceptionHandler(SessionExpiredException.class)
+  @ExceptionHandler(SessionExpiredException.class)
     public String handleSessionExpiredException(SessionExpiredException ex, RedirectAttributes redirectAttributes){ // session에러 처리
         redirectAttributes.addFlashAttribute("message",ex.getMessage());
         return "redirect:/user/sign-in";

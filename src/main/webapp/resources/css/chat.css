@@ -1,33 +1,142 @@
-#chat-room{
-  width: 400px;
-  height: 500px;
-  background-color: rgb(247, 248, 224);
-  border: 1px solid rgb(0, 0, 0);
-}
-.chat-room-title{
-  height: 50px;
-  background-color: rgb(134, 138, 8);
-  color: rgb(255, 255, 255);
-  text-align: center;
-}
-.chat-room-content{
-  height: 400px;
-  border: 1px solid rgb(0, 0, 0);
-  overflow-x: hidden;
-  overflow-y:auto;
-}
-.chat-input-area{
-  height: 50px;
-  background-color: rgb(255, 255, 255);
+#chat-room {
+    width: 400px;
+    height: 500px;
+    background-color: rgb(247, 248, 224);
+    border: 1px solid rgb(0, 0, 0);
 }
 
-.join-chat{
-  text-align: center;
-}
-.sender-chat{
-  text-align: left;
-}
-.receiver-chat{
-  text-align: right;
+.chat-room-title {
+    height: 50px;
+    background-color: rgb(134, 138, 8);
+    color: rgb(255, 255, 255);
+    text-align: center;
 }
 
+.chat-room-content {
+    height: 400px;
+    border: 1px solid rgb(0, 0, 0);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.chat-input-area {
+    height: 50px;
+    background-color: rgb(255, 255, 255);
+}
+
+.join-chat {
+    text-align: center;
+}
+
+.sender-chat {
+    text-align: left;
+}
+
+.receiver-chat {
+    text-align: right;
+}
+
+
+/* 채팅 모달 */
+.mateChatModal {
+    display: none; /* 테스트 다하고 여기 none으로 바꾸기 */
+    position: fixed;
+    z-index: 9999;
+    right: 5%;
+    top: 28%;
+    width: 25%;
+    height: 60%;
+    background-color: transparent;
+}
+
+
+/*채팅 모달창 텍스트 넣는 부분*/
+.mateChatModal-content {
+    border-radius: 10px;
+    background-color: #fff;
+    border: 1px solid #FFFFFF;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.mateChatHistoryDiv {
+    height: 70%;
+}
+
+/*채팅창 '채팅' 글자*/
+.chatModalAlarmLetter {
+    text-align: center;
+    font-weight: bold;
+    display: inline-block;
+    width: 95%;
+    font-size: 15px;
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
+/*채팅창 닫기 버튼*/
+.mateAlarmListClose, .mateRealTimeAlarmListClose, mateChatListClose {
+    float: right;
+    cursor: pointer;
+    margin-right: 7px;
+}
+
+/*채팅모달창 ul*/
+.mateChatHistoryUl {
+    margin-top: 10px;
+    list-style-type: none;
+    margin-left: -20px;
+}
+
+/*
+!*채팅모달창 li*!
+.mateChatListLi {
+  margin-top: 10px;
+  margin-bottom: 3px;
+}
+
+.spanChatLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 55px;
+}
+*/
+
+
+.chatIcon {
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    right: 2%;
+    bottom: 7%;
+    width: 60px;
+    height: 60px;
+    background-color: #FFF;
+    cursor: pointer;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.16);
+    border-radius: 50px;
+}
+
+.unreadChatCount {
+    position: fixed;
+    bottom: 13.2%;
+    right: 2%;
+    width: 21.5px;
+    height: 20px;
+    background: red;
+    border-radius: 15px;
+}
+
+.chatListOpponentImg {
+    width: 45px;
+    height: 45px;
+    border-radius: 20px;
+}
+
+.mateChatHistoryUl, .mateChatListUl {
+    list-style-type: none;
+}

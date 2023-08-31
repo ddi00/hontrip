@@ -12,6 +12,8 @@
 <input hidden id="nickName" name="nickName" value="<c:out value="${sessionScope.username}" />">
 <input hidden id="profileImage" name="profileImage" value="<c:out value="${sessionScope.profileImage}" />">
 
+
+
 <%
     //*세션에서 유저아이디 불러옴 -> 없으면 no 있으면 유저아이디*//*
     if (session.getAttribute("id") != null) {
@@ -151,6 +153,7 @@
                                                     <textarea id="applicationMessage"
                                                               class="form-control mateBoardApplicationMessageTextarea"
                                                               placeholder="Textarea"
+                                                              maxlength="50"
                                                               style="height: 150px; resize: none;"
                                                               required></textarea>
                                                     <label for="applicationMessage">Textarea</label>
@@ -368,7 +371,7 @@
                                                                  </button>--%>
                                                                 <button type="button" id="application"
                                                                         onclick="applyMate()"
-                                                                        class="btn btn-danger rounded-0 mateApplyCheckButton">
+                                                                        class="btn btn-main rounded-0 mateApplyCheckButton">
                                                                     동행인 신청하기
                                                                 </button>
                                                             </c:if>

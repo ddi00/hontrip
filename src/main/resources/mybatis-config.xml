@@ -33,6 +33,7 @@
         <typeAlias type="com.multi.hontrip.mate.dto.ChatInfoDTO" alias="chatInfoDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.mate.dto.ChatMessageDTO" alias="chatMessageDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.mate.dto.ChatroomRequestDTO" alias="chatroomRequestDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.mate.dto.ChatroomListDTO" alias="chatroomListDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.mate.dto.MateSenderDTO" alias="mateSenderDTO"></typeAlias>
 
         <!-- user -->

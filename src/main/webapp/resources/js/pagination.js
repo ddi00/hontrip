@@ -1,94 +1,94 @@
-$(document).ready(function () {
-    const SEARCH_TYPE_KEY = 'searchType';
-    const KEYWORD_KEY = 'keyword';
-    const SELECTED_REGION_KEY = 'selectedRegion';
-    const SAVED_PAGE_KEY = 'savedPage';
-    const AGE_KEY = 'selectedAge';
-    const orderBy_KEY = 'savedOrderBy'; //
+if (window.location.href.includes('/mate/bbs_list')) {
+    $(document).ready(function () {
+        const SEARCH_TYPE_KEY = 'searchType';
+        const KEYWORD_KEY = 'keyword';
+        const SELECTED_REGION_KEY = 'selectedRegion';
+        const SAVED_PAGE_KEY = 'savedPage';
+        const AGE_KEY = 'selectedAge';
+        const orderBy_KEY = 'savedOrderBy'; //
 
 
-    let savedSearchType = sessionStorage.getItem(SEARCH_TYPE_KEY);
-    let savedKeyword = sessionStorage.getItem(KEYWORD_KEY);
-    let savedRegion = sessionStorage.getItem(SELECTED_REGION_KEY);
-    let savedPage = sessionStorage.getItem(SAVED_PAGE_KEY);
-    let savedAge = sessionStorage.getItem(AGE_KEY);
-    let savedOrderBy = sessionStorage.getItem(orderBy_KEY);
+        let savedSearchType = sessionStorage.getItem(SEARCH_TYPE_KEY);
+        let savedKeyword = sessionStorage.getItem(KEYWORD_KEY);
+        let savedRegion = sessionStorage.getItem(SELECTED_REGION_KEY);
+        let savedPage = sessionStorage.getItem(SAVED_PAGE_KEY);
+        let savedAge = sessionStorage.getItem(AGE_KEY);
+        let savedOrderBy = sessionStorage.getItem(orderBy_KEY);
 
 
-    // 검색 조건과 지역 정보 복원
-    if (savedSearchType){
-    $('#searchType').val(savedSearchType);
-    }
-    if (savedKeyword){
-    $('#keyword').val(savedKeyword);
-    }
-    if (savedRegion) {
-        // 선택된 버튼 강조 표시
-        $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-        $('.regionBtn[data-region="' + savedRegion + '"]').removeClass('btn-soft-orange').addClass('btn-orange');
-    }
-    if (savedAge) {
-        // 선택된 버튼 강조 표시
-        $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-        $('.ageBtn[data-age="' + savedAge + '"]').removeClass('btn-soft-orange').addClass('btn-orange');
-    }
-    if (savedOrderBy){
-        $('#viewCount').removeClass('btn-soft-orange').addClass('btn-orange');
-    }
-
-
-
-    if (!savedSearchType){
-    sessionStorage.removeItem(SEARCH_TYPE_KEY);
-    }
-    if (!savedKeyword){
-    sessionStorage.removeItem(KEYWORD_KEY);
-    }
-    if (!savedRegion){
-    sessionStorage.removeItem(SELECTED_REGION_KEY);
-    }
-    if (!savedOrderBy){
-        sessionStorage.removeItem(orderBy_KEY);
-    }
-    if (!savedAge){
-        sessionStorage.removeItem(AGE_KEY);
+        // 검색 조건과 지역 정보 복원
+        if (savedSearchType) {
+            $('#searchType').val(savedSearchType);
+        }
+        if (savedKeyword) {
+            $('#keyword').val(savedKeyword);
+        }
+        if (savedRegion) {
+            // 선택된 버튼 강조 표시
+            $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('.regionBtn[data-region="' + savedRegion + '"]').removeClass('btn-soft-orange').addClass('btn-orange');
+        }
+        if (savedAge) {
+            // 선택된 버튼 강조 표시
+            $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('.ageBtn[data-age="' + savedAge + '"]').removeClass('btn-soft-orange').addClass('btn-orange');
+        }
+        if (savedOrderBy) {
+            $('#viewCount').removeClass('btn-soft-orange').addClass('btn-orange');
         }
 
-    // 페이지 정보가 있는 경우 해당 페이지로 데이터 로딩 및 페이지 버튼 생성
-    if (savedPage) {
-        loadPageData(savedPage);
-    } else {
-        loadPageData(1); // 기본 페이지 번호
-    }
 
-    // 검색 버튼 클릭 시 페이지 버튼 생성 및 데이터 가져오기
-    $(document).on('click', '.searchBtn', function() {
-        let searchType = $('#searchType').val();
-        let keyword = $('#keyword').val();
-        sessionStorage.setItem(SEARCH_TYPE_KEY, searchType);
-        sessionStorage.setItem(KEYWORD_KEY, keyword);
-        //regionId 세션 삭제
-        sessionStorage.removeItem(SELECTED_REGION_KEY);
-        sessionStorage.removeItem(AGE_KEY);
-        sessionStorage.removeItem(orderBy_KEY);
-        $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-        $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-        $('#viewCount').removeClass('btn-orange').addClass('btn-soft-orange');
-        loadPageData(1);
-    });
+        if (!savedSearchType) {
+            sessionStorage.removeItem(SEARCH_TYPE_KEY);
+        }
+        if (!savedKeyword) {
+            sessionStorage.removeItem(KEYWORD_KEY);
+        }
+        if (!savedRegion) {
+            sessionStorage.removeItem(SELECTED_REGION_KEY);
+        }
+        if (!savedOrderBy) {
+            sessionStorage.removeItem(orderBy_KEY);
+        }
+        if (!savedAge) {
+            sessionStorage.removeItem(AGE_KEY);
+        }
 
-    $(document).on('click', '.pageBtn', function() {
-        let page = $(this).data('page');
-        loadPageData(page);
-    });
+        // 페이지 정보가 있는 경우 해당 페이지로 데이터 로딩 및 페이지 버튼 생성
+        if (savedPage) {
+            loadPageData(savedPage);
+        } else {
+            loadPageData(1); // 기본 페이지 번호
+        }
 
-    $('.regionBtn').click(function() {
-        let selectedRegion = $(this).data('region');
-        sessionStorage.setItem(SELECTED_REGION_KEY, selectedRegion);
-        $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-        $(this).removeClass('btn-soft-orange').addClass('btn-orange');
+        // 검색 버튼 클릭 시 페이지 버튼 생성 및 데이터 가져오기
+        $(document).on('click', '.searchBtn', function () {
+            let searchType = $('#searchType').val();
+            let keyword = $('#keyword').val();
+            sessionStorage.setItem(SEARCH_TYPE_KEY, searchType);
+            sessionStorage.setItem(KEYWORD_KEY, keyword);
+            //regionId 세션 삭제
+            sessionStorage.removeItem(SELECTED_REGION_KEY);
+            sessionStorage.removeItem(AGE_KEY);
+            sessionStorage.removeItem(orderBy_KEY);
+            $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('#viewCount').removeClass('btn-orange').addClass('btn-soft-orange');
+            loadPageData(1);
+        });
 
-        // 세션 스토리지에서 검색 조건 초기화
+        $(document).on('click', '.pageBtn', function () {
+            let page = $(this).data('page');
+            loadPageData(page);
+        });
+
+        $('.regionBtn').click(function () {
+            let selectedRegion = $(this).data('region');
+            sessionStorage.setItem(SELECTED_REGION_KEY, selectedRegion);
+            $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+            $(this).removeClass('btn-soft-orange').addClass('btn-orange');
+
+            // 세션 스토리지에서 검색 조건 초기화
             sessionStorage.removeItem(SEARCH_TYPE_KEY);
             sessionStorage.removeItem(KEYWORD_KEY);
             sessionStorage.removeItem(AGE_KEY);
@@ -98,11 +98,11 @@ $(document).ready(function () {
             $('#keyword').val('');
             $('#viewCount').removeClass('btn-orange').addClass('btn-soft-orange');
 
-        loadPageData(1);
-    });
+            loadPageData(1);
+        });
 
-    // 클릭 이벤트 핸들러
-        $('.ageBtn').click(function() {
+        // 클릭 이벤트 핸들러
+        $('.ageBtn').click(function () {
             let ageRange = $(this).data('age');
             sessionStorage.setItem(AGE_KEY, ageRange);
 
@@ -111,20 +111,20 @@ $(document).ready(function () {
             $(this).removeClass('btn-soft-orange').addClass('btn-orange');
 
             // 세션 스토리지에서 검색 조건 초기화
-                sessionStorage.removeItem(SEARCH_TYPE_KEY);
-                sessionStorage.removeItem(KEYWORD_KEY);
-                sessionStorage.removeItem(SELECTED_REGION_KEY);
-                sessionStorage.removeItem(orderBy_KEY);
+            sessionStorage.removeItem(SEARCH_TYPE_KEY);
+            sessionStorage.removeItem(KEYWORD_KEY);
+            sessionStorage.removeItem(SELECTED_REGION_KEY);
+            sessionStorage.removeItem(orderBy_KEY);
 
-                $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-                $('#searchType').val('');
-                $('#keyword').val('');
-                $('#viewCount').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('#searchType').val('');
+            $('#keyword').val('');
+            $('#viewCount').removeClass('btn-orange').addClass('btn-soft-orange');
 
             loadPageData(1);
         });
         // 클릭 이벤트 핸들러
-        $('#viewCount').click(function() {
+        $('#viewCount').click(function () {
             let orderBy = 'viewCount';
             sessionStorage.setItem(orderBy_KEY, orderBy);
 
@@ -143,39 +143,39 @@ $(document).ready(function () {
             loadPageData(1);
         });
 
-});
+    });
 
 //페이징 처리
-function loadPageData(page) {
-    let searchType = $('#searchType').val();
-    let keyword = $('#keyword').val();
-    let selectedRegion = sessionStorage.getItem('selectedRegion');
-    let selectedAge = sessionStorage.getItem('selectedAge');
-    let orderBy = sessionStorage.getItem('orderBy_KEY');
+    function loadPageData(page) {
+        let searchType = $('#searchType').val();
+        let keyword = $('#keyword').val();
+        let selectedRegion = sessionStorage.getItem('selectedRegion');
+        let selectedAge = sessionStorage.getItem('selectedAge');
+        let orderBy = sessionStorage.getItem('orderBy_KEY');
 
-    if (!selectedRegion) {
-        selectedRegion = 0;
-        sessionStorage.setItem('selectedRegion', selectedRegion);
-    }
+        if (!selectedRegion) {
+            selectedRegion = 0;
+            sessionStorage.setItem('selectedRegion', selectedRegion);
+        }
 
-    $.ajax({
-        url: '/hontrip/mate/pagination',
-        data: {
-            page: page,
-            searchType: searchType,
-            keyword: keyword,
-            regionId: selectedRegion,
-            age: selectedAge,
-            orderBy: orderBy
-        },
-        dataType: 'json',
-        success: function(data) {
-            let str = '';
-            for (let i = 0; i < data.list.length; i++) {
-                let one = data.list[i];
-                let thumbnail = one.thumbnail;
-                                     let imagePath = `/resources/img/mateImg/${thumbnail}`;
-                                     str += ` <div class="col-md-6 col-lg-4">
+        $.ajax({
+            url: '/hontrip/mate/pagination',
+            data: {
+                page: page,
+                searchType: searchType,
+                keyword: keyword,
+                regionId: selectedRegion,
+                age: selectedAge,
+                orderBy: orderBy
+            },
+            dataType: 'json',
+            success: function (data) {
+                let str = '';
+                for (let i = 0; i < data.list.length; i++) {
+                    let one = data.list[i];
+                    let thumbnail = one.thumbnail;
+                    let imagePath = `/resources/img/mateImg/${thumbnail}`;
+                    str += ` <div class="col-md-6 col-lg-4">
                                                        <article class="item post">
                                                          <div class="card">
                                                            <figure class="card-img-top overlay overlay-1 hover-scale">
@@ -208,47 +208,47 @@ function loadPageData(page) {
                                                                        </div>
                                                  </article>
                                                </div>`;
+                }
+
+                // 데이터 삽입 및 페이지 버튼 다시 생성
+                $('.row.isotope').empty().html(str);
+                generatePageButtons(page, data.pageDTO.pageSize, data.pageDTO.firstPageNoOnPageList, data.pageDTO.lastPageNoOnPageList, data.pageDTO.realEnd);
+
+                // 페이지 정보 저장
+                sessionStorage.setItem('savedPage', page);
+            },
+            error: function () {
+                console.log("실패")
             }
+        });
+    }
 
-            // 데이터 삽입 및 페이지 버튼 다시 생성
-            $('.row.isotope').empty().html(str);
-            generatePageButtons(page, data.pageDTO.pageSize, data.pageDTO.firstPageNoOnPageList, data.pageDTO.lastPageNoOnPageList, data.pageDTO.realEnd);
-
-            // 페이지 정보 저장
-            sessionStorage.setItem('savedPage', page);
-        },
-        error: function() {
-            alert("실패");
-        }
-    });
-}
-
-  //페이지 버튼 생성하는 메서드
-  function generatePageButtons(page, pageSize, firstPageNoOnPageList, lastPageNoOnPageList, realEnd) {
-    let pagingHtml = "";
-    console.log(pageSize, "pageSize")
+    //페이지 버튼 생성하는 메서드
+    function generatePageButtons(page, pageSize, firstPageNoOnPageList, lastPageNoOnPageList, realEnd) {
+        let pagingHtml = "";
+        console.log(pageSize, "pageSize")
 
 //    if (page > 1) {
 //      pagingHtml += '<li><button class="page-link pageBtn prevBtn" data-page="' + (page - 1) + '"> <i class="uil uil-arrow-left"></i> </button></li>';
 //    }
 
-    let startPage = Math.max(1, Math.floor((page - 1) / pageSize) * pageSize + 1);
-    console.log(startPage, "startPage")
-    let endPage = Math.min(startPage + pageSize - 1, realEnd);
-    console.log(endPage, "endPage")
-    if (startPage > 1) {
-         pagingHtml += '<li class="page-item"><button class="page-link pageBtn skipBtn" data-page="' + (startPage - pageSize) + '"><i class="uil uil-arrow-left"></i></button></li>';
-       } else {
-         pagingHtml += '<li class="page-item disabled"><button class="page-link pageBtn skipBtn"><i class="uil uil-arrow-left"></i></button></li>';
-       }
+        let startPage = Math.max(1, Math.floor((page - 1) / pageSize) * pageSize + 1);
+        console.log(startPage, "startPage")
+        let endPage = Math.min(startPage + pageSize - 1, realEnd);
+        console.log(endPage, "endPage")
+        if (startPage > 1) {
+            pagingHtml += '<li class="page-item"><button class="page-link pageBtn skipBtn" data-page="' + (startPage - pageSize) + '"><i class="uil uil-arrow-left"></i></button></li>';
+        } else {
+            pagingHtml += '<li class="page-item disabled"><button class="page-link pageBtn skipBtn"><i class="uil uil-arrow-left"></i></button></li>';
+        }
 
-    for (let i = startPage; i <= endPage; i++) {
-      if (i === page) {
-        pagingHtml += '<li class="page-item active"><button class="page-link pageBtn active" data-page="' + i + '">' + i + '</button></li>';
-      } else {
-        pagingHtml += '<li class="page-item"><button class="page-link pageBtn" data-page="' + i + '">' + i + '</button></li>';
-      }
-    }
+        for (let i = startPage; i <= endPage; i++) {
+            if (i === page) {
+                pagingHtml += '<li class="page-item active"><button class="page-link pageBtn active" data-page="' + i + '">' + i + '</button></li>';
+            } else {
+                pagingHtml += '<li class="page-item"><button class="page-link pageBtn" data-page="' + i + '">' + i + '</button></li>';
+            }
+        }
 // >, < 버튼들 >> <<로 통합 시키기
 //    if (page < realEnd) {
 //      pagingHtml += '<li class="page-item"> <button class="page-link pageBtn nextBtn" data-page="' + (page + 1) + '"> <i class="uil uil-arrow-left"></i> </button> </li>';
@@ -259,13 +259,12 @@ function loadPageData(page) {
 //    }
 
 
+        if (endPage < realEnd) {
+            pagingHtml += '<li class="page-item"><button class="page-link pageBtn skipBtn" data-page="' + (endPage + 1) + '"><i class="uil uil-arrow-right"></i> </button></li>';
+        } else {
+            pagingHtml += '<li class="page-item disabled"><button class="page-link pageBtn skipBtn"><i class="uil uil-arrow-right"></i> </button></li>';
+        }
 
-
-if (endPage < realEnd) {
-         pagingHtml += '<li class="page-item"><button class="page-link pageBtn skipBtn" data-page="' + (endPage + 1) + '"><i class="uil uil-arrow-right"></i> </button></li>';
-       } else {
-         pagingHtml += '<li class="page-item disabled"><button class="page-link pageBtn skipBtn"><i class="uil uil-arrow-right"></i> </button></li>';
-       }
-
-    $('.pagination').empty().html(pagingHtml);
-  }
+        $('.pagination').empty().html(pagingHtml);
+    }
+}
