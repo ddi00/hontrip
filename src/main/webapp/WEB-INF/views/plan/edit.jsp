@@ -186,10 +186,97 @@
         </div>
         <hr class="my-8"/>
         <div class="row gx-md-8 gx-xl-12 gy-8">
+
+            <%--숙소추가--%>
             <div class="col-6" style="border-right: 2px solid #F5F5F5;">
-                <button id="add-accom" type="button" class="btn btn-soft-yellow rounded-pill">숙소 추가</button>
+                <% for (int i = 0; i < numOfDays; i++) { %>
+                <button id="add-accommodation-<%=i + 1%>" type="button" class="btn btn-soft-yellow rounded-pill">숙소 추가</button>
+
+
+                <br>
+
+                <div class="row" id="selected-accommodations-<%=i + 1%>">
+
+                    <c:set var="index" value="<%=i + 1%>"/>
+                    <c:forEach items="${addedAccommodations}" var="accommodation">
+                        <c:if test="${accommodation.dayOrder eq index}">
+                            <div class='row my-5'>
+                                <span class='col-2'><img src="${accommodation.place_url}" width="55px" height="45px"></span>
+                                <span class='col-auto'>${accommodation.place_name}</span>
+                                <span class='col-auto'>${accommodation.address_name}</span>
+                            </div>
+                        </c:if>
+                    </c:forEach>
+
+                </div>
+                <br>
+
+
+                <div  class="my-5" id="search-accommodation-form-<%=i + 1%>" style="display: none;">
+                    <form id="search-accommodation-form">
+                        <div class="custom-form-container">
+                            <!--카테고리 선택 제외
+                        <div class="col-md-4 me-2">
+                            <select class="form-select" id="category-accommodation-<%=i + 1%>"
+                                    name="category-accommodation-<%=i + 1%>" form="search-accommodation-form"
+                                    aria-label="검색 범주">
+
+                                <option value="category" selected>숙박시설 구분</option>
+                                <option value="address" >숙박시설 지역명</option>
+                                <option value="placeName">숙박시설 이름</option>
+
+                            </select>
+                        </div>
+                        -->
+
+                            <!--
+                        <input type="text" id="category-input-accommodation-<%=i + 1%>" name="category-accommodation-<%=i + 1%>"
+                               class="custom-form-control col-md-3 me-2" placeholder="카테고리">
+                        -->
+                            <input type="text" id="address-input-accommodation-<%=i + 1%>" name="address-accommodation-<%=i + 1%>"
+                                   class="custom-form-control col-md-5 me-2" placeholder="주소 검색">
+                            <input type="text" id="placeName-input-accommodation-<%=i + 1%>" name="placeName-accommodation-<%=i + 1%>"
+                                   class="custom-form-control col-md-5 me-2" placeholder="장소명 검색">
+
+                            <button type="button" id="search-accommodation-button-<%=i + 1%>" class="btn btn-yellow col-md-2">검색</button>
+
+                        </div>
+                    </form>
+                </div>
+
+
+                <div class="search-accommodation-results row" id="search-accommodation-results-<%=i + 1%>">
+                    <!-- Accommodation search results will be displayed here -->
+                </div>
+                <hr class="my-8"/>
+                <!--
+              search-accommodation-results div 붙여넣기 하는 곳
+                          <div class="search-accommodation-results row" id="search-accommodation-results-<%=i + 1%>">
+                <c:forEach items="${list}" var="accommodation">
+                    <div class="card mt-2">
+                        <div class="card-body">
+                            <p><strong>숙박 id:</strong> ${accommodation.id}</p>
+                            <p><strong>숙박 구분:</strong> ${accommodation.categoryName}</p>
+                            <p><strong>숙박 이름:</strong> ${accommodation.placeName}</p>
+                            <p><strong>숙박 주소:</strong> ${accommodation.addressName}</p>
+                            <p><strong>숙박 전화번호:</strong> ${accommodation.phone}</p>
+                            <p><strong>숙박 URL:</strong> <a href="${accommodation.placeUrl}" target="_blank">${accommodation.placeUrl}</a></p>
+                            <button type="button" id="add-accommodation-btn-${i + 1}-${accommodation.id}" class="btn btn-soft-aqua" data-accommodation-id="${accommodation.id}" data-accommodation-place-name="${accommodation.placeName}">
+                                숙소 추가
+                            </button>
+                        </div>
+                    </div>
+                </c:forEach>
             </div>
-        </div>
+
+        -->
+
+
+
+
+                <% } %>
+            </div>
+
         <hr class="my-8"/>
         <button type="submit" class="btn btn-orange col-md-2 align-self-end" form="planForm">수정</button>
         <%--    container   --%>
@@ -489,5 +576,197 @@
             }
         });
     })
+
+    $(document).ready(function () {
+        $('[id^="search-accommodation-form-"]').hide();
+
+        $('[id^="add-accommodation-"]').click(function () {
+            console.log("숙박시설 검색 div visible show");
+            let btnId = $(this).attr('id');
+            console.log("숙박시설 검색 btnId : " + btnId);
+            //let index = parseInt(btnId.split('-')[3]); // 일차
+            let index = parseInt(btnId.split('-')[2]); // 수정
+            let searchAccommodationFormDivId = 'search-accommodation-form-' + index;
+            let searchAccommodationResultDivId = 'search-accommodation-results-' + index;
+
+            let searchSpotFormDivId = 'search-spot-form-' + index;
+            let searchSpotResultsDivId = 'search-spot-results-' + index;
+
+            $('#' + searchSpotFormDivId).hide();
+            $('#' + searchAccommodationFormDivId).show();
+        });
+
+        $('[id^="search-accommodation-button-"]').click(function () {
+            let btnId = $(this).attr('id');
+            console.log("Accommodation searchBtnId : " + btnId);
+            let index = parseInt(btnId.split('-')[3]); // 일차
+            console.log("btnIndex : " +  index);
+
+            /*
+            let categoryId = 'category-accommodation-' + index;
+            let category = $("#" + categoryId).children("option:selected").val();
+            */
+
+            let addressInputId = 'address-input-accommodation-' + index;
+            let addressInput = $('#' + addressInputId).val();
+            let placeNameInputId = 'placeName-input-accommodation-' + index;
+            let placeNameInput = $('#' + placeNameInputId).val();
+
+            //getAccommodationList(category, address, placeName, btnId);
+            //getAccommodationList(category, addressInput, placeNameInput, btnId);
+            getAccommodationList(addressInput, placeNameInput, btnId);
+        });
+
+
+    });
+
+    const getAccommodationList = function(address, placeName, btnId, category="") {
+        let index = parseInt(btnId.split('-')[3]);
+        let searchAccommodationFormDivId = 'search-accommodation-form-' + index;
+        let searchAccommodationResultsDivId = 'search-accommodation-results-' + index;
+
+        console.log("before ajax getAccommodationList");
+        console.log("planId : " + planId);
+        console.log("userId : " + userId);
+        console.log("index : " + index);
+        console.log("category : " + category);
+        console.log("address : " + address);
+        console.log("placeName : " + placeName);
+
+        let filter_type = "";
+        if (address === "" || address === undefined || address === null)
+            address = "";
+        if (placeName === "" || placeName === undefined || placeName === null)
+            placeName = ""
+
+        if (placeName !== "" && address !== "")
+            filter_type = "address_place";
+        else if (placeName !== "")
+            filter_type = "place_name";
+        else if (address !== "")
+            filter_type = "address";
+
+        console.log("filter_type : " + filter_type);
+
+        $.ajax({
+            method: "get",
+            url: "detail/search-accommodation",
+            contentType: "application/json; charset=UTF-8",
+            //dataType: "html",
+            dataType: "text",
+            async: false,
+            data: {
+                addressName: address,
+                placeName: placeName,
+                categoryName: category,
+                filterType: filter_type
+            },
+            success: function(data) {
+
+                console.log("after getAccommodationList ajax succeeded!");
+                console.log("returned getAccommodationList data");
+
+                console.log(data);
+
+                let trimmedHtml = $(data).find('.card');
+                $('#' + searchAccommodationResultsDivId).empty(); // 이전 목록 지우기
+                $('#' + searchAccommodationResultsDivId).append(trimmedHtml);
+
+                //$('#' + searchAccommodationResultsDivId).append(data);
+                $('#' + searchAccommodationResultsDivId).css({'overflow': 'scroll', 'width': '100%', 'height': '500px'});
+                $('#' + searchAccommodationResultsDivId).show();
+
+                $(document).ready(function() {
+                    // Accommodation addition button click event
+                    $('[id^="add-accommodation-btn-"]').click(function() {
+                        //let index = parseInt(btnId.split('-')[2]);
+                        let index = parseInt(btnId.split('-')[3]);
+                        let accommodationId = $(this).data("accommodation-id");
+                        let accommodationPlaceName = $(this).data("accommodation-place-name");
+                        console.log("data-accommodation-id : " + accommodationId);
+                        console.log("data-accommodation-place-name : " + accommodationPlaceName);
+                        addAccommodation(index, accommodationId);
+                        $('#' + searchAccommodationResultsDivId).empty();
+                    });
+                });
+            },
+            error: function() {
+                alert("숙소 검색에 실패했습니다.");
+            }
+        });
+    };
+
+    // Function to add the selected accommodation to the plan
+    const addAccommodation = function(index, accommodationId) {
+        let searchAccommodationResultsDivId = 'search-accommodation-results-' + index;
+        let selectedAccommodationsDivId = 'selected-accommodations-' + index;
+        let selectedAccommodationDivHTML = "";
+
+        console.log("before addAccommodation ajax");
+        console.log("planId : " + planId);
+        console.log("userId : " + userId);
+        console.log("index : " + index);
+        console.log("accommodationId : " + accommodationId);
+
+        $.ajax({
+            method: "get",
+            url: "detail/update-plan-accommodation",
+            contentType: "application/json; charset=UTF-8",
+            dataType: "json",
+            async: false,
+            data: {
+                planId: planId,
+                userId: userId,
+                dayOrder: index,
+                accommodationId: accommodationId
+            },
+            success: function(accommodation) {
+                alert("숙소가 추가되었습니다!");
+                $('#' + searchAccommodationResultsDivId).hide();
+                selectedAccommodationDivHTML += "<div class='row mt-2'>";
+                selectedAccommodationDivHTML += "<span class='col-2'></span>";
+                selectedAccommodationDivHTML += "<span class='col-auto'>" + accommodation.placeName + "</span>";
+                selectedAccommodationDivHTML += "</div>";
+                $('#' + selectedAccommodationsDivId).append(selectedAccommodationDivHTML);
+                $('#' + selectedAccommodationsDivId).show();
+                selectedAccommodationDivHTML.empty();
+            },
+            error: function() {
+                alert("숙소 추가에 실패했습니다.");
+            }
+        });
+    };
+
+    const addAccommodation2 = function(index, accommodationId) {
+        let selectedAccommodationsDivId = 'selected-accommodations-' + index;
+        let selectedAccommodationDivHTML = "";
+
+        $.ajax({
+            method: "get",
+            url: "detail/update-plan-accommodation",
+            contentType: "application/json; charset=UTF-8",
+            dataType: "json",
+            async: false,
+            data: {
+                planId: planId,
+                userId: userId,
+                dayOrder: index,
+                accommodationId: accommodationId
+            },
+            success: function(accommodation) {
+                alert("숙소가 추가되었습니다!");
+                selectedAccommodationDivHTML += "<div class='row mt-2'>";
+                selectedAccommodationDivHTML += "<span class='col-2'></span>";
+                selectedAccommodationDivHTML += "<span class='col-auto'>" + accommodation.placeName + "</span>";
+                selectedAccommodationDivHTML += "</div>";
+                $('#' + selectedAccommodationsDivId).append(selectedAccommodationDivHTML);
+                $('#' + selectedAccommodationsDivId).show();
+            },
+            error: function() {
+                alert("숙소 추가에 실패했습니다.");
+            }
+        });
+    };
+
 
 </script>

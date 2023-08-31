@@ -67,4 +67,27 @@ public class PlanDayDAO {
 
          my.update("planDay.updateFlight", paramMap);
      }
+
+    public void updateAccommodation(PlanDayDTO planDayDTO) {
+        // HashMap for passing multiple parameters
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("planId", planDayDTO.getPlanId());
+        paramMap.put("userId", planDayDTO.getUserId());
+        paramMap.put("dayOrder", planDayDTO.getDayOrder());
+        paramMap.put("accommodationId", planDayDTO.getAccommodationId());
+
+        my.update("planDay.updateAccommodation", paramMap);
+    }
+
+
+    public void insertWithNewAccommodation(PlanDayDTO planDayDTO) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("planId", planDayDTO.getPlanId());
+        paramMap.put("userId", planDayDTO.getUserId());
+        paramMap.put("dayOrder", planDayDTO.getDayOrder());
+        paramMap.put("accommodationId", planDayDTO.getAccommodationId());
+        paramMap.put("spotId", planDayDTO.getSpotId());
+        paramMap.put("flightId", planDayDTO.getFlightId());
+        my.insert("planDay.insertWithAccommodation", paramMap);
+    }
 }

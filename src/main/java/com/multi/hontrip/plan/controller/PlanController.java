@@ -3,6 +3,7 @@ package com.multi.hontrip.plan.controller;
 import com.multi.hontrip.common.RequiredSessionCheck;
 import com.multi.hontrip.plan.dto.*;
 import com.multi.hontrip.plan.parser.Airport;
+import com.multi.hontrip.plan.service.AccommodationService;
 import com.multi.hontrip.plan.service.FlightService;
 import com.multi.hontrip.plan.service.PlanService;
 import com.multi.hontrip.plan.service.SpotService;
@@ -30,11 +31,14 @@ public class PlanController {
     private final SpotService spotService;
     private final FlightService flightService;
 
+    private final AccommodationService accommodationService;
+
     @Autowired
-    public PlanController(PlanService planService, SpotService spotService, FlightService flightService) {
+    public PlanController(PlanService planService, SpotService spotService, FlightService flightService, AccommodationService accommodationService) {
         this.planService = planService;
         this.spotService = spotService;
         this.flightService = flightService;
+        this.accommodationService = accommodationService;
     }
 
     // 일정 생성
@@ -69,10 +73,14 @@ public class PlanController {
         // 기존에 추가되어 있던 항공권 담을 리스트
         List<FlightLoadDTO> addedFlights = planService.loadExistingFlights(plan);
 
+        List<AccommodationLoadDTO> addedAccommodations
+                = planService.loadExistingAccommodations(plan, numOfDays);
+
         model.addAttribute("addedSpots", addedSpots);
         model.addAttribute("addedFlights", addedFlights);
         model.addAttribute("numOfDays", numOfDays);
         model.addAttribute("plan", plan);
+        model.addAttribute("addedAccommodations", addedAccommodations);
         return "/plan/edit"; // 일정 수정 폼
     }
 
@@ -219,6 +227,59 @@ public class PlanController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 실패");
         }
     }
+
+    @RequestMapping(value = "detail/search-accommodation")
+    public String filterAccommodationList(
+            @RequestParam(name = "addressName", required = false) String addressName,
+            @RequestParam(name = "placeName", required = false) String placeName,
+            @RequestParam(name = "categoryName", required = false) String categoryName,
+            @RequestParam(name = "filterType", required = false) String filterType,
+            Model model
+    ) {
+
+        List<AccommodationDTO> list = null;
+
+
+        if ("address_place".equals(filterType)  ) {
+            list = accommodationService.filterByAddressAndPlaceName(addressName, placeName);
+        } else if ("address".equals(filterType)  ) {
+            list = accommodationService.filterByAddress(addressName);
+        } else if ("place_name".equals(filterType) && !"".equals(placeName) ) {
+            list = accommodationService.filterByPlaceName(placeName);
+        }  else {
+            list = accommodationService.list();
+        }
+
+        if(list.isEmpty()){
+            model.addAttribute("message", "검색 결과가 없습니다."); // 검색 데이터 없는 경우 메시지 표시
+        } else {
+            model.addAttribute("list", list);
+        }
+
+
+        return "/plan/accommodation/accommodation_search_list_for_plan";
+        //return "/plan/accommodation/filter_list";
+        //return "/plan/accommodation/list";
+    }
+
+    @RequestMapping("/detail/update-plan-accommodation")
+    @ResponseBody
+    public AccommodationAddDTO updateAccommodation(@RequestParam("planId") Long planId,
+                                                   @RequestParam("userId") Long userId,
+                                                   @RequestParam("dayOrder") int dayOrder,
+                                                   @RequestParam("accommodationId") String accommodationId, Model model) {
+        // plan-day에 여행지 정보 추가
+
+
+        //planService.addAccommodation(planService.addAccommodationToDay(planId, userId, dayOrder, accommodationId));
+
+        PlanDayDTO dayPlanDto = planService.addAccommodationToDay(planId, userId, dayOrder, accommodationId);
+
+
+        model.addAttribute("planId", planId);
+        return planService.createAccommodationAddDTO(planId, accommodationId);
+    }
+
 
     // 일정 삭제
     @RequestMapping("/delete")
