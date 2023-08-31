@@ -2,6 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="emergency_facility">
+    <insert id="insert" parameterType="EmergencyFacilityDTO">
+        INSERT INTO emergency_facility
+        (id, place_name, category_name, category_group_code, category_group_name, phone,
+         address_name, road_address_name, x, y, place_url, distance)
+        VALUES
+            (#{id}, #{placeName}, #{categoryName}, #{categoryGroupCode}, #{categoryGroupName}, #{phone},
+             #{addressName}, #{roadAddressName}, #{x}, #{y}, #{placeUrl}, #{distance})
+    </insert>
+
+    <select id="existsById" resultType="EmergencyFacilityDTO" parameterType="String">
+        SELECT * FROM emergency_facility WHERE id = #{id}
+    </select>
+
     <select id="one" parameterType="Long" resultType="EmergencyFacilityDTO">
         select emergency_facility_id,
                id,

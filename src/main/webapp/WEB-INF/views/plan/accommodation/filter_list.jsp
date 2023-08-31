@@ -11,13 +11,13 @@
             <c:forEach items="${list}" var="accommodation">
                 <div class="card mt-2">
                     <div class="card-body">
-                        <p><strong>숙박 id:</strong> ${accommodation.id}
-                        <p><strong>숙박 구분:</strong> ${accommodation.categoryName}</p>
-                        <p><strong>숙박 이름:</strong> ${accommodation.placeName}</p>
-                        <p><strong>숙박 주소:</strong> ${accommodation.addressName}</p>
-                        <p><strong>숙박 전화번호:</strong> ${accommodation.phone}</p>
-                        <p><strong>숙박 URL:</strong> <a href="${accommodation.placeUrl}"
-                                                       target="_blank">${accommodation.placeUrl}</a></p>
+                      <%--  <p><strong>숙박 id:</strong> ${accommodation.id}--%>
+                        <p><%--<strong>숙박 구분:</strong>--%> ${accommodation.categoryName}</p>
+                          <p><a href="${accommodation.placeUrl}" target="_blank"><%--<strong>숙박 이름:</strong>--%> ${accommodation.placeName}</a></p>
+                        <p><%--<strong>숙박 주소:</strong>--%> ${accommodation.addressName}</p>
+                        <p><%--<strong>숙박 전화번호:</strong>--%> ${accommodation.phone}</p>
+                        <%--<p>&lt;%&ndash;<strong>숙박 URL:</strong>&ndash;%&gt; <a href="${accommodation.placeUrl}"
+                                                       target="_blank">${accommodation.placeUrl}</a></p>--%>
                     </div>
                 </div>
             </c:forEach>
