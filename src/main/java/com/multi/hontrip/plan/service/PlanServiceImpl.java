@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -192,7 +191,7 @@ public class PlanServiceImpl implements PlanService {
                 String existingFlights = planDayDTO2.getFlightId();
                 String[] FlightIds = existingFlights.split(":");  // ':'로 나눠진 spotContentId 분리
                 for (int i = 0; i < FlightIds.length; i++) {
-                    FlightLoadDTO flightLoadDTO = new FlightLoadDTO(); // 일정-일차에 담긴 여행지 옮기기 위한 DTO
+                    FlightLoadDTO flightLoadDTO = new FlightLoadDTO(); // 일정에 담긴 항공권 옮기기 위한 DTO
                     flightLoadDTO.setPlanId(plan.getPlanId());
                     flightLoadDTO.setUserId(plan.getUserId());
                     flightLoadDTO.setId(Long.valueOf(FlightIds[i]));

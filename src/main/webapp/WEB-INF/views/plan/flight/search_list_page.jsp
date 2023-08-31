@@ -5,49 +5,44 @@
     <div class="card p-4 mt-2">
         <div class="card-body align-items-center justify-content-between">
             <div class="row d-flex">
-                <div class="col-md-4">
-                    <div id="departure-info">
-                        <span style="display:none">출발 시간</span>
+                <div class="col-md-3">
+                    <div>
+                        <span><h3>${flight.depAirportName}</h3></span>
                         <span>
                                 <fmt:parseDate value="${flight.departureTime}" var="departureTime"
                                                pattern="yyyy-MM-dd HH:mm:ss"/>
                                 <fmt:formatDate value="${departureTime}" pattern="HH:mm"/>
-                                    </span>
-                        <span style="display:none">출발 공항</span>
-                        <span>${flight.depAirportName}</span>
+                        </span>
                     </div>
                 </div>
+                <div class="col-md-1 text-start">
+                    <i class="uil uil-plane-fly"></i>
+                </div>
                 <div class="col-md-4">
-                    <div id="arrival-info">
-                        <span style="display:none">도착 시간</span>
-                        <span>
+                    <span><h3>${flight.arrAirportName}</h3></span>
+                    <span>
                                 <fmt:parseDate value="${flight.arrivalTime}" var="arrivalTime"
                                                pattern="yyyy-MM-dd HH:mm:ss"/>
                                         <fmt:formatDate value="${arrivalTime}" pattern="HH:mm"/>
-                                    </span>
-                        <span style="display:none">도착 공항</span>
-                        <span>${flight.arrAirportName}</span>
-                    </div>
+                    </span>
                 </div>
                 <div class="col-md-4">
                     <div class="d-flex flex-column align-items-center float-end">
                         <button type="button"
                                 class="btn btn-outline-orange">
-                            예매하기
+                            예매
                         </button>
                         <button type="button"
                                 class="btn btn-orange mt-1 text-white">
-                            추가하기
+                            추가
                         </button>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <span style="display:none">항공편명</span>
                     <span>${flight.vehicleId}</span>
                     <span>/</span>
-                    <span style="display:none">항공사명</span>
                     <span>${flight.airlineName}</span>
                 </div>
             </div>
