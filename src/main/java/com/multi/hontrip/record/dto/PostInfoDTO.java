@@ -12,15 +12,14 @@ public class PostInfoDTO {
     private String nickName;
     private String pofileImg;
     private String title;
-    private String imgUrl;
     private String content;
     private String thumbnail;
     private String createdAt;
     private String updatedAt;
-    private String startDate;
-    private String endDate;
-    private int isVisible;
+    private String startDate; // 여행시작 날짜
+    private String endDate; // 여행종료 날짜
+    private int isVisible; // 공개 비공개
     private int likeCount;
-    private int cmtCount;
+    private int cmtCount; // 댓글 수
     private long locationId;
 }

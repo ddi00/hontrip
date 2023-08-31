@@ -67,6 +67,7 @@ public class RecordContorller {
         String postViewKey = "post_view_" + id;
         boolean hasViewed = false;
 
+        // 조회수 중복 관련 로직
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -196,8 +197,8 @@ public class RecordContorller {
     }
 
     @GetMapping("feedlist") // 공유피드 리스트 가져오기
-    public String getFeedList(@RequestParam("isVisible") int isVisible, Model model) {
-        List<PostInfoDTO> feedlist = recordService.getFeedList(isVisible);
+    public String getFeedList(Model model) {
+        List<PostInfoDTO> feedlist = recordService.getFeedList();
         List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
         model.addAttribute("feedlist", feedlist);
         model.addAttribute("locationList", locationList);
