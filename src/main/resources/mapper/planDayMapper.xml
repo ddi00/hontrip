@@ -35,34 +35,24 @@
     </update>
 
 
-    <!--<insert id="insert" parameterType="PlanDayDTO"
-            useGeneratedKeys="true"
-            keyProperty="id">
-        insert into plan_day
-        values (null, #{userId}, #{planId}, #{spotId}, #{accommodationId}, #{filghtId}, #{dayOrder}, #{itemType}, #{itemOrder})
-    </insert>
-    <update id="update" parameterType="PlanDayDTO">
+    <update id="updateAccommodation_original" parameterType="hashmap">
         update plan_day
-        set plan_id = #{planId}, spot_id = #{spotId}, end_date = #{endDate}, memo = #{memo}, updated_at = now()
-        where id = #{id}
+        set accommodation_id = #{accommodationId}
+        where plan_id = #{planId} and user_id = #{userId} and day_order = #{dayOrder}
     </update>
-    <select id="one" parameterType="Long" resultType="PlanDayDTO">
-        select
-           *
-        from plan_day
-        where id = #{id}
-    </select>
-    <select id="count" parameterType="Long" resultType="int">
-        select count(id) from plan_day
-        where user_id = ${userId}
-    </select>
-    <select id="all" resultType="PlanDayDTO">
-        select
-            *
-        from plan
-    </select>
-    <delete id="delete" parameterType="PlanDayDTO">
-        delete from plan_day
-        where id = #{id}
-    </delete>-->
+
+    <insert id="updateAccommodation" parameterType="hashmap">
+        insert ignore  into plan_day (plan_id, day_order, user_id, accommodation_id)
+        values (#{planId}, #{dayOrder}, #{userId}, #{accommodationId})
+
+    </insert>
+
+
+    <insert id="insertWithAccommodation" parameterType="PlanDayDTO">
+
+        <if test=" accommodationId != null and !''.equals(accommodationId) " >
+            INSERT INTO plan_day (plan_id, day_order, user_id, accommodation_id)
+            VALUES (#{planId}, #{dayOrder}, #{userId} , #{accommodationId} )
+        </if>
+    </insert>
 </mapper>

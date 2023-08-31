@@ -1,6 +1,5 @@
 package com.multi.hontrip.plan.controller;
 
-import com.multi.hontrip.plan.api.AccommodationApi;
 import com.multi.hontrip.plan.dto.AccommodationDTO;
 import com.multi.hontrip.plan.parser.LocationConstants;
 import com.multi.hontrip.plan.service.AccommodationService;
