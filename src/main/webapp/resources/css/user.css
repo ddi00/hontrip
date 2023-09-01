@@ -65,3 +65,23 @@
 .bg-main-light{
   background: rgba(255,90,70,0.1) !important;
 }
+
+.filter-btn{
+  border: 1px solid rgb(218,220,224);
+  border-radius: 4px;
+  line-height: 1;
+  height: 40px;
+  padding: 10px 12px 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.filter-btn:hover{
+  background-color: #ededed
+}
+
+.filter-select-btn{
+  border: 1px solid #FF5A46;
+  border-radius: 4px;
+  color:#FF5A46;
+}

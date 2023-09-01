@@ -35,7 +35,6 @@ public class ChatDAO {
 
         //메세지 테이블에 저장
         sessionTemplate.insert("chatMapper.insertChatMessage", chatMessage);
-        System.out.println("lastId : " + chatMessage.getMessageId());
 
         //chatRoom에 lastChatId 넣어주기
         Long lastMessageId=sessionTemplate.selectOne("chatMapper.getLastChatIdByRoomId",chatMessage.getRoomId());
@@ -44,8 +43,8 @@ public class ChatDAO {
         }
 
         //사용자별 채팅정보 업데이트
-        sessionTemplate.update("chatMapper.updateSenderChatroom",chatMessage);
-        /* sessionTemplate.update("chatMapper.updateReceiverChatroom",chatMessage);*/
+        sessionTemplate.update("chatMapper.updateSenderChatroom", chatMessage);
+        sessionTemplate.update("chatMapper.updateReceiverChatroom", chatMessage);
     }
 
 

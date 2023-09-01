@@ -14,7 +14,7 @@
           요청하신 "${requestedPath}"페이지는 사용할 수 없거나 이동되었습니다.
           다른 페이지를 시도하거나 아래 버튼을 이용해 홈으로 이동해주세요.
         </p>
-        <a href="/hontrip/" class="btn btn-main rounded-pill">홈으로</a>
+        <a href="/hontrip/" class="btn btn-primay rounded-pill">홈으로</a>
       </div>
     </div>
   </div>
