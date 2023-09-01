@@ -43,6 +43,7 @@ public class ChatController {
     public List<ChatroomListDTO> findAllRooms(HttpSession session) {
         Long id = (Long) session.getAttribute("id");
         List<ChatroomListDTO> chatRoomDTOList = chatService.getChatListById(id);
+
         return chatRoomDTOList;
     }
 
