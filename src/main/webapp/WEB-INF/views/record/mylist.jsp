@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Insert title here</title>
+<%
+        if (session.getAttribute("id") != null) {
+            long userId = (long) session.getAttribute("id");
+            request.setAttribute("userId", userId);
+        }
+%>
+
         <script type="text/javascript" src="../resources/js/jquery-3.7.0.js" ></script>
-    </head>
-    <body>
 
         <section class="section-frame mx-xxl-11 overflow-hidden">
               <div class="wrapper image-wrapper bg-image bg-cover bg-overlay bg-overlay-light-500">
@@ -200,6 +200,9 @@
                                 </div>
                             </c:forEach>
                         </div>
+                        <div class="rePostList row g-8 g-lg-10 isotope">
+                            <!-- 게시물 스크롤 영역 -->
+                        </div>
                     </div>
                 </div>
             </section>
@@ -210,7 +213,49 @@
 
         <!-- 드롭다운 선택 시 해당 지역 게시물 표시 부분 -->
         <div id="list_mylocation_dropdown_result" ></div>
-    </body>
-</html>
+
+    <script>
+        let currentPage = 1;
+        let isLoading = false;
+        let totalPageCount = "${totalPageCount}";
+        let userId = ${userId};
+
+        $(window).on("scroll", function () {
+            let scrollTop = $(window).scrollTop();
+            let windowHeight = $(window).height();
+            let documentHeight = $(document).height();
+            let isBottom = scrollTop + windowHeight + 10 >= documentHeight;
+
+            if (isBottom) {
+                if (currentPage == totalPageCount || isLoading) {
+                    return;
+                }
+                isLoading = true;
+                currentPage++;
+                getPostList(currentPage);
+            }
+        });
+
+        // 무한 스크롤 항공편 리스트 반환 메소드
+        const getPostList = function (currentPage) {
+            let pageNum = currentPage;
+            $.ajax({
+                method: "get",
+                url: "re-post-page",
+                //contentType: "application/json; charset=UTF-8",
+                data: {
+                    pageNum: pageNum,
+                    userId: userId
+                },
+                success: function (result) {
+                    $(".rePostList").append(result);
+                    isLoading = false;
+                },
+                error: function () {
+                    alert("오류가 발생했습니다.");
+                }
+            });
+        }
+    </script>
 
 

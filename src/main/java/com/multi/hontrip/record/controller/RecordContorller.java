@@ -1,7 +1,6 @@
 package com.multi.hontrip.record.controller;
 
 import com.multi.hontrip.common.RequiredSessionCheck;
-import com.multi.hontrip.record.dao.PostLikeDAO;
 import com.multi.hontrip.record.dto.*;
 import com.multi.hontrip.record.service.CommentService;
 import com.multi.hontrip.record.service.LocationService;
@@ -11,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -161,15 +159,69 @@ public class RecordContorller {
 
     @GetMapping("mylist") // 내 게시물 전체 가져오기
     public String getMyList(Model model, HttpSession session) {
-        Long userId = (Long) session.getAttribute("id");
-        List<PostInfoDTO> getMyList = recordService.getMyList(userId);
+        long  userId = (long) session.getAttribute("id");
+
+        final int PAGE_ROW_COUNT = 9; // 한 페이지에 표시할 게시물 개수
+        int pageNum = 1; // 페이지 번호
+        int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT; // 시작 row 번호
+        int endRowNum = pageNum * PAGE_ROW_COUNT; // 마지막 row 번호
+        int rowCount = PAGE_ROW_COUNT; // row 카운트
+
+        // 페이지 조건에 맞는 리스트 불러올 재료
+        PostScrollDTO postScrollDTO = new PostScrollDTO();
+        postScrollDTO.setUserId(userId);
+        postScrollDTO.setStartRowNum(startRowNum);
+        postScrollDTO.setEndRowNum(endRowNum);
+        postScrollDTO.setRowCount(rowCount);
+
         List<LocationDTO> getMyMap = recordService.getMyMap(userId); // 지도 정보 가져오기
         List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
-        model.addAttribute("mylist", getMyList);
         model.addAttribute("mymap", getMyMap);
         model.addAttribute("locationList", locationList);
         model.addAttribute("appkey",MAP_KEY);
+
+        List<PostInfoDTO> listSize = recordService.getMyList(userId);
+        List<PostInfoDTO> mylist = recordService.getMyListWithScroll(postScrollDTO);
+        // 내 게시물 수
+        int totalRow = listSize.size();
+        // 전체 페이지 수
+        int totalPageCount = (int) Math.ceil(totalRow / (double) PAGE_ROW_COUNT);
+
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("totalRow", totalRow);
+        model.addAttribute("pageNum", pageNum);
+
+        model.addAttribute("mylist", mylist);
         return "/record/mylist"; // 기존의 뷰 이름 반환
+    }
+
+    @RequestMapping("re-post-page")
+    public String myListWithScroll(@RequestParam int pageNum, Model model, HttpSession session) {
+        long  userId = (long) session.getAttribute("id");
+        final int PAGE_ROW_COUNT = 10; // 한 페이지에 표시할 게시물 개수
+
+        int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT; // 시작 row 번호
+        int endRowNum = pageNum * PAGE_ROW_COUNT; // 마지막 row 번호
+        int rowCount = PAGE_ROW_COUNT; // row 카운트
+
+        PostScrollDTO postScrollDTO = new PostScrollDTO();
+        postScrollDTO.setUserId(userId);
+        postScrollDTO.setStartRowNum(startRowNum);
+        postScrollDTO.setEndRowNum(endRowNum);
+        postScrollDTO.setRowCount(rowCount);
+
+        List<PostInfoDTO> mylist = recordService.getMyListWithScroll(postScrollDTO);
+        // 내 게시물 수
+        int totalRow = mylist.size();
+        // 전체 페이지 수
+        int totalPageCount = (int) Math.ceil(totalRow / (double) PAGE_ROW_COUNT);
+
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("totalRow", pageNum);
+        model.addAttribute("pageNum", pageNum);
+
+        model.addAttribute("mylist", mylist);
+        return "/record/post_list_page";
     }
 
 
