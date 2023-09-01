@@ -128,13 +128,12 @@ input #depDate .custom-flight-form {
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
-
 .custom-card {
     --bs-card-spacer-y: 2rem;
     --bs-card-spacer-x: 2rem;
     --bs-card-title-spacer-y: 0.5rem;
     --bs-card-border-width: 1px;
-    --bs-card-border-color: rgba(164, 174, 198, 0.7);
+    --bs-card-border-color: rgba(164, 174, 198, 0.15);
     --bs-card-border-radius: 0.4rem;
     --bs-card-inner-border-radius: 0.4rem;
     --bs-card-cap-padding-y: 0.9rem;
@@ -160,7 +159,7 @@ input #depDate .custom-flight-form {
 .custom-card-for-plan {
     --bs-card-title-spacer-y: 0.5rem;
     --bs-card-border-width: 1px;
-    --bs-card-border-color: rgba(164, 174, 198, 0.7);
+    --bs-card-border-color: rgba(164, 174, 198, 0.15);
     --bs-card-border-radius: 0.4rem;
     --bs-card-inner-border-radius: 0.4rem;
     --bs-card-cap-padding-y: 0.9rem;

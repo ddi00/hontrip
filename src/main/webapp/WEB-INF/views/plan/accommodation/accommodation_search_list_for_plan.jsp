@@ -22,7 +22,7 @@
         <p><%--<strong>숙박 전화번호:</strong>--%> ${accommodation.phone}</p>
           <%--<p>&lt;%&ndash;<strong>숙박 URL:</strong>&ndash;%&gt; <a href="${accommodation.placeUrl}"
                                          target="_blank">${accommodation.placeUrl}</a></p>--%>
-        <button type="button" id="add-accommodation-btn-${i + 1}-${accommodation.id}" class="btn btn-soft-aqua"
+        <button type="button" id="add-accommodation-btn-${i + 1}-${accommodation.id}" class="btn btn-soft-yellow"
                 data-accommodation-id="${accommodation.id}" data-accommodation-place-name="${accommodation.placeName}">
           숙소 추가
         </button>

@@ -11,7 +11,7 @@
 %>
 <section class="wrapper bg-light">
     <div class="custom-card container-fluid container p-6 mt-15 mb-20 w-75">
-        <h2 class="my-4">내 여행 일정 > ${plan.title}</h2>
+        <h3 class="my-4">내 여행 일정 > ${plan.title}</h3>
         <hr class="my-4"/>
         <form id="planForm" action="update" method="post">
             <input type="hidden" id="planId" name="planId" value="${plan.planId}">
@@ -300,7 +300,7 @@
                         <input type="text" id="placeName-input-accommodation-1" name="placeName-accommodation-1"
                                class="custom-form-control col-md-5 me-2" placeholder="장소명 검색">
 
-                        <button type="button" id="search-accommodation-button-1" class="btn btn-orange col-md-2">검색</button>
+                        <button type="button" id="search-accommodation-button-1" class="btn btn-yellow col-md-2">검색</button>
 
                     </div>
                 </form>
