@@ -162,6 +162,28 @@
 		ORDER BY rb.id DESC
 	</select>
 
+	<select id="mylistScroll" resultType="postInfoDTO" parameterType="postScrollDTO">
+		SELECT
+		rb.id AS boardId,
+		loc.city,
+		u.nickname,
+		rb.title,
+		rb.thumbnail,
+		rb.created_at,
+		rb.updated_at,
+		rb.is_visible,
+		(SELECT COUNT(*) FROM record_like rl WHERE rl.record_id = rb.id) AS likeCount
+		FROM
+		record_board rb
+		LEFT JOIN user u ON rb.user_id = u.id
+		LEFT JOIN location loc ON rb.location_id = loc.id
+		LEFT JOIN record_like rl ON rb.id = rl.record_id
+		WHERE
+		u.id  = #{userId}
+		ORDER BY rb.id DESC
+		limit #{startRowNum}, #{rowCount}
+	</select>
+
 	<!-- 마커 클릭 한 해당 지역 내 게시물 가져오기 -->
 	<select id="list_mylocation_click" resultType="postInfoDTO" parameterType="java.util.Map">
 		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId
