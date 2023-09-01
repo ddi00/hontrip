@@ -9,10 +9,7 @@
                         <h2 class="mb-5"><span class="main-color"><c:out value="${sessionScope.nickName}"/></span>님의
                             여행기록</h2>
                     </div>
-                    <div class="col-lg-8 d-flex">
-
-
-                    </div>
+                    <div class="col-lg-8 d-flex"></div>
                 </div>
                 <div class="city-area">
                     <c:forEach items="${cityMap}" var="entry">
@@ -28,7 +25,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8 align-text-bottom">
+                    <div class="col-md-6 align-text-bottom">
                         <p>전체 <span id="recordTotalCount" class="main-color">${pageInfo.totalCount}</span>건</p>
                     </div>
                     <div class="col-md-2">
@@ -51,6 +48,9 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-2">
+                        <a class="btn btn-red btn-sm rounded-pill rowDeleteBtn">선택삭제</a>
+                    </div>
                 </div>
                 <table class="table table-striped" id="userInfoTable">
                     <thead>
@@ -64,7 +64,7 @@
                         <th scope="col">댓글</th>
                         <th scope="col">조회수</th>
                         <th scope="col">작성일</th>
-                        <th scope="col">선택</th>
+                        <th scope="col"><p>선택 <input class="form-check-input totalSelectbtn" type="checkbox" value="${record.boardId}" required></p></th>
                     </tr>
                     </thead>
                     <tbody>

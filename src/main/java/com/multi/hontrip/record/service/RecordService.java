@@ -114,9 +114,16 @@ public class RecordService {
         return recordDAO.selectImg(recordId);
     }
 
+    // 내 게시물
     public List<PostInfoDTO> getMyList(Long userId) {
         return recordDAO.getMyList(userId);
     }
+
+    // 스크롤 내 게시물
+    public List<PostInfoDTO> getMyListWithScroll(PostScrollDTO postScrollDTO) {
+        return recordDAO.getMyListWithScroll(postScrollDTO);
+    }
+
     public List<PostInfoDTO> getListMyLocationClick(Long locationId, Long userId) {
         return recordDAO.getListMyLocationClick(locationId, userId);
     }

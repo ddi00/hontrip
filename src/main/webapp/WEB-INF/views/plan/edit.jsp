@@ -10,10 +10,9 @@
     }
 %>
 <section class="wrapper bg-light">
-    <div class="container-fluid container mt-15 mb-20 w-80">
-        <h2 class="mb-4">일정 상세</h2>
-        <hr class="my-8"/>
-
+    <div class="custom-card container-fluid container p-6 mt-15 mb-20 w-75">
+        <h3 class="my-4">내 여행 일정 > ${plan.title}</h3>
+        <hr class="my-4"/>
         <form id="planForm" action="update" method="post">
             <input type="hidden" id="planId" name="planId" value="${plan.planId}">
             <input type="hidden" id="userId" name="userId" value="<%= userId %>">
@@ -42,13 +41,14 @@
         </form>
 
         <%--안전정보, 응급시설 버튼--%>
+        <hr class="my-5">
         <div class="row justify-content-center">
-                <div class="col-md-6 mb-3">
+            <div class="col-md-6 my-2">
                 <div class="d-flex justify-content-center">
                 <button type="button" class="btn btn-outline-orange rounded-pill" style="width: 50%;" data-bs-toggle="modal" data-bs-target="#safetyModal">안전정보 확인</button>
                 </div>
-                </div>
-                    <div class="col-md-6 mb-3">
+            </div>
+            <div class="col-md-6 my-2">
                 <div class="d-flex justify-content-center">
                     <button type="button" id="add-emergency-facility-button" class="btn btn-outline-orange rounded-pill" style="width: 50%;" data-toggle="modal" data-target="#emergencyFacilityModal">응급시설 확인</button>
                 </div>
@@ -103,8 +103,8 @@
 
                 <label>Day <%=i + 1%>
                 </label><br>
-                <div id="add-buttons" class="mt-5">
-                    <button type="button" id="add-spot-<%=i + 1%>" class="btn btn-soft-orange rounded-pill">여행지 추가
+                <div id="add-buttons" class="mt-5 text-center">
+                    <button type="button" id="add-spot-<%=i + 1%>" class="btn btn-sm btn-soft-orange rounded-pill w-75">여행지 추가
                     </button>
                 </div>
                 <br>
@@ -150,7 +150,7 @@
                                                                          id="category-<%=i + 1%>"
                                                                          name="category-<%=i + 1%>"
                                                                          form="spot-form"
-                                                                         aria-label="검색 범주">
+                                                                         aria-label="검색 범주" style="font-size: 0.65rem;">
                                 <option value="keyword" selected>여행지명</option>
                                 <option value="area">지역명</option>
                             </select>
@@ -176,53 +176,53 @@
 
         <hr class="my-8"/>
         <div class="row gx-md-8 gx-xl-12 gy-8">
-            <div class="col-6" style="border-right: 2px solid #F5F5F5;">
-                <button id="add-flight" type="button" class="btn btn-soft-green rounded-pill">항공권 추가</button>
+            <div class="col-6 text-center" style="border-right: 2px solid #F5F5F5;">
+                <button id="add-flight" type="button" class="btn btn-sm btn-soft-green rounded-pill w-75">항공권 추가</button>
 
                 <div class="mt-5 mb-2" id="selected-flights">
                     <c:forEach items="${addedFlights}" var="flight">
                         <div class="card my-2">
-                            <div class="ms-3 my-4">
+                            <div class="col-12 text-end">
+                                <button type="button"
+                                        class="delete-flight-btn btn custom-btn-sm mt-2 me-2"
+                                        data-flight-id="${flight.id}">
+                                    <svg style="color: gray" xmlns="http://www.w3.org/2000/svg" width="16"
+                                         height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                                              fill="gray"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-body-for-plan-flight">
                                 <div class="row">
-                                    <div class="col-5 text-center"><h4>${flight.depAirportName}</h4></div>
-                                    <div class="col-1 text-start">
+                                    <div class="col-5 text-center ms-2"><h4>${flight.depAirportName}</h4></div>
+                                    <div class="col-1 text-center">
                                         <i class="uil uil-plane-fly"></i>
                                     </div>
-                                    <div class="col-4 text-center"><h4>${flight.arrAirportName}</h4></div>
+                                    <div class="col-5 text-center"><h4>${flight.arrAirportName}</h4></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6 text-center">
-                                        <span>
+                                        <span style="font-size: 0.7rem">
                                             <fmt:parseDate value="${flight.departureTime}" var="departureTime"
                                                            pattern="yyyy-MM-dd HH:mm:ss"/>
                                             <fmt:formatDate value="${departureTime}" pattern="yyyy-MM-dd HH:mm"/>
                                         </span>
                                     </div>
-                                    <div class="col-4 text-center">
-                                        <span>
+                                    <div class="col-6 text-center">
+                                        <span style="font-size: 0.7rem">
                                             <fmt:parseDate value="${flight.arrivalTime}" var="arrivalTime"
                                                            pattern="yyyy-MM-dd HH:mm:ss"/>
                                             <fmt:formatDate value="${arrivalTime}" pattern="yyyy-MM-dd HH:mm"/>
                                         </span>
                                     </div>
-                                    <div class="col-2">
-                                    <span class="align-self-start"><button type="button"
-                                                                           class="delete-flight-btn btn btn-sm"
-                                                                           data-flight-id="${flight.id}">
-                                        <svg style="color: gray" xmlns="http://www.w3.org/2000/svg" width="16"
-                                             height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                                                      fill="gray"></path>
-                                            </svg>
-                                    </button></span>
-                                    </div>
                                 </div>
                                 <div class="row">
-                                <span class="col-11 text-center">
-                                    <span>${flight.vehicleId}</span>
-                                    <span> / </span>
-                                    <span>${flight.airlineName}</span>
-                                </span>
+                                    <div class="col-12 text-center">
+                                        <span>${flight.vehicleId}</span>
+                                        <span> / </span>
+                                        <span>${flight.airlineName}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -243,9 +243,9 @@
         <div class="row gx-md-8 gx-xl-12 gy-8">
 
             <%--숙소추가--%>
-            <div class="col-6" style="border-right: 2px solid #F5F5F5;">
+            <div class="col-6 text-center" style="border-right: 2px solid #F5F5F5;">
 
-                <button id="add-accommodation-1" type="button" class="btn btn-soft-yellow rounded-pill">숙소 추가</button>
+                <button id="add-accommodation-1" type="button" class="btn btn-sm btn-soft-yellow rounded-pill w-75">숙소 추가</button>
                 <br>
 
                 <div class="row" id="selected-accommodations-1">
@@ -300,7 +300,7 @@
                         <input type="text" id="placeName-input-accommodation-1" name="placeName-accommodation-1"
                                class="custom-form-control col-md-5 me-2" placeholder="장소명 검색">
 
-                        <button type="button" id="search-accommodation-button-1" class="btn btn-orange col-md-2">검색</button>
+                        <button type="button" id="search-accommodation-button-1" class="btn btn-yellow col-md-2">검색</button>
 
                     </div>
                 </form>
@@ -438,9 +438,8 @@
                 selectedSpotDivHTML += "<span class='col-3'><img src='" + spot.image + "'width='88px' height='72px'></span>"
                 selectedSpotDivHTML += "<span class='col-6 align-self-center'>" + spot.title + "</span>"
                 selectedSpotDivHTML += "<span class='col-1 align-self-center'><button type='button' class='btn btn-sm delete-spot-btn' data-spot-content-day-order='" + dayOrder + "'data-spot-content-order='" + spotOrder + "'data-spot-content-id='" + spot.contentId + "'>"
-                selectedSpotDivHTML += "<svg style='color: red' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'>"
-                selectedSpotDivHTML += "<path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z' fill='red'></path>"
-                selectedSpotDivHTML += "<path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z' fill='red'></path></svg>"
+                selectedSpotDivHTML += "<svg style='color: gray' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-x' viewBox='0 0 16 16'>"
+                selectedSpotDivHTML += "<path d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z' fill='gray'></path></svg>"
                 selectedSpotDivHTML += "</button></span></div>"
 
                 $('#' + selectedSpotsDivId).append(selectedSpotDivHTML); // 검색 결과를 해당 div에 삽입
@@ -525,7 +524,7 @@
                     'overflow-x': 'hidden',
                     'overflow-y': 'auto',
                     'width': '100%',
-                    'height': '700px'
+                    'height': '500px'
                 }); // 스크롤
                 $("#search-flight-results").show();
             },
@@ -565,20 +564,20 @@
                 let trimmedDepTime = flight.departureTime.substring(0, flight.departureTime.lastIndexOf(':'));
                 let trimmedArrTime = flight.arrivalTime.substring(0, flight.arrivalTime.lastIndexOf(':'));
 
-                selectedFlightDivHTML += "<div class='card my-2'><div class='ms-3 my-4'><div class='row'>"
-                selectedFlightDivHTML += "<div class='col-5'><span>" + flight.depAirportName + "</span></div>"
-                selectedFlightDivHTML += "<div class='col-5'><span>" + flight.arrAirportName + "</span></div></div>"
+                selectedFlightDivHTML += "<div class='card my-2'><div class='col-12 text-end'>"
+                selectedFlightDivHTML += "<button type='button' class='delete-flight-btn btn custom-btn-sm mt-2 me-2' data-flight-id='" + flight.id + "'>"
+                selectedFlightDivHTML += "<svg style='color: gray' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-x' viewBox='0 0 16 16'>"
+                selectedFlightDivHTML += "<path d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z' fill='gray'></path></svg>"
+                selectedFlightDivHTML += "</button></div><div class='card-body-for-plan-flight'><div class='row'>"
+                selectedFlightDivHTML += "<div class='col-5 text-center ms-2'><h4>" + flight.depAirportName + "</h4></div>"
+                selectedFlightDivHTML += " <div class='col-1 text-center'><i class='uil uil-plane-fly'></i></div>"
+                selectedFlightDivHTML += "<div class='col-5 text-center'><h4>" + flight.arrAirportName + "</h4></div></div>"
                 selectedFlightDivHTML += "<div class='row'>"
-                selectedFlightDivHTML += "<div class='col-5'><span>" + trimmedDepTime + "</span></div>"
-                selectedFlightDivHTML += "<div class='col-5'><span>" + trimmedArrTime + "</span></div>"
-                selectedFlightDivHTML += "<span class='col-2 align-self-start'><button type='button' class='delete-flight-btn btn btn-sm'" + "data-flight-id='" + flight.id + "'>"
-                selectedFlightDivHTML += "<svg style='color: red' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'>"
-                selectedFlightDivHTML += "<path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z' fill='red'></path>"
-                selectedFlightDivHTML += "<path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z' fill='red'></path></svg>"
-                selectedFlightDivHTML += "</button></span></div>"
+                selectedFlightDivHTML += "<div class='col-6 text-center'><span style='font-size: 0.7rem'>" + trimmedDepTime + "</span></div>"
+                selectedFlightDivHTML += "<div class='col-6 text-center'><span style='font-size: 0.7rem'>" + trimmedArrTime + "</span></div>"
                 selectedFlightDivHTML += "<div class='row'>"
-                selectedFlightDivHTML += "<span class='col-12'><span>" + flight.vehicleId + "</span><span>" + ' / ' + "</span><span>" + flight.airlineName + "</span></span></div>"
-                selectedFlightDivHTML += "</div>"
+                selectedFlightDivHTML += "<div class='col-12 text-center'><span>" + flight.vehicleId + "</span><span>" + ' / ' + "</span><span>" + flight.airlineName + "</span></div></div>"
+                selectedFlightDivHTML += "</div></div>"
 
                 $("#selected-flights").append(selectedFlightDivHTML); // 검색 결과를 해당 div에 삽입
                 $("#selected-flights").show();
