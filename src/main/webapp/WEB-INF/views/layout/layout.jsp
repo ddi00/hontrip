@@ -176,12 +176,15 @@
                     url: "${pageContext.request.contextPath}/mate/chat-room-list",
                     method: "POST",
                     success: function (chatRoomList) {
-                        console.log(chatRoomList);
                         $('#mateChatListUl').html('');
                         for (let i = 0; i < chatRoomList.length; i++) {
-                            $('#mateChatListUl').append('<li><a onclick="clickOneChatRoom(this)" data-value="' + chatRoomList[i].roomId + '"><span>' +
-                                chatRoomList[i].chatRoomName + '</span><br><img class="chatListOpponentImg" src="' + chatRoomList[i].opponentProfileImg + '">' + chatRoomList[i].lastMessage + '</a></li>');
+                            $('#mateChatListUl').append('<li><a onclick="clickOneChatRoom(this)" data-value="' + chatRoomList[i].roomId + '"><span class="customChatRoomName" style="font-size: 20px; text-align: center !important;">' +
+                                chatRoomList[i].chatRoomName +
+                                '</span><br><img class="chatListOpponentImg" src="' +
+                                chatRoomList[i].opponentProfileImg + '">      ' + chatRoomList[i].senderNickname + '  : ' +
+                                chatRoomList[i].lastMessage + '  <span style="text-align: right; font-size: 12px; color: #777;">' + chatRoomList[i].lastMessageCreatedAt + '</span></a></li>');
                         }
+
                     },
                     error: function (e) {
                         console.log(e)
@@ -211,10 +214,10 @@
             let guestId = chatInfo[5];
             let chatRoomName = "";
 
-            if (postTitle.length > 5) {
-                chatRoomName = "[" + ownerNickname + "][" + guestNickname + "]" + postTitle.substring(0, 6) + "...";
+            if (postTitle.length > 10) {
+                chatRoomName = postTitle.substring(0, 11) + "...";
             } else {
-                chatRoomName = "[" + ownerNickname + "][" + guestNickname + "]" + postTitle;
+                chatRoomName = postTitle;
             }
 
             /*console.log('글 작성자 닉네임 :' +postWriterNickname +

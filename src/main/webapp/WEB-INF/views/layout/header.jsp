@@ -25,11 +25,11 @@
     <div class="mateChatModal-content">
         <%--채팅방 목록--%>
         <div class="mateChatList-wrap">
-            <span class="chatModalAlarmLetter">채팅 목록</span>
-            <br>
+            <div class="chatModalAlarmLetter">채팅 목록</div>
             <div class="mate-chat-list-container">
             <div class="mateChatListDiv">
                 <ul id="mateChatListUl" class="mateChatListUl">
+
                 </ul>
             </div>
         </div>
