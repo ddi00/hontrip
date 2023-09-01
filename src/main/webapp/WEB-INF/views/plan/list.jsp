@@ -67,6 +67,9 @@
     $(document).on('click', '.delete-plan-btn', function () {
         let deleteButton = $(this);
         let planId = $(this).data("plan-id");
+        let checking = CheckBeforeDelete();
+
+        if (checking == true){
         $.ajax({
             method: "get",
             url: "delete",
@@ -77,11 +80,20 @@
                 planId: planId
             },
             success: function (result) {
-                deleteButton.closest(".card").remove();
+                deleteButton.closest(".custom-card").remove();
             },
             error: function () {
                 alert("일정 삭제에 실패했습니다.");
             }
         });
+        }
     })
+
+    function CheckBeforeDelete() {
+        if (confirm("일정을 삭제하시겠습니까?") == true){
+            return true;
+        }else{
+            return false;
+        }
+    }
 </script>

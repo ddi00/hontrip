@@ -316,20 +316,14 @@ public class PlanController {
     @RequiredSessionCheck
     public ResponseEntity<String> delete(@RequestParam("userId") Long userId,
                          @RequestParam("planId") Long planId, HttpSession session) {
-        System.out.println("userId : "+userId);
-        System.out.println("planId : "+planId);
-
         Long sessionUserId = (Long) session.getAttribute("id");
-
         try {
             planService.deletePlan(planId, sessionUserId);
-            System.out.println("Deleted successfully");
             return ResponseEntity.ok("삭제 성공");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 실패");
         }
-        //return "redirect:/plan/list"; // 일정 삭제 후 일정 목록으로 리다이렉트
     }
 
     // 일정 목록 보기
