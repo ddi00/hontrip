@@ -66,7 +66,7 @@
 <section class="wrapper bg-light">
     <div class="container pt-12 pt-md-14 pb-14 pb-md-16">
         <div class="row gx-md-8 gx-12 gy-12">
-            <div class="col-lg-8 mx-auto">
+            <div class="card col-lg-8 mx-auto">
                 <form action="createpost" method="post" enctype="multipart/form-data">
                     <div class="row g-3">
                         <div class="col-12">
