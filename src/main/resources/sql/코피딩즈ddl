@@ -254,7 +254,7 @@ CREATE TABLE `record_comment` (
   `record_id` bigint NOT NULL,
   `content` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `comment_sequence` int DEFAULT NULL,
   `indentation_number` int DEFAULT NULL,
   PRIMARY KEY (`id`),
