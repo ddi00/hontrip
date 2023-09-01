@@ -19,7 +19,7 @@
     </section>
     <!-- /section -->--%>
 <section class="container mateInsertContainer">
-    <div class="mateInsertTitle">동행인 찾기</div>
+    <div class="mateInsertTitle"><span style="color: rgba(255, 115, 94, 0.9);">동행인</span> 찾기</div>
     <hr style="margin:2% 0.8%; margin-bottom: 4%; color: rgba(0, 0, 0, 0.7);">
     <%--<div class="container pb-14 pb-md-16">
         <div class="row">
@@ -159,13 +159,13 @@
 
 
                                         <input hidden name="thumbnail" value="${dto.thumbnail}">
-                                        <div class="mateButtons">
-                                            <button id="cancel" onclick="location.href='bbs_list?page=1'"
-                                                    class="btn btn-red mateButton">취소
-                                            </button>
-                                            <button id="edit" class="btn btn-yellow mateButton">수정완료</button>
-                                        </div>
-                                </div>
+            <div class="mateButtons">
+                <button id="cancel" onclick="location.href='bbs_list?page=1'"
+                        class="btn btn-outline-ash mateButton">취소
+                </button>
+                <button id="edit" class="btn btn-outline-primary mateButton">수정완료</button>
+            </div>
+    </div>
     <%--  </div>
       <!-- /.card-body -->
   </div>
