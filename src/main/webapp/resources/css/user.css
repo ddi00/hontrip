@@ -34,19 +34,19 @@
 .vertical-center
 
 .btn-main {
-  --bs-btn-color: #fff;
-  --bs-btn-bg: #FF5A46;
-  --bs-btn-border-color: #FF5A46;
-  --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #FF5A46;
-  --bs-btn-hover-border-color: #FF5A46;
-  --bs-btn-focus-shadow-rgb: 92,140,229;
-  --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: #FF5A46;
-  --bs-btn-active-border-color: #FF5A46;
-  --bs-btn-active-shadow: 0rem 0.25rem 0.75rem rgba(30, 34, 40, 0.15);
-  --bs-btn-disabled-color: #fff;
-  --bs-btn-disabled-bg: #FF5A46;
+  --bs-btn-color: #fff !important;
+  --bs-btn-bg: #FF5A46 !important;
+  --bs-btn-border-color: #FF5A46!important;
+  --bs-btn-hover-color: #fff !important;
+  --bs-btn-hover-bg: #FF5A46 !important;
+  --bs-btn-hover-border-color: #FF5A46 !important;
+  --bs-btn-focus-shadow-rgb: 92,140,229 !important;
+  --bs-btn-active-color: #fff !important;
+  --bs-btn-active-bg: #FF5A46 !important;
+  --bs-btn-active-border-color: #FF5A46 !important;
+  --bs-btn-active-shadow: 0rem 0.25rem 0.75rem rgba(30, 34, 40, 0.15)!important;
+  --bs-btn-disabled-color: #fff!important;
+  --bs-btn-disabled-bg: #FF5A46!important;
   --bs-btn-disabled-border-color: #FF5A46;
 }
 
@@ -64,4 +64,49 @@
 
 .bg-main-light{
   background: rgba(255,90,70,0.1) !important;
+}
+
+.filter-btn{
+  border: 1px solid rgb(218,220,224);
+  border-radius: 4px;
+  line-height: 1;
+  height: 40px;
+  padding: 10px 12px 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.filter-btn:hover{
+  background-color: #ededed
+}
+
+.filter-select-btn{
+  border: 1px solid #FF5A46;
+  border-radius: 4px;
+  color:#FF5A46;
+}
+.select-area{
+  border: 1px solid #eaebef;
+  background: #f7f8fa;
+  padding-block-start: 1em;
+  padding-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 20px;
+  display: none;
+}
+
+.select-area-show{
+  display: flex;
+}
+.selected-condition{
+  display: inline-block;
+}
+.select-span{
+  margin-right: 10px;
+}
+.deleteCityBtn{
+  margin-bottom: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }

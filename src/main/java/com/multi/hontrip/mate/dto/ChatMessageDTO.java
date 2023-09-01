@@ -16,6 +16,7 @@ public class ChatMessageDTO {   // 채팅 메세지 주고받은 dto
     private Long roomId;    // 방번호
     private Long senderId;  // 보내는 사람 id
     private String senderNickname;  //보내는 사람 닉네임
+    private String senderProfileImage;
     private Long receiverId;    //받는 사람 id
     private String message; // 메세지
     private LocalDateTime sendTime; // 발송시간

@@ -1,11 +1,11 @@
 if (window.location.href.includes('/mate/bbs_list')) {
     $(document).ready(function () {
-        const SEARCH_TYPE_KEY = 'searchType';
-        const KEYWORD_KEY = 'keyword';
+        const SEARCH_TYPE_KEY = 'savedSearchType';
+        const KEYWORD_KEY = 'savedKeyword';
         const SELECTED_REGION_KEY = 'selectedRegion';
         const SAVED_PAGE_KEY = 'savedPage';
         const AGE_KEY = 'selectedAge';
-        const orderBy_KEY = 'savedOrderBy'; //
+        const orderBy_KEY = 'savedOrderBy';
 
 
         let savedSearchType = sessionStorage.getItem(SEARCH_TYPE_KEY);
@@ -143,7 +143,45 @@ if (window.location.href.includes('/mate/bbs_list')) {
             loadPageData(1);
         });
 
+        $('#filterButton').click(function () {
+            const viewCountButton = document.getElementById("viewCount");
+            const ageBtnContainer = document.querySelector(".ageBtn-container");
+            const regionBtnContainer = document.querySelector(".regionBtn-container");
+                 // .ageBtn-container를 보이게 하는 스타일
+                 regionBtnContainer.style.display = "block";
+                 ageBtnContainer.style.display = "block";
+                 // #viewCount를 보이게 하는 스타일
+                 viewCountButton.style.display = "block";
+
+
+        });
+        // 초기화 버튼 클릭 시 세션 스토리지 값을 모두 초기화
+        $(document).on('click', '#resetButton', function () {
+
+                                sessionStorage.removeItem(SEARCH_TYPE_KEY);
+                                sessionStorage.removeItem(KEYWORD_KEY);
+                                sessionStorage.removeItem(SELECTED_REGION_KEY);
+                                sessionStorage.removeItem(orderBy_KEY);
+                                sessionStorage.removeItem(AGE_KEY);
+
+
+                    // 선택된 버튼 스타일 초기화
+                    $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+                    $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+                    $('#viewCount').removeClass('btn-orange').addClass('btn-soft-orange');
+
+                    // 검색 조건 선택 상자 초기화
+                    $('#searchType').val('');
+                    $('#keyword').val('');
+
+                    // 페이지 데이터 다시 로딩
+                    loadPageData(1);
+                });
+
     });
+
+
+
 
 //페이징 처리
     function loadPageData(page) {
@@ -177,10 +215,12 @@ if (window.location.href.includes('/mate/bbs_list')) {
                     let imagePath = `/resources/img/mateImg/${thumbnail}`;
                     str += ` <div class="col-md-6 col-lg-4">
                                                        <article class="item post">
-                                                         <div class="card">
+                                                         <div class="card mate-post-item">
                                                            <figure class="card-img-top overlay overlay-1 hover-scale">
                                                        <a href="../mate/${one.mateBoardId}">
+                                                       <div class="mate-list-image-container">
                                                          <img src="../${imagePath}">
+                                                         </div>
                                                          <span class="bg"></span>
                                                        </a>
                                                        <figcaption>
@@ -226,7 +266,6 @@ if (window.location.href.includes('/mate/bbs_list')) {
     //페이지 버튼 생성하는 메서드
     function generatePageButtons(page, pageSize, firstPageNoOnPageList, lastPageNoOnPageList, realEnd) {
         let pagingHtml = "";
-        console.log(pageSize, "pageSize")
 
 //    if (page > 1) {
 //      pagingHtml += '<li><button class="page-link pageBtn prevBtn" data-page="' + (page - 1) + '"> <i class="uil uil-arrow-left"></i> </button></li>';

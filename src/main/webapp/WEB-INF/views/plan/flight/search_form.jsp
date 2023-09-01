@@ -10,7 +10,7 @@
                     <div class="form-control d-flex flex-column">
                         <p>출발 공항</p>
                         <span class="form-select-wrapper mb-4">
-                <select name="depAirportName" id="depAirportName" form="flight-search-form" class="form-select show-tick" style="border: 1px solid rgba(8, 60, 130, 0.2);" required>
+                <select name="depAirportName" id="depAirportName" form="flight-search-form" class="form-select" style="border: 1px solid rgba(8, 60, 130, 0.2);" required>
                     <option value="KIMPO" selected>김포</option>
                     <option value="INCHEON">인천</option>
                     <option value="JEJU">제주</option>

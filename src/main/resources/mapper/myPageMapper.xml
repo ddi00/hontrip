@@ -1,59 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="myPageMapper">
-    <select id="getTotalCountByUserId" resultType="int" parameterType="map">
+    <select id="getRecordTotalCountByUserId" resultType="int" parameterType="pageConditionDTO">
         select count(id)
-        from ${dbName}
-        where user_id = #{userId}
+        from record_board
+        <where>
+            user_id = #{userId}
+            <choose>
+                <when test='isVisible.equals("all")'>
+                    <!-- 아무런 추가 조건이 필요하지 않음 -->
+                </when>
+                <when test='isVisible.equals("public")'>
+                    AND is_visible = 1
+                </when>
+                <when test='isVisible.equals("private")'>
+                    AND is_visible = 0
+                </when>
+            </choose>
+            <!-- cityList의 cityId를 Location_id로 WHERE 조건에 추가 -->
+            <if test='cityList != null and cityList.size() > 0'>
+                AND Location_id IN
+                <foreach collection="cityList" item="cityId" open="(" close=")" separator=",">
+                    #{cityId}
+                </foreach>
+            </if>
+        </where>
     </select>
-    <select id="getRecordListByUserIdAndPage" resultType="myRecordDTO" parameterType="map">
+    <select id="getRecordCityByUserId" resultType="myCitiesDTO" parameterType="pageConditionDTO">
+        SELECT l.id AS cityId, l.city as city
+        FROM record_board rb
+        INNER JOIN location l ON rb.location_id = l.id
+        <where>
+            rb.user_id = #{userId}
+            <choose>
+                <when test='isVisible.equals("all")'>
+                    <!-- 아무런 추가 조건이 필요하지 않음 -->
+                </when>
+                <when test='isVisible.equals("public")'>
+                    AND rb.is_visible = 1
+                </when>
+                <when test='isVisible.equals("private")'>
+                    AND rb.is_visible = 0
+                </when>
+            </choose>
+            <!-- cityList의 cityId를 Location_id로 WHERE 조건에 추가 -->
+            <if test='cityList != null and cityList.size() > 0'>
+                AND l.id IN
+                <foreach collection="cityList" item="cityId" open="(" close=")" separator=",">
+                    #{cityId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <select id="getRecordListByUserIdAndPage" resultType="myRecordDTO" parameterType="pageConditionDTO">
         SELECT
-            A.no,
-            A.boardId,
-            A.city,
-            A.title,
-            A.thumbnail,
-            A.createdAt,
-            A.updatedAt,
-            A.startDate,
-            A.endDate,
-            A.isVisible,
-            A.likeCount,
-            A.cmtCount
+        A.*,
+        @rownum := @rownum + 1 AS no
         FROM
-            (
-                SELECT CONVERT(@rownum := @rownum + 1, SIGNED) AS no,
-               rb.id AS boardId,
-               MAX(l.city) AS city,
-               rb.title,
-               rb.thumbnail,
-               DATE_FORMAT(rb.created_at, '%Y-%m-%d %H:%i:%s') AS createdAt,
-               DATE_FORMAT(rb.updated_at, '%Y-%m-%d %H:%i:%s') AS updatedAt,
-               DATE_FORMAT(rb.start_date, '%Y-%m-%d') AS startDate,
-               DATE_FORMAT(rb.end_date, '%Y-%m-%d') AS endDate,
-               rb.is_visible AS isVisible,
-               COUNT(rl.id) AS likeCount,
-               COUNT(rc.id) AS cmtCount
-                FROM
-                    record_board rb
-                    INNER JOIN
-                    location l ON rb.location_id = l.id
-                    LEFT JOIN
-                    record_like rl ON rb.id = rl.record_id
-                    LEFT JOIN
-                    record_comment rc ON rb.id = rc.record_id
-                    CROSS JOIN
-                    (SELECT @rownum := 0) rownum
-                WHERE
-                    rb.user_id = #{userId}
-                GROUP BY
-                    rb.id
-                ORDER BY
-                    @rownum DESC
-            ) AS A
-        ORDER BY
-            A.no DESC
-            LIMIT #{offset}, #{pageSize}
+        (SELECT
+        rb.id AS boardId,
+        l.id as cityId,
+        MAX(l.city) AS city,
+        rb.title,
+        rb.view_count As viewCount,
+        rb.thumbnail,
+        DATE_FORMAT(rb.created_at, '%Y-%m-%d %H:%i:%s') AS createdAt,
+        DATE_FORMAT(rb.updated_at, '%Y-%m-%d %H:%i:%s') AS updatedAt,
+        DATE_FORMAT(rb.start_date, '%Y-%m-%d') AS startDate,
+        DATE_FORMAT(rb.end_date, '%Y-%m-%d') AS endDate,
+        rb.is_visible AS isVisible,
+        COUNT(rl.id) AS likeCount,
+        COUNT(rc.id) AS cmtCount
+        FROM
+        record_board rb
+        INNER JOIN
+        location l ON rb.location_id = l.id
+        LEFT JOIN
+        record_like rl ON rb.id = rl.record_id
+        LEFT JOIN
+        record_comment rc ON rb.id = rc.record_id
+        CROSS JOIN
+        (SELECT @rownum := 0) rownum
+        <where>
+            rb.user_id = #{userId}
+            <choose>
+                <when test='isVisible.equals("all")'>
+                    <!-- 아무런 추가 조건이 필요하지 않음 -->
+                </when>
+                <when test='isVisible.equals("public")'>
+                    AND rb.is_visible = 1
+                </when>
+                <when test='isVisible.equals("private")'>
+                    AND rb.is_visible = 0
+                </when>
+            </choose>
+            <!-- cityList의 cityId를 Location_id로 WHERE 조건에 추가 -->
+            <if test='cityList != null and cityList.size() > 0'>
+                AND l.id IN
+                <foreach collection="cityList" item="cityId" open="(" close=")" separator=",">
+                    #{cityId}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY
+        rb.id
+        <trim prefix="ORDER BY">
+            <choose>
+                <when test="keyword==null">
+                    rb.created_at
+                </when>
+                <otherwise>
+                    <if test='keyword.equals("comment")'>
+                        count(rc.id)
+                    </if>
+                    <if test='keyword.equals("like")'>
+                        count(rl.id)
+                    </if>
+                    <if test='keyword.equals("oldWrite")'>
+                        rb.created_at desc
+                    </if>
+                    <if test='keyword.equals("recentWrite")'>
+                        rb.created_at
+                    </if>
+                    <if test='keyword.equals("viewCount")'>
+                        rb.view_count
+                    </if>
+                </otherwise>
+            </choose>
+        </trim>
+        ) AS A
+        order by no desc
+        LIMIT #{offset}, #{pageSize}
     </select>
 </mapper>
 

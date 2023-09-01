@@ -1,15 +1,13 @@
 package com.multi.hontrip.user.controller;
 
 import com.multi.hontrip.common.RequiredSessionCheck;
-import com.multi.hontrip.user.dto.MyRecordDTO;
-import com.multi.hontrip.user.dto.PageDTO;
+import com.multi.hontrip.user.dto.PageConditionDTO;
 import com.multi.hontrip.user.dto.UserInfoDTO;
 import com.multi.hontrip.user.service.MyPageService;
 import com.multi.hontrip.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,7 +15,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -61,38 +58,31 @@ public class MyPageController { //마이페이지 관련 컨트롤러
 
     @GetMapping("/my-record")
     @RequiredSessionCheck
-    public ModelAndView myRecordPage(ModelAndView modelAndView,HttpSession session){
+    public ModelAndView myRecordPage(ModelAndView modelAndView,
+                                     HttpSession session,
+                                     PageConditionDTO pageConditionDTO){  //my-record 첫페이지
         Long userId = (Long)session.getAttribute("id");
-        int totalCount = myPageService.getRecordTotalCount(userId);
-        // 페이징 계산한 거 보내기
-        PageDTO pageDTO = new PageDTO(totalCount);
-        modelAndView.addObject("pageInfo",pageDTO);
-        // 리스트 보내기
-        List<MyRecordDTO> recordList = myPageService.getMyRecordList(pageDTO,userId);
-        modelAndView.addObject("myRecordList",recordList);
+        Map<String,Object> resultList = myPageService.getMyPageResult(userId,pageConditionDTO);
 
+        resultList.forEach((key, value) -> {
+            modelAndView.addObject(key, value);
+        });
         modelAndView.setViewName("/my-page/my-record-page");
         return modelAndView;
     }
 
-    @GetMapping("/my-record/{page}")
+    @GetMapping("/my-record/condition")
     @RequiredSessionCheck
-    public ResponseEntity<Map<String, Object>> myRecordSelectPage(HttpSession session, @PathVariable("page") int page) {
-        Long userId = (Long) session.getAttribute("id");
-        int totalCount = myPageService.getRecordTotalCount(userId);
+    public ResponseEntity<Map<String, Object>> myRecordPageSort(ModelAndView modelAndView,
+                                                                HttpSession session,
+                                                                PageConditionDTO pageConditionDTO){ //my-record,fetch 작동
+        Long userId = (Long)session.getAttribute("id");
+        Map<String,Object> resultList = myPageService.getMyPageResult(userId,pageConditionDTO);
 
-        // 페이징 계산한 거 보내기
-        PageDTO pageDTO = new PageDTO(totalCount, page);
-
-        // 리스트 보내기
-        List<MyRecordDTO> recordList = myPageService.getMyRecordList(pageDTO, userId);
-
-        // JSON 응답 데이터 구성
         Map<String, Object> response = new HashMap<>();
-        response.put("pageInfo", pageDTO);
-        response.put("myRecordList", recordList);
-
-        // ResponseEntity로 JSON 응답 반환
+        resultList.forEach((key,value)->{
+            response.put(key,value);
+        });
         return ResponseEntity.ok(response);
     }
 }

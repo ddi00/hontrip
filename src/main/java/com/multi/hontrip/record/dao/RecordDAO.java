@@ -77,19 +77,22 @@ public class RecordDAO {
     }
 
 
-    public List<PostInfoDTO> getFeedListDropdownAll(String locationIdPattern) {
+    public List<PostInfoDTO> getFeedListDropdownAll(String locationIdPattern) { //공유피드에서 버튼 클릭 시 전국 리스트 가져오기
         return sqlSessionTemplate.selectList("record.feedlist_by_location_pattern_all");
     }
 
 
-    public List<PostInfoDTO> getFeedListDropdown(String locationIdPattern, String locationIdSpecialId, String locationIdSpecialId2, String locationIdSpecialId3) {
-        System.out.println("dao 확인 : " + locationIdPattern + locationIdSpecialId );
+    public List<PostInfoDTO> getFeedListDropdown(String locationIdPattern, String locationIdSpecialId, String locationIdSpecialId2, String locationIdSpecialId3) { //공유피드에서 지역 버튼 클릭 시 리스트 가져오기
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("locationIdPattern", locationIdPattern);
         paramMap.put("locationIdSpecialId", locationIdSpecialId);
         paramMap.put("locationIdSpecialId2", locationIdSpecialId2);
         paramMap.put("locationIdSpecialId3", locationIdSpecialId3);
         return sqlSessionTemplate.selectList("record.feedlist_by_location_pattern", paramMap);
+    }
+
+    public List<PostInfoDTO> getFeedListLike(){ //공유피드 좋아요순 리스트 가져오기
+        return sqlSessionTemplate.selectList("record.feedlist_like");
     }
 
 }
