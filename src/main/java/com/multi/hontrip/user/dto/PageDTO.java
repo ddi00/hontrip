@@ -22,7 +22,7 @@ public class PageDTO { // 마이페이지에서 paging할 DTO
         this.totalCount = totalCount;
         this.page = page;
 
-        totalPage = (int)Math.ceil(totalCount/pageSize);
+        totalPage = (int)Math.ceil((double) totalCount/pageSize);
         calculateNavigation();  // beginPage와 endPage 구하기
         showPrev = beginPage !=1;
         showNext = endPage != totalPage;

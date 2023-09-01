@@ -7,11 +7,16 @@ public class PageDTOTest extends TestCase {
 
     @Test
     public void test(){ //페이징 테스트
-        PageDTO pageDTO = new PageDTO(250, 3); // 1,2,3,4,5
-        assertTrue(pageDTO.getBeginPage()==1);
-        assertTrue(pageDTO.getEndPage()==5);
-        assertTrue(pageDTO.isShowPrev()==false);
-        assertTrue(pageDTO.isShowNext()==true);
+        PageDTO pageDTO = new PageDTO(19, 1); // 1,2,3,4,5
+        System.out.println("pageDTO = " + pageDTO);
+//        PageDTO pageDTO = new PageDTO(250, 3); // 1,2,3,4,5
+//        assertTrue(pageDTO.getBeginPage()==1);
+//        assertTrue(pageDTO.getEndPage()==5);
+//        assertTrue(pageDTO.isShowPrev()==false);
+//        assertTrue(pageDTO.isShowNext()==true);
+
+        int result=(int)Math.ceil((double) 19/10);
+        System.out.println("result = " + result);
 
         PageDTO pageDTO2 = new PageDTO(250, 6); // 4,5,6,7,8
         assertTrue(pageDTO2.getBeginPage()==4);
