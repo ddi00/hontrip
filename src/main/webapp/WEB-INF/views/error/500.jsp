@@ -13,7 +13,7 @@
     <p class="lead mb-7 px-md-12 px-lg-5 px-xl-7">
       서버에서 오류가 발생했습니다. 관리자에게 문의하세요.
     </p>
-    <a href="/hontrip/" class="btn btn-main rounded-pill">홈으로</a>
+    <a href="/hontrip/" class="btn btn-primay rounded-pill">홈으로</a>
   </div>
 </div>
 </div>

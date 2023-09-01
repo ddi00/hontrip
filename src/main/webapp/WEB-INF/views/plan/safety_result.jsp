@@ -8,7 +8,7 @@
             <thead class="thead-dark">
             <tr>
                 <th scope="col" class="text-center">날짜</th>
-                <th scope="col" class="text-center">지역명</th>
+              <%--  <th scope="col" class="text-center">지역명</th>--%>
                 <th scope="col" class="text-center">메세지</th>
             </tr>
             </thead>
@@ -17,7 +17,7 @@
                 <c:forEach var="message" items="${entry.row}">
                     <tr>
                         <td>${message.create_date}</td>
-                        <td>${message.location_name}</td>
+                        <%--<td>${message.location_name}</td>--%>
                         <td>${message.msg}</td>
                     </tr>
                 </c:forEach>
@@ -26,7 +26,8 @@
         </table>
         <div class="row mt-3">
             <div class="col-md-12 text-center">
-                <button class="btn btn-orange" onclick="location.href='/hontrip/plan/safety_search'">재검색</button>
+               <%-- <button id="retrySafetySearch" class="btn btn-orange" onclick="location.href='/hontrip/plan/safety_search'">재검색</button>--%>
+                   <button id="retrySafetySearch" class="btn btn-orange" >다시 검색하기</button>
             </div>
         </div>
     </div>

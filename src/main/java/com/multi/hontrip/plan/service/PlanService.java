@@ -41,11 +41,12 @@ public interface PlanService {
 
     void deleteFlightFromDay(Long planId, Long userId, String flightId); // 일정-일차 항공권 정보 삭제
 
-    List<AccommodationLoadDTO> loadExistingAccommodations(PlanDTO plan, int numOfDays);
-
+    List<AccommodationLoadDTO> loadExistingAccommodations(PlanDTO plan); //-- 채림
     AccommodationAddDTO createAccommodationAddDTO(Long planId, String accommodationId);
 
-    PlanDayDTO addAccommodationToDay(Long planId, Long userId, int dayOrder, String accommodationId);
+    PlanDayDTO addAccommodationToDay(Long planId, Long userId, int dayOrder, Long accommodationId);
+    //채림
+    void deleteAccommodationFromDay(Long planId, Long userId, String flightId); // 일정-일차 항공권 정보 삭제
 
     void addAccommodation(PlanDayDTO planDayDTO);
 }

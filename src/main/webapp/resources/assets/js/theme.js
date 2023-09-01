@@ -519,6 +519,8 @@ var theme = {
   plyr: () => {
     var players = Plyr.setup('.player', {
       loadSprite: true,
+      fullscreen: { enabled: true, iosNative: true },
+      muted: false
     });
   },
   /**

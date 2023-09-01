@@ -114,4 +114,20 @@
     <definition name="/plan/flight/search_list_for_plan" extends="body-only-layout">
         <put-attribute name="body" value="/WEB-INF/views/plan/flight/search_list_for_plan.jsp"/>
     </definition>
+    <!--안전정보 검색 페이지 -> 모달로 사용하기 위해 바디만 사용-->
+    <definition name="/plan/safety_search" extends="body-only-layout">
+        <put-attribute name="body" value="/WEB-INF/views/plan/safety_search.jsp"/>
+    </definition>
+    <!--안전정보 검색 결과 페이지 -> 모달로 사용하기 위해 바디만 사용-->
+    <definition name="/plan/safety_result" extends="body-only-layout">
+        <put-attribute name="body" value="/WEB-INF/views/plan/safety_result.jsp"/>
+    </definition>
+    <!--응급시설 검색 페이지 -> 모달로 사용하기 위해 바디만 사용-->
+    <definition name="/plan/emergency_facility/list" extends="body-only-layout">
+        <put-attribute name="body" value="/WEB-INF/views/plan/emergency_facility/list.jsp"/>
+    </definition>
+    <!--응급시설 검색 결과 페이지 -> 모달로 사용하기 위해 바디만 사용-->
+    <definition name="/plan/emergency_facility/filter_list" extends="body-only-layout">
+        <put-attribute name="body" value="/WEB-INF/views/plan/emergency_facility/filter_list.jsp"/>
+    </definition>
 </tiles-definitions>

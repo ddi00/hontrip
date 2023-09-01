@@ -42,8 +42,8 @@
     display: none; /* 테스트 다하고 여기 none으로 바꾸기 */
     position: fixed;
     z-index: 9999;
-    right: 5%;
-    top: 28%;
+    right: 4%;
+    top: 23%;
     width: 25%;
     height: 60%;
     background-color: transparent;
@@ -61,7 +61,8 @@
 }
 
 .mateChatHistoryDiv {
-    height: 70%;
+    height: 78.7%;
+    width: 100%;
 }
 
 /*채팅창 '채팅' 글자*/
@@ -87,32 +88,28 @@
     margin-top: 10px;
     list-style-type: none;
     margin-left: -20px;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 }
 
-/*
-!*채팅모달창 li*!
-.mateChatListLi {
-  margin-top: 10px;
-  margin-bottom: 3px;
+/*채팅창 스크롤바 감추기*/
+.mateChatHistoryUl::-webkit-scrollbar {
+    display: none; /*chrome, Safari, Opera*/
 }
-
-.spanChatLine {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 55px;
-}
-*/
 
 
 .chatIcon {
+    cursor: pointer;
     display: flex;
     position: fixed;
     align-items: center;
     justify-content: center;
     z-index: 9999;
     right: 2%;
-    bottom: 7%;
+    bottom: 11%;
     width: 60px;
     height: 60px;
     background-color: #FFF;
@@ -139,4 +136,127 @@
 
 .mateChatHistoryUl, .mateChatListUl {
     list-style-type: none;
+}
+
+.mateChatRoomTop {
+    display: flex;
+    align-content: center;
+    border-radius: 10px 10px 0px 0px;
+    font-weight: bold;
+    padding: 2%;
+    height: 10%;
+    width: 100%;
+    text-align: center;
+    background-color: rgba(255, 90, 70, 0.85);
+    color: #fff;
+}
+
+.chatRoomCloseIcon {
+    width: 20px;
+    align-items: flex-start;
+
+}
+
+.mateChatRoomTitleLetter {
+    width: 80%;
+    font-size: 14px;
+}
+
+/*메세지타입이 JOIN 또는 LEAVE일때의 CSS*/
+.joinOrLeaveMessageLi {
+    background-color: rgba(196, 196, 196, 0.7);
+    text-align: center;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 15px;
+    margin-bottom: 4px;
+}
+
+.myChatLi {
+    text-align: right;
+    margin-bottom: 2%;
+}
+
+.myChatMessage {
+    color: rgba(0, 0, 0, 0.6);
+    text-align: left;
+    display: inline-block;
+    word-break: break-all;
+    max-width: 70%;
+    background-color: rgba(186, 186, 186, 0.2);
+    font-size: 13px;
+    padding: 1.5% 3%;
+    border-radius: 13px;
+}
+
+.opponentChatLi {
+    /*width: 50%;*/
+    text-align: left;
+}
+
+.opponentChatMessage {
+    font-size: 13px;
+    max-width: 70%;
+    display: inline-block;
+    word-break: break-all;
+    margin-top: 5px;
+    color: #fff;
+    background-color: rgba(255, 90, 70, 0.7);
+    padding: 1.5% 3%;
+    border-radius: 13px;
+    margin-bottom: 2px;
+}
+
+.opponentProfileImg {
+    margin-right: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+}
+
+.opponentChatTime {
+    padding-left: 3px;
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 10px;
+}
+
+.opponentChatSenderNickname {
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 10px
+}
+
+.myChatTime {
+    padding-right: 3px;
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 10px;
+}
+
+.opponentNicknameImg {
+    display: flex;
+    flex-direction: column;
+}
+
+.mateChatBottomDiv {
+    display: flex;
+    justify-content: space-between;
+    height: 9%;
+}
+
+.mateChatInputMessage {
+    border: 0;
+    border-radius: 5px;
+    outline: none;
+    padding-left: 10px;
+    background-color: rgba(233, 233, 233, 0.2);
+    font-size: 13px;
+    width: 88%;
+    height: 100%;
+    bottom: 1%;
+}
+
+.mateChatSendButton {
+    background-color: rgba(255, 90, 70, 0.8);
+    border: none;
+    height: 100%;
+    width: 12%;
 }

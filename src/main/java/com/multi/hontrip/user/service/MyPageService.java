@@ -1,12 +1,9 @@
 package com.multi.hontrip.user.service;
 
-import com.multi.hontrip.user.dto.MyRecordDTO;
-import com.multi.hontrip.user.dto.PageDTO;
+import com.multi.hontrip.user.dto.PageConditionDTO;
 
-import java.util.List;
+import java.util.Map;
 
 public interface MyPageService {
-    int getRecordTotalCount(Long userId);   // 내 전체 레코드 가져오기
-
-    List<MyRecordDTO> getMyRecordList(PageDTO pageDTO,Long userId); //레코드 리스트 가져오기
+    Map<String, Object> getMyPageResult(Long userId, PageConditionDTO pageConditionDTO);
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 public class ChatroomListDTO {
     private Long roomId;    //해당 chat room id
     private String chatRoomName;    //채팅방이름
+    private Long receiverId;
     private String opponentProfileImg;
     /*private Long senderId;  //해당 chat sender id
     private Long receiverId;    //해당 chat receiver id - 1:1이라 정해져 있음*/

@@ -73,8 +73,10 @@ public class PlanController {
         // 기존에 추가되어 있던 항공권 담을 리스트
         List<FlightLoadDTO> addedFlights = planService.loadExistingFlights(plan);
 
+        // plan_day 에 저장된 accommodation(숙박지)리스트를 담을 변수 - 1일차만 구하므로 numOfDays 는 필요없음
         List<AccommodationLoadDTO> addedAccommodations
-                = planService.loadExistingAccommodations(plan, numOfDays);
+                = planService.loadExistingAccommodations(plan);
+        System.out.println("addedAccommodations : " + addedAccommodations);
 
         model.addAttribute("addedSpots", addedSpots);
         model.addAttribute("addedFlights", addedFlights);
@@ -262,22 +264,50 @@ public class PlanController {
         //return "/plan/accommodation/list";
     }
 
+    // 숙박지 추가 - 채림
     @RequestMapping("/detail/update-plan-accommodation")
     @ResponseBody
     public AccommodationAddDTO updateAccommodation(@RequestParam("planId") Long planId,
                                                    @RequestParam("userId") Long userId,
-                                                   @RequestParam("dayOrder") int dayOrder,
+                                                   //@RequestParam("dayOrder") int dayOrder,
                                                    @RequestParam("accommodationId") String accommodationId, Model model) {
         // plan-day에 여행지 정보 추가
 
+        System.out.println("start adding accommodationToDay accommodationId ---- : " + accommodationId);
 
-        //planService.addAccommodation(planService.addAccommodationToDay(planId, userId, dayOrder, accommodationId));
+        //plan-day 에 숙박지 정보 추가
+        //planService.addAccommodationToDay(planId, userId, 1, accommodationId);
+        //planService.addAccommodation(planService.addAccommodationToDay(planId, userId, 1, accommodationId));
 
-        PlanDayDTO dayPlanDto = planService.addAccommodationToDay(planId, userId, dayOrder, accommodationId);
+        //plan-day 에 숙박지 정보 추가
+        PlanDayDTO dayPlanDto
+                = planService.addAccommodationToDay(planId, userId, 1, Long.parseLong(accommodationId));
 
-
-        model.addAttribute("planId", planId);
+        //model.addAttribute("planId", planId);
+        // 추가 완료된 accommodationDTO 변환
         return planService.createAccommodationAddDTO(planId, accommodationId);
+    }
+
+
+    // 채림 - 추가한 숙박지 삭제
+    @RequestMapping("/detail/delete-plan-accommodation")
+    @ResponseBody
+    @RequiredSessionCheck
+    public ResponseEntity<String> deleteAccommodation(@RequestParam("userId") Long userId,
+                                                      @RequestParam("planId") Long planId,
+                                                      @RequestParam("accommodationId") String accommodationId, HttpSession session) {
+
+        Long sessionUserId = (Long) session.getAttribute("id");
+
+        try {
+            // plan-day 테이블에서 숙박지 정보 삭제
+            planService.deleteFlightFromDay(planId, sessionUserId, accommodationId);
+            planService.deleteAccommodationFromDay(planId, sessionUserId, accommodationId);
+            return ResponseEntity.ok("삭제 성공");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 실패");
+        }
     }
 
 

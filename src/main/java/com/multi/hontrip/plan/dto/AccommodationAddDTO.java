@@ -13,4 +13,5 @@ public class AccommodationAddDTO {
     private String phone; // 카카오맵 api 내 숙박시설 번호
     private String addressName; // 카카오맵 api 내 숙박시설 주소
     private String distance; // 카카오맵 api 내 검색 좌표로부터 거리
+    private String placeUrl; // 카카오 숙소 소개 페이지 url
 }
