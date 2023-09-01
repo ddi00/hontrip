@@ -1,79 +1,9 @@
-
-document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
-    if (window.location.href.includes('/user/my-page')) {
-        // 회원 정보 가져오기
-        const emailInfo = document.getElementById("emailInfo").textContent;
-        const genderInfo = document.getElementById("genderInfo").textContent;
-        const ageRangeInfo = document.getElementById("ageRangeInfo").textContent;
-
-        if (
-            emailInfo === "정보없음" ||
-            genderInfo === "나이정보 없음" ||
-            ageRangeInfo === "정보없음"
-        ) {
-            const warningAlert = document.getElementById("warningAlert");
-            warningAlert.style.display = "block";
-        }
-
-        // 회원정보 갱신
-        var refreshUserInfoButton = document.getElementById("refreshUserInfoButton");
-
-        // 버튼을 클릭할 때 fetch 요청을 보냅니다.
-        refreshUserInfoButton.addEventListener("click", function (event) {
-            event.preventDefault(); // 기본 링크 동작을 막습니다.
-
-            // fetch 요청을 보냅니다.
-            fetch("/hontrip/user/refresh-userInfo", {
-                method: "GET", // GET 요청
-                headers: {
-                    "Content-Type": "application/json" // 요청 헤더 설정 (필요에 따라 변경)
-                }
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("네트워크 오류"); // 오류 처리 (필요에 따라 변경)
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    var userInfoDTO = data;
-
-                    // userInfoDTO에서 데이터 추출
-                    var profileImage = userInfoDTO.profileImage;
-                    var nickName = userInfoDTO.nickName;
-                    var email = userInfoDTO.email;
-                    var gender = userInfoDTO.gender;
-                    var ageRange = userInfoDTO.ageRange;
-
-                    // 이미지 요소를 가져와서 src, alt 속성을 설정합니다.
-                    var profileImageElement = document.getElementById("userProfileImage");
-                    profileImageElement.src = profileImage;
-                    profileImageElement.alt = nickName + '의 프로필 이미지';
-
-
-                    //닉네임 변경
-                    document.getElementById("userNickName").textContent = nickName;
-                    //이메일 변경
-                    document.getElementById("userEmail").textContent = email;
-
-                    //테이블 변경
-                    document.getElementById("emailInfo").textContent = email;
-                    document.getElementById("nickNameInfo").textContent = nickName;
-                    document.getElementById("genderInfo").textContent = gender;
-                    document.getElementById("ageRangeInfo").textContent = ageRange;
-
-                })
-                .catch(error => {
-                    // 오류 발생 시 처리할 작업을 여기에 추가합니다.
-                });
-        });
-    }
-
+document.addEventListener("DOMContentLoaded", function () {// my-record 입장
     if (window.location.href.includes('/user/my-record')) {
-        let globalKeyword=null;
-        let globalVisible=null;
-        let cityFilterList=[];
-        let globalCityFilterList=null;
+        let globalKeyword = null;
+        let globalVisible = null;
+        let cityFilterList = [];
+        let globalCityFilterList = null;
         const refreshButtons = document.querySelectorAll(".refreshPageBTN");
         refreshButtons.forEach(function (button) {
             button.addEventListener("click", function (event) {
@@ -84,66 +14,116 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
             });
         });
 
+        const totalSelectCheckbox = document.querySelector('.totalSelectbtn');
+        totalSelectCheckbox.addEventListener('click', function () {
+            const selectRowCheckboxes = document.querySelectorAll('.selectRow');
+            const isChecked = this.checked;
+
+            selectRowCheckboxes.forEach(function (checkbox) {
+                checkbox.checked = isChecked;
+            });
+        });
+
+        const selectDeleteBtn = document.querySelector('.rowDeleteBtn');
+        selectDeleteBtn.addEventListener('click', function (event) {   // 선택삭제
+            event.preventDefault();
+            const selectedCheckboxes = document.querySelectorAll('.selectRow:checked');
+
+            if (selectedCheckboxes.length === 0) {  //없으면 돌려보내기
+                alert('선택된 항목이 없습니다.');
+                return; // 선택된 항목이 없으면 더 이상 진행하지 않고 종료
+            }
+
+            const selectedIds = [];
+
+            selectedCheckboxes.forEach(function (checkbox) {
+                const id = parseInt(checkbox.getAttribute('value'));
+                selectedIds.push(id);
+            });
+
+            const confirmation = confirm('선택한 항목을 삭제하시겠습니까?');  //삭제할껀지 확인
+
+            if(confirmation) {
+                const data = { ids: selectedIds };
+                // POST 요청 보내기
+                fetch('/hontrip/user/my-record/deletePosts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                    .then(response => response.json())
+                    .then(result => { // 결과 처리
+                        alert(result.message);
+                        window.location.href = '/hontrip/user/my-record';
+                    })
+                    .catch(error => {
+                        alert(error.message)
+                    });
+            }
+        })
+
         const sortSelect = document.getElementById('sort-select');
-        sortSelect.addEventListener('change',function (e){  //정렬선택
+        sortSelect.addEventListener('change', function (e) {  //정렬선택
             var keyword = this.value;
             console.log(keyword);
             refreshPage(`/hontrip/user/my-record/condition?keyword=${keyword}&isVisible=${globalVisible}&cities=${globalCityFilterList}`);
-            globalKeyword=keyword;
+            globalKeyword = keyword;
         });
 
         //
-        const selectVisible=document.getElementById('visible-select');
-        selectVisible.addEventListener('change',function (e){   //공유 선택
+        const selectVisible = document.getElementById('visible-select');
+        selectVisible.addEventListener('change', function (e) {   //공유 선택
             var isVisible = this.value;
             refreshPage(`/hontrip/user/my-record/condition?keyword=${globalKeyword}&isVisible=${isVisible}&cities=${globalCityFilterList}`);
-            globalVisible=isVisible;
+            globalVisible = isVisible;
         })
 
         const filterCity = document.querySelectorAll('.filter-btn');
-        filterCity.forEach(function (cityFilter){   //filter로 도시 선택
-            cityFilter.addEventListener('click',function (event){
+        filterCity.forEach(function (cityFilter) {   //filter로 도시 선택
+            cityFilter.addEventListener('click', function (event) {
                 event.preventDefault(); // 이벤트 기본 동작을 막음
                 var cityId = cityFilter.getAttribute('value');  // id가져오기
-                var cityName=cityFilter.getAttribute('data-city-name'); //도시이름
+                var cityName = cityFilter.getAttribute('data-city-name'); //도시이름
                 var selectArea = document.querySelector('.select-area');
                 var selectConditionArea = document.querySelector('.selected-condition');
                 var currentDisplayStyle = window.getComputedStyle(selectArea).getPropertyValue('display');
-                 if (cityFilter.classList.contains('filter-select-btn')) {   // 이미 선택된거면
-                     handleDeleteButtonClick(event);
-                 } else {
-                     if (currentDisplayStyle === 'none') {
-                         selectArea.classList.add('select-area-show');
-                     }
+                if (cityFilter.classList.contains('filter-select-btn')) {   // 이미 선택된거면
+                    handleDeleteButtonClick(event);
+                } else {
+                    if (currentDisplayStyle === 'none') {
+                        selectArea.classList.add('select-area-show');
+                    }
                     cityFilterList.push(cityId);
-                     cityFilter.classList.toggle('filter-select-btn');
-                     //버튼넣기
-                     var span = document.createElement('span');
-                     span.classList="select-span";
-                     span.setAttribute('value',`${cityId}`);
-                     var aTag = document.createElement('a'); // 새로운 <a> 태그를 생성
-                     aTag.classList.add('btn', 'btn-primary', 'rounded-pill', 'btn-sm', 'deleteCityBtn');
-                     aTag.setAttribute('value', `${cityId}`);
-                     aTag.addEventListener('click', handleDeleteButtonClick);
-                     aTag.textContent=`${cityName}`;
-                     var iTag = document.createElement('i');// <i> 태그를 생성하고 추가
-                     iTag.classList.add('uil', 'uil-multiply');
-                     aTag.appendChild(iTag);
-                     span.appendChild(aTag);
-                     selectConditionArea.appendChild(span);// <a> 태그를 .select-area에 추가합니다.
-                     if(cityFilterList.length===0){
-                         globalCityFilterList = null;
-                     }else{
-                         globalCityFilterList = cityFilterList.join(',');
-                     }
-                     var pageUrl = `/hontrip/user/my-record/condition?keyword=${globalKeyword}&isVisible=${globalVisible}&cities=${globalCityFilterList}`;
-                     refreshPage(pageUrl);
+                    cityFilter.classList.toggle('filter-select-btn');
+                    //버튼넣기
+                    var span = document.createElement('span');
+                    span.classList = "select-span";
+                    span.setAttribute('value', `${cityId}`);
+                    var aTag = document.createElement('a'); // 새로운 <a> 태그를 생성
+                    aTag.classList.add('btn', 'btn-primary', 'rounded-pill', 'btn-sm', 'deleteCityBtn');
+                    aTag.setAttribute('value', `${cityId}`);
+                    aTag.addEventListener('click', handleDeleteButtonClick);
+                    aTag.textContent = `${cityName}`;
+                    var iTag = document.createElement('i');// <i> 태그를 생성하고 추가
+                    iTag.classList.add('uil', 'uil-multiply');
+                    aTag.appendChild(iTag);
+                    span.appendChild(aTag);
+                    selectConditionArea.appendChild(span);// <a> 태그를 .select-area에 추가합니다.
+                    if (cityFilterList.length === 0) {
+                        globalCityFilterList = null;
+                    } else {
+                        globalCityFilterList = cityFilterList.join(',');
+                    }
+                    var pageUrl = `/hontrip/user/my-record/condition?keyword=${globalKeyword}&isVisible=${globalVisible}&cities=${globalCityFilterList}`;
+                    refreshPage(pageUrl);
                 }
 
             })
         })
         var deleteButtons = document.querySelectorAll('.deleteCityBtn');
-        deleteButtons.forEach(function(button) {
+        deleteButtons.forEach(function (button) {
             button.addEventListener('click', handleDeleteButtonClick);
         });
 
@@ -157,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
             if (spanToDelete) { // <span>을 삭제합니다.
                 selectConditionArea.removeChild(spanToDelete);
             }
-            if(selectConditionArea.childElementCount===0){//아무 요소 없으면 display none
+            if (selectConditionArea.childElementCount === 0) {//아무 요소 없으면 display none
                 selectArea.classList.remove('select-area-show');
             }
             //위쪽 필터 버튼 끄기
@@ -165,23 +145,20 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
             if (indexInCityFilterList !== -1) {
                 cityFilterList.splice(indexInCityFilterList, 1);
             }
-            if(cityFilterList.length===0){
-                globalCityFilterList=null;
-            }else{
-                globalCityFilterList=cityFilterList.join(',');
+            if (cityFilterList.length === 0) {
+                globalCityFilterList = null;
+            } else {
+                globalCityFilterList = cityFilterList.join(',');
             }
             var aTags = document.querySelectorAll('.filter-btn');
-            var targetATag = Array.from(aTags).find(function(aTag) {
-                if(aTag.getAttribute('value') === cityId)
+            var targetATag = Array.from(aTags).find(function (aTag) {
+                if (aTag.getAttribute('value') === cityId)
                     aTag.classList.remove('filter-select-btn');
             });
 
-            // if (targetATag) {
-            //     targetATag.classList.remove('filter-select-btn');
-            // }
             //데이터 다시 불러오기
             var pageUrl = `/hontrip/user/my-record/condition?keyword=${globalKeyword}&isVisible=${globalVisible}&cities=${globalCityFilterList}`;
-             refreshPage(pageUrl);
+            refreshPage(pageUrl);
         }
 
         function refreshList(data) { //tbody에 다시 데이터 뿌리기
@@ -236,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
 
         function refreshPaging(data) {
 
-            document.getElementById("recordTotalCount").textContent=data.pageInfo.totalCount;
+            document.getElementById("recordTotalCount").textContent = data.pageInfo.totalCount;
 
             // pagination 다시하기
             const pageInfo = data.pageInfo;
@@ -244,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
             paginationContainer.innerHTML = ''; // 기존 pagination 내용 초기화
 
             // 맨 첫장 가는 버튼
-            if (pageInfo.page!=1) {
+            if (pageInfo.page != 1) {
                 const prevBtn = document.createElement('li');
                 prevBtn.classList.add('page-item');
 
@@ -279,10 +256,10 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
                 const link = document.createElement("a");
                 link.classList = "page-link refreshPageBTN";
                 link.setAttribute("aria-label", "Prev");
-                link.setAttribute("data-page-number", `${pageInfo.page-1}`);
+                link.setAttribute("data-page-number", `${pageInfo.page - 1}`);
                 link.addEventListener("click", function (event) {
                     event.preventDefault();
-                    var pageUrl = `/hontrip/user/my-record/condition?page=${pageInfo.page-1}&keyword=${globalKeyword}&isVisible=${globalVisible}&cities=${globalCityFilterList}`;
+                    var pageUrl = `/hontrip/user/my-record/condition?page=${pageInfo.page - 1}&keyword=${globalKeyword}&isVisible=${globalVisible}&cities=${globalCityFilterList}`;
                     refreshPage(pageUrl);
                 });
 
@@ -331,10 +308,10 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
                 const link = document.createElement("a");
                 link.classList = "page-link refreshPageBTN";
                 link.setAttribute("aria-label", "Next");
-                link.setAttribute("data-page-number", `${pageInfo.page+1}`);
+                link.setAttribute("data-page-number", `${pageInfo.page + 1}`);
                 link.addEventListener("click", function (event) {
                     event.preventDefault();
-                    var pageUrl = `/hontrip/user/my-record/condition?page=${pageInfo.page+1}&keyword=${globalKeyword}&isVisible=${globalVisible}&cities=${globalCityFilterList}`;
+                    var pageUrl = `/hontrip/user/my-record/condition?page=${pageInfo.page + 1}&keyword=${globalKeyword}&isVisible=${globalVisible}&cities=${globalCityFilterList}`;
                     refreshPage(pageUrl);
                 });
                 const span = document.createElement("span");
@@ -347,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
                 paginationContainer.appendChild(nextBtn);
             }
             // 막장 가는 페이지
-            if (pageInfo.page!=pageInfo.totalPage) {
+            if (pageInfo.page != pageInfo.totalPage) {
                 const nextBtn = document.createElement('li');
                 nextBtn.classList.add('page-item');
                 const link = document.createElement("a");
@@ -371,6 +348,7 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
 
         }
     }
+
     function refreshPage(url) {    //페이지 이동
         fetch(url, {    // 페이지 번호를 사용하여 fetch 요청 실행
             method: 'GET',

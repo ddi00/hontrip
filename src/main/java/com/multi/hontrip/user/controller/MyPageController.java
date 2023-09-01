@@ -1,20 +1,27 @@
 package com.multi.hontrip.user.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.multi.hontrip.common.RequiredSessionCheck;
 import com.multi.hontrip.user.dto.PageConditionDTO;
 import com.multi.hontrip.user.dto.UserInfoDTO;
 import com.multi.hontrip.user.service.MyPageService;
 import com.multi.hontrip.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -84,5 +91,24 @@ public class MyPageController { //마이페이지 관련 컨트롤러
             response.put(key,value);
         });
         return ResponseEntity.ok(response);
+    }
+    @PostMapping("/my-record/deletePosts")
+    @RequiredSessionCheck
+    public ResponseEntity<String> deleteSelectList(ModelAndView modelAndView,
+                                         HttpSession session,
+                                         @RequestBody String ids){ //my-record,fetch 작동
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, List<Integer>> idMap = objectMapper.readValue(ids, new TypeReference<Map<String, List<Integer>>>() {});
+            List<Integer> idList = idMap.get("ids");
+            String responseData = "{\"message\": \"작업이 완료되었습니다.\"}";
+            // idList를 사용하여 원하는 작업을 수행
+            return new ResponseEntity<>(responseData, headers, HttpStatus.OK);
+        } catch (IOException e) {
+             String responseData = "{\"message\": \"삭제 작업이 실패했습니다.\"}";
+            return new ResponseEntity<>(responseData, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
