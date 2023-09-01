@@ -42,6 +42,8 @@
         <typeAlias type="com.multi.hontrip.user.dto.WithdrawUserDTO" alias="withdrawUserDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.user.dto.UserSocialInfoDTO" alias="userSocialInfoDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.user.dto.MyRecordDTO" alias="myRecordDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.user.dto.PageConditionDTO" alias="pageConditionDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.user.dto.MyCitiesDTO" alias="myCitiesDTO"></typeAlias>
 
         <!--record-->
         <typeAlias type="com.multi.hontrip.record.dto.CreatePostDTO" alias="createPostDTO"></typeAlias>
