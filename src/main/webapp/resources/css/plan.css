@@ -111,7 +111,7 @@ input #depDate .custom-flight-form {
     word-wrap: break-word;
     background-color: var(--bs-card-bg);
     background-clip: border-box;
-    border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    border: 1px solid rgba(8, 60, 130, 0.15);
     border-radius: var(--bs-card-border-radius);
     box-shadow: var(--bs-card-box-shadow)
 }
@@ -125,6 +125,11 @@ input #depDate .custom-flight-form {
 .custom-col-3 {
     flex: 0 0 auto;
     width: 23.3%
+}
+
+.custom-col-for-plan {
+    flex: 0 0 auto;
+    width: 47%
 }
 
 .custom-card-img {
