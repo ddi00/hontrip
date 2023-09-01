@@ -3,9 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="row d-flex justify-content-center">
     <div class="col-12">
-        <div class="ps-8 pe-1">
+        <div class="ps-8 pb-5">
             <h5>${depDate}</h5>
-            <h4>${depAirportName}발 - ${arrAirportName}행 항공편 목록</h4>
+            <h3>${depAirportName}발 - ${arrAirportName}행 항공편 목록</h3>
         </div>
 
         <h3 class="my-2 align-self-center">
@@ -16,11 +16,11 @@
 
         <ul>
             <c:forEach items="${list}" var="flight" varStatus="status">
-                <div class="card p-1 mt-2 me-4">
+                <div class="custom-card-for-plan p-4 mt-2 me-7">
                     <div class="card-body-for-plan-flight-search justify-content-start">
                         <div class="row">
                             <div class="col-md-5 text-center">
-                                <span><h4>${flight.depAirportName}</h4></span>
+                                <span><h3>${flight.depAirportName}</h3></span>
                                 <span>
                                 <fmt:parseDate value="${flight.departureTime}" var="departureTime"
                                                pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -31,24 +31,25 @@
                                 <i class="uil uil-plane-fly"></i>
                             </div>
                             <div class="col-md-5 text-center">
-                                <span><h4>${flight.arrAirportName}</h4></span>
+                                <span><h3>${flight.arrAirportName}</h3></span>
                                 <span>
                                 <fmt:parseDate value="${flight.arrivalTime}" var="arrivalTime"
                                                pattern="yyyy-MM-dd HH:mm:ss"/>
                                         <fmt:formatDate value="${arrivalTime}" pattern="HH:mm"/>
                                     </span>
                             </div>
+
                         </div>
                         <div class="row">
-                            <div class="col-12 text-center">
+                            <div class="col-md-12 text-center">
                                 <span>${flight.vehicleId}</span>
                                 <span>/</span>
                                 <span>${flight.airlineName}</span>
                             </div>
                         </div>
-                        <div class="row mt-2">
-                            <div class="col-12 text-start" style="font-size: 0.7rem;">
-                                <span>이코노미석</span>
+                        <div class="row">
+                            <div class="col-md-12 text-center" style="font-size: 0.7rem;">
+                                <span>이코노미</span>
                                 <span>
                                         <c:set var="economyCharge" value="${flight.economyCharge}"/>
                                         <c:choose>
@@ -59,7 +60,7 @@
                                         </c:choose>
                                     </span>
                                 <span>/</span>
-                                <span>프레스티지석</span>
+                                <span>프레스티지</span>
                                 <span>
                                         <c:set var="prestigeCharge" value="${flight.prestigeCharge}"/>
                                         <c:choose>
@@ -72,14 +73,14 @@
                             </div>
                         </div>
                         <div class="row mt-2">
-                            <div class="col-6 text-end">
+                            <div class="col-6 text-center">
                                 <button type="button"
                                         class="btn btn-outline-green w-100"
                                         onclick="goToAirlineHomepage('${flight.airlineName}')">
                                     예매
                                 </button>
                             </div>
-                            <div class="col-6 text-start">
+                            <div class="col-6 text-center">
                                 <button id="add-flight-btn-${status.index+1}" type="button"
                                         class="btn btn-green text-white w-100" data-flight-id="${flight.id}">
                                     추가

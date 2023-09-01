@@ -109,6 +109,26 @@ input #depDate .custom-flight-form {
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
+.form-control {
+    display: block;
+    width: 100%;
+    padding: .6rem 1rem;
+    font-size: .75rem;
+    font-weight: 500;
+    line-height: 1.7;
+    color: #60697b;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: 1px solid rgba(8, 60, 130, .15) !important;
+    border-radius: .4rem;
+    box-shadow: 0 0 1.25rem rgba(30, 34, 40, .04);
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
+}
+
+
 .custom-card {
     --bs-card-spacer-y: 2rem;
     --bs-card-spacer-x: 2rem;
@@ -183,7 +203,7 @@ input #depDate .custom-flight-form {
 
 .card-body-for-plan-flight-search {
     flex: 1 1 auto;
-    padding: 1.8rem 1rem 1.8rem 1.2rem;
+    padding: 1.5rem 1rem;
     color: var(--bs-card-color);
     font-size: 0.8rem;
 }
