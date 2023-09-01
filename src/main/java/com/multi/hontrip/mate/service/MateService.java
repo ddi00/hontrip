@@ -35,6 +35,8 @@ public interface MateService {
 
     public MateBoardSelectOneDTO selectOne(long id);    //동행인 상세게시글 가져오기
 
+    public int updateMateBoard(MultipartFile file, MateBoardInsertDTO mateBoardInsertDTO); //동행인 상세게시글 수정하기
+
     public int updateMateBoard(MateBoardInsertDTO mateBoardInsertDTO); //동행인 상세게시글 수정하기
 
     public int deleteMateBoard(long id); //동행인 게시글 삭제하기

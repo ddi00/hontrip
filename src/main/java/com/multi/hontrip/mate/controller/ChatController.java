@@ -34,7 +34,7 @@ public class ChatController {
     }
 
     @PostMapping("/create-chatroom")    //form으로 보낼때는 requestBody 쓰지 마시오
-    public ChatInfoDTO createChatRoom(ChatInfoDTO chatInfoDTO, ModelAndView modelAndView) { // 채팅방 새로 생성하기(post소유주만 가능)  : 채팅 후 환영인사까지 하기 위해
+    public ChatInfoDTO createChatRoom(ChatInfoDTO chatInfoDTO) { // 채팅방 새로 생성하기(post소유주만 가능)  : 채팅 후 환영인사까지 하기 위해
         chatInfoDTO.setRoomId(chatService.createRoom(chatInfoDTO));
         return chatInfoDTO;
     }

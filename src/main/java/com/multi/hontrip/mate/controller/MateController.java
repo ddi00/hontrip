@@ -16,9 +16,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("mate")
@@ -229,9 +230,6 @@ public class MateController {
         UserGenderAgeDTO userGenderAgeDTO = mateService.findUserGenderAgeById(id);
         JsonObject user = new JsonObject();
         user.addProperty("id", userGenderAgeDTO.getId());
-        System.out.println("id:" + id);
-        System.out.println(userGenderAgeDTO.getGender());
-        System.out.println(userGenderAgeDTO.getGender().getGenderStr());
         user.addProperty("gender", userGenderAgeDTO.getGender().getGenderStr());
         user.addProperty("ageRange", userGenderAgeDTO.getAgeRange().getAgeRangeStr());
         return new Gson().toJson(user);
@@ -257,14 +255,11 @@ public class MateController {
     public String updateMateBoard(
             @RequestParam(value = "file", required = false) MultipartFile file,
             MateBoardInsertDTO mateBoardInsertDTO) throws IOException {
-        if (file != null && !file.isEmpty()) {
-            String savedFileName = file.getOriginalFilename();
-            mateBoardInsertDTO.setThumbnail(savedFileName);
-            String uploadPath = "D:\\hontrip\\src\\main\\webapp\\resources\\img\\mateImg";
-            File target = new File(uploadPath + "/" + savedFileName);
-            file.transferTo(target);
+        if (file != null) {
+            mateService.updateMateBoard(file, mateBoardInsertDTO);
+        } else {
+            mateService.updateMateBoard(mateBoardInsertDTO);
         }
-        mateService.updateMateBoard(mateBoardInsertDTO);
         return "redirect:/mate/" + mateBoardInsertDTO.getId();
     }
 

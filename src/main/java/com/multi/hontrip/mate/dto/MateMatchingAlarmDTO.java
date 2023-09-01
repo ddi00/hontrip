@@ -12,6 +12,7 @@ public class MateMatchingAlarmDTO {
 
     private long id;
     private AlarmType alarmType;    //알람 타입 (동행인신청 알람 or 채팅알람 or 동행인 댓글알람)
+    private long roomId;    //채팅방 아이디
     private long mateBoardId;   //동행 신청한 게시판 아이디
     private String mateBoardTitle; //동행 신청한 게시판의 제목
     private long receiverId;    //동행 게시판 작성자 아이디(모집자)
