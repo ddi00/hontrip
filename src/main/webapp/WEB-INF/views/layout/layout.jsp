@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/assets/css/style.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/mate.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/plan.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/alarm.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/user.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/chat.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/record.css"/>">
@@ -91,16 +92,27 @@
 
         //채팅창에서 전송버튼을 눌렀을 때(chat) -> send
         function mateChatSend(ths) {
-            stompClient.send('/app/mate/chat', {},
-                JSON.stringify({
-                    'message': $('#mateChatInputMessage').val(),
-                    'roomId': $(ths).val(),
-                    'senderId': $('#mateAlarmUserId').val(),
-                    'senderNickname': $('#mateAlarmUserNickname').val(),
-                    'messageType': 'TALK'
-                })
-            );
-            sendChatAlarm($('#mateHeaderReceiverId').val(), $('#mateAlarmUserNickname').val(), $('#mateChatInputMessage').val());
+            if ($('#mateChatInputMessage').val() != '') {
+                stompClient.send('/app/mate/chat', {},
+                    JSON.stringify({
+                        'message': $('#mateChatInputMessage').val(),
+                        'roomId': $(ths).val(),
+                        'senderId': $('#mateAlarmUserId').val(),
+                        'senderNickname': $('#mateAlarmUserNickname').val(),
+                        'messageType': 'TALK'
+                    })
+                );
+                sendChatAlarm($('#mateHeaderReceiverId').val(), $('#mateAlarmUserNickname').val(), $('#mateChatInputMessage').val());
+                $('#mateChatInputMessage').val('');
+                setTimeout(function () {
+                    scrollUl()
+                }, 100);
+            }
+        }
+
+        function scrollUl() {
+            let chatUl = document.querySelector('.mateChatHistoryUl');
+            chatUl.scrollTop = chatUl.scrollHeight;
         }
 
 
@@ -109,28 +121,34 @@
         //채팅방 구독 subscribe -> pub에서 받아온 메세지를 처리
         function subscribeChatRoom(roomId) {
             stompClient.subscribe('/topic/chat/roomId/' + roomId, function (result) {
-                showChatMessage(JSON.parse(result.body));
-            })
+                    showChatMessage(JSON.parse(result.body))
+                }, {'id': 'chat' + roomId}
+            )
         }
-
 
         //채팅창에 메세지를 보여줌
         function showChatMessage(chatMessageDTO) {
             if (chatMessageDTO.messageType == "JOIN" || chatMessageDTO.messageType == "LEAVE") {
-                $('#mateChatHistoryUl').append('<li>' + chatMessageDTO.message + '</li>')
+                $('#mateChatHistoryUl').append('<li class="joinOrLeaveMessageLi">' + chatMessageDTO.message + '</li>')
             } else {
                 if (chatMessageDTO.senderId == $('#mateAlarmUserId').val()) {
                     //오른쪽에 배치
-                    $('#mateChatHistoryUl').append('<li style="text-align: right;">' + chatMessageDTO.message + '</li>');
+                    $('#mateChatHistoryUl').append("<li class='myChatLi'><span class='myChatTime'>" + chatMessageDTO.sendTime.hour + ":" + chatMessageDTO.sendTime.minute + "</span>" +
+                        "<span class='myChatMessage'>" + chatMessageDTO.message + "</span></li>");
                 } else {
                     //왼쪽에 배치
-                    $('#mateChatHistoryUl').append('<li style="text-align: left;">' + chatMessageDTO.message + '</li>');
+                    $('#mateChatHistoryUl').append("<li class='opponentChatLi'><div class='opponentNicknameImg'><span class='opponentChatSenderNickname'>" + chatMessageDTO.senderNickname + "</span>" +
+                        "<span><img class='opponentProfileImg' src='" + chatMessageDTO.senderProfileImage + "' alt='상대방 프로필'></span></div><span class='opponentChatMessage'>" + chatMessageDTO.message + "</span>" +
+                        "<span class='opponentChatTime'>" + chatMessageDTO.sendTime.hour + ":" + chatMessageDTO.sendTime.minute + "</span></li>");
                 }
             }
+            setTimeout(function () {
+                scrollUl()
+            }, 100);
         }
 
 
-        //채팅리스트 모달 펼치기
+        //채팅방리스트 모달 펼치기
         function clickChatIcon() {
             if ($('.mateChatModal').css('display') == 'none') {
                 $('.mateChatList-wrap').css('display', 'block');
@@ -143,7 +161,7 @@
                         $('#mateChatListUl').html('');
                         for (let i = 0; i < chatRoomList.length; i++) {
                             $('#mateChatListUl').append('<li><a onclick="clickOneChatRoom(this)" data-value="' + chatRoomList[i].roomId + '"><span>' +
-                                chatRoomList[i].chatRoomName + '</span><br><img class="chatListOpponentImg" src="' + chatRoomList[i].opponentProfileImg + '">' + chatRoomList[i].lastMessage);
+                                chatRoomList[i].chatRoomName + '</span><br><img class="chatListOpponentImg" src="' + chatRoomList[i].opponentProfileImg + '">' + chatRoomList[i].lastMessage + '</a></li>');
                         }
                     },
                     error: function (e) {
@@ -152,6 +170,10 @@
                 })
                 $('.mateChatModal').css('display', 'block');
             } else if ($('.mateChatModal').css('display') == "block") {
+                //만약 모달창이 열려있으면서 채팅창이 열려있으면(즉, 하나의 채팅창을 구독하고 있으면)
+                if ($('.mateChatHistory-wrap').css('display') == "block") {
+                    $('#chatRoomCloseIcon').click();
+                }
                 $('.mateChatModal').css('display', 'none');
             }
         }
@@ -245,8 +267,10 @@
 
                     //채팅모달 펼치기
                     $('.mateChatModal').css('display', 'block');
-
-
+                    $('.mateChatList-wrap').css('display', 'none');
+                    $('.mateChatHistory-wrap').css('display', 'block');
+                    $('#mateChatHistoryUl').html('');
+                    $('#mateChatRoomTitleLetter').text(result.chatRoomName);
                 },
                 error: function (e) {
                     console.log(e);
@@ -256,10 +280,14 @@
 
         //하나의 채팅방을 클릭했을 때
         function clickOneChatRoom(ths) {
-            //채팅창 출력하기
+
+            //채팅창 열기
             $('.mateChatList-wrap').css('display', 'none');
             $('.mateChatHistory-wrap').css('display', 'block');
+            $('#mateHeaderReceiverId').val();
             let roomId = parseInt($(ths).data('value'));
+            subscribeChatRoom(roomId);
+            $('#chatRoomCloseIcon').attr('data-value', roomId);
             console.log(roomId);
             console.log($('#mateAlarmUserId').val())
             $('#mateChatHistoryUl').html('');
@@ -273,20 +301,37 @@
                 },
                 success: function (result) {
                     console.log(result);
+                    $('#mateHeaderReceiverId').val(result.receiverId);
                     $('#mateChatSendButton').val(result.roomId);
-                    $('#mateChatRoomTitle').text(result.chatRoomName);
+                    $('#mateChatRoomTitleLetter').text(result.chatRoomName);
                     for (let i = 0; i < result.chatMessages.length; i++) {
-                        $('#mateChatHistoryUl').append("<li>" + result.chatMessages[i].message + "</li>");
+                        if (result.chatMessages[i].messageType == "JOIN" || result.chatMessages[i].messageType == "LEAVE") {
+                            $('#mateChatHistoryUl').append("<li class='joinOrLeaveMessageLi'>" + result.chatMessages[i].message + "</li>");
+                        } else {
+                            if (result.chatMessages[i].senderId != $('#mateAlarmUserId').val()) {
+                                $('#mateChatHistoryUl').append("<li class='opponentChatLi'><span class='opponentChatSenderNickname'>" + result.chatMessages[i].senderNickname + "</span><br>" +
+                                    "<span><img class='opponentProfileImg' src='" + result.chatMessages[i].senderProfileImage + "' alt='상대방 프로필'></span><span class='opponentChatMessage'>" + result.chatMessages[i].message + "</span>" +
+                                    "<span class='opponentChatTime'>" + result.chatMessages[i].sendTime.hour + ":" + result.chatMessages[i].sendTime.minute + "</span></li>");
+                            } else {
+                                $('#mateChatHistoryUl').append("<li class='myChatLi'><span class='myChatTime'>" + result.chatMessages[i].sendTime.hour + ":" + result.chatMessages[i].sendTime.minute + "</span>" +
+                                    "<span class='myChatMessage'>" + result.chatMessages[i].message + "</span></li>");
+                            }
+                        }
                     }
-
-
+                    scrollUl()
                 },
                 error: function (e) {
                     console.log(e);
                 }
             })
+        }
 
-
+        //뒤로가기 화살표버튼을 누르면 -> 해당 채팅방 구독을 끊고, 채팅리스트로 돌아간다.
+        function unsubscribeChatRoom(ths) {
+            $('.mateChatHistory-wrap').css('display', 'none');
+            $('.mateChatList-wrap').css('display', 'block');
+            let roomId = $(ths).data('value');
+            stompClient.unsubscribe('chat' + roomId);
         }
 
 
@@ -426,6 +471,7 @@
                             document.getElementsByClassName("mateAlarmListClose")[0].addEventListener("click", function () {
                                 document.getElementById("myMateAlarmModal").style.display = "none";
                             });
+
                             if (list.length == 0) {
                                 $('#notificationList').append('<span style="font-size: 12px;">불러올 알람이 없습니다.</span>')
                             } else {
@@ -456,18 +502,18 @@
     </script>
 </head>
 <body>
-    <div class="content-wrapper">
-        <tiles:insertAttribute name="header"/>
-        <tiles:insertAttribute name="body"/>
-    </div>
+<div class="content-wrapper">
+    <tiles:insertAttribute name="header"/>
+    <tiles:insertAttribute name="body"/>
+</div>
 
-    <tiles:insertAttribute name="footer"/>
-    <div class="progress-wrap">
-        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
-            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
-        </svg>
-    </div>
-    <input type="hidden" id="mateAlarmUserId" value="<c:out value="${sessionScope.id}"/>">
-    <input type="hidden" id="mateAlarmUserNickname" value="<c:out value="${sessionScope.nickName}"/>">
+<tiles:insertAttribute name="footer"/>
+<div class="progress-wrap">
+    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+    </svg>
+</div>
+<input type="hidden" id="mateAlarmUserId" value="<c:out value="${sessionScope.id}"/>">
+<input type="hidden" id="mateAlarmUserNickname" value="<c:out value="${sessionScope.nickName}"/>">
 </body>
 </html>

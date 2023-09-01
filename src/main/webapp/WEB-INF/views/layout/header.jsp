@@ -34,16 +34,33 @@
         </div>
 
         <%--채팅창--%>
-        <div class="mateChatHistory-wrap">
-            <span id="mateChatRoomTitle">채팅방 제목</span>
-            <div class="mateChatHistoryDiv">
-                <ul id="mateChatHistoryUl" class="mateChatHistoryUl">
-                </ul>
+            <div id="mateChatHistory-wrap" class="mateChatHistory-wrap">
+                <div id="mateChatRoomTop" class="mateChatRoomTop">
+                    <a class="chatRoomCloseIcon" id="chatRoomCloseIcon" onclick="unsubscribeChatRoom(this)"><span><svg
+                            xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                            class="bi bi-arrow-left-short" viewBox="0 0 16 16" id="IconChangeColor"> <path
+                            fill-rule="evenodd"
+                            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
+                            id="mainIconPathAttribute" fill="#ffffff"></path> </svg></span></a>
+                    <span id="mateChatRoomTitleLetter" class="mateChatRoomTitleLetter">
+                    채팅방 제목
+                </span>
+                </div>
+                <div class="mateChatHistoryDiv">
+                    <ul id="mateChatHistoryUl" class="mateChatHistoryUl">
+                    </ul>
+                </div>
+                <div class="mateChatBottomDiv"><input type="text" id="mateChatInputMessage" class="mateChatInputMessage"
+                                                      placeholder="메세지를 입력해주세요.">
+                    <button id="mateChatSendButton" class="mateChatSendButton" onclick="mateChatSend(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+                             class="bi bi-send" viewBox="0 0 16 16" id="IconChangeColor">
+                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"
+                                  id="mainIconPathAttribute" fill="#ffffff"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <div><input type="text" id="mateChatInputMessage" placeholder="메세지를 입력해주세요.">
-                <button id="mateChatSendButton" onclick="mateChatSend(this)">전송</button>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -51,9 +68,8 @@
     <jsp:include page="nav.jsp"/>
 </header>
 
-
 <%--채팅 아이콘--%>
-<%--<c:if test="${not empty sessionScope.id}">
+<c:if test="${not empty sessionScope.id}">
     <div class="chatIcon">
         <span hidden class="unreadChatCount"></span>
         <a onclick="clickChatIcon()">
@@ -66,5 +82,17 @@
             </svg>
         </a>
     </div>
-</c:if>--%>
+</c:if>
 
+
+<script>
+    const inputElement = document.querySelector('#mateChatInputMessage');
+    const mateChatSendButton = document.querySelector('#mateChatSendButton');
+    inputElement.addEventListener('keydown', (event) => {
+        let key = event.key || event.keyCode;
+
+        if (key === 'Enter' && !event.shiftKey) {
+            mateChatSendButton.click();
+        }
+    })
+</script>

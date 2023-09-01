@@ -68,14 +68,18 @@
           AND chatroom_id=#{roomId}
     </select>
     <select id="selectMessageListByRoomId" parameterType="chatroomRequestDTO" resultType="chatMessageDTO">
-        select id,
-               message_type as messageType,
-               chatroom_id  as chatroomId,
-               sender_id    as senderId,
-               message,
-               created_at   as createdAt
-        from mate_chat_message
+        select mcm.id,
+               mcm.message_type   as messageType,
+               mcm.chatroom_id    as chatroomId,
+               mcm.sender_id      as senderId,
+               user.nickname      as senderNickname,
+               user.profile_image as senderProfileImage,
+               mcm.message,
+               mcm.created_at     as sendTime
+        from mate_chat_message mcm
+                 join user on user.id = mcm.sender_id
         where chatroom_id = #{roomId}
+        order by sendTime asc
     </select>
     <update id="updateLastJoinAt" parameterType="map">
         UPDATE mate_user_chatroom

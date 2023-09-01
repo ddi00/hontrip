@@ -10,26 +10,28 @@
     request.setAttribute("contentBody", contentBody.replaceAll("<br>", "\n"));
 %>
 
-<div class="content-wrapper">
+<%--<div class="content-wrapper">
     <section class="wrapper bg-xs-none">
         <div class="container pt-2 pb-10 pt-md-10 pb-md-10">
             <!-- /.row -->
         </div>
         <!-- /.container -->
     </section>
-    <!-- /section -->
-    <section class="wrapper bg-xs-none">
-        <div class="container pb-14 pb-md-16">
-            <div class="row">
-                <div class="col-lg-10 mx-auto">
-                    <div class="blog single mt-n15">
-                        <div class="card shadow-xl">
-                            <div class="card-body">
-                                <div class="total">
+    <!-- /section -->--%>
+<section class="container mateInsertContainer">
+    <div class="mateInsertTitle">동행인 찾기</div>
+    <hr style="margin:2% 0.8%; margin-bottom: 4%; color: rgba(0, 0, 0, 0.7);">
+    <%--<div class="container pb-14 pb-md-16">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="blog single mt-n15">
+                    <div class="card shadow-xl">
+                        <div class="card-body">--%>
+    <div class="total">
 
-                                    <%--js에서 사용하기 위해 설정--%>
-                                    <input hidden id="mateBoardId" name="mateBoardId" value="${dto.id}">
-                                    <input hidden id="mateBoardUserId" name="mateBoardUserId" value="${dto.userId}">
+        <%--js에서 사용하기 위해 설정--%>
+        <input hidden id="mateBoardId" name="mateBoardId" value="${dto.id}">
+        <input hidden id="mateBoardUserId" name="mateBoardUserId" value="${dto.userId}">
                                     <input hidden id="mateBoardThumbnail" name="mateBoardThumbnail"
                                            value="${dto.thumbnail}">
                                     <input hidden id="mateBoardDbAgeRangeId" name="mateBoardDbAgeRangeId"
@@ -141,16 +143,16 @@
                                         <div class="image-container">
                                             <img id="upldimg" src="../resources/img/mateImg/${dto.thumbnail}"
                                                  alt="Uploaded Image"
-                                                 height="250px" width="100%">
+                                                 height="300px" width="100%">
                                             <input type="file" name="file" id="file" accept="image/*"
                                                    class="mateFileInput">
                                         </div>
 
 
-                                        <div class="form-container">
-                                            <input class="form-input form-input-title" type="text" id="title"
-                                                   name="title"
-                                                   value="${dto.title}" required>
+        <div class="form-container">
+            <input class="form-input form-input-title" type="text" id="title"
+                   name="title"
+                   value="${dto.title}" required>
                                             <textarea class="form-input form-input-content" id="content" name="content"
                                                       rows="8" required>${contentBody}</textarea>
                                         </div>
@@ -164,20 +166,20 @@
                                             <button id="edit" class="btn btn-yellow mateButton">수정완료</button>
                                         </div>
                                 </div>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                        <!-- /.card -->
-                    </div>
-                    <!-- /.blog -->
-                </div>
-                <!-- /column -->
-            </div>
-            <!-- /.row -->
-        </div>
-        <!-- /.container -->
+    <%--  </div>
+      <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
+</div>
+<!-- /.blog -->
+</div>
+<!-- /column -->
+</div>
+<!-- /.row -->
+</div>
+<!-- /.container -->--%>
     </section>
     <!-- /section -->
-</div>
-<!-- /.content-wrapper -->
+<%--</div>
+<!-- /.content-wrapper -->--%>
 

@@ -44,8 +44,8 @@ public class ChatDAO {
         }
 
         //사용자별 채팅정보 업데이트
-        sessionTemplate.update("chatMapper.updateSenderChatroom",chatMessage);
-        /* sessionTemplate.update("chatMapper.updateReceiverChatroom",chatMessage);*/
+        sessionTemplate.update("chatMapper.updateSenderChatroom", chatMessage);
+        sessionTemplate.update("chatMapper.updateReceiverChatroom", chatMessage);
     }
 
 
