@@ -10,10 +10,10 @@
     }
 %>
 <section class="wrapper bg-light">
-    <div class="container-fluid container mt-15 mb-20 col-10 mx-auto">
+    <div class="container-fluid container p-6 mt-13 mb-20 mx-auto w-75">
         <div class="row align-items-center my-5 position-relative zindex-1">
             <div class="col-md-9 col-xl-6 pe-xl-20">
-                <h2 class="display-6 mb-0">내 여행 일정</h2>
+                <h3 class="display-6 mb-0">내 여행 일정</h3>
             </div>
             <!--/column -->
             <div class="col-md-3 col-xl-3 ms-md-auto mt-5 mt-md-0">
@@ -23,9 +23,9 @@
             </div>
             <!--/column -->
         </div>
-        <div class="row justify-content-around">
+        <div class="row justify-content-start">
         <c:forEach var="plan" items="${list}" varStatus="status">
-            <div class="custom-card mt-2 custom-col-for-plan ms-1">
+            <div class="custom-card custom-col-for-plan mt-3 ms-3">
                 <div class="card-body my-2">
                     <div class="row">
                         <div class="col-md-10">
@@ -42,7 +42,7 @@
                             <br>
                         </div>
                         <div class="col-md-2 align-self-end">
-                            <button type="button" class="delete-plan-btn btn" data-plan-id="${plan.planId}">
+                            <button type="button" class="delete-plan-btn btn custom-btn-sm" data-plan-id="${plan.planId}">
                                 <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16"
                                      height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                     <path
