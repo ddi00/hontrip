@@ -74,6 +74,7 @@
     font-size: 15px;
     margin-top: 8px;
     margin-bottom: 10px;
+
 }
 
 /*채팅창 닫기 버튼*/
@@ -260,3 +261,36 @@
     height: 100%;
     width: 12%;
 }
+
+.mate-chat-list-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.mateChatListDiv {
+  border: 1px solid orange;
+  border-radius: 20px;
+  padding: 10px;
+  width: 300px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.mate-chat-list {
+  border: 1px solid orange;
+  padding: 1px;
+}
+
+.mateChatListUl {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mateChatListUl li {
+  padding: 10px;
+}
+
