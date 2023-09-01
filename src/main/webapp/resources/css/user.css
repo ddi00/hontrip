@@ -85,3 +85,28 @@
   border-radius: 4px;
   color:#FF5A46;
 }
+.select-area{
+  border: 1px solid #eaebef;
+  background: #f7f8fa;
+  padding-block-start: 1em;
+  padding-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 20px;
+  display: none;
+}
+
+.select-area-show{
+  display: flex;
+}
+.selected-condition{
+  display: inline-block;
+}
+.select-span{
+  margin-right: 10px;
+}
+.deleteCityBtn{
+  margin-bottom: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}

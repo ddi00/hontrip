@@ -14,14 +14,22 @@
 
                     </div>
                 </div>
-                <div>
+                <div class="city-area">
                     <c:forEach items="${cityMap}" var="entry">
-                        <a class="btn filter-btn" value="${entry.cityId}"><i class="uil uil-check ash"></i>${entry.city}</a>
+                        <a class="btn filter-btn" value="${entry.cityId}" data-city-name="${entry.city}" ><i class="uil uil-check ash"></i>${entry.city}</a>
                     </c:forEach>
                 </div>
+                <div class="select-area row">
+                    <div class="col-lg-10" >
+                    <div class="selected-condition"></div>
+                    </div>
+                    <div class="col-lg-2 resetbtn">
+                        초기화<i class="uil uil-redo"></i>
+                    </div>
+                </div>
                 <div class="row">
-                    <div class="col-md-8">
-                        <p>전체<span id="recordTotalCount" class=""> ${pageInfo.totalCount}</span>건</p>
+                    <div class="col-md-8 align-text-bottom">
+                        <p>전체 <span id="recordTotalCount" class="main-color">${pageInfo.totalCount}</span>건</p>
                     </div>
                     <div class="col-md-2">
                         <div class="form-select-wrapper mb-4">

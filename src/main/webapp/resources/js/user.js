@@ -105,27 +105,84 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
             cityFilter.addEventListener('click',function (event){
                 event.preventDefault(); // 이벤트 기본 동작을 막음
                 var cityId = cityFilter.getAttribute('value');  // id가져오기
+                var cityName=cityFilter.getAttribute('data-city-name'); //도시이름
+                var selectArea = document.querySelector('.select-area');
+                var selectConditionArea = document.querySelector('.selected-condition');
+                var currentDisplayStyle = window.getComputedStyle(selectArea).getPropertyValue('display');
                  if (cityFilter.classList.contains('filter-select-btn')) {   // 이미 선택된거면
-                    var indexTocityFilterList = cityFilterList.indexOf(cityId);
-                    if(indexTocityFilterList !== -1){
-                        cityFilterList.splice(indexTocityFilterList,1);
-                    }
-                     cityFilter.classList.toggle('filter-select-btn');
-                } else {
+                     handleDeleteButtonClick(event);
+                 } else {
+                     if (currentDisplayStyle === 'none') {
+                         selectArea.classList.add('select-area-show');
+                     }
                     cityFilterList.push(cityId);
                      cityFilter.classList.toggle('filter-select-btn');
+                     //버튼넣기
+                     var span = document.createElement('span');
+                     span.classList="select-span";
+                     span.setAttribute('value',`${cityId}`);
+                     var aTag = document.createElement('a'); // 새로운 <a> 태그를 생성
+                     aTag.classList.add('btn', 'btn-primary', 'rounded-pill', 'btn-sm', 'deleteCityBtn');
+                     aTag.setAttribute('value', `${cityId}`);
+                     aTag.addEventListener('click', handleDeleteButtonClick);
+                     aTag.textContent=`${cityName}`;
+                     var iTag = document.createElement('i');// <i> 태그를 생성하고 추가
+                     iTag.classList.add('uil', 'uil-multiply');
+                     aTag.appendChild(iTag);
+                     span.appendChild(aTag);
+                     selectConditionArea.appendChild(span);// <a> 태그를 .select-area에 추가합니다.
+                     if(cityFilterList.length===0){
+                         globalCityFilterList = null;
+                     }else{
+                         globalCityFilterList = cityFilterList.join(',');
+                     }
+                     var pageUrl = `/hontrip/user/my-record/condition?keyword=${globalKeyword}&isVisible=${globalVisible}&cities=${globalCityFilterList}`;
+                     refreshPage(pageUrl);
                 }
-                 if(cityFilterList.length===0){
-                     globalCityFilterList = null;
-                 }else{
-                     globalCityFilterList = cityFilterList.join(',');
-                 }
-                var pageUrl = `/hontrip/user/my-record/condition?keyword=${globalKeyword}&isVisible=${globalVisible}&cities=${globalCityFilterList}`;
-                refreshPage(pageUrl);
+
             })
         })
+        var deleteButtons = document.querySelectorAll('.deleteCityBtn');
+        deleteButtons.forEach(function(button) {
+            button.addEventListener('click', handleDeleteButtonClick);
+        });
 
 
+        function handleDeleteButtonClick(event) { //버튼 삭제
+            var selectArea = document.querySelector('.select-area');
+            var selectConditionArea = document.querySelector('.selected-condition');
+            var button = event.target;            // 클릭된 버튼의 value 속성.
+            var cityId = button.getAttribute('value');
+            var spanToDelete = selectConditionArea.querySelector(`span[value="${cityId}"]`); // 삭제할 <span> 요소를 찾습니다.
+            if (spanToDelete) { // <span>을 삭제합니다.
+                selectConditionArea.removeChild(spanToDelete);
+            }
+            if(selectConditionArea.childElementCount===0){//아무 요소 없으면 display none
+                selectArea.classList.remove('select-area-show');
+            }
+            //위쪽 필터 버튼 끄기
+            var indexInCityFilterList = cityFilterList.indexOf(cityId);
+            if (indexInCityFilterList !== -1) {
+                cityFilterList.splice(indexInCityFilterList, 1);
+            }
+            if(cityFilterList.length===0){
+                globalCityFilterList=null;
+            }else{
+                globalCityFilterList=cityFilterList.join(',');
+            }
+            var aTags = document.querySelectorAll('.filter-btn');
+            var targetATag = Array.from(aTags).find(function(aTag) {
+                if(aTag.getAttribute('value') === cityId)
+                    aTag.classList.remove('filter-select-btn');
+            });
+
+            // if (targetATag) {
+            //     targetATag.classList.remove('filter-select-btn');
+            // }
+            //데이터 다시 불러오기
+            var pageUrl = `/hontrip/user/my-record/condition?keyword=${globalKeyword}&isVisible=${globalVisible}&cities=${globalCityFilterList}`;
+             refreshPage(pageUrl);
+        }
 
         function refreshList(data) { //tbody에 다시 데이터 뿌리기
             document.getElementById("recordTotalCount")
@@ -186,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
             const paginationContainer = document.querySelector('.pagination');
             paginationContainer.innerHTML = ''; // 기존 pagination 내용 초기화
 
-            // 맨 첫장 가는 퍼튼
+            // 맨 첫장 가는 버튼
             if (pageInfo.page!=1) {
                 const prevBtn = document.createElement('li');
                 prevBtn.classList.add('page-item');
@@ -330,4 +387,3 @@ document.addEventListener("DOMContentLoaded", function () {// 새 방에 입장
             });
     }
 });
-
