@@ -176,8 +176,8 @@
 
         <hr class="my-8"/>
         <div class="row gx-md-8 gx-xl-12 gy-8">
-            <div class="col-6" style="border-right: 2px solid #F5F5F5;">
-                <button id="add-flight" type="button" class="btn btn-soft-green rounded-pill">항공권 추가</button>
+            <div class="col-6 text-center" style="border-right: 2px solid #F5F5F5;">
+                <button id="add-flight" type="button" class="btn btn-sm btn-soft-green rounded-pill w-75">항공권 추가</button>
 
                 <div class="mt-5 mb-2" id="selected-flights">
                     <c:forEach items="${addedFlights}" var="flight">
