@@ -10,6 +10,7 @@
 
 }
 
+
 /*알람 모달창 텍스트 넣는 부분*/
 .mateAlarmModal-content {
     border-radius: 10px;
@@ -85,7 +86,6 @@
     height: 60%;
     background-color: transparent;
 }
-
 
 .mateRealTimeAlarmLi {
     display: flex;
