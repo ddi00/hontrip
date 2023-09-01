@@ -31,9 +31,7 @@ public class AlarmController {
 
     @MessageMapping("/chat") //pub/chat
     public void sendChatAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
-        System.out.println("시작");
         simpMessageSendingOperations.convertAndSend("/sub/" + mateMatchingAlarmDTO.getReceiverId(), mateMatchingAlarmDTO);
-        System.out.println("끝");
     }
 
 
