@@ -2,7 +2,6 @@ package com.multi.hontrip.user.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.multi.hontrip.common.RequiredSessionCheck;
 import com.multi.hontrip.user.dto.PageConditionDTO;
 import com.multi.hontrip.user.dto.UserInfoDTO;
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
