@@ -1,14 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
     <%
         if (session.getAttribute("id") != null) {
             long userId = (long) session.getAttribute("id");
             request.setAttribute("userId", userId);
         }
     %>
-<head>
+
 <style>
     /* 이미지 컨테이너의 스타일 설정 */
     .swiper-slide{
@@ -25,7 +23,6 @@
         max-height: 100%;
     }
 </style>
-    <meta charset="UTF-8">
     <script type="text/javascript"
     	src="../resources/js/jquery-3.7.0.js" ></script>
     <script type="text/javascript">
@@ -338,8 +335,6 @@
 
     }); // $
 </script>
-</head>
-<body>
     <br><br><br><br><br><br>
     <section class="wrapper bg-light">
         <div class="container pb-14 pb-md-16">
@@ -388,7 +383,7 @@
                                                 <button class="unlike-button btn btn-circle btn-orange"><i class="uil uil-heart-break"></i></button>
                                             </c:if>
                                             <c:if test="${userCheckLike ne 'ok'}">
-                                                <button class="like-button btn btn-circle btn-orange"><i class="uil uil-heart"></i></button>
+                                                <button class="like-button btn btn-circle btn-main"><i class="uil uil-heart"></i></button>
                                             </c:if>
                                         </div>
                                     </c:if>
@@ -419,7 +414,7 @@
                                         <c:if test="${postInfoDTO.userId eq userId}">
                                             <li class="post-likes"><a
                                                     href="/hontrip/record/updatepost?id=${postInfoDTO.boardId}">
-                                                    <i class="uil uil-sync"></i>수 정</a>
+                                                    수 정</a>
                                             </li>
                                             <li class="post-likes"><a
                                                     href="/hontrip/record/deletepost?id=${postInfoDTO.boardId}">
@@ -590,13 +585,13 @@
                     <!-- /#result -->
                     <hr />
                     <c:if test="${not empty sessionScope.id}">
-                        <h3 class="mb-3 text-orange">Write a comment</h3>
+                        <h3 class="mb-3 main-color">Write a comment</h3>
                         <div class="form-floating mb-4">
                             <textarea input id="cmtContent" name="textarea" class="form-control" placeholder="Comment"
                                 style="height: 80px"></textarea>
                             <label>Comment *</label>
                         </div>
-                        <button id="commentWrite" class="btn btn-orange rounded-pill mb-0">Submit</button>
+                        <button id="commentWrite" class="btn btn-main rounded-pill mb-0">Submit</button>
                     </c:if>
                 </div>
                 <!-- /column -->
@@ -646,5 +641,3 @@
         <!--/.modal-dialog -->
     </div>
     <!--/.modal -->
-</body>
-</html>

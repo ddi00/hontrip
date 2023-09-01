@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-lg-9 col-xl-8 mx-auto">
         <figure class="mb-10">
-          <img class="img-fluid" src="<c:url value="/resources/assets/img/illustrations/404.png"/>" alt="404에러">
+          <img class="img-fluid" src="<c:url value="/resources/img/common/404.png"/>" alt="404에러">
         </figure>
       </div>
       <div class="col-lg-8 col-xl-7 col-xxl-6 mx-auto text-center">

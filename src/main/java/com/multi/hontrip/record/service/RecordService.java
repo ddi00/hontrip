@@ -128,8 +128,8 @@ public class RecordService {
         return recordDAO.getMyMap(userId);
     }
 
-    public List<PostInfoDTO> getFeedList(int isVisible) {
-        return recordDAO.getFeedList(isVisible);
+    public List<PostInfoDTO> getFeedList() {
+        return recordDAO.getFeedList();
     }
 
 

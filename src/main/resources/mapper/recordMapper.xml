@@ -212,7 +212,7 @@
 		LEFT JOIN location loc ON rb.location_id = loc.id
 		LEFT JOIN record_like rl ON rb.id = rl.record_id
 		WHERE
-		rb.is_visible  = #{isVisible}
+		rb.is_visible  = 1
 		ORDER BY rb.id DESC
 	</select>
 

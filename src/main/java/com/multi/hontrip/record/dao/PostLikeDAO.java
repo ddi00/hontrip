@@ -21,6 +21,7 @@ public class PostLikeDAO {
         sqlSessionTemplate.delete("record.deleteLike", postLikeDTO);
     }
 
+    // 유저 정보 담은 게시물 좋아요 리스트
     public List<PostLikeDTO> selectLike(long recordId) {
         return sqlSessionTemplate.selectList("record.selectLikeList", recordId);
     }
