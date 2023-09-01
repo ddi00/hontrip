@@ -248,7 +248,7 @@
                 <button id="add-accommodation-1" type="button" class="btn btn-sm btn-soft-yellow rounded-pill w-75">숙소 추가</button>
                 <br>
 
-                <div class="row" id="selected-accommodations-1">
+                <div class="row mt-3" id="selected-accommodations-1">
 
                     <c:forEach items="${addedAccommodations}" var="accommodation">
                         <div class="card my-2">
@@ -309,11 +309,6 @@
                     <!-- Accommodation search results will be displayed here -->
                 </div>
             </div>
-
-
-            <hr class="my-8"/>
-
-
             <!-- 숙소 검색창과 검색결과  끝-->
         </div>
         <hr class="my-8"/>
@@ -475,6 +470,13 @@
             success: function (result) {
                 alert("여행지가 삭제되었습니다!");
                 deleteButton.closest(".row").remove();
+                let selectedSpotsDivs = $('[id^="selected-spots-"]');
+                selectedSpotsDivs.each(function () {
+                    let divContents = $(this).find('div');
+                    if (divContents.length === 0) {
+                        $(this).hide(); // 내용이 없는 div 숨김 처리
+                    }
+                })
             },
             error: function () {
                 alert("여행지 삭제에 실패했습니다.");
@@ -776,10 +778,9 @@
                 selectedAccommodationDivHTML +=  "<span class='col-10'>" + accommodation.phone + "</span>"
                 selectedAccommodationDivHTML += "<span class='col-2 align-self-start'><button type='button' class='delete-accommodation-btn btn btn-sm'"
                     + "data-accommodation-id='" + accommodation.id + "'>"
-                selectedAccommodationDivHTML += "<svg style='color: red' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'>"
-                selectedAccommodationDivHTML += "<path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z' fill='red'></path>"
-                selectedAccommodationDivHTML += "<path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z' fill='red'></path></svg>"
-                selectedAccommodationDivHTML += "</button></span></div>"
+                selectedAccommodationDivHTML += "<svg style='color: gray' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-x' viewBox='0 0 16 16'>"
+                selectedAccommodationDivHTML += "<path d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z' fill='gray'></path></svg>"
+               selectedAccommodationDivHTML += "</button></span></div>"
 
                 selectedAccommodationDivHTML += "<div class='row'>"
                 selectedAccommodationDivHTML += "<span class='col-12'><a href='" + accommodation.placeUrl + "'>숙박후기</a>" +"</span>"
