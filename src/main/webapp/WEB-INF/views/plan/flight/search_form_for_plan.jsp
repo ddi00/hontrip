@@ -56,13 +56,13 @@
         <p>출발일</p>
         <span class="mb-4">
                             <input type="date" id="depDate" name="depDate"
-                                   class="form-control"
+                                   class="form-control" form="search-flight-form"
                                    required>
                         </span>
       </div>
     </div>
   </div>
-    <button type="button" id="search-flight-button" class="btn btn-green col-md-12" style="font-size: 0.7rem;">
+    <button type="button" id="search-flight-button" form="search-flight-form" class="btn btn-green col-md-12" style="font-size: 0.7rem;">
         검색
     </button>
 </form>
