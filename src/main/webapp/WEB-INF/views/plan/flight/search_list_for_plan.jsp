@@ -3,9 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="row d-flex justify-content-center">
     <div class="col-12">
-        <div class="ps-8 pb-5">
+        <div class="ps-8 pe-1">
             <h5>${depDate}</h5>
-            <h3>${depAirportName}발 - ${arrAirportName}행 항공편 목록</h3>
+            <h4>${depAirportName}발 - ${arrAirportName}행 항공편 목록</h4>
         </div>
 
         <h3 class="my-2 align-self-center">
@@ -16,52 +16,39 @@
 
         <ul>
             <c:forEach items="${list}" var="flight" varStatus="status">
-                <div class="card p-4 mt-2 me-7">
-                    <div class="card-body justify-content-start">
+                <div class="card p-1 mt-2 me-4">
+                    <div class="card-body-for-plan-flight-search justify-content-start">
                         <div class="row">
-                            <div class="col-md-3">
-                                    <span><h3>${flight.depAirportName}</h3></span>
-                                    <span>
+                            <div class="col-md-5 text-center">
+                                <span><h4>${flight.depAirportName}</h4></span>
+                                <span>
                                 <fmt:parseDate value="${flight.departureTime}" var="departureTime"
                                                pattern="yyyy-MM-dd HH:mm:ss"/>
                                 <fmt:formatDate value="${departureTime}" pattern="HH:mm"/>
                                     </span>
                             </div>
-                            <div class="col-md-2 text-start">
+                            <div class="col-md-2 text-center">
                                 <i class="uil uil-plane-fly"></i>
                             </div>
-                            <div class="col-md-5">
-                                    <span><h3>${flight.arrAirportName}</h3></span>
-                                    <span>
+                            <div class="col-md-5 text-center">
+                                <span><h4>${flight.arrAirportName}</h4></span>
+                                <span>
                                 <fmt:parseDate value="${flight.arrivalTime}" var="arrivalTime"
                                                pattern="yyyy-MM-dd HH:mm:ss"/>
                                         <fmt:formatDate value="${arrivalTime}" pattern="HH:mm"/>
                                     </span>
                             </div>
-                            <div class="col-md-2">
-                                <div class="d-flex flex-column align-items-center float-end">
-                                    <button type="button"
-                                            class="btn btn-outline-orange" onclick="goToAirlineHomepage('${flight.airlineName}')">
-                                        예매
-                                    </button>
-                                    <button id="add-flight-btn-${status.index+1}" type="button"
-                                            class="btn btn-orange mt-1 text-white" data-flight-id="${flight.id}">
-                                        추가
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-12 text-center">
                                 <span>${flight.vehicleId}</span>
                                 <span>/</span>
                                 <span>${flight.airlineName}</span>
                             </div>
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <span>이코노미석 운임</span>
+                        <div class="row mt-2">
+                            <div class="col-12 text-start" style="font-size: 0.7rem;">
+                                <span>이코노미석</span>
                                 <span>
                                         <c:set var="economyCharge" value="${flight.economyCharge}"/>
                                         <c:choose>
@@ -72,7 +59,7 @@
                                         </c:choose>
                                     </span>
                                 <span>/</span>
-                                <span>프레스티지석 운임</span>
+                                <span>프레스티지석</span>
                                 <span>
                                         <c:set var="prestigeCharge" value="${flight.prestigeCharge}"/>
                                         <c:choose>
@@ -82,6 +69,21 @@
                                             </c:when>
                                         </c:choose>
                                     </span>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-6 text-end">
+                                <button type="button"
+                                        class="btn btn-outline-green w-100"
+                                        onclick="goToAirlineHomepage('${flight.airlineName}')">
+                                    예매
+                                </button>
+                            </div>
+                            <div class="col-6 text-start">
+                                <button id="add-flight-btn-${status.index+1}" type="button"
+                                        class="btn btn-green text-white w-100" data-flight-id="${flight.id}">
+                                    추가
+                                </button>
                             </div>
                         </div>
                     </div>
