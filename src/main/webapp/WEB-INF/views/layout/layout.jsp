@@ -28,6 +28,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         let stompClient = null;
+        let subscribedChatRoomId = new Array();
+
         $(document).ready(function () {
             if ('<c:out value="${sessionScope.id}"/>' != "") {
                 connectStompAlarm()
@@ -40,7 +42,18 @@
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function (frame) {
                 stompClient.subscribe('/sub/<c:out value="${sessionScope.id}"/>', function (result) {
-                    applyAlarm(JSON.parse(result.body));
+                    let alarmBody = JSON.parse(result.body);
+                    console.log(alarmBody.alarmType);
+                    console.log(subscribedChatRoomId.includes(alarmBody.roomId));
+
+                    //채팅 알림이고 + 현재 내가 그 채팅방을 구독하고 있다면 -> 채팅 알림 받지 않음
+                    //채팅알림이 아니고 현재 내가 그 채팅방을 구독하고 있지 않다면 -> 채팅 알림을 받음
+                    if (alarmBody.alarmType == 'MATE_CHAT' && subscribedChatRoomId.includes(alarmBody.roomId)) {
+
+                    } else {
+                        applyAlarm(JSON.parse(result.body));
+                        $('#unreadChatCount').css('display', 'block');
+                    }
                 })
             })
         }
@@ -64,9 +77,10 @@
         }
 
         //채팅 알림 -> send
-        function sendChatAlarm(receiverId, senderNickname, content) {
+        function sendChatAlarm(roomId, receiverId, senderNickname, content) {
             stompClient.send('/pub/chat', {},
                 JSON.stringify({
+                    'roomId': roomId,
                     'receiverId': receiverId,
                     'senderNickname': senderNickname,
                     'content': content,
@@ -99,10 +113,12 @@
                         'roomId': $(ths).val(),
                         'senderId': $('#mateAlarmUserId').val(),
                         'senderNickname': $('#mateAlarmUserNickname').val(),
+                        'senderProfileImage': $('#mateAlarmUserProfileImage').val(),
                         'messageType': 'TALK'
                     })
                 );
-                sendChatAlarm($('#mateHeaderReceiverId').val(), $('#mateAlarmUserNickname').val(), $('#mateChatInputMessage').val());
+
+                sendChatAlarm($(ths).val(), $('#mateHeaderReceiverId').val(), $('#mateAlarmUserNickname').val(), $('#mateChatInputMessage').val());
                 $('#mateChatInputMessage').val('');
                 setTimeout(function () {
                     scrollUl()
@@ -124,6 +140,7 @@
                     showChatMessage(JSON.parse(result.body))
                 }, {'id': 'chat' + roomId}
             )
+            subscribedChatRoomId.push(roomId);
         }
 
         //채팅창에 메세지를 보여줌
@@ -137,8 +154,8 @@
                         "<span class='myChatMessage'>" + chatMessageDTO.message + "</span></li>");
                 } else {
                     //왼쪽에 배치
-                    $('#mateChatHistoryUl').append("<li class='opponentChatLi'><div class='opponentNicknameImg'><span class='opponentChatSenderNickname'>" + chatMessageDTO.senderNickname + "</span>" +
-                        "<span><img class='opponentProfileImg' src='" + chatMessageDTO.senderProfileImage + "' alt='상대방 프로필'></span></div><span class='opponentChatMessage'>" + chatMessageDTO.message + "</span>" +
+                    $('#mateChatHistoryUl').append("<li class='opponentChatLi'><span class='opponentChatSenderNickname'>" + chatMessageDTO.senderNickname + "</span><br style='margin: 0;'>" +
+                        "<span><img class='opponentProfileImg' src='" + chatMessageDTO.senderProfileImage + "' alt='상대방 프로필'></span><span class='opponentChatMessage'>" + chatMessageDTO.message + "</span>" +
                         "<span class='opponentChatTime'>" + chatMessageDTO.sendTime.hour + ":" + chatMessageDTO.sendTime.minute + "</span></li>");
                 }
             }
@@ -176,6 +193,7 @@
                 }
                 $('.mateChatModal').css('display', 'none');
             }
+            $('#unreadChatCount').css('display', 'none');
         }
 
         //채팅방 생성(알람리스트에서 채팅 아이콘을 클릭했을 때)
@@ -332,6 +350,7 @@
             $('.mateChatList-wrap').css('display', 'block');
             let roomId = $(ths).data('value');
             stompClient.unsubscribe('chat' + roomId);
+            subscribedChatRoomId.pop(roomId);
         }
 
 
@@ -515,5 +534,6 @@
 </div>
 <input type="hidden" id="mateAlarmUserId" value="<c:out value="${sessionScope.id}"/>">
 <input type="hidden" id="mateAlarmUserNickname" value="<c:out value="${sessionScope.nickName}"/>">
+<input type="hidden" id="mateAlarmUserProfileImage" value="<c:out value="${sessionScope.profileImage}"/>">
 </body>
 </html>

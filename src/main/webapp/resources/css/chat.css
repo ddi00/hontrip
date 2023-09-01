@@ -118,15 +118,16 @@
     border-radius: 50px;
 }
 
-.unreadChatCount {
-    position: fixed;
-    bottom: 13.2%;
-    right: 2%;
+/*.unreadChatCount {
+    display: none;
+    position:absolute;
+    bottom: 77%;
+    right: 1%;
     width: 21.5px;
     height: 20px;
     background: red;
     border-radius: 15px;
-}
+}*/
 
 .chatListOpponentImg {
     width: 45px;
@@ -209,8 +210,8 @@
 
 .opponentProfileImg {
     margin-right: 5px;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     border-radius: 15px;
 }
 
