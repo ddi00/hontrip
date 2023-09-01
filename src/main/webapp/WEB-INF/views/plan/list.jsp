@@ -69,7 +69,6 @@
         let planId = $(this).data("plan-id");
         let checking = CheckBeforeDelete();
         if (checking == true){
-
         $.ajax({
             method: "get",
             url: "delete",
