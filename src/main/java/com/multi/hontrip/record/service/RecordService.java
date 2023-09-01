@@ -138,8 +138,11 @@ public class RecordService {
     }
 
     public List<PostInfoDTO> getFeedListDropdown(String locationIdPattern, String locationIdSpecialId, String locationIdSpecialId2, String locationIdSpecialId3) {
-        System.out.println("서비스단 확인 : " + locationIdPattern + locationIdSpecialId );
         return recordDAO.getFeedListDropdown(locationIdPattern, locationIdSpecialId, locationIdSpecialId2, locationIdSpecialId3);
+    }
+
+    public List<PostInfoDTO> getFeedListLike( ) {
+        return recordDAO.getFeedListLike();
     }
 
 }

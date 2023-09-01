@@ -30,32 +30,19 @@
   height: 100%;
 }
 
-/*mylist 버튼*/
-  .buttons {
+/*피드리스트*/
+.wrapper-record {
+    margin-top : 300px;
+}
+
+/*피드리스트 버튼*/
+.row-record-buttons {
     display: flex;
-    flex-direction: row;
+    flex-direction : row;
     justify-content: center;
-    align-items: flex-start;
-    padding-top: 20px; /* 상단 여백 조정 */
-    height: 50vh; /* 화면 높이에 맞추기 위해 설정 (선택 사항) */
-    margin-bottom: 30px; /* 하단 여백 조정 */
-  }
+    flex-wrap : nowrap;
+}
 
-  .buttons .card-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap; /* 요소가 너무 많으면 여러 줄로 나눠줌 */
-  }
+.row-record-buttons2 {
+}
 
-  .buttons .btn,
-  .buttons select {
-    margin: 0 100px; /* 버튼 사이의 간격 조정 */
-  }
-
-
-  /*feed 섹션*/
-.feed-header {
-    margin-bottom: 300px; /* 원하는 간격으로 조정 */
-    background-color: red;
-  }
