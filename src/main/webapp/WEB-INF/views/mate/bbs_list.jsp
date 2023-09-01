@@ -19,7 +19,10 @@
                                         <input type="text" id="keyword" name="keyword" class="form-control" placeholder="검색어를 입력하세요">
                                         <button id="searchBtn" class="searchBtn btn btn-main rounded-pill btn-lg px-4" type="submit">검색</button>
                                     </div>
-
+                                <div class="offset-md-11 text-right">
+                                <!-- 추가적인 내용이 있다면 여기에 작성할 수 있습니다. -->
+                                <a href="../mate/insert"><span class="underline-3 style-1 yellow">게시물 작성하기</span></a><br>
+                            </div>
                                 </form>
 
                                 <button id="filterButton" type="button" class="btn btn-expand btn-soft-orange rounded-pill" aria-expanded="false">
@@ -124,8 +127,7 @@
                             </div>
                         </div>
                         </section>
-                        <hr>
-                        <nav class="d-flex" aria-label="pagination">
+                        <nav class="d-flex mate-pagination" aria-label="pagination">
                             <ul class="pagination">
                                 <c:set var="startPage" value="${pageDTO.firstPageNoOnPageList}" />
                                 <c:set var="endPage" value="${pageDTO.lastPageNoOnPageList}" />

@@ -125,3 +125,9 @@
 .mate-list-card-footer{
 font-size: 10px;
 }
+
+.mate-pagination{
+  display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+}
