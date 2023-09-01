@@ -29,6 +29,8 @@
         function showUpdateTextarea(commentId) {
             var updateField = document.getElementById("commentUpdate" + commentId);
             updateField.style.display = "block";
+            var reCommentField = document.getElementById("cComment" + commentId);
+            reCommentField.style.display = "none";
         }
 
         function closeTextarea(commentId) {
@@ -37,19 +39,21 @@
         }
 
         function showCcmtTextarea(commentId) {
-            var updateField = document.getElementById("cComment" + commentId);
-            updateField.style.display = "block";
+            var reCommentField = document.getElementById("cComment" + commentId);
+            reCommentField.style.display = "block";
+            var updateField = document.getElementById("commentUpdate" + commentId);
+            updateField.style.display = "none";
         }
 
         function closeCTextarea(commentId) {
-            var updateField = document.getElementById("cComment" + commentId);
-            updateField.style.display = "none";
+            var reCommentField = document.getElementById("cComment" + commentId);
+            reCommentField.style.display = "none";
         }
 
         function updateLikeSection(likeList) {
             let users = "";
             let likeCnt = "";
-            likeCnt += "<a href='#' data-bs-toggle='modal' data-bs-target='#modal-02'><div id='likeCountSection'><i class='uil uil-heart-alt text-red'></i>" + likeList.likeCount + "</div></a>";
+            likeCnt += "<a href='#' data-bs-toggle='modal' data-bs-target='#modal-02'><div id='likeCountSection'><i class='uil uil-heart-alt text-main'></i>" + likeList.likeCount + "</div></a>";
             $('.likeCnt').html(likeCnt);
 
 
@@ -70,7 +74,7 @@
             let rCount = commentListRe.reCommentList.length;
 
             if (cCount > 0) {
-                comments += "<h3 class='mb-6 text-orange'>" + cCount + " Comments</h3>";
+                comments += "<h3 class='mb-12 text-orange'>" + cCount + " Comments</h3>";
                 for (let i = 0; i < cCount; i++) {
                     let commentList = commentListRe.commentList[i];
                     if (commentList.cmtSequence == 0) {
@@ -116,7 +120,7 @@
                         comments += `<p>\${commentList.cmtContent}</p>`;
                         comments += `
                             <div id="commentUpdate\${commentList.cmtId}" style="display: none" class="form-floating mb-4">
-                                <textarea id="updateContent\${commentList.cmtId}" style="height: 80px"
+                                <textarea id="updateContent\${commentList.cmtId}" style="height: 100px"
                                     placeholder="수정글을 입력해주세요" class="form-control">\${commentList.cmtContent}</textarea>
                                 <label>Update Comment *</label>
                                 <button class="updateComment btn btn-orange btn-sm rounded-pill"
@@ -126,7 +130,7 @@
                             </div>
 
                             <div id="cComment\${commentList.cmtId}" style="display: none" class="form-floating mb-4">
-                                <textarea id="cContent\${commentList.cmtId}" style="height: 80px"
+                                <textarea id="cContent\${commentList.cmtId}" style="height: 100px"
                                     placeholder="답글을 입력해주세요" class="form-control"></textarea>
                                 <label>ReComment *</label>
                                 <button class="cCommentWrite btn btn-orange btn-sm rounded-pill"
@@ -139,7 +143,6 @@
                             if (commentList.cmtId == replyList.indentationNum) {
                                 comments += `
                                     <ul class="en">
-                                      <li class="commechildrnt">
                                         <div
                                             class="comment-header d-md-flex align-items-center">
                                             <div class="d-flex align-items-center">
@@ -175,7 +178,7 @@
                                 comments += `
                                         <div id="commentUpdate\${replyList.cmtId}"
                                             style="display: none" class="form-floating mb-4">
-                                            <textarea id="updateContent\${replyList.cmtId}" style="height: 80px"
+                                            <textarea id="updateContent\${replyList.cmtId}" style="height: 100px"
                                                 placeholder="수정글을 입력해주세요" class="form-control">\${replyList.cmtContent}</textarea>
                                             <label>Update Comment *</label>
                                             <button class="updateComment btn btn-orange btn-sm rounded-pill"
@@ -183,7 +186,7 @@
                                                 하기</button>
                                             <a href="javascript:void(0);" class="btn btn-soft-orange btn-sm rounded-pill"
                                                 onclick="closeTextarea(\${replyList.cmtId})">취소</a>
-                                        </div></li></ul>`;
+                                        </div></ul>`;
                             }
                         }
                         comments += "</li></ol></div>";
@@ -335,12 +338,12 @@
 
     }); // $
 </script>
-    <br><br><br><br><br><br>
+    <br>
     <section class="wrapper bg-light">
         <div class="container pb-14 pb-md-16">
             <div class="row">
                 <div class="col-lg-10 mx-auto">
-                    <div class="blog classic-view mt-n17">
+                    <div class="blog classic-view mt-n0">
                         <article class="post">
                             <div class="card">
                                 <div class="post-slider card-img-top">
@@ -380,7 +383,7 @@
                                     <c:if test="${not empty sessionScope.id}">
                                         <div id="likeBtn">
                                             <c:if test="${userCheckLike eq 'ok'}">
-                                                <button class="unlike-button btn btn-circle btn-orange"><i class="uil uil-heart-break"></i></button>
+                                                <button class="unlike-button btn btn-circle btn-main"><i class="uil uil-heart-break"></i></button>
                                             </c:if>
                                             <c:if test="${userCheckLike ne 'ok'}">
                                                 <button class="like-button btn btn-circle btn-main"><i class="uil uil-heart"></i></button>
@@ -403,7 +406,7 @@
                                         <li class="likeCnt post-likes ms-auto">
 
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#modal-02">
-                                                <div id="likeCountSection"><i class="uil uil-heart-alt text-red"></i>
+                                                <div id="likeCountSection"><i class="uil uil-heart-alt text-orange"></i>
                                                     ${postInfoDTO.likeCount}
                                                 </div></a>
                                         </li>
@@ -431,9 +434,9 @@
                         <!-- /.post -->
                     </div>
                     <!-- /.blog -->
-
+                    <br>
                     <div id="result">
-                        <h3 class="mb-6 text-orange">${postInfoDTO.cmtCount} Comments</h3>
+                        <h3 class="mb-12 text-orange">${postInfoDTO.cmtCount} Comments</h3>
                         <c:choose>
                             <c:when test="${commentList.isEmpty()}">
                                 <h6>등록된 댓글이 없습니다.</h6>
@@ -489,7 +492,7 @@
                                                     <div id="commentUpdate${commentDTO.cmtId}" style="display: none"
                                                         class="form-floating mb-4">
                                                         <textarea id="updateContent${commentDTO.cmtId}"
-                                                            style="height: 80px" placeholder="수정글을 입력해주세요"
+                                                            style="height: 100px" placeholder="수정글을 입력해주세요"
                                                             class="form-control">${commentDTO.cmtContent}</textarea>
                                                         <label>Update Comment *</label>
                                                         <button class="updateComment btn btn-orange btn-sm rounded-pill"
@@ -501,7 +504,7 @@
 
                                                     <div id="cComment${commentDTO.cmtId}" style="display: none"
                                                         class="form-floating mb-4">
-                                                        <textarea id="cContent${commentDTO.cmtId}" style="height: 80px"
+                                                        <textarea id="cContent${commentDTO.cmtId}" style="height: 100px"
                                                             placeholder="답글을 입력해주세요" class="form-control"></textarea>
                                                         <label>ReComment *</label>
                                                         <button class="cCommentWrite btn btn-orange btn-sm rounded-pill"
@@ -515,62 +518,60 @@
                                                     <c:forEach items="${reCommentList}" var="reComment">
                                                         <c:if test="${commentDTO.cmtId eq reComment.indentationNum}">
                                                             <ul class="en">
-                                                                <li class="commechildrnt">
-                                                                    <div
-                                                                        class="comment-header d-md-flex align-items-center">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <figure class="user-avatar"><img
-                                                                                    class="rounded-circle"
-                                                                                    src="${reComment.profileImg}" />
-                                                                            </figure>
-                                                                            <div>
-                                                                                <h6 class="comment-author"><a href="#"
-                                                                                        class="link-dark">${reComment.cmtUserNickName}</a>
-                                                                                </h6>
-                                                                                <ul class="post-meta">
-                                                                                    <li><i
-                                                                                            class="uil uil-calendar-alt"></i>${reComment.cmtCreatedAt}
+                                                                <div
+                                                                    class="comment-header d-md-flex align-items-center">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <figure class="user-avatar"><img
+                                                                                class="rounded-circle"
+                                                                                src="${reComment.profileImg}" />
+                                                                        </figure>
+                                                                        <div>
+                                                                            <h6 class="comment-author"><a href="#"
+                                                                                    class="link-dark">${reComment.cmtUserNickName}</a>
+                                                                            </h6>
+                                                                            <ul class="post-meta">
+                                                                                <li><i
+                                                                                        class="uil uil-calendar-alt"></i>${reComment.cmtCreatedAt}
+                                                                                </li>
+                                                                                <li><i
+                                                                                        class="uil uil-calendar-alt"></i>수정날짜
+                                                                                    ${reComment.cmtUpdatedAt}
+                                                                                </li>
+                                                                                <c:if
+                                                                                    test="${reComment.cmtWriterId eq userId}">
+                                                                                    <li><a href="javascript:void(0);"
+                                                                                            onclick="showUpdateTextarea(${reComment.cmtId})">수정</a>
                                                                                     </li>
-                                                                                    <li><i
-                                                                                            class="uil uil-calendar-alt"></i>수정날짜
-                                                                                        ${reComment.cmtUpdatedAt}
+                                                                                    <li><button style='all: unset'
+                                                                                            class="commentDelete"
+                                                                                            data-comment-id="${reComment.cmtId}">삭제</button>
                                                                                     </li>
-                                                                                    <c:if
-                                                                                        test="${reComment.cmtWriterId eq userId}">
-                                                                                        <li><a href="javascript:void(0);"
-                                                                                                onclick="showUpdateTextarea(${reComment.cmtId})">수정</a>
-                                                                                        </li>
-                                                                                        <li><button style='all: unset'
-                                                                                                class="commentDelete"
-                                                                                                data-comment-id="${reComment.cmtId}">삭제</button>
-                                                                                        </li>
-                                                                                    </c:if>
-                                                                                </ul>
-                                                                                <!-- /.post-meta -->
-                                                                            </div>
-                                                                            <!-- /div -->
+                                                                                </c:if>
+                                                                            </ul>
+                                                                            <!-- /.post-meta -->
                                                                         </div>
                                                                         <!-- /div -->
                                                                     </div>
-                                                                    <!-- /.comment-header -->
-                                                                    <p>${reComment.cmtContent}</p>
-                                                                    <div id="commentUpdate${reComment.cmtId}"
-                                                                        style="display: none"
-                                                                        class="form-floating mb-4">
-                                                                        <textarea id="updateContent${reComment.cmtId}"
-                                                                            style="height: 80px"
-                                                                            placeholder="수정글을 입력해주세요"
-                                                                            class="form-control">${reComment.cmtContent}</textarea>
-                                                                        <label>Update Comment *</label>
-                                                                        <button
-                                                                            class="updateComment btn btn-orange btn-sm rounded-pill"
-                                                                            data-comment-id="${reComment.cmtId}">수정
-                                                                            하기</button>
-                                                                        <a href="javascript:void(0);"
-                                                                            class="updateComment btn btn-soft-orange btn-sm rounded-pill"
-                                                                            onclick="closeTextarea(${reComment.cmtId})">취소</a>
-                                                                    </div>
-                                                                </li>
+                                                                    <!-- /div -->
+                                                                </div>
+                                                                <!-- /.comment-header -->
+                                                                <p>${reComment.cmtContent}</p>
+                                                                <div id="commentUpdate${reComment.cmtId}"
+                                                                    style="display: none"
+                                                                    class="form-floating mb-4">
+                                                                    <textarea id="updateContent${reComment.cmtId}"
+                                                                        style="height: 100px"
+                                                                        placeholder="수정글을 입력해주세요"
+                                                                        class="form-control">${reComment.cmtContent}</textarea>
+                                                                    <label>Update Comment *</label>
+                                                                    <button
+                                                                        class="updateComment btn btn-orange btn-sm rounded-pill"
+                                                                        data-comment-id="${reComment.cmtId}">수정
+                                                                        하기</button>
+                                                                    <a href="javascript:void(0);"
+                                                                        class="updateComment btn btn-soft-orange btn-sm rounded-pill"
+                                                                        onclick="closeTextarea(${reComment.cmtId})">취소</a>
+                                                                </div>
                                                             </ul>
                                                         </c:if>
                                                     </c:forEach>
@@ -583,12 +584,12 @@
                         </c:choose>
                     </div>
                     <!-- /#result -->
-                    <hr />
                     <c:if test="${not empty sessionScope.id}">
-                        <h3 class="mb-3 main-color">Write a comment</h3>
-                        <div class="form-floating mb-4">
+                        <hr>
+                        <h3 class="mb-8 main-color">Write a comment</h3>
+                        <div class="form-floating mb-5">
                             <textarea input id="cmtContent" name="textarea" class="form-control" placeholder="Comment"
-                                style="height: 80px"></textarea>
+                                style="height: 100px"></textarea>
                             <label>Comment *</label>
                         </div>
                         <button id="commentWrite" class="btn btn-main rounded-pill mb-0">Submit</button>
