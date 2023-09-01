@@ -18,9 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("mate")
@@ -55,10 +53,13 @@ public class MateController {
         MatePageDTO pagedDTO = mateService.paging(matePageDTO);
         //게시물 리스트 가져오기
         List<MateBoardListDTO> list = mateService.list(pagedDTO);
+        // AgeRange enum 값을 가져와서 List로 변환
+        List<Map<String, Object>> ageRangeList = mateService.getAgeRangeList();
 
         Map<String, Object> map = new HashMap<>();
         map.put("list", list);
         map.put("pageDTO", pagedDTO);
+        map.put("ageRangeValues", ageRangeList);
         return map;
     }
 
