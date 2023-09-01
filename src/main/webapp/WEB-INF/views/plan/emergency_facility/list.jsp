@@ -16,7 +16,7 @@
                 <button type="submit" name="filterType" value="address" class="btn btn-orange">검색</button>
             </div>
         </form>
-        <ul class="unordered-list mt-4">
+        <%--<ul class="unordered-list mt-4">
             <c:forEach items="${list}" var="emergency_facility">
                 <div class="card mt-2">
                     <div class="card-body left-aligned">
@@ -30,7 +30,7 @@
                         </div>
                 </div>
             </c:forEach>
-        </ul>
+        </ul>--%>
     </div>
 </section>
 >

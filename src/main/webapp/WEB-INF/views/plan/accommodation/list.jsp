@@ -15,7 +15,7 @@
                     <input type="text" name="placeName" class="form-control" placeholder="이름 입력">
                 </div>
                 <div class="col-auto">
-                    <button type="submit" name="filterType" value="address_place" class="btn btn-yellow">
+                    <button type="submit" name="filterType" value="address_place" class="btn btn-orange">
                         검색
                     </button>
                 </div>

@@ -42,23 +42,56 @@
         </form>
 
         <%--안전정보, 응급시설 버튼--%>
-        <hr>
-
         <div class="row justify-content-center">
-            <div class="col-md-6 mb-3">
+                <div class="col-md-6 mb-3">
                 <div class="d-flex justify-content-center">
-                    <button type="button" onclick="location.href='/hontrip/plan/safety_search'" class="btn btn-outline-orange rounded-pill" style="width: 50%;">안전정보 확인</button>
+                <button type="button" class="btn btn-outline-orange rounded-pill" style="width: 50%;" data-bs-toggle="modal" data-bs-target="#safetyModal">안전정보 확인</button>
                 </div>
-            </div>
-            <div class="col-md-6 mb-3">
+                </div>
+                    <div class="col-md-6 mb-3">
                 <div class="d-flex justify-content-center">
-                    <button type="button" id="add-emergency-facility-button" onclick="location.href='/hontrip/plan/emergency_facility/list'" class="btn btn-outline-orange rounded-pill" style="width: 50%;">응급시설 보기</button>
+                    <button type="button" id="add-emergency-facility-button" class="btn btn-outline-orange rounded-pill" style="width: 50%;" data-toggle="modal" data-target="#emergencyFacilityModal">응급시설 확인</button>
                 </div>
             </div>
         </div>
 
 
         <hr class="my-8"/>
+
+        <%--안전정보 모달--%>
+        <div class="modal fade" id="safetyModal" tabindex="-1" aria-labelledby="safetyModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="safetyModalLabel">안전정보 확인</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <jsp:include page="safety_search.jsp" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%--응급시설 모달--%>
+        <div class="modal fade" id="emergencyFacilityModal" tabindex="-1" role="dialog" aria-labelledby="emergencyFacilityModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="emergencyFacilityModalLabel">응급시설 목록</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modalContent">
+                        <jsp:include page="emergency_facility/list.jsp" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
         <%--        기본 정보    --%>
 
@@ -789,5 +822,91 @@
             }
         });
     })
+
+
+    /*안전정보 연결*/
+    $(document).ready(function() {
+        // Load the safety_search.jsp content when the safetyButton is clicked
+        $("#safetyButton").click(function() {
+            $.ajax({
+                url: "/hontrip/plan/safety_search",
+                method: "GET",
+                success: function(data) {
+                    $("#safetyModal .modal-body").html(data);
+                    $("#safetyModal").modal("show");
+                },
+                error: function() {
+                    alert("안전정보 페이지를 불러오는 데 실패했습니다.");
+                }
+            });
+        });
+
+
+        $(document).on('submit', '#safetySearchForm', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "safety_result",
+                method: "POST",
+                data: $(this).serialize(),
+                success: function(data) {
+                    $("#safetyModal .modal-body").html(data);
+                },
+                error: function() {
+                    alert("안전정보 검색에 실패했습니다.");
+                }
+            });
+        });
+
+
+        $(document).on('click', '#retrySafetySearch', function() {
+            $.ajax({
+                url: "/hontrip/plan/safety_search",
+                method: "GET",
+                success: function(data) {
+                    $("#safetyModal .modal-body").html(data);
+                },
+                error: function() {
+                    alert("안전정보 검색 페이지를 불러오는 데 실패했습니다.");
+                }
+            });
+        });
+    });
+
+
+
+  /*  응급시설*/
+    $(document).ready(function(){
+        $("#add-emergency-facility-button").click(function(){
+            var emergencyFacilityModal = new bootstrap.Modal(document.getElementById('emergencyFacilityModal'));
+            emergencyFacilityModal.show();
+        });
+
+        $(document).on("submit", "#emergency_facility_search_form", function(e){
+            e.preventDefault();
+
+
+            $.ajax({
+                url: "/hontrip/plan/emergency_facility/filter_list",
+                method: "POST",
+                data: $(this).serialize(),
+                success: function(data){
+                    $("#modalContent").html(data);
+                }
+            });
+        });
+    });
+
+
+
+        $(document).ready(function(){
+        $(document).on("click", "a[href='/hontrip/plan/emergency_facility/list']", function(e){
+            e.preventDefault();
+
+
+            $.get("/hontrip/plan/emergency_facility/list", function(data){
+                $("#modalContent").html(data);
+            });
+        });
+    });
 
 </script>
