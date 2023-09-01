@@ -4,6 +4,7 @@ import com.multi.hontrip.mate.dto.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MateService {
     List<MateBoardListDTO> list(MatePageDTO pageDTO); //게시물 리스트 가져오기
@@ -45,4 +46,6 @@ public interface MateService {
     List<MateSenderDTO> senderList(long id);
 
     void incrementPostViews(long id);
+
+    List<Map<String, Object>> getAgeRangeList();
 }

@@ -81,7 +81,8 @@
 		mb.start_date AS startDate,
 		mb.end_date AS endDate,
 		ar.range_description AS ageRange,
-		mb.view_count AS viewCount
+		mb.view_count AS viewCount,
+		mb.age_range_id AS ageRangeId
 		FROM
 		mate_board mb
 		JOIN user u ON mb.user_id = u.id

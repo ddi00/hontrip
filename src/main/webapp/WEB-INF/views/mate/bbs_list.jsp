@@ -92,12 +92,13 @@
                                                                     <h2 class="post-title h3 mt-1 mb-3">
                                                                         <a class="link-dark"
                                                                             href="../mate/${one.mateBoardId}">${one.title}</a>
+                                                                        <c:forEach items="${AgeRange.values()}" var="age">
+                                                                            <c:if test="${age.ageRangeNum == Integer.parseInt(one.ageRangeId)}">
+                                                                                <span class="badge bg-pale-orange text-orange rounded-pill">${age.ageRangeStr}</span>
+                                                                            </c:if>
+                                                                        </c:forEach>
                                                                     </h2>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mate-card-footer">
-                                                            <ul class="post-meta d-flex mb-0">
+                                                                    <ul class="post-meta d-flex mb-0">
                                                                 <li class="post-date"><i
                                                                         class="uil uil-calendar-alt"></i><span>${one.startDate}
                                                                     </span></li>
@@ -108,7 +109,12 @@
                                                                 <i class="uil uil-user-check"></i>조회수${one.viewCount}</li>
                                                             </ul>
                                                             <!-- /.post-meta -->
+                                                                </div>
+                                                            </div>
                                                         </div>
+
+
+
                                                     </article>
                                                 </div>
                                             </c:forEach>
