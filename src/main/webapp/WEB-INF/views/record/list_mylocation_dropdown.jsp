@@ -3,7 +3,7 @@
 
 <!-- 드롭다운 선택 시 해당 지역 게시물 리스트 -->
 <div id="list_mylocation_dropdown_section">
-    <section class="wrapper">
+    <section class="wrapper-record">
         <div class="container pt-12 pt-md-0 pb-16 pb-md-18">
             <div class="grid grid-view projects-masonry mt-md-n20 mt-lg-n22 mb-20">
                 <div class="row g-8 g-lg-10 isotope">

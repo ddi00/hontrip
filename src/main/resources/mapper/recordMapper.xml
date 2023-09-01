@@ -196,59 +196,51 @@
 
 	<!-- 공유피드 전체 리스트 가져오기 -->
 	<select id="feedlist" resultType="postInfoDTO">
-		SELECT
-		rb.id AS boardId,
-		loc.city,
-		u.nickname,
-		rb.title,
-		rb.thumbnail,
-		rb.created_at,
-		rb.updated_at,
-		rb.is_visible,
-		(SELECT COUNT(*) FROM record_like rl WHERE rl.record_id = rb.id) AS likeCount
-		FROM
-		record_board rb
+		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId, COUNT(rl.record_id) AS likeCount, rb.start_date, rb.end_date
+		FROM record_board rb
 		LEFT JOIN user u ON rb.user_id = u.id
 		LEFT JOIN location loc ON rb.location_id = loc.id
 		LEFT JOIN record_like rl ON rb.id = rl.record_id
-		WHERE
-		rb.is_visible  = 1
-		ORDER BY rb.id DESC
+		WHERE rb.is_visible = 1
+		GROUP BY rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id, u.id, loc.id
+		ORDER BY rb.created_at DESC;
 	</select>
 
 	<!-- 공유피드에서 버튼 클릭 해당지역 게시물 가져오기 -->
 	<select id="feedlist_by_location_pattern" resultType="postInfoDTO" parameterType="java.util.Map">
-		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId
+		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId, COUNT(rl.record_id) AS likeCount, rb.start_date, rb.end_date
 		FROM record_board rb
 		LEFT JOIN user u ON rb.user_id = u.id
 		LEFT JOIN location loc ON rb.location_id = loc.id
 		LEFT JOIN record_like rl ON rb.id = rl.record_id
 		WHERE rb.is_visible = 1
 		AND (rb.location_id LIKE #{locationIdPattern} OR rb.location_id = #{locationIdSpecialId} OR rb.location_id = #{locationIdSpecialId2} OR rb.location_id = #{locationIdSpecialId3})
+		GROUP BY rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id, u.id, loc.id
 		ORDER BY rb.id desc;
 	</select>
 
 	<!-- 공유피드에서 버튼 클릭 전국 게시물 가져오기 -->
 	<select id="feedlist_by_location_pattern_all" resultType="postInfoDTO">
-		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId
+		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId, COUNT(rl.record_id) AS likeCount, rb.start_date, rb.end_date
 		FROM record_board rb
 		LEFT JOIN user u ON rb.user_id = u.id
 		LEFT JOIN location loc ON rb.location_id = loc.id
 		LEFT JOIN record_like rl ON rb.id = rl.record_id
 		WHERE rb.is_visible = 1
+		GROUP BY rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id, u.id, loc.id
 		ORDER BY rb.id desc;
 	</select>
 
 	<!-- 공유피드에서 좋아요버튼 클릭 좋아요많은순 게시물 가져오기 -->
-	<select id="record.feedlist_like" resultType="postInfoDTO">
-		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId, COUNT(rl.record_id) AS record_like_count
+	<select id="feedlist_like" resultType="postInfoDTO">
+		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId, COUNT(rl.record_id) AS likeCount, rb.start_date, rb.end_date
 		FROM record_board rb
 		LEFT JOIN user u ON rb.user_id = u.id
 		LEFT JOIN location loc ON rb.location_id = loc.id
 		LEFT JOIN record_like rl ON rb.id = rl.record_id
 		WHERE rb.is_visible = 1
-		GROUP BY rb.id, u.id, loc.id
-		ORDER BY record_like_count DESC, rb.created_at DESC;
+		GROUP BY rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id, u.id, loc.id
+		ORDER BY likeCount DESC, rb.created_at DESC;
 	</select>
 
 </mapper>

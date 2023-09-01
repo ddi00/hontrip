@@ -217,13 +217,13 @@ public class RecordContorller {
         } else {
             getFeedListDropdown = recordService.getFeedListDropdown(locationIdPattern, locationIdSpecialId, locationIdSpecialId2, locationIdSpecialId3);
         }
-        model.addAttribute("mylist", getFeedListDropdown);
+        model.addAttribute("feedListButtons", getFeedListDropdown);
     }
 
     @GetMapping("feedlist_like") // 공유피드 리스트 가져오기
     public void getFeedListLike(Model model) {
         List<PostInfoDTO> getFeedListLike = recordService.getFeedListLike();
-        model.addAttribute("feedListLike", getFeedListLike);
+        model.addAttribute("feedlist_like", getFeedListLike);
     }
 }
 
