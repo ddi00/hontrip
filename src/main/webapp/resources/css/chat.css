@@ -154,6 +154,7 @@
 }
 
 .chatRoomCloseIcon {
+    cursor: pointer;
     width: 20px;
     align-items: flex-start;
 
