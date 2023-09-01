@@ -35,17 +35,11 @@
     </update>
 
 
-    <update id="updateAccommodation_original" parameterType="hashmap">
+    <update id="updateAccommodation" parameterType="hashmap">
         update plan_day
         set accommodation_id = #{accommodationId}
         where plan_id = #{planId} and user_id = #{userId} and day_order = #{dayOrder}
     </update>
-
-    <insert id="updateAccommodation" parameterType="hashmap">
-        insert ignore  into plan_day (plan_id, day_order, user_id, accommodation_id)
-        values (#{planId}, #{dayOrder}, #{userId}, #{accommodationId})
-
-    </insert>
 
 
     <insert id="insertWithAccommodation" parameterType="PlanDayDTO">

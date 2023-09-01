@@ -40,6 +40,26 @@
                 <textarea id="memo" name="memo" form="planForm" class="form-control">${plan.memo}</textarea>
             </div>
         </form>
+
+        <%--안전정보, 응급시설 버튼--%>
+        <hr>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 mb-3">
+                <div class="d-flex justify-content-center">
+                    <button type="button" onclick="location.href='/hontrip/plan/safety_search'" class="btn btn-outline-orange rounded-pill" style="width: 50%;">안전정보 확인</button>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="d-flex justify-content-center">
+                    <button type="button" id="add-emergency-facility-button" onclick="location.href='/hontrip/plan/emergency_facility/list'" class="btn btn-outline-orange rounded-pill" style="width: 50%;">응급시설 보기</button>
+                </div>
+            </div>
+        </div>
+
+
+        <hr class="my-8"/>
+
         <%--        기본 정보    --%>
 
         <div class="row gx-md-8 gx-xl-12 gy-8">
@@ -69,12 +89,11 @@
                                                                               data-spot-content-day-order="${index}"
                                                                               data-spot-content-order="${contentOrder}"
                                                                               data-spot-content-id="${spot.contentId}">
-                                        <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16"
-                                             height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"> <path
-                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
-                                                fill="red"></path> <path fill-rule="evenodd"
-                                                                         d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                                                                         fill="red"></path> </svg>
+                                        <svg style="color: gray" xmlns="http://www.w3.org/2000/svg" width="16"
+                                             height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                                                      fill="gray"></path>
+                                            </svg>
                                     </button></span>
                             </div>
                             <c:set var="contentOrder" value="${contentOrder + 1}"/> <!-- 일차가 같은 경우 contentOrder 증가 -->
@@ -157,12 +176,11 @@
                                     <span class="align-self-start"><button type="button"
                                                                            class="delete-flight-btn btn btn-sm"
                                                                            data-flight-id="${flight.id}">
-                                        <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16"
-                                             height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"> <path
-                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
-                                                fill="red"></path> <path fill-rule="evenodd"
-                                                                         d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                                                                         fill="red"></path> </svg>
+                                        <svg style="color: gray" xmlns="http://www.w3.org/2000/svg" width="16"
+                                             height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                                                      fill="gray"></path>
+                                            </svg>
                                     </button></span>
                                     </div>
                                 </div>
@@ -193,94 +211,78 @@
 
             <%--숙소추가--%>
             <div class="col-6" style="border-right: 2px solid #F5F5F5;">
-                <% for (int i = 0; i < numOfDays; i++) { %>
-                <button id="add-accommodation-<%=i + 1%>" type="button" class="btn btn-soft-yellow rounded-pill">숙소 추가</button>
 
-
+                <button id="add-accommodation-1" type="button" class="btn btn-soft-yellow rounded-pill">숙소 추가</button>
                 <br>
 
-                <div class="row" id="selected-accommodations-<%=i + 1%>">
+                <div class="row" id="selected-accommodations-1">
 
-                    <c:set var="index" value="<%=i + 1%>"/>
                     <c:forEach items="${addedAccommodations}" var="accommodation">
-                        <c:if test="${accommodation.dayOrder eq index}">
-                            <div class='row my-5'>
-                                <span class='col-2'><img src="${accommodation.place_url}" width="55px" height="45px"></span>
-                                <span class='col-auto'>${accommodation.place_name}</span>
-                                <span class='col-auto'>${accommodation.address_name}</span>
+                        <div class="card my-2">
+                            <div class='row ms-3 my-4'>
+                                    <%--<span class='col-3'><img src="${spot.image}" width="88px" height="72px"></span> --%>
+                                <div class="row">
+                                    <span class='col-6 align-self-center'> <Strong> ${accommodation.placeName} </Strong></span>
+                                    <span class='col-8'>${accommodation.categoryName}"</span>
+                                </div>
+
+                                <div class="row">
+                                    <span class='col-8 align-self-center'>${accommodation.addressName}</span>
+                                </div>
+
+                                <div class="row">
+                                    <span class='col-10 align-self-center'>${accommodation.phone}</span>
+                                    <span class="col-2 align-self-start">
+                                            <button type="button" class="delete-accommodation-btn btn btn-sm"
+                                                    data-accommodation-id="${accommodation.id}">
+                                                <svg style="color: gray" xmlns="http://www.w3.org/2000/svg" width="16"
+                                                     height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                                                      fill="gray"></path>
+                                            </svg>
+                                            </button>
+                                        </span>
+                                </div>
+
+
+                                <div class="row">
+                                    <span class='col-8 align-self-center'><a href="${accommodation.placeUrl}">숙박 후기</a> </span>
+                                </div>
+
+
                             </div>
-                        </c:if>
+                        </div>
                     </c:forEach>
 
                 </div>
                 <br>
+            </div>
+            <!-- 숙소 검색창과 검색결과 시작-->
+            <div  class="col-lg-6" id="search-accommodation-form-1" style="display: none;">
+                <form id="search-accommodation-form">
+                    <div class="custom-form-container">
 
+                        <input type="text" id="address-input-accommodation-1" name="address-accommodation-1"
+                               class="custom-form-control col-md-5 me-2" placeholder="주소 검색">
+                        <input type="text" id="placeName-input-accommodation-1" name="placeName-accommodation-1"
+                               class="custom-form-control col-md-5 me-2" placeholder="장소명 검색">
 
-                <div  class="my-5" id="search-accommodation-form-<%=i + 1%>" style="display: none;">
-                    <form id="search-accommodation-form">
-                        <div class="custom-form-container">
-                            <!--카테고리 선택 제외
-                        <div class="col-md-4 me-2">
-                            <select class="form-select" id="category-accommodation-<%=i + 1%>"
-                                    name="category-accommodation-<%=i + 1%>" form="search-accommodation-form"
-                                    aria-label="검색 범주">
+                        <button type="button" id="search-accommodation-button-1" class="btn btn-orange col-md-2">검색</button>
 
-                                <option value="category" selected>숙박시설 구분</option>
-                                <option value="address" >숙박시설 지역명</option>
-                                <option value="placeName">숙박시설 이름</option>
+                    </div>
+                </form>
 
-                            </select>
-                        </div>
-                        -->
-
-                            <!--
-                        <input type="text" id="category-input-accommodation-<%=i + 1%>" name="category-accommodation-<%=i + 1%>"
-                               class="custom-form-control col-md-3 me-2" placeholder="카테고리">
-                        -->
-                            <input type="text" id="address-input-accommodation-<%=i + 1%>" name="address-accommodation-<%=i + 1%>"
-                                   class="custom-form-control col-md-5 me-2" placeholder="주소 검색">
-                            <input type="text" id="placeName-input-accommodation-<%=i + 1%>" name="placeName-accommodation-<%=i + 1%>"
-                                   class="custom-form-control col-md-5 me-2" placeholder="장소명 검색">
-
-                            <button type="button" id="search-accommodation-button-<%=i + 1%>" class="btn btn-yellow col-md-2">검색</button>
-
-                        </div>
-                    </form>
-                </div>
-
-
-                <div class="search-accommodation-results row" id="search-accommodation-results-<%=i + 1%>">
+                <div class="search-accommodation-results row" id="search-accommodation-results-1">
                     <!-- Accommodation search results will be displayed here -->
                 </div>
-                <hr class="my-8"/>
-                <!--
-              search-accommodation-results div 붙여넣기 하는 곳
-                          <div class="search-accommodation-results row" id="search-accommodation-results-<%=i + 1%>">
-                <c:forEach items="${list}" var="accommodation">
-                    <div class="card mt-2">
-                        <div class="card-body">
-                            <p><strong>숙박 id:</strong> ${accommodation.id}</p>
-                            <p><strong>숙박 구분:</strong> ${accommodation.categoryName}</p>
-                            <p><strong>숙박 이름:</strong> ${accommodation.placeName}</p>
-                            <p><strong>숙박 주소:</strong> ${accommodation.addressName}</p>
-                            <p><strong>숙박 전화번호:</strong> ${accommodation.phone}</p>
-                            <p><strong>숙박 URL:</strong> <a href="${accommodation.placeUrl}" target="_blank">${accommodation.placeUrl}</a></p>
-                            <button type="button" id="add-accommodation-btn-${i + 1}-${accommodation.id}" class="btn btn-soft-aqua" data-accommodation-id="${accommodation.id}" data-accommodation-place-name="${accommodation.placeName}">
-                                숙소 추가
-                            </button>
-                        </div>
-                    </div>
-                </c:forEach>
             </div>
 
-        -->
+
+            <hr class="my-8"/>
 
 
-
-
-                <% } %>
-            </div>
-
+            <!-- 숙소 검색창과 검색결과  끝-->
+        </div>
         <hr class="my-8"/>
         <button type="submit" class="btn btn-orange col-md-2 align-self-end" form="planForm">수정</button>
         <%--    container   --%>
@@ -581,6 +583,7 @@
         });
     })
 
+    /*숙소*/
     $(document).ready(function () {
         $('[id^="search-accommodation-form-"]').hide();
 
@@ -725,15 +728,34 @@
                 accommodationId: accommodationId
             },
             success: function(accommodation) {
+
                 alert("숙소가 추가되었습니다!");
+
                 $('#' + searchAccommodationResultsDivId).hide();
-                selectedAccommodationDivHTML += "<div class='row mt-2'>";
-                selectedAccommodationDivHTML += "<span class='col-2'></span>";
-                selectedAccommodationDivHTML += "<span class='col-auto'>" + accommodation.placeName + "</span>";
-                selectedAccommodationDivHTML += "</div>";
+
+                selectedAccommodationDivHTML += "<div class='card my-2'><div class='ms-3 my-4'><div class='row'>"
+                selectedAccommodationDivHTML += "<div class='row'> <span class='col-6 align-self-center'> <Strong> "
+                    + accommodation.placeName + "<</Strong></span><span class='col-8'>"
+                    + accommodation.categoryName + "</span></div>"
+
+                selectedAccommodationDivHTML += "<div class='row'><span class='col-8'>" + accommodation.addressName + "</span></div>"
+
+                selectedAccommodationDivHTML += "<div class='row'>"
+                selectedAccommodationDivHTML +=  "<span class='col-10'>" + accommodation.phone + "</span>"
+                selectedAccommodationDivHTML += "<span class='col-2 align-self-start'><button type='button' class='delete-accommodation-btn btn btn-sm'"
+                    + "data-accommodation-id='" + accommodation.id + "'>"
+                selectedAccommodationDivHTML += "<svg style='color: red' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'>"
+                selectedAccommodationDivHTML += "<path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z' fill='red'></path>"
+                selectedAccommodationDivHTML += "<path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z' fill='red'></path></svg>"
+                selectedAccommodationDivHTML += "</button></span></div>"
+
+                selectedAccommodationDivHTML += "<div class='row'>"
+                selectedAccommodationDivHTML += "<span class='col-12'><a href='" + accommodation.placeUrl + "'>숙박후기</a>" +"</span>"
+                selectedAccommodationDivHTML += "</div>"
+
                 $('#' + selectedAccommodationsDivId).append(selectedAccommodationDivHTML);
                 $('#' + selectedAccommodationsDivId).show();
-                selectedAccommodationDivHTML.empty();
+
             },
             error: function() {
                 alert("숙소 추가에 실패했습니다.");
@@ -741,36 +763,31 @@
         });
     };
 
-    const addAccommodation2 = function(index, accommodationId) {
-        let selectedAccommodationsDivId = 'selected-accommodations-' + index;
-        let selectedAccommodationDivHTML = "";
+    // 숙박지 삭제 버튼 이벤트 처리
+    $(document).on('click', '.delete-accommodation-btn', function () {
+        let userId = $("#userId").val();
+        let deleteButton = $(this);
+        let accommodationId = $(this).data("accommodation-id");
 
         $.ajax({
             method: "get",
-            url: "detail/update-plan-accommodation",
+            url: "detail/delete-plan-accommodation",
             contentType: "application/json; charset=UTF-8",
-            dataType: "json",
             async: false,
             data: {
                 planId: planId,
                 userId: userId,
-                dayOrder: index,
                 accommodationId: accommodationId
             },
-            success: function(accommodation) {
-                alert("숙소가 추가되었습니다!");
-                selectedAccommodationDivHTML += "<div class='row mt-2'>";
-                selectedAccommodationDivHTML += "<span class='col-2'></span>";
-                selectedAccommodationDivHTML += "<span class='col-auto'>" + accommodation.placeName + "</span>";
-                selectedAccommodationDivHTML += "</div>";
-                $('#' + selectedAccommodationsDivId).append(selectedAccommodationDivHTML);
-                $('#' + selectedAccommodationsDivId).show();
+            success: function (result) {
+                alert("숙박지가 삭제되었습니다!");
+                deleteButton.closest(".card").remove();
+                //deleteButton.closest(".row").remove();
             },
-            error: function() {
-                alert("숙소 추가에 실패했습니다.");
+            error: function () {
+                alert("숙박지 삭제에 실패했습니다.");
             }
         });
-    };
-
+    })
 
 </script>
