@@ -11,7 +11,13 @@
 %>
 <section class="wrapper bg-light">
     <div class="custom-card container-fluid container p-6 mt-15 mb-20 w-75">
-        <h3 class="my-4">내 여행 일정 > ${plan.title}</h3>
+        <div class="row">
+            <h3 class="my-4 col-9 float-start">내 여행 일정 > ${plan.title}</h3>
+            <div class="col-3 text-end">
+                <button type="button" class="btn btn-outline-gray" style="width: 74%"><a href="list" class="text-black-50">목록</a>
+                </button>
+            </div>
+        </div>
         <hr class="my-4"/>
         <form id="planForm" action="update" method="post">
             <input type="hidden" id="planId" name="planId" value="${plan.planId}">
@@ -38,6 +44,10 @@
                 <label for="memo" class="form-label">메모</label>
                 <textarea id="memo" name="memo" form="planForm" class="form-control">${plan.memo}</textarea>
             </div>
+            <hr class="my-8"/>
+            <div>
+                <button type="submit" class="btn btn-orange col-2 float-end" form="planForm">수정</button>
+            </div>
         </form>
 
         <%--안전정보, 응급시설 버튼--%>
@@ -45,12 +55,16 @@
         <div class="row justify-content-center">
             <div class="col-md-6 my-2">
                 <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-outline-orange rounded-pill" style="width: 50%;" data-bs-toggle="modal" data-bs-target="#safetyModal">안전정보 확인</button>
+                    <button type="button" class="btn btn-outline-orange rounded-pill" style="width: 50%;"
+                            data-bs-toggle="modal" data-bs-target="#safetyModal">안전정보 확인
+                    </button>
                 </div>
             </div>
             <div class="col-md-6 my-2">
                 <div class="d-flex justify-content-center">
-                    <button type="button" id="add-emergency-facility-button" class="btn btn-outline-orange rounded-pill" style="width: 50%;" data-toggle="modal" data-target="#emergencyFacilityModal">응급시설 확인</button>
+                    <button type="button" id="add-emergency-facility-button" class="btn btn-outline-orange rounded-pill"
+                            style="width: 50%;" data-toggle="modal" data-target="#emergencyFacilityModal">응급시설 확인
+                    </button>
                 </div>
             </div>
         </div>
@@ -67,7 +81,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <jsp:include page="safety_search.jsp" />
+                        <jsp:include page="safety_search.jsp"/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -77,7 +91,8 @@
         </div>
 
         <%--응급시설 모달--%>
-        <div class="modal fade" id="emergencyFacilityModal" tabindex="-1" role="dialog" aria-labelledby="emergencyFacilityModalLabel" aria-hidden="true">
+        <div class="modal fade" id="emergencyFacilityModal" tabindex="-1" role="dialog"
+             aria-labelledby="emergencyFacilityModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -85,12 +100,11 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="modalContent">
-                        <jsp:include page="emergency_facility/list.jsp" />
+                        <jsp:include page="emergency_facility/list.jsp"/>
                     </div>
                 </div>
             </div>
         </div>
-
 
 
         <%--        기본 정보    --%>
@@ -104,7 +118,8 @@
                 <label>Day <%=i + 1%>
                 </label><br>
                 <div id="add-buttons" class="mt-5 text-center">
-                    <button type="button" id="add-spot-<%=i + 1%>" class="btn btn-sm btn-soft-orange rounded-pill w-75">여행지 추가
+                    <button type="button" id="add-spot-<%=i + 1%>" class="btn btn-sm btn-soft-orange rounded-pill w-75">
+                        여행지 추가
                     </button>
                 </div>
                 <br>
@@ -155,7 +170,7 @@
                                 <option value="area">지역명</option>
                             </select>
                             </div>
-                            <input type="text" id="keyword-<%=i + 1%>" name="keyword-<%=i + 1%>"
+                            <input type="text" id="keyword-<%=i + 1%>" name="keyword-<%=i + 1%>" form="spot-form"
                                    class="custom-form-control col-md-7 me-2">
                             <button type="button" id="search-spot-button-<%=i + 1%>" class="btn btn-orange col-md-2">
                                 검색
@@ -177,7 +192,8 @@
         <hr class="my-8"/>
         <div class="row gx-md-8 gx-xl-12 gy-8">
             <div class="col-6 text-center" style="border-right: 2px solid #F5F5F5;">
-                <button id="add-flight" type="button" class="btn btn-sm btn-soft-green rounded-pill w-75">항공권 추가</button>
+                <button id="add-flight" type="button" class="btn btn-sm btn-soft-green rounded-pill w-75">항공권 추가
+                </button>
 
                 <div class="mt-5 mb-2" id="selected-flights">
                     <c:forEach items="${addedFlights}" var="flight">
@@ -245,10 +261,12 @@
             <%--숙소추가--%>
             <div class="col-6 text-center" style="border-right: 2px solid #F5F5F5;">
 
-                <button id="add-accommodation-1" type="button" class="btn btn-sm btn-soft-yellow rounded-pill w-75">숙소 추가</button>
+                <button id="add-accommodation-1" type="button" class="btn btn-sm btn-soft-yellow rounded-pill w-75">숙소
+                    추가
+                </button>
                 <br>
 
-                <div class="row" id="selected-accommodations-1">
+                <div class="row mt-3" id="selected-accommodations-1">
 
                     <c:forEach items="${addedAccommodations}" var="accommodation">
                         <div class="card my-2">
@@ -269,7 +287,8 @@
                                             <button type="button" class="delete-accommodation-btn btn btn-sm"
                                                     data-accommodation-id="${accommodation.id}">
                                                 <svg style="color: gray" xmlns="http://www.w3.org/2000/svg" width="16"
-                                                     height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                     height="16" fill="currentColor" class="bi bi-x"
+                                                     viewBox="0 0 16 16">
                                                 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
                                                       fill="gray"></path>
                                             </svg>
@@ -291,7 +310,7 @@
                 <br>
             </div>
             <!-- 숙소 검색창과 검색결과 시작-->
-            <div  class="col-lg-6" id="search-accommodation-form-1" style="display: none;">
+            <div class="col-lg-6" id="search-accommodation-form-1" style="display: none;">
                 <form id="search-accommodation-form">
                     <div class="custom-form-container">
 
@@ -300,7 +319,8 @@
                         <input type="text" id="placeName-input-accommodation-1" name="placeName-accommodation-1"
                                class="custom-form-control col-md-5 me-2" placeholder="장소명 검색">
 
-                        <button type="button" id="search-accommodation-button-1" class="btn btn-yellow col-md-2">검색</button>
+                        <button type="button" id="search-accommodation-button-1" class="btn btn-yellow col-md-2">검색
+                        </button>
 
                     </div>
                 </form>
@@ -309,15 +329,9 @@
                     <!-- Accommodation search results will be displayed here -->
                 </div>
             </div>
-
-
-            <hr class="my-8"/>
-
-
             <!-- 숙소 검색창과 검색결과  끝-->
         </div>
         <hr class="my-8"/>
-        <button type="submit" class="btn btn-orange col-md-2 align-self-end" form="planForm">수정</button>
         <%--    container   --%>
 </section>
 <script>
@@ -341,6 +355,14 @@
             let searchSpotFormDivId = 'search-spot-form-' + index;
             let searchSpotResultsDivId = 'search-spot-results-' + index;
             $('#' + searchSpotFormDivId).show();
+
+            let searchSpotInputId = 'keyword-' + index;
+            let searchSpotBtnId = 'search-spot-button-' + index;
+            $('#' + searchSpotInputId).keydown(function (keyNum) {
+                if (keyNum.keyCode == 13) {
+                    $('#' + searchSpotBtnId).click();
+                }
+            })
         });
     });
 
@@ -475,6 +497,13 @@
             success: function (result) {
                 alert("여행지가 삭제되었습니다!");
                 deleteButton.closest(".row").remove();
+                let selectedSpotsDivs = $('[id^="selected-spots-"]');
+                selectedSpotsDivs.each(function () {
+                    let divContents = $(this).find('div');
+                    if (divContents.length === 0) {
+                        $(this).hide(); // 내용이 없는 div 숨김 처리
+                    }
+                })
             },
             error: function () {
                 alert("여행지 삭제에 실패했습니다.");
@@ -639,7 +668,7 @@
             let btnId = $(this).attr('id');
             console.log("Accommodation searchBtnId : " + btnId);
             let index = parseInt(btnId.split('-')[3]); // 일차
-            console.log("btnIndex : " +  index);
+            console.log("btnIndex : " + index);
 
             /*
             let categoryId = 'category-accommodation-' + index;
@@ -659,7 +688,7 @@
 
     });
 
-    const getAccommodationList = function(address, placeName, btnId, category="") {
+    const getAccommodationList = function (address, placeName, btnId, category = "") {
         let index = parseInt(btnId.split('-')[3]);
         let searchAccommodationFormDivId = 'search-accommodation-form-' + index;
         let searchAccommodationResultsDivId = 'search-accommodation-results-' + index;
@@ -700,7 +729,7 @@
                 categoryName: category,
                 filterType: filter_type
             },
-            success: function(data) {
+            success: function (data) {
 
                 console.log("after getAccommodationList ajax succeeded!");
                 console.log("returned getAccommodationList data");
@@ -712,12 +741,16 @@
                 $('#' + searchAccommodationResultsDivId).append(trimmedHtml);
 
                 //$('#' + searchAccommodationResultsDivId).append(data);
-                $('#' + searchAccommodationResultsDivId).css({'overflow': 'scroll', 'width': '100%', 'height': '500px'});
+                $('#' + searchAccommodationResultsDivId).css({
+                    'overflow': 'scroll',
+                    'width': '100%',
+                    'height': '500px'
+                });
                 $('#' + searchAccommodationResultsDivId).show();
 
-                $(document).ready(function() {
+                $(document).ready(function () {
                     // Accommodation addition button click event
-                    $('[id^="add-accommodation-btn-"]').click(function() {
+                    $('[id^="add-accommodation-btn-"]').click(function () {
                         //let index = parseInt(btnId.split('-')[2]);
                         let index = parseInt(btnId.split('-')[3]);
                         let accommodationId = $(this).data("accommodation-id");
@@ -729,14 +762,14 @@
                     });
                 });
             },
-            error: function() {
+            error: function () {
                 alert("숙소 검색에 실패했습니다.");
             }
         });
     };
 
     // Function to add the selected accommodation to the plan
-    const addAccommodation = function(index, accommodationId) {
+    const addAccommodation = function (index, accommodationId) {
         let searchAccommodationResultsDivId = 'search-accommodation-results-' + index;
         let selectedAccommodationsDivId = 'selected-accommodations-' + index;
         let selectedAccommodationDivHTML = "";
@@ -759,7 +792,7 @@
                 dayOrder: index,
                 accommodationId: accommodationId
             },
-            success: function(accommodation) {
+            success: function (accommodation) {
 
                 alert("숙소가 추가되었습니다!");
 
@@ -773,23 +806,22 @@
                 selectedAccommodationDivHTML += "<div class='row'><span class='col-8'>" + accommodation.addressName + "</span></div>"
 
                 selectedAccommodationDivHTML += "<div class='row'>"
-                selectedAccommodationDivHTML +=  "<span class='col-10'>" + accommodation.phone + "</span>"
+                selectedAccommodationDivHTML += "<span class='col-10'>" + accommodation.phone + "</span>"
                 selectedAccommodationDivHTML += "<span class='col-2 align-self-start'><button type='button' class='delete-accommodation-btn btn btn-sm'"
                     + "data-accommodation-id='" + accommodation.id + "'>"
-                selectedAccommodationDivHTML += "<svg style='color: red' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'>"
-                selectedAccommodationDivHTML += "<path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z' fill='red'></path>"
-                selectedAccommodationDivHTML += "<path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z' fill='red'></path></svg>"
+                selectedAccommodationDivHTML += "<svg style='color: gray' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-x' viewBox='0 0 16 16'>"
+                selectedAccommodationDivHTML += "<path d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z' fill='gray'></path></svg>"
                 selectedAccommodationDivHTML += "</button></span></div>"
 
                 selectedAccommodationDivHTML += "<div class='row'>"
-                selectedAccommodationDivHTML += "<span class='col-12'><a href='" + accommodation.placeUrl + "'>숙박후기</a>" +"</span>"
+                selectedAccommodationDivHTML += "<span class='col-12'><a href='" + accommodation.placeUrl + "'>숙박후기</a>" + "</span>"
                 selectedAccommodationDivHTML += "</div>"
 
                 $('#' + selectedAccommodationsDivId).append(selectedAccommodationDivHTML);
                 $('#' + selectedAccommodationsDivId).show();
 
             },
-            error: function() {
+            error: function () {
                 alert("숙소 추가에 실패했습니다.");
             }
         });
@@ -824,47 +856,47 @@
 
 
     /*안전정보 연결*/
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Load the safety_search.jsp content when the safetyButton is clicked
-        $("#safetyButton").click(function() {
+        $("#safetyButton").click(function () {
             $.ajax({
                 url: "/hontrip/plan/safety_search",
                 method: "GET",
-                success: function(data) {
+                success: function (data) {
                     $("#safetyModal .modal-body").html(data);
                     $("#safetyModal").modal("show");
                 },
-                error: function() {
+                error: function () {
                     alert("안전정보 페이지를 불러오는 데 실패했습니다.");
                 }
             });
         });
 
 
-        $(document).on('submit', '#safetySearchForm', function(e) {
+        $(document).on('submit', '#safetySearchForm', function (e) {
             e.preventDefault();
             $.ajax({
                 url: "safety_result",
                 method: "POST",
                 data: $(this).serialize(),
-                success: function(data) {
+                success: function (data) {
                     $("#safetyModal .modal-body").html(data);
                 },
-                error: function() {
+                error: function () {
                     alert("안전정보 검색에 실패했습니다.");
                 }
             });
         });
 
 
-        $(document).on('click', '#retrySafetySearch', function() {
+        $(document).on('click', '#retrySafetySearch', function () {
             $.ajax({
                 url: "/hontrip/plan/safety_search",
                 method: "GET",
-                success: function(data) {
+                success: function (data) {
                     $("#safetyModal .modal-body").html(data);
                 },
-                error: function() {
+                error: function () {
                     alert("안전정보 검색 페이지를 불러오는 데 실패했습니다.");
                 }
             });
@@ -872,15 +904,14 @@
     });
 
 
-
-  /*  응급시설*/
-    $(document).ready(function(){
-        $("#add-emergency-facility-button").click(function(){
+    /*  응급시설*/
+    $(document).ready(function () {
+        $("#add-emergency-facility-button").click(function () {
             var emergencyFacilityModal = new bootstrap.Modal(document.getElementById('emergencyFacilityModal'));
             emergencyFacilityModal.show();
         });
 
-        $(document).on("submit", "#emergency_facility_search_form", function(e){
+        $(document).on("submit", "#emergency_facility_search_form", function (e) {
             e.preventDefault();
 
 
@@ -888,7 +919,7 @@
                 url: "/hontrip/plan/emergency_facility/filter_list",
                 method: "POST",
                 data: $(this).serialize(),
-                success: function(data){
+                success: function (data) {
                     $("#modalContent").html(data);
                 }
             });
@@ -896,16 +927,14 @@
     });
 
 
-
-        $(document).ready(function(){
-        $(document).on("click", "a[href='/hontrip/plan/emergency_facility/list']", function(e){
+    $(document).ready(function () {
+        $(document).on("click", "a[href='/hontrip/plan/emergency_facility/list']", function (e) {
             e.preventDefault();
 
 
-            $.get("/hontrip/plan/emergency_facility/list", function(data){
+            $.get("/hontrip/plan/emergency_facility/list", function (data) {
                 $("#modalContent").html(data);
             });
         });
     });
-
 </script>

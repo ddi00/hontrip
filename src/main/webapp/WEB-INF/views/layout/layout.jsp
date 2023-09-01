@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/user.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/chat.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/record.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/alarm.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/mate_list.css"/>">
 
     <script type="text/javascript" src="<c:url value="/resources/assets/js/plugins.js"/>" defer></script>
     <script type="text/javascript" src="<c:url value="/resources/assets/js/theme.js"/>" defer></script>

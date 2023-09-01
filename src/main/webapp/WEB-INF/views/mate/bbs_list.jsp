@@ -19,7 +19,10 @@
                                         <input type="text" id="keyword" name="keyword" class="form-control" placeholder="검색어를 입력하세요">
                                         <button id="searchBtn" class="searchBtn btn btn-main rounded-pill btn-lg px-4" type="submit">검색</button>
                                     </div>
-
+                                <div class="offset-md-11 text-right">
+                                <!-- 추가적인 내용이 있다면 여기에 작성할 수 있습니다. -->
+                                <a href="../mate/insert"><span class="underline-3 style-1 yellow">게시물 작성하기</span></a><br>
+                            </div>
                                 </form>
 
                                 <button id="filterButton" type="button" class="btn btn-expand btn-soft-orange rounded-pill" aria-expanded="false">
@@ -92,12 +95,13 @@
                                                                     <h2 class="post-title h3 mt-1 mb-3">
                                                                         <a class="link-dark"
                                                                             href="../mate/${one.mateBoardId}">${one.title}</a>
+                                                                        <c:forEach items="${AgeRange.values()}" var="age">
+                                                                            <c:if test="${age.ageRangeNum == Integer.parseInt(one.ageRangeId)}">
+                                                                                <span class="badge bg-pale-orange text-orange rounded-pill">${age.ageRangeStr}</span>
+                                                                            </c:if>
+                                                                        </c:forEach>
                                                                     </h2>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mate-card-footer">
-                                                            <ul class="post-meta d-flex mb-0">
+                                                                    <ul class="post-meta d-flex mb-0">
                                                                 <li class="post-date"><i
                                                                         class="uil uil-calendar-alt"></i><span>${one.startDate}
                                                                     </span></li>
@@ -108,7 +112,12 @@
                                                                 <i class="uil uil-user-check"></i>조회수${one.viewCount}</li>
                                                             </ul>
                                                             <!-- /.post-meta -->
+                                                                </div>
+                                                            </div>
                                                         </div>
+
+
+
                                                     </article>
                                                 </div>
                                             </c:forEach>
@@ -118,8 +127,7 @@
                             </div>
                         </div>
                         </section>
-                        <hr>
-                        <nav class="d-flex" aria-label="pagination">
+                        <nav class="d-flex mate-pagination" aria-label="pagination">
                             <ul class="pagination">
                                 <c:set var="startPage" value="${pageDTO.firstPageNoOnPageList}" />
                                 <c:set var="endPage" value="${pageDTO.lastPageNoOnPageList}" />

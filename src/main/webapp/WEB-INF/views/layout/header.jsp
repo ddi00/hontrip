@@ -27,10 +27,12 @@
         <div class="mateChatList-wrap">
             <span class="chatModalAlarmLetter">채팅 목록</span>
             <br>
+            <div class="mate-chat-list-container">
             <div class="mateChatListDiv">
                 <ul id="mateChatListUl" class="mateChatListUl">
                 </ul>
             </div>
+        </div>
         </div>
 
         <%--채팅창--%>

@@ -56,7 +56,7 @@
 /* styles.css */
 .mate-post-card {
     flex: 0 0 calc(33.333% - 20px); /* 각 포스트 카드의 폭을 33.333%로 설정하고 간격을 고려하여 계산합니다. */
-    margin: 10px; /* 포스트 카드 사이 간격 조정 */
+    margin: 20px; /* 포스트 카드 사이 간격 조정 */
 }
 
 /* .card 내부의 이미지에 스타일 적용 */
@@ -120,4 +120,14 @@
 .mate-comment-submit{
  margin-top:5px;
  margin-right: 30px;
+}
+
+.mate-list-card-footer{
+font-size: 10px;
+}
+
+.mate-pagination{
+  display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
 }

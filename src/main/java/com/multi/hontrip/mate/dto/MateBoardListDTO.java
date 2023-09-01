@@ -14,4 +14,5 @@ public class MateBoardListDTO {
     private String startDate;
     private String endDate;
     private String viewCount;
+    private String ageRangeId;
 }

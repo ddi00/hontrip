@@ -485,7 +485,7 @@
 
                                     <!-- /.form-floating -->
                                     <div class="d-flex justify-content-end">
-                                        <button type="button" class="mate-comment-submit btn btn-outline-orange rounded-pill id="commentWrite">작성
+                                        <button type="button" class="mate-comment-submit btn btn-outline-orange rounded-pill" id="commentWrite">작성
                                         </button>
                                     </div>
                                     <div id="count"></div>

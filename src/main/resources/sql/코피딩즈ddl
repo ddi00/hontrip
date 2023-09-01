@@ -54,6 +54,11 @@ CREATE TABLE `accommodation` (
 
 -- hontrip.age_range definition
 
+CREATE TABLE `age_range` (
+  `id` int NOT NULL,
+  `range_description` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 
@@ -149,6 +154,7 @@ CREATE TABLE `mate_board` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT ' 게시글 작성 일자',
   `updated_at` timestamp NULL DEFAULT NULL COMMENT '게시글 수정 일자',
   `is_finish` tinyint NOT NULL DEFAULT '0' COMMENT '동행자 모집 완료(1) 또는 모집중(0)',
+  `view_count` bigint DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `mate_board_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
@@ -184,9 +190,10 @@ CREATE TABLE `mate_comment` (
   PRIMARY KEY (`id`),
   KEY `mate_board_id` (`mate_board_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT fk_mate_comment_mate_board FOREIGN KEY (mate_board_id) REFERENCES mate_board(id) ON DELETE CASCADE,
+  CONSTRAINT `fk_mate_comment_mate_board` FOREIGN KEY (`mate_board_id`) REFERENCES `mate_board` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `mate_comment_ibfk_1` FOREIGN KEY (`mate_board_id`) REFERENCES `mate_board` (`id`),
   CONSTRAINT `mate_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=185 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- hontrip.mate_matching_alarm definition

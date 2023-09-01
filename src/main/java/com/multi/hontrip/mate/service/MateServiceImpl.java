@@ -10,8 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MateServiceImpl implements MateService {
@@ -141,6 +140,21 @@ public class MateServiceImpl implements MateService {
 
     public int commentCount(long mateBoardId){
         return mateCommentDAO.commentCount(mateBoardId);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAgeRangeList() {
+        List<AgeRange> ageRangeValues = Arrays.asList(AgeRange.values());
+        List<Map<String, Object>> ageRangeList = new ArrayList<>();
+
+        for (AgeRange ageRange : ageRangeValues) {
+            Map<String, Object> ageRangeMap = new HashMap<>();
+            ageRangeMap.put("ageRangeNum", ageRange.getAgeRangeNum());
+            ageRangeMap.put("ageRangeStr", ageRange.getAgeRangeStr());
+            ageRangeList.add(ageRangeMap);
+        }
+
+        return ageRangeList;
     }
 
     @Override
