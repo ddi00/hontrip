@@ -62,9 +62,22 @@
     }
 </script>
 
+<section class="wrapper bg-light">
+  <div class="container pt-11 pt-md-13 pb-10 pb-md-0 pb-lg-4 text-center">
+    <div class="row">
+      <div class="col-lg-8 col-xl-7 col-xxl-6 mx-auto" data-cues="slideInDown" data-group="page-title">
+        <h1 class="display-1 fs-60 mb-4 px-md-15 px-lg-0">Record Post<span class="underline-3 style-3 primary"> Create</span></h1>
+      </div>
+      <!-- /column -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+</section>
+<!-- /section -->
 
 <section class="wrapper bg-light">
-    <div class="container pt-12 pt-md-14 pb-14 pb-md-16">
+    <div class="container pt-12 pt-md-6 pb-0 pb-md-16">
         <div class="row gx-md-8 gx-12 gy-12">
             <div class="card col-lg-8 mx-auto">
                 <form action="createpost" method="post" enctype="multipart/form-data">
@@ -192,7 +205,7 @@
                                 <label for="textInputExample">Content*</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-orange rounded-xl">작 성</button>
+                        <button type="submit" class="btn btn-primary rounded-xl">작 성</button>
                     </div>
                 </form>
             </div>

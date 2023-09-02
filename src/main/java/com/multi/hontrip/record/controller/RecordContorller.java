@@ -161,7 +161,7 @@ public class RecordContorller {
     public String getMyList(Model model, HttpSession session) {
         long  userId = (long) session.getAttribute("id");
 
-        final int PAGE_ROW_COUNT = 9; // 한 페이지에 표시할 게시물 개수
+        final int PAGE_ROW_COUNT = 8; // 한 페이지에 표시할 게시물 개수
         int pageNum = 1; // 페이지 번호
         int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT; // 시작 row 번호
         int endRowNum = pageNum * PAGE_ROW_COUNT; // 마지막 row 번호
@@ -198,7 +198,7 @@ public class RecordContorller {
     @RequestMapping("re-post-page")
     public String myListWithScroll(@RequestParam int pageNum, Model model, HttpSession session) {
         long  userId = (long) session.getAttribute("id");
-        final int PAGE_ROW_COUNT = 10; // 한 페이지에 표시할 게시물 개수
+        final int PAGE_ROW_COUNT = 8; // 한 페이지에 표시할 게시물 개수
 
         int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT; // 시작 row 번호
         int endRowNum = pageNum * PAGE_ROW_COUNT; // 마지막 row 번호

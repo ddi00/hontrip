@@ -40,9 +40,54 @@
         </div>
     </div>
 </section>
+
+<style>
+    .swiper-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+        aspect-ratio: 4/3; /* 가로 세로 비율을 1:1로 설정합니다. */
+        border-radius: 10px;
+    }
+</style>
 <section class="wrapper bg-main-light">
-    <div class="container pt-12 pt-lg-8 pb-14 pb-md-17">
-    나중에 여기에 조회수 순으로 기록이 들어옴
+    <div class="container pt-10 pt-lg-8 pb-5 pb-md-15">
+    <section id="snippet-1" class="wrapper-border">
+          <div class="container">
+            <div class="swiper-container clients" data-margin="30" data-dots="false" data-loop="true" data-autoplay="true" data-autoplaytime="1" data-drag="false" data-speed="6000" data-items-xxl="4" data-items-xl="3" data-items-lg="5" data-items-md="2" data-items-xs="1">
+              <div class="swiper">
+                <div class="swiper-wrapper ticker">
+                <c:forEach items="${topList}" var="postInfoDTO">
+                    <div class="swiper-slide">
+                    <!-- <a href="/hontrip/record/postinfo?id=${postInfoDTO.boardId}"><img src="<c:url value='/${postInfoDTO.thumbnail}'/>" alt="" /></a> -->
+
+                        <div class="project item">
+                            <div class="card shadow-lg">
+                                <figure class="card-img-top itooltip itooltip-aqua" title='<h5 class="mb-0">클릭하여 상세게시물 보기</h5>'>
+                                    <a href="/hontrip/record/postinfo?id=${postInfoDTO.boardId}">
+                                        <img src="<c:url value='/${postInfoDTO.thumbnail}'/>" alt="" />
+                                    </a>
+                                </figure>
+                                <div class="card-body">
+                                    <div class="post-header">
+                                        <div class="post-category mb-2 text-primary">${postInfoDTO.city}</div>
+                                        <h4 class="mb-0">${postInfoDTO.title}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+                </div>
+                <!--/.swiper-wrapper -->
+              </div>
+              <!-- /.swiper -->
+            </div>
+            <!-- /.swiper-container -->
+          </div>
+          <!-- /.container -->
+        </section>
+        <!-- /section -->
     </div>
     <div class="container pt-12 pt-lg-8 pb-14 pb-md-17">
         나중에 여기에 즐겨찾기 순으로 여행지가 들어옴

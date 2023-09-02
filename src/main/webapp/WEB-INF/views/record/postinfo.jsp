@@ -22,6 +22,13 @@
         max-width: 100%;
         max-height: 100%;
     }
+
+    #likeBtn {
+        position: absolute;
+        bottom: 41px; /* 원하는 상단 여백 값으로 조정하세요 */
+        right: 0px; /* 원하는 오른쪽 여백 값으로 조정하세요 */
+    }
+
 </style>
     <script type="text/javascript"
     	src="../resources/js/jquery-3.7.0.js" ></script>
@@ -53,7 +60,7 @@
         function updateLikeSection(likeList) {
             let users = "";
             let likeCnt = "";
-            likeCnt += "<a href='#' data-bs-toggle='modal' data-bs-target='#modal-02'><div id='likeCountSection'><i class='uil uil-heart-alt text-main'></i>" + likeList.likeCount + "</div></a>";
+            likeCnt += "<a href='#' data-bs-toggle='modal' data-bs-target='#modal-02'><div id='likeCountSection'><i class='uil uil-heart-alt text-primary'></i>" + likeList.likeCount + "</div></a>";
             $('.likeCnt').html(likeCnt);
 
 
@@ -63,7 +70,7 @@
                     users += `<p class="mb-6"><img class="avatar w-10" src="\${postLikeDTO.profileImg}"/>\${postLikeDTO.likeUserNickname}</p>`;
                 }
             } else {
-                users += "<h6>좋아요를 누른 사람이 없습니다.</h6>"
+                users += "<h6 class='text-primary'>좋아요를 누른 사람이 없습니다.</h6>"
             }
             $('#likeUsers').html(users);
         }
@@ -306,7 +313,7 @@
                     updateLikeSection(result);
 
                     $('#likeBtn').empty();
-                    let btns = "<button class='unlike-button btn btn-circle btn-orange'><i class='uil uil-heart-break'></i></button>";
+                    let btns = "<button class='unlike-button btn btn-circle btn-primary'><i class='uil uil-heart'></i></button>";
                     $('#likeBtn').html(btns);
                 },
                 error: function () {
@@ -327,7 +334,7 @@
                     updateLikeSection(result);
 
                     $('#likeBtn').empty();
-                    let btns = "<button class='like-button btn btn-circle btn-orange'><i class='uil uil-heart'></i></button>";
+                    let btns = "<button class='like-button btn btn-circle btn-primary'><i class='uil uil-heart-break'></i></button>";
                     $('#likeBtn').html(btns);
                 },
                 error: function () {
@@ -338,6 +345,21 @@
 
     }); // $
 </script>
+
+    <section class="wrapper bg-light">
+      <div class="container pt-11 pt-md-13 pb-10 pb-md-0 pb-lg-4 text-center">
+        <div class="row">
+          <div class="col-lg-8 col-xl-7 col-xxl-6 mx-auto" data-cues="slideInDown" data-group="page-title">
+            <h1 class="display-1 fs-60 mb-4 px-md-15 px-lg-0">Record<span class="underline-3 style-3 primary"> Post</span></h1>
+          </div>
+          <!-- /column -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container -->
+    </section>
+    <!-- /section -->
+    <br>
     <br>
     <section class="wrapper bg-light">
         <div class="container pb-14 pb-md-16">
@@ -375,7 +397,7 @@
                                             <li class="post-date"><i class="uil uil-calendar-alt"></i><span>여행기간
                                                     ${postInfoDTO.startDate}~${postInfoDTO.endDate}</span></li>
                                         </ul>
-                                        <h2 class="post-title mt-1 mb-0 text-orange">${postInfoDTO.title}</h2>
+                                        <h2 class="post-title mt-1 mb-0 text-primary">${postInfoDTO.title}</h2>
                                     </div>
                                     <!-- /.post-header -->
                                     <div class="post-content">
@@ -383,10 +405,10 @@
                                     <c:if test="${not empty sessionScope.id}">
                                         <div id="likeBtn">
                                             <c:if test="${userCheckLike eq 'ok'}">
-                                                <button class="unlike-button btn btn-circle btn-main"><i class="uil uil-heart-break"></i></button>
+                                                <button class="unlike-button btn btn-circle btn-primary"><i class="uil uil-heart"></i></button>
                                             </c:if>
                                             <c:if test="${userCheckLike ne 'ok'}">
-                                                <button class="like-button btn btn-circle btn-main"><i class="uil uil-heart"></i></button>
+                                                <button class="like-button btn btn-circle btn-primary"><i class="uil uil-heart-break"></i></button>
                                             </c:if>
                                         </div>
                                     </c:if>
@@ -406,7 +428,7 @@
                                         <li class="likeCnt post-likes ms-auto">
 
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#modal-02">
-                                                <div id="likeCountSection"><i class="uil uil-heart-alt text-orange"></i>
+                                                <div id="likeCountSection"><i class="uil uil-heart-alt text-primary"></i>
                                                     ${postInfoDTO.likeCount}
                                                 </div></a>
                                         </li>
@@ -436,7 +458,7 @@
                     <!-- /.blog -->
                     <br>
                     <div id="result">
-                        <h3 class="mb-12 text-orange">${postInfoDTO.cmtCount} Comments</h3>
+                        <h3 class="mb-12 text-primary">${postInfoDTO.cmtCount} Comments</h3>
                         <c:choose>
                             <c:when test="${commentList.isEmpty()}">
                                 <h6>등록된 댓글이 없습니다.</h6>
@@ -481,7 +503,7 @@
                                                             <c:if test="${not empty sessionScope.id}">
                                                                 <a href="javascript:void(0);"
                                                                     onclick="showCcmtTextarea(${commentDTO.cmtId})"
-                                                                    class="btn btn-soft-orange btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
+                                                                    class="btn btn-soft-primary btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
                                                                         class="uil uil-comments"></i> Reply</a>
                                                             </c:if>
                                                         </div>
@@ -495,10 +517,10 @@
                                                             style="height: 100px" placeholder="수정글을 입력해주세요"
                                                             class="form-control">${commentDTO.cmtContent}</textarea>
                                                         <label>Update Comment *</label>
-                                                        <button class="updateComment btn btn-orange btn-sm rounded-pill"
+                                                        <button class="updateComment btn btn-primary btn-sm rounded-pill"
                                                             data-comment-id="${commentDTO.cmtId}">수정 하기</button>
                                                         <a href="javascript:void(0);"
-                                                            class="btn btn-soft-orange btn-sm rounded-pill"
+                                                            class="btn btn-soft-primary btn-sm rounded-pill"
                                                             onclick="closeTextarea(${commentDTO.cmtId})">취소</a>
                                                     </div>
 
@@ -507,10 +529,10 @@
                                                         <textarea id="cContent${commentDTO.cmtId}" style="height: 100px"
                                                             placeholder="답글을 입력해주세요" class="form-control"></textarea>
                                                         <label>ReComment *</label>
-                                                        <button class="cCommentWrite btn btn-orange btn-sm rounded-pill"
+                                                        <button class="cCommentWrite btn btn-primary btn-sm rounded-pill"
                                                             data-comment-id="${commentDTO.cmtId}">답글 전송</button>
                                                         <a href="javascript:void(0);"
-                                                            class="btn btn-soft-orange btn-sm rounded-pill"
+                                                            class="btn btn-soft-primary btn-sm rounded-pill"
                                                             onclick="closeCTextarea(${commentDTO.cmtId})">취소</a>
                                                     </div>
 
@@ -565,11 +587,11 @@
                                                                         class="form-control">${reComment.cmtContent}</textarea>
                                                                     <label>Update Comment *</label>
                                                                     <button
-                                                                        class="updateComment btn btn-orange btn-sm rounded-pill"
+                                                                        class="updateComment btn btn-primary btn-sm rounded-pill"
                                                                         data-comment-id="${reComment.cmtId}">수정
                                                                         하기</button>
                                                                     <a href="javascript:void(0);"
-                                                                        class="updateComment btn btn-soft-orange btn-sm rounded-pill"
+                                                                        class="updateComment btn btn-soft-primary btn-sm rounded-pill"
                                                                         onclick="closeTextarea(${reComment.cmtId})">취소</a>
                                                                 </div>
                                                             </ul>
@@ -592,7 +614,7 @@
                                 style="height: 100px"></textarea>
                             <label>Comment *</label>
                         </div>
-                        <button id="commentWrite" class="btn btn-main rounded-pill mb-0">Submit</button>
+                        <button id="commentWrite" class="btn btn-primary rounded-pill mb-0">Submit</button>
                     </c:if>
                 </div>
                 <!-- /column -->
@@ -611,7 +633,7 @@
                     <div class="row">
                     </div>
                     <!-- /.row -->
-                    <h3 class="text-orange">좋아요</h3>
+                    <h3 class="text-primary">좋아요</h3>
                     <br>
                     <div id="likeUsers">
                         <c:choose>
