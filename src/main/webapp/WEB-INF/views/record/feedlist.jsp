@@ -29,7 +29,7 @@
             <section class="wrapper bg-light">
               <div class="container">
                 <div class="row-record-buttons">
-                  <div class="col-lg-9 col-xl-8 col-xxl-7 mx-auto">
+                  <div class="col-lg-9-record-location-buttons col-xl-8 col-xxl-7 mx-auto">
                     <button class="btn btn-orange rounded-pill mb-2 me-1 location-button" data-location="allLocations">전국</button>
                                    <button class="btn btn-orange rounded-pill mb-3 me-3 location-button" data-location="capital-area">수도권</button>
                                    <button class="btn btn-orange rounded-pill mb-3 me-3 location-button" data-location="gangwon">강원</button>
@@ -44,9 +44,9 @@
 
              <section class="wrapper bg-light">
                <div class="container">
-                 <div class="row-record-buttons2">
-                   <div class="col-lg-9 col-xl-8 col-xxl-7 mx-auto">
-                    <button class="btn btn-orange rounded-pill mb-2 me-1 like-button" like="like">좋아요 순</button>
+                 <div class="row">
+                   <div class="col-lg-9-record-like-button col-xl-8 col-xxl-7 mx-auto">
+                    <button class="btn btn-lg btn-primary rounded-pill me-2 like-button" like="like">좋아요 순</button>
                    </div>
                  </div>
                </div>
@@ -185,7 +185,7 @@
                      <div class="row g-8 g-lg-10 isotope">
                          <c:forEach items="${feedlist}" var="postInfoDTO">
                              <div class="project item col-md-6 col-xl-4 workshop">
-                                 <div class="card shadow-lg">
+                                  <div class="card shadow-lg">
                                      <figure class="card-img-top itooltip itooltip-aqua" title='<h5 class="mb-0">클릭하여 상세게시물 보기</h5>'>
                                          <a href="/hontrip/record/postinfo?id=${postInfoDTO.boardId}">
                                              <img src="<c:url value='/${postInfoDTO.thumbnail}'/>" alt="" />
@@ -194,7 +194,7 @@
                                      <div class="card-body p-7">
                                          <div class="post-header">
                                              <div class="post-category text-line mb-2 text-aqua">${postInfoDTO.city}</div>
-                                             <h3 class="mb-0">${postInfoDTO.title}</h3>
+                                             <a href="/hontrip/record/postinfo?id=${postInfoDTO.boardId}"><h3 class="mb-0">${postInfoDTO.title}</h3></a>
                                          </div>
                                      </div>
                                     <div class="card-footer">

@@ -161,6 +161,7 @@ public class RecordContorller {
     public String getMyList(Model model, HttpSession session) {
         long  userId = (long) session.getAttribute("id");
 
+        //페이지네이션 변수
         final int PAGE_ROW_COUNT = 9; // 한 페이지에 표시할 게시물 개수
         int pageNum = 1; // 페이지 번호
         int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT; // 시작 row 번호
