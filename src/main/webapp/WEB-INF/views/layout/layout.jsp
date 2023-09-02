@@ -194,7 +194,21 @@
             } else if ($('.mateChatModal').css('display') == "block") {
                 //만약 모달창이 열려있으면서 채팅창이 열려있으면(즉, 하나의 채팅창을 구독하고 있으면)
                 if ($('.mateChatHistory-wrap').css('display') == "block") {
-                    $('#chatRoomCloseIcon').click();
+                    let roomId = $('#mateHeaderChaRoomId').val();
+                    $.ajax({
+                        url: "${pageContext.request.contextPath}/mate/update_last_join_at",
+                        data: {
+                            userId: $('#mateAlarmUserId').val(),
+                            roomId: roomId
+                        },
+                        success: function () {
+                        },
+                        error: function (e) {
+                            console.log(e);
+                        }
+                    })
+                    subscribedChatRoomId.pop(roomId);
+                    stompClient.unsubscribe('chat' + roomId);
                 }
                 $('.mateChatModal').css('display', 'none');
             }
@@ -309,10 +323,9 @@
             $('.mateChatHistory-wrap').css('display', 'block');
             $('#mateHeaderReceiverId').val();
             let roomId = parseInt($(ths).data('value'));
+            $('#mateHeaderChaRoomId').val(roomId)
             subscribeChatRoom(roomId);
             $('#chatRoomCloseIcon').attr('data-value', roomId);
-            console.log(roomId);
-            console.log($('#mateAlarmUserId').val())
             $('#mateChatHistoryUl').html('');
 
             //채팅목록 출력하기
@@ -351,11 +364,24 @@
 
         //뒤로가기 화살표버튼을 누르면 -> 해당 채팅방 구독을 끊고, 채팅리스트로 돌아간다.
         function unsubscribeChatRoom(ths) {
+            let roomId = $(ths).data('value');
+            $.ajax({
+                url: "${pageContext.request.contextPath}/mate/update_last_join_at",
+                data: {
+                    userId: $('#mateAlarmUserId').val(),
+                    roomId: roomId
+                },
+                success: function () {
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            })
+            subscribedChatRoomId.pop(roomId);
+            stompClient.unsubscribe('chat' + roomId);
             $('.mateChatHistory-wrap').css('display', 'none');
             $('.mateChatList-wrap').css('display', 'block');
-            let roomId = $(ths).data('value');
-            stompClient.unsubscribe('chat' + roomId);
-            subscribedChatRoomId.pop(roomId);
+
         }
 
 
@@ -522,6 +548,10 @@
                     console.log(e);
                 }
             })
+        }
+
+        function acceptMate() {
+
         }
     </script>
 </head>

@@ -91,4 +91,9 @@ public class ChatController {
         JoinChatInfo joinChatInfo = chatService.getChatRoomInfoByRoomIdAndUserId(chatroomRequestDTO);
         return joinChatInfo;
     }
+
+    @GetMapping("/update_last_join_at")
+    public void updateLastJoinAt(long userId, long roomId) {
+        chatService.updateLastJoinAt(userId, roomId);
+    }
 }
