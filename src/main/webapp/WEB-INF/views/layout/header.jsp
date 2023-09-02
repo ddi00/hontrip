@@ -47,7 +47,11 @@
                     <span id="mateChatRoomTitleLetter" class="mateChatRoomTitleLetter">
                     채팅방 제목
                 </span>
+                    <%--<a id="chatRoomDownArrow" class="chatRoomDownArrow" onclick="clickDownArrow()"><svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16" id="IconChangeColor"> <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" id="mainIconPathAttribute" fill="#ffffff"></path> </svg></a>--%>
+                    <button type="button" class="acceptMateButton" id="acceptMateButton" onclick="acceptMate()">동행 수락
+                    </button>
                 </div>
+                <!--/.card-header -->
                 <div class="mateChatHistoryDiv">
                     <ul id="mateChatHistoryUl" class="mateChatHistoryUl">
                     </ul>
