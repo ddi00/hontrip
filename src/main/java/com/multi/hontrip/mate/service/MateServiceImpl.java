@@ -129,7 +129,6 @@ public class MateServiceImpl implements MateService {
     @Override
     public List<MateCommentDTO> reCommentList(List<MateCommentDTO> commentList) {
         List<MateCommentDTO> reCommentList = new ArrayList<>();
-
         for (MateCommentDTO mateCommentDTO : commentList) {
             if ("1".equals(mateCommentDTO.getCommentSequence())) {
                 reCommentList.add(mateCommentDTO);
@@ -155,6 +154,20 @@ public class MateServiceImpl implements MateService {
         }
 
         return ageRangeList;
+    }
+
+    @Override
+    public int updateMateBoard(MultipartFile file, MateBoardInsertDTO mateBoardInsertDTO) {
+        String updatedFileName = file.getOriginalFilename();
+        mateBoardInsertDTO.setThumbnail(updatedFileName);
+        String uploadPath = servletContext.getRealPath("/") + relativePath + updatedFileName;
+        File target = new File(uploadPath);
+        try {
+            file.transferTo(target);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return mateDAO.updateMateBoard(mateBoardInsertDTO);
     }
 
     @Override

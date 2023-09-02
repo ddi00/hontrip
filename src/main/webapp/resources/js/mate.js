@@ -251,7 +251,7 @@ if (window.location.href.includes('/mate/editpage')) {
                         endDate: $('#mateEndDate').val(),
                         recruitNumber: $('#recruitNumber').val(),
                         gender: $("input[name='gender']:checked").val(),
-                        isFinish: $('#isFinish').val(),
+                        isFinish: $('#isFinish').val()
                     },
                     success: function () {
                         location.href = $('#mateBoardId').val();
@@ -265,7 +265,7 @@ if (window.location.href.includes('/mate/editpage')) {
                 formData.append("id", $('#mateBoardId').val())
                 formData.append("file", $('#file')[0].files[0])
                 formData.append("regionId", $("input[name='regionId']:checked").val())
-                formData.append("ageRangeId", $('#ageRangeId').val())
+                formData.append("ageRangeId", $("input[name='ageRangeId']:checked").val())
                 formData.append("title", $('#title').val())
                 formData.append("content", $('#content').val().replaceAll(/(?:\r\n|\r|\n)/g, '<br>'))
                 formData.append("startDate", $('#mateStartDate').val())
