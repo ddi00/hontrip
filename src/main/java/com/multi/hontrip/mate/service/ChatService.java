@@ -16,4 +16,5 @@ public interface ChatService {
     Long getChatRoomIdByPostIdAndGuestID(ChatInfoDTO chatInfoDTO);
 
     JoinChatInfo getChatRoomInfoByRoomIdAndUserId(ChatroomRequestDTO chatroomRequestDTO);
+
 }

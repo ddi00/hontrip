@@ -217,6 +217,8 @@
 
         //채팅방 생성(알람리스트에서 채팅 아이콘을 클릭했을 때)
         function mateChatCreate(ths) {
+
+
             /* 순서대로 -> 모집자닉네임(0), 작성자닉네임(1), 동행게시글 제목(2), 게시글 아이디(3), 모집자 아이디(4), 신청자 아이디(5)*/
             let chatInfo = $(ths).data('value').split(",");
             /*console.log("밸류 : "+$(ths).data('value'))*/
@@ -226,7 +228,13 @@
             let postId = chatInfo[3];
             let ownerId = chatInfo[4];
             let guestId = chatInfo[5];
+            let liNum = chatInfo[6];
             let chatRoomName = "";
+
+            console.log(liNum)
+            //해당 알람 li disabled하기
+            $('#mateAlarm' + liNum).attr("disabled", true);
+
 
             if (postTitle.length > 10) {
                 chatRoomName = postTitle.substring(0, 11) + "...";
@@ -288,7 +296,7 @@
                     //해당 알람 삭제 후 알람페이지 리로드
                     $("#mateAlarm" + parseInt(dataId[0])).remove();
                     $.ajax({
-                        url: "${pageContext.request.contextPath}/mate/delete_alarm",
+                        url: "${pageContext.request.contextPath}/mate/read-alarm",
                         data: {
                             alarmId: mateLiId
                         },
@@ -426,7 +434,7 @@
 
             setTimeout(function () {
                 document.getElementById("mateRealTimeAlarmUl").lastChild.remove();
-            }, 3000);
+            }, 10000);
         }
 
         //알람리스트에서 알람을 삭제하면 다시 페이지를 불러옴
@@ -530,13 +538,13 @@
                                         $('#notificationList').append('<li id="mateAlarm' + list[i].id + '" class="mateAlarmListLi" xmlns="http://www.w3.org/1999/html"><span style="font-weight: bold; font-size: 12px; width: 100%; "> ' + list[i].senderNickname + '님이 동행 신청을 했어요!</span><br><span class="spanAlarmList">' +
                                             '<img style="border-radius: 70%;" src="' +
                                             list[i].senderProfileImage + '" alt="신청자프로필이미지" width="30px;" height="30px;"> <span style="display:-webkit-box; white-space:normal; overflow: hidden;-webkit-line-clamp: 2; -webkit-box-orient: vertical; width:65%; height:40px; font-size: 13px; ">' +
-                                            list[i].content + '</span><a style="width:8%;" data-currentPg="' + pagination.currentPage + '"  data-id="' + list[i].id + ',' + pagination.currentPage + '" onclick="mateChatCreate(this)"  data-value="' + $('#mateAlarmUserNickname').val() + ',' + list[i].senderNickname + ',' + list[i].mateBoardTitle + ',' + list[i].mateBoardId + ',' + $('#mateAlarmUserId').val() + ',' + list[i].senderId + '"><i class="uil uil-comments"></i></a>' +
+                                            list[i].content + '</span><a style="width:8%;" data-currentPg="' + pagination.currentPage + '"  data-id="' + list[i].id + ',' + pagination.currentPage + '" onclick="mateChatCreate(this)"  data-value="' + $('#mateAlarmUserNickname').val() + ',' + list[i].senderNickname + ',' + list[i].mateBoardTitle + ',' + list[i].mateBoardId + ',' + $('#mateAlarmUserId').val() + ',' + list[i].senderId + ',' + list[i].id + '"><i class="uil uil-comments"></i></a>' +
                                             '<a id="mateAlarmCurrentPage' + pagination.currentPage + '"onclick="mateAlarmOneDelete(this)" href="#" style="width:8%;" data-id="' + list[i].id + '">x</a> </span></li>');
                                     } else {
                                         $('#notificationList').append('<li id="mateAlarm' + list[i].id + '"class="mateAlarmListLi" xmlns="http://www.w3.org/1999/html"><span style="font-weight: bold; font-size: 12px; width: 100%; "> ' + list[i].senderNickname + '님이 동행 신청을 했어요!</span><br><span class="spanAlarmList">' +
                                             '<img style="border-radius: 70%;" src="' +
                                             list[i].senderProfileImage + '" alt="신청자프로필이미지" width="30px;" height="30px;"> <span style="display:-webkit-box; white-space:normal; overflow: hidden;-webkit-line-clamp: 3; -webkit-box-orient: vertical; width:65%; height:45px; font-size: 12px; ">' +
-                                            list[i].content + '</span><a style="width:8%;" data-id="' + list[i].id + ',' + pagination.currentPage + '" onclick="mateChatCreate(this)" data-value="' + $('#mateAlarmUserNickname').val() + ',' + list[i].senderNickname + ',' + list[i].mateBoardTitle + ',' + list[i].mateBoardId + ',' + $('#mateAlarmUserId').val() + ',' + list[i].senderId + '"><i class="uil uil-comments"></i></a>' + '<a id="mateAlarmCurrentPage' + pagination.currentPage + '" onclick="mateAlarmOneDelete(this)" href="#" style="width:8%;" data-id="' + list[i].id + '">x</a> </span> <hr style="margin:0px;"> </li>')
+                                            list[i].content + '</span><a style="width:8%;" data-id="' + list[i].id + ',' + pagination.currentPage + '" onclick="mateChatCreate(this)" data-value="' + $('#mateAlarmUserNickname').val() + ',' + list[i].senderNickname + ',' + list[i].mateBoardTitle + ',' + list[i].mateBoardId + ',' + $('#mateAlarmUserId').val() + ',' + list[i].senderId + ',' + list[i].id + '"><i class="uil uil-comments"></i></a>' + '<a id="mateAlarmCurrentPage' + pagination.currentPage + '" onclick="mateAlarmOneDelete(this)" href="#" style="width:8%;" data-id="' + list[i].id + '">x</a> </span> <hr style="margin:0px;"> </li>')
                                     }
                                 }
                                 $('#notificationList').append(pages);

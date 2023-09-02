@@ -123,3 +123,7 @@
 .mateRealTimeAlarmModal-content {
     width: 100%;
 }
+
+li:disabled {
+    background-color: red;
+}

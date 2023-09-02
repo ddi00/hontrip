@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
@@ -69,14 +68,14 @@ public class ChatController {
         List<ChatSessionInfoDTO> chatRoomDTOList = chatService.getChatListById(id);
         return chatRoomDTOList;
     }
-*/
-
 
     @GetMapping("/chat-view")
     public ModelAndView chatPage(ModelAndView modelAndView) {
         modelAndView.setViewName("/mate/chat-view");
         return modelAndView;
     }
+*/
+
 
     @GetMapping("/join-chat/{roomId}")
     public JoinChatInfo joinChat(@PathVariable("roomId") Long roomId,

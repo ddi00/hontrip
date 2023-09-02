@@ -286,7 +286,7 @@
 
 .uploadYourImage {
     margin: 0.5%;
-    height: 300px;
+    height: 400px;
     background-color: rgba(163, 163, 163, 0.2);
     color: rgba(163, 163, 163, 0.7);
     text-align: center;
@@ -294,6 +294,11 @@
     font-size: 17px;
     font-weight: bold;
     border-radius: 5px;
+    object-fit: cover;
+}
+
+#upldimg {
+    object-fit: cover;
 }
 
 .mateBoardEmptyWarning {

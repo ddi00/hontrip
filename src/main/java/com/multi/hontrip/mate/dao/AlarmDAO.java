@@ -29,4 +29,8 @@ public class AlarmDAO {
     public int countMateAllAlarms(long userId) {
         return my.selectOne("mateBbs.countMateAllAlarms", userId);
     }
+
+    public void readCheck(long alarmId) {
+        my.update("mateBbs.readCheck", alarmId);
+    }
 }

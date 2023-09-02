@@ -277,6 +277,12 @@
         WHERE mma.mate_board_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{userId})
           and mma.is_read = 0;
     </select>
+
+    <update id="readCheck" parameterType="long">
+        UPDATE mate_matching_alarm
+        SET is_read = 1
+        WHERE id = #{alarmId};
+    </update>
 </mapper>
 
 
