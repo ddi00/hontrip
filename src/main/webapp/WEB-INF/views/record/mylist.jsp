@@ -300,7 +300,7 @@
             }
         });
 
-        // 무한 스크롤 항공편 리스트 반환 메소드
+        // 무한 스크롤 리스트 반환 메소드
         const getPostList = function (currentPage) {
             let pageNum = currentPage;
             $.ajax({
