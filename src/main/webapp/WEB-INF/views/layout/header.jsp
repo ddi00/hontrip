@@ -25,12 +25,14 @@
     <div class="mateChatModal-content">
         <%--채팅방 목록--%>
         <div class="mateChatList-wrap">
-            <span class="chatModalAlarmLetter">채팅 목록</span>
-            <br>
+            <div class="chatModalAlarmLetter">채팅 목록</div>
+            <div class="mate-chat-list-container">
             <div class="mateChatListDiv">
                 <ul id="mateChatListUl" class="mateChatListUl">
+
                 </ul>
             </div>
+        </div>
         </div>
 
         <%--채팅창--%>
@@ -70,8 +72,9 @@
 
 <%--채팅 아이콘--%>
 <c:if test="${not empty sessionScope.id}">
+
     <div class="chatIcon">
-        <span hidden class="unreadChatCount"></span>
+        <span id="unreadChatCount" class="unreadChatCount"></span>
         <a onclick="clickChatIcon()">
             <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" fill="currentColor" class="bi bi-chat-dots"
                  viewBox="0 0 16 16" id="IconChangeColor">
@@ -85,6 +88,7 @@
 </c:if>
 
 
+<%--채팅창에서 엔터누르면 채팅 전송--%>
 <script>
     const inputElement = document.querySelector('#mateChatInputMessage');
     const mateChatSendButton = document.querySelector('#mateChatSendButton');

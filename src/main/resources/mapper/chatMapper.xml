@@ -89,28 +89,32 @@
     </update>
 
     <select id="getChatRoomListById" parameterType="long" resultType="chatroomListDTO">
-        select mc.id            as roomId,
-               mc.chatroom_name as chatRoomName,
-               mcm.message      as lastMessage,
-               (
-                   case
-                       /*내가 방장이라면 -> 상대방=게스트의 프로필 이미지*/
-                       when mc.guest_id != #{id} then user.profile_image
-                       /*내가 게스트라면 -> 상대방=방장의 프로필 이미지*/
-                       ELSE (select user.profile_image
-                             from user
-                             where user.id = (select muc.user_id
-                                              from mate_user_chatroom muc
-                                                       join mate_chatroom mc on mc.id = muc.id
-                                              where muc.is_owner = 1))
-                       end
-                   )            as opponentProfileImg
-        from mate_chatroom mc
-                 join mate_chat_message mcm on mc.last_chat_id = mcm.id and mcm.message_type != 'JOIN'
-                 join user
-        on user.id = mc.guest_id
-        where mc.guest_id = #{id}
-           or mc.post_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{id})
+        SELECT
+        mc.id AS roomId,
+        mc.chatroom_name AS chatRoomName,
+        mcm.message AS lastMessage,
+        mcm.created_at AS lastMessageCreatedAt,
+        CASE
+        WHEN mc.guest_id != #{id} THEN user.profile_image
+        ELSE (SELECT u.profile_image
+        FROM user u
+        JOIN mate_user_chatroom muc ON u.id = muc.user_id
+        WHERE muc.is_owner = 1 AND muc.chatroom_id = mc.id)
+        END AS opponentProfileImg,
+        (SELECT u.nickname
+        FROM user u
+        WHERE u.id = mcm.sender_id) AS senderNickname
+        FROM
+        mate_chatroom mc
+        JOIN
+        mate_chat_message mcm ON mc.last_chat_id = mcm.id AND mcm.message_type != 'JOIN'
+        JOIN
+        user ON user.id = mc.guest_id
+        WHERE
+        mc.guest_id = #{id}
+        OR mc.post_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{id})
+        ORDER BY
+        mc.id DESC;
     </select>
 </mapper>
 

@@ -8,6 +8,7 @@ if (window.location.href.includes('/mate/bbs_list')) {
         const orderBy_KEY = 'savedOrderBy';
 
 
+
         let savedSearchType = sessionStorage.getItem(SEARCH_TYPE_KEY);
         let savedKeyword = sessionStorage.getItem(KEYWORD_KEY);
         let savedRegion = sessionStorage.getItem(SELECTED_REGION_KEY);
@@ -213,6 +214,11 @@ if (window.location.href.includes('/mate/bbs_list')) {
                     let one = data.list[i];
                     let thumbnail = one.thumbnail;
                     let imagePath = `/resources/img/mateImg/${thumbnail}`;
+                    let ageRangeValues = data.ageRangeValues;
+                    ageRangeId = one.ageRangeId
+                    let ageRangeStr = findAgeRangeStr(ageRangeValues, ageRangeId);
+
+
                     str += ` <div class="col-md-6 col-lg-4">
                                                        <article class="item post">
                                                          <div class="card mate-post-item">
@@ -234,18 +240,21 @@ if (window.location.href.includes('/mate/bbs_list')) {
                                                          </div>
                                                          <h2 class="post-title h3 mt-1 mb-3">
                                                            <a class="link-dark" href="../mate/${one.mateBoardId}">${one.title}</a>
+                                                           <span class="badge bg-pale-orange text-orange rounded-pill">#${ageRangeStr}</span>
                                                          </h2>
+
+                                                         <div class="mate-list-card-footer">
+                                                          <ul class="post-meta d-flex mb-0">
+                                                            <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.startDate} </span></li>
+                                                            <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.endDate}</span></li>
+                                                            <li class="post-likes ms-auto"><i class="uil uil-user-check"></i>조회수 ${one.viewCount}</li>
+                                                          </ul>
+                                                          <!-- /.post-meta -->
+                                                        </div>
                                                        </div>
                                                      </div>
                                                    </div>
-                                                   <div class="card-footer">
-                                                                         <ul class="post-meta d-flex mb-0">
-                                                                           <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.startDate} </span></li>
-                                                                           <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.endDate}</span></li>
-                                                                           <li class="post-likes ms-auto"><i class="uil uil-user-check"></i>조회수 ${one.viewCount}</li>
-                                                                         </ul>
-                                                                         <!-- /.post-meta -->
-                                                                       </div>
+
                                                  </article>
                                                </div>`;
                 }
@@ -261,6 +270,16 @@ if (window.location.href.includes('/mate/bbs_list')) {
                 console.log("실패")
             }
         });
+    }
+
+    function findAgeRangeStr(ageRangeValues, ageRangeId) {
+        for (let j = 0; j < ageRangeValues.length; j++) {
+            let age = ageRangeValues[j];
+            if (age.ageRangeNum == parseInt(ageRangeId)) {
+                return age.ageRangeStr;
+            }
+        }
+        return ''; // 매치되는 값이 없을 경우 빈 문자열 반환
     }
 
     //페이지 버튼 생성하는 메서드

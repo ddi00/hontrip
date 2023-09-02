@@ -16,7 +16,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -55,10 +54,13 @@ public class MateController {
         MatePageDTO pagedDTO = mateService.paging(matePageDTO);
         //게시물 리스트 가져오기
         List<MateBoardListDTO> list = mateService.list(pagedDTO);
+        // AgeRange enum 값을 가져와서 List로 변환
+        List<Map<String, Object>> ageRangeList = mateService.getAgeRangeList();
 
         Map<String, Object> map = new HashMap<>();
         map.put("list", list);
         map.put("pageDTO", pagedDTO);
+        map.put("ageRangeValues", ageRangeList);
         return map;
     }
 
@@ -228,9 +230,6 @@ public class MateController {
         UserGenderAgeDTO userGenderAgeDTO = mateService.findUserGenderAgeById(id);
         JsonObject user = new JsonObject();
         user.addProperty("id", userGenderAgeDTO.getId());
-        System.out.println("id:" + id);
-        System.out.println(userGenderAgeDTO.getGender());
-        System.out.println(userGenderAgeDTO.getGender().getGenderStr());
         user.addProperty("gender", userGenderAgeDTO.getGender().getGenderStr());
         user.addProperty("ageRange", userGenderAgeDTO.getAgeRange().getAgeRangeStr());
         return new Gson().toJson(user);
@@ -256,14 +255,11 @@ public class MateController {
     public String updateMateBoard(
             @RequestParam(value = "file", required = false) MultipartFile file,
             MateBoardInsertDTO mateBoardInsertDTO) throws IOException {
-        if (file != null && !file.isEmpty()) {
-            String savedFileName = file.getOriginalFilename();
-            mateBoardInsertDTO.setThumbnail(savedFileName);
-            String uploadPath = "D:\\hontrip\\src\\main\\webapp\\resources\\img\\mateImg";
-            File target = new File(uploadPath + "/" + savedFileName);
-            file.transferTo(target);
+        if (file != null) {
+            mateService.updateMateBoard(file, mateBoardInsertDTO);
+        } else {
+            mateService.updateMateBoard(mateBoardInsertDTO);
         }
-        mateService.updateMateBoard(mateBoardInsertDTO);
         return "redirect:/mate/" + mateBoardInsertDTO.getId();
     }
 

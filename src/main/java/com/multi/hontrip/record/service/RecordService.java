@@ -114,6 +114,11 @@ public class RecordService {
         return recordDAO.selectImg(recordId);
     }
 
+    // 좋아요순 게시물 탑 10
+    public List<PostInfoDTO> likeTopTen() {
+        return recordDAO.likeTopTen();
+    }
+
     // 내 게시물
     public List<PostInfoDTO> getMyList(Long userId) {
         return recordDAO.getMyList(userId);

@@ -10,8 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MateServiceImpl implements MateService {
@@ -130,7 +129,6 @@ public class MateServiceImpl implements MateService {
     @Override
     public List<MateCommentDTO> reCommentList(List<MateCommentDTO> commentList) {
         List<MateCommentDTO> reCommentList = new ArrayList<>();
-
         for (MateCommentDTO mateCommentDTO : commentList) {
             if ("1".equals(mateCommentDTO.getCommentSequence())) {
                 reCommentList.add(mateCommentDTO);
@@ -141,6 +139,35 @@ public class MateServiceImpl implements MateService {
 
     public int commentCount(long mateBoardId){
         return mateCommentDAO.commentCount(mateBoardId);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAgeRangeList() {
+        List<AgeRange> ageRangeValues = Arrays.asList(AgeRange.values());
+        List<Map<String, Object>> ageRangeList = new ArrayList<>();
+
+        for (AgeRange ageRange : ageRangeValues) {
+            Map<String, Object> ageRangeMap = new HashMap<>();
+            ageRangeMap.put("ageRangeNum", ageRange.getAgeRangeNum());
+            ageRangeMap.put("ageRangeStr", ageRange.getAgeRangeStr());
+            ageRangeList.add(ageRangeMap);
+        }
+
+        return ageRangeList;
+    }
+
+    @Override
+    public int updateMateBoard(MultipartFile file, MateBoardInsertDTO mateBoardInsertDTO) {
+        String updatedFileName = file.getOriginalFilename();
+        mateBoardInsertDTO.setThumbnail(updatedFileName);
+        String uploadPath = servletContext.getRealPath("/") + relativePath + updatedFileName;
+        File target = new File(uploadPath);
+        try {
+            file.transferTo(target);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return mateDAO.updateMateBoard(mateBoardInsertDTO);
     }
 
     @Override
