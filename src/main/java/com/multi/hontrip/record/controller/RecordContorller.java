@@ -116,9 +116,9 @@ public class RecordContorller {
     }
 
     @PostMapping("updatepost") // 게시물 수정 적용
-    public String updatePostInfo(@RequestParam("file") MultipartFile file,
+    public String updatePostInfo(//@RequestParam("file") MultipartFile file,
                                  CreatePostDTO createPostDTO) {
-        long postId = recordService.updatePostInfo(file, createPostDTO);
+        long postId = recordService.updatePostInfo(createPostDTO);
         return "redirect:/record/postinfo?id=" + postId; // 수정후 수정된 게시물 이동
     }
 

@@ -19,7 +19,7 @@
     <div class="container pt-12 pt-md-6 pb-0 pb-md-16">
         <div class="row gx-md-8 gx-12 gy-12">
             <div class="card col-lg-8 mx-auto">
-                <form method="post" enctype="multipart/form-data">
+                <form method="post">
                     <div class="row g-3">
                         <div>썸네일을 선택하세요</div>
                         <div class="col-12">
