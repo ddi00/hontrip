@@ -44,6 +44,11 @@ public class RecordDAO {
         sqlSessionTemplate.delete("record.deletePost", id);
     }
 
+    // 좋아요순 게시물 10개
+    public List<PostInfoDTO> likeTopTen() {
+        return sqlSessionTemplate.selectList("likeTop10");
+    }
+
     // 디폴트 마이 리스트
     public List<PostInfoDTO> getMyList(Long userId){ //내 게시물 전체 리스트 가져오기
         return sqlSessionTemplate.selectList("record.mylist", userId);
