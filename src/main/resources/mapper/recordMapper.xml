@@ -102,7 +102,6 @@
 		SET title = #{title},
 			content = #{content},
 			is_visible = #{isVisible},
-			thumbnail = #{thumbnail},
 			start_date = #{startDate},
 			end_date = #{endDate}
 		WHERE id = #{id};
