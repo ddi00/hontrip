@@ -233,11 +233,12 @@
 
             console.log(liNum)
             //해당 알람 li disabled하기
-            $('#mateAlarm' + liNum).attr("disabled", true);
+            /* $('#mateAlarm' + liNum).css('pointer-events', 'none');
+             $('#mateAlarm' + liNum).css("opacity", 0.6);*/
 
 
             if (postTitle.length > 10) {
-                chatRoomName = postTitle.substring(0, 11) + "...";
+                chatRoomName = postTitle.substring(0, 11) + "···";
             } else {
                 chatRoomName = postTitle;
             }
@@ -287,14 +288,10 @@
                     let dataId = $(ths).data('id').split(",");
                     let mateLiId = dataId[0];
                     let currentPg = dataId[1];
-                    console.log(dataId);
-                    console.log("liId: " + dataId[0]);
                     let str = '#mateAlarm' + dataId[0];
-                    console.log(str);
 
 
-                    //해당 알람 삭제 후 알람페이지 리로드
-                    $("#mateAlarm" + parseInt(dataId[0])).remove();
+                    //해당 알람 is_read 1로 변경
                     $.ajax({
                         url: "${pageContext.request.contextPath}/mate/read-alarm",
                         data: {
@@ -307,7 +304,6 @@
                         }
                     })
 
-                    console.log(currentPg)
                     alarmPageClick(currentPg, 5, 5)
 
                     //채팅모달 펼치기

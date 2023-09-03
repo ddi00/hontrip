@@ -81,7 +81,7 @@ public class AlarmController {
 
 
     //알람리스트에서 채팅아이콘을 클릭하면 is_read가 0-> 1로 변경됨
-    @GetMapping("/read-alarm")
+    @GetMapping("/mate/read-alarm")
     public void readCheck(long alarmId) {
         alarmService.readCheck(alarmId);
     }

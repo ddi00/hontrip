@@ -23,7 +23,7 @@ public class AlarmDAO {
     }
 
     public int deleteByAlarmId(long alarmId) {
-        return my.delete("mateBbs.deleteByAlarmId", alarmId);
+        return my.update("mateBbs.deleteByAlarmId", alarmId);
     }
 
     public int countMateAllAlarms(long userId) {

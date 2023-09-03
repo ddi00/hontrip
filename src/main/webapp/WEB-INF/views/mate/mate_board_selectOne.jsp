@@ -289,7 +289,7 @@
                                     <img
                                             src="<c:url value='../resources/img/mateImg/${dto.thumbnail}'/>"
                                             alt="여행지 사진" style="width: 100%; height:600px; border-top-left-radius: 12px;
-                                            border-top-right-radius: 12px;"/>
+                                            border-top-right-radius: 12px; object-fit: cover;"/>
                                     <div class="card-body" style="padding-top: 0;">
                                         <div class="classic-view">
 
