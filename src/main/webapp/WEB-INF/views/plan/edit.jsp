@@ -269,7 +269,7 @@
                 <div class="row mt-3" id="selected-accommodations-1">
 
                     <c:forEach items="${addedAccommodations}" var="accommodation">
-                        <div class="card my-2">
+                        <div class="card my-2" style="text-align: left; font-size: 0.8em;">
                             <div class='row ms-3 my-4'>
                                     <%--<span class='col-3'><img src="${spot.image}" width="88px" height="72px"></span> --%>
                                 <div class="row">
