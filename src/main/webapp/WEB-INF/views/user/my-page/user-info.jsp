@@ -23,7 +23,7 @@
                                 <i class="uil uil-file-check-alt"></i> 동의정보갱신
                             </a>
                         </c:if>
-                        <a href="/hontrip/user//refresh-userInfo"
+                        <a href="/hontrip/user/refresh-userInfo"
                            class="btn btn-sm btn-soft-ash rounded-pill btn-icon btn-icon-start mb-0"
                            id="refreshUserInfoButton">
                             <i class="uil uil-sync"></i> 회원정보갱신
