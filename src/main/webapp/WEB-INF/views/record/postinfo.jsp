@@ -25,8 +25,12 @@
 
     #likeBtn {
         position: absolute;
-        bottom: 41px; /* 원하는 상단 여백 값으로 조정하세요 */
+        bottom: 95px; /* 원하는 상단 여백 값으로 조정하세요 */
         right: 0px; /* 원하는 오른쪽 여백 값으로 조정하세요 */
+    }
+
+    .modal-dialog {
+        max-width: 80%; /* 원하는 너비로 설정하세요. 예를 들어, 80%로 설정하면 화면의 80% 너비를 차지합니다. */
     }
 
 </style>
@@ -81,7 +85,7 @@
             let rCount = commentListRe.reCommentList.length;
 
             if (cCount > 0) {
-                comments += "<h3 class='mb-12 text-orange'>" + cCount + " Comments</h3>";
+                comments += "<h3 class='mb-12 text-orange'>" + cCount + " 댓글</h3>";
                 for (let i = 0; i < cCount; i++) {
                     let commentList = commentListRe.commentList[i];
                     if (commentList.cmtSequence == 0) {
@@ -121,7 +125,7 @@
                                     <a href="javascript:void(0);"
                                     onclick="showCcmtTextarea(\${commentList.cmtId})"
                                     class="btn btn-soft-orange btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                        class="uil uil-comments"></i> Reply</a>`;
+                                        class="uil uil-comments"></i> 답글</a>`;
                         }
                         comments += "</div></div>";
                         comments += `<p>\${commentList.cmtContent}</p>`;
@@ -130,9 +134,9 @@
                                 <textarea id="updateContent\${commentList.cmtId}" style="height: 100px"
                                     placeholder="수정글을 입력해주세요" class="form-control">\${commentList.cmtContent}</textarea>
                                 <label>Update Comment *</label>
-                                <button class="updateComment btn btn-orange btn-sm rounded-pill"
-                                    data-comment-id="\${commentList.cmtId}">수정 하기</button>
-                                <a href="javascript:void(0);" class="btn btn-soft-orange btn-sm rounded-pill"
+                                <button class="updateComment btn btn-outline-primary btn-sm rounded-pill"
+                                    data-comment-id="\${commentList.cmtId}">완료</button>
+                                <a href="javascript:void(0);" class="btn btn-soft-primary btn-sm rounded-pill"
                                     onclick="closeTextarea(\${commentList.cmtId})">취소</a>
                             </div>
 
@@ -140,9 +144,9 @@
                                 <textarea id="cContent\${commentList.cmtId}" style="height: 100px"
                                     placeholder="답글을 입력해주세요" class="form-control"></textarea>
                                 <label>ReComment *</label>
-                                <button class="cCommentWrite btn btn-orange btn-sm rounded-pill"
-                                    data-comment-id="\${commentList.cmtId}">답글 전송</button>
-                                <a href="javascript:void(0);" class="btn btn-soft-orange btn-sm rounded-pill"
+                                <button class="cCommentWrite btn btn-outline-primary btn-sm rounded-pill"
+                                    data-comment-id="\${commentList.cmtId}">전송</button>
+                                <a href="javascript:void(0);" class="btn btn-soft-primary btn-sm rounded-pill"
                                     onclick="closeCTextarea(\${commentList.cmtId})">취소</a>
                             </div>`;
                         for (let i = 0; i < rCount; i++) {
@@ -188,10 +192,10 @@
                                             <textarea id="updateContent\${replyList.cmtId}" style="height: 100px"
                                                 placeholder="수정글을 입력해주세요" class="form-control">\${replyList.cmtContent}</textarea>
                                             <label>Update Comment *</label>
-                                            <button class="updateComment btn btn-orange btn-sm rounded-pill"
-                                                data-comment-id="\${replyList.cmtId}">수정
-                                                하기</button>
-                                            <a href="javascript:void(0);" class="btn btn-soft-orange btn-sm rounded-pill"
+                                            <button class="updateComment btn btn-outline-primary btn-sm rounded-pill"
+                                                data-comment-id="\${replyList.cmtId}">완료
+                                                </button>
+                                            <a href="javascript:void(0);" class="btn btn-soft-primary btn-sm rounded-pill"
                                                 onclick="closeTextarea(\${replyList.cmtId})">취소</a>
                                         </div></ul>`;
                             }
@@ -346,19 +350,19 @@
     }); // $
 </script>
 
-    <section class="wrapper bg-light">
-      <div class="container pt-11 pt-md-13 pb-10 pb-md-0 pb-lg-4 text-center">
+<section class="wrapper bg-light">
+    <div class="container pt-11 pt-md-13 pb-10 pb-md-0 pb-lg-5 text-center">
         <div class="row">
-          <div class="col-lg-8 col-xl-7 col-xxl-6 mx-auto" data-cues="slideInDown" data-group="page-title">
-            <h1 class="display-1 fs-60 mb-4 px-md-15 px-lg-0">Record<span class="underline-3 style-3 primary"> Post</span></h1>
-          </div>
-          <!-- /column -->
+            <div class="col-lg-8 col-xl-7 col-xxl-6 mx-auto" data-cues="slideInDown" data-group="page-title">
+                <h1 class="display-1"><span class="underline-3 style-3 primary">기록</span> 게시물</h1>
+            </div>
+            <!-- /column -->
         </div>
         <!-- /.row -->
-      </div>
-      <!-- /.container -->
-    </section>
-    <!-- /section -->
+    </div>
+    <!-- /.container -->
+</section>
+<!-- /section -->
     <br>
     <br>
     <section class="wrapper bg-light">
@@ -458,7 +462,7 @@
                     <!-- /.blog -->
                     <br>
                     <div id="result">
-                        <h3 class="mb-12 text-primary">${postInfoDTO.cmtCount} Comments</h3>
+                        <h3 class="mb-12 text-primary">${postInfoDTO.cmtCount} 댓글</h3>
                         <c:choose>
                             <c:when test="${commentList.isEmpty()}">
                                 <h6>등록된 댓글이 없습니다.</h6>
@@ -504,7 +508,7 @@
                                                                 <a href="javascript:void(0);"
                                                                     onclick="showCcmtTextarea(${commentDTO.cmtId})"
                                                                     class="btn btn-soft-primary btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                                                        class="uil uil-comments"></i> Reply</a>
+                                                                        class="uil uil-comments"></i> 답글</a>
                                                             </c:if>
                                                         </div>
                                                         <!-- /div -->
@@ -517,8 +521,8 @@
                                                             style="height: 100px" placeholder="수정글을 입력해주세요"
                                                             class="form-control">${commentDTO.cmtContent}</textarea>
                                                         <label>Update Comment *</label>
-                                                        <button class="updateComment btn btn-primary btn-sm rounded-pill"
-                                                            data-comment-id="${commentDTO.cmtId}">수정 하기</button>
+                                                        <button class="updateComment btn btn-outline-primary btn-sm rounded-pill"
+                                                            data-comment-id="${commentDTO.cmtId}">완료</button>
                                                         <a href="javascript:void(0);"
                                                             class="btn btn-soft-primary btn-sm rounded-pill"
                                                             onclick="closeTextarea(${commentDTO.cmtId})">취소</a>
@@ -529,8 +533,8 @@
                                                         <textarea id="cContent${commentDTO.cmtId}" style="height: 100px"
                                                             placeholder="답글을 입력해주세요" class="form-control"></textarea>
                                                         <label>ReComment *</label>
-                                                        <button class="cCommentWrite btn btn-primary btn-sm rounded-pill"
-                                                            data-comment-id="${commentDTO.cmtId}">답글 전송</button>
+                                                        <button class="cCommentWrite btn btn-outline-primary btn-sm rounded-pill"
+                                                            data-comment-id="${commentDTO.cmtId}">전송</button>
                                                         <a href="javascript:void(0);"
                                                             class="btn btn-soft-primary btn-sm rounded-pill"
                                                             onclick="closeCTextarea(${commentDTO.cmtId})">취소</a>
@@ -587,9 +591,9 @@
                                                                         class="form-control">${reComment.cmtContent}</textarea>
                                                                     <label>Update Comment *</label>
                                                                     <button
-                                                                        class="updateComment btn btn-primary btn-sm rounded-pill"
-                                                                        data-comment-id="${reComment.cmtId}">수정
-                                                                        하기</button>
+                                                                        class="updateComment btn btn-outline-primary btn-sm rounded-pill"
+                                                                        data-comment-id="${reComment.cmtId}">완료
+                                                                        </button>
                                                                     <a href="javascript:void(0);"
                                                                         class="updateComment btn btn-soft-primary btn-sm rounded-pill"
                                                                         onclick="closeTextarea(${reComment.cmtId})">취소</a>
@@ -608,13 +612,13 @@
                     <!-- /#result -->
                     <c:if test="${not empty sessionScope.id}">
                         <hr>
-                        <h3 class="mb-8 main-color">Write a comment</h3>
+                        <h3 class="mb-8 main-color">댓글을 작성해주세요</h3>
                         <div class="form-floating mb-5">
                             <textarea input id="cmtContent" name="textarea" class="form-control" placeholder="Comment"
                                 style="height: 100px"></textarea>
                             <label>Comment *</label>
                         </div>
-                        <button id="commentWrite" class="btn btn-primary rounded-pill mb-0">Submit</button>
+                        <button id="commentWrite" class="btn btn-outline-primary rounded-pill mb-0">작성 하기</button>
                     </c:if>
                 </div>
                 <!-- /column -->
@@ -624,6 +628,7 @@
         <!-- /.container -->
     </section>
     <!-- /section -->
+    <button class="btn btn-primary rounded-pill">목록으로 돌아가기</button>
 
     <div class="modal fade" id="modal-02" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-md">

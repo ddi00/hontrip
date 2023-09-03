@@ -333,3 +333,14 @@
 .content-after-chatModalAlarmLetter {
   background-color: transparent; /* 배경을 투명하게 설정 */
 }
+
+.acceptMateButton {
+    color: rgba(255, 90, 70, 0.88);
+    font-size: 11.5px;
+    font-weight: bold;
+    width: 20%;
+    border: none;
+    border-radius: 7px;
+    background-color: #fff;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+}
