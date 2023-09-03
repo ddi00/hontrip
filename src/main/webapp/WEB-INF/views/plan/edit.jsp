@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <%
     long userId = 0;
     if (session.getAttribute("id") != null) {
@@ -46,7 +46,7 @@
             </div>
             <hr class="my-8"/>
             <div>
-                <button type="submit" class="btn btn-orange col-2 float-end" form="planForm">수정</button>
+                <button type="submit" class="btn btn-primary col-2 float-end" form="planForm">수정</button>
             </div>
         </form>
 
