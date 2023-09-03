@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 
+import javax.servlet.http.HttpSession;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.text.ParseException;
@@ -36,7 +37,8 @@ public class FlightController {
 
     // 항공편 검색 목록
     @PostMapping("/search-flight")
-    public String SearchFlight(@ModelAttribute("FlightSearchDTO") FlightSearchDTO flightSearchDTO, Model model)
+    @RequiredSessionCheck
+    public String SearchFlight(@ModelAttribute("FlightSearchDTO") FlightSearchDTO flightSearchDTO, HttpSession session, Model model)
             throws ParserConfigurationException, SAXException, IOException, ParseException {
         final int PAGE_ROW_COUNT = 10; // 한 페이지에 표시할 항공편 개수
         int pageNum = 1; // 페이지 번호

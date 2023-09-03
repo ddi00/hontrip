@@ -78,11 +78,11 @@ public class FlightParser {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 conn.setRequestProperty("Content-type", "application/json");
-                System.out.println("Response code: " + conn.getResponseCode());
+                //System.out.println("Response code: " + conn.getResponseCode());
                 conn.disconnect();
 
                 parsingUrl = url.toString();
-                System.out.println(parsingUrl);
+                //System.out.println(parsingUrl);
 
                 // 페이지에 접근할 Document 객체 생성, 파싱할 url 요소 읽기
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -93,7 +93,7 @@ public class FlightParser {
                 doc.getDocumentElement().normalize(); // xml 루트 요소 정규화
 
                 NodeList nodeList = doc.getElementsByTagName("item");   // 태그명 item
-                System.out.println("the number of parsing items : " + nodeList.getLength());
+                //System.out.println("the number of parsing items : " + nodeList.getLength());
 
                 // 파싱 대상 수만큼 for문 반복
                 for (int i = 0; i < nodeList.getLength(); i++) {
