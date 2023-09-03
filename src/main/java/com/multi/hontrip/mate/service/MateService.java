@@ -50,4 +50,8 @@ public interface MateService {
     void incrementPostViews(long id);
 
     List<Map<String, Object>> getAgeRangeList();
+
+    List<Map<String, Object>> getRegionList();
+
+    List<Map<String, Object>> getgenderList();
 }

@@ -381,7 +381,7 @@
                                                         </div>
                                                             <div class="mate-application-Btn">
                                                   <a href="#" data-bs-toggle="modal" data-bs-target="#modal-02">
-                                                  <button class="btn btn-outline-gradient gradient-3 rounded-pill me-1 mb-2 mb-md-0">
+                                                  <button class="btn btn-outline-primary rounded-pill me-1 mb-2 mb-md-0">
                                                               동행인 신청 현황
                                                   </button>
                                                   </a>
@@ -417,8 +417,6 @@
 
                                                 <!-- /.post-content -->
                                             </article>
-
-
                                             <br>
 
                                             <ul class="post-meta mb-0">
@@ -430,7 +428,6 @@
                                                         class="uil uil-eye"></i>조회수 ${dto.views}
                                                 </li>
                                                 <c:if test="${dto.userId eq mateSenderId}">
-
                                                     <button
                                                             id="edit" type="submit"
                                                             class="mateBoardUpdateDeleteButton"> 수정
@@ -475,21 +472,8 @@
                                     <!-- /#comments -->
                                 </form>
                                 <div id=clc>
-                                    <h3 class="mb-6">${commentListCount} Comments</h3>
+                                    <h3 class="comment-count mb-6">댓글 수:${commentListCount}</h3>
                                 </div>
-                                <div id="comments">
-                                    <div class="mate-comment-container">
-                                            <textarea id="cmtContent" class="mate-comment-content form-control" placeholder="Textarea" required></textarea>
-                                            <label for="cmtContent">
-                                    </div>
-
-                                    <!-- /.form-floating -->
-                                    <div class="d-flex justify-content-end">
-                                        <button type="button" class="mate-comment-submit btn btn-outline-orange rounded-pill" id="commentWrite">작성
-                                        </button>
-                                    </div>
-                                    <div id="count"></div>
-                                    <br>
                                     <div id="result">
                                         <c:choose>
                                             <c:when test="${list.isEmpty()}">
@@ -523,19 +507,19 @@
                                                                         <div class="mt-3 mt-md-0 ms-auto">
                                                                             <a href="javascript:void(0);"
                                                                                onclick="showCcmtTextarea(${commentList.commentId})"
-                                                                               class="btn btn btn-outline-orange rounded-pill"><i
+                                                                               class="btn btn btn-outline-primary rounded-pill"><i
                                                                                     class="uil uil-comments"></i>
-                                                                                답글달기</a>
+                                                                                답글 달기</a>
                                                                         </div>
                                                                         <!-- /div -->
                                                                     </div>
                                                                     <!-- /.comment-header -->
-                                                                    <p>${commentList.content}</p>
+                                                                    <p><h3>${commentList.content}</h3></p>
                                                                     <c:if test="${commentList.nickname eq nickName}">
-                                                                    <a href="javascript:void(0);"
+                                                                    <a class="btn btn-primary rounded-pill" href="javascript:void(0);"
                                                                        onclick="showUpdateTextarea(${commentList.commentId})">수정</a>
                                                                     <div class="d-flex justify-content-end">
-                                                                        <button class="commentDelete btn btn-outline-orange rounded-pill"
+                                                                        <button class="commentDelete btn btn-primary rounded-pill"
                                                                                 data-comment-id="${commentList.commentId}">
                                                                             삭제
                                                                         </button>
@@ -544,12 +528,12 @@
                                                                     <div id="commentUpdate${commentList.commentId}"
                                                                          style="display: none">
                                                    <textarea id="updateContent${commentList.commentId}"
-                                                             class="mate-comment-content">${commentList.content}</textarea>
+                                                             class="mate-comment-content form-control">${commentList.content}</textarea>
                                                                         <br>
-                                                                        <button class="updateComment btn btn-outline-orange rounded-pill" data-comment-id="${commentList.commentId}">
+                                                                        <button class="updateComment btn btn-primary rounded-pill" data-comment-id="${commentList.commentId}">
                                                                             수정
                                                                         </button>
-                                                                        <a href="javascript:void(0);"
+                                                                        <a class="btn btn-soft-primary rounded-pill" href="javascript:void(0);"
                                                                            onclick="closeTextarea(${commentList.commentId})">취소</a>
                                                                     </div>
 
@@ -562,11 +546,11 @@
                                                                                     ></textarea>
                                                                         <br>
                                                                         <button type="button"
-                                                                                class="cCommentWrite btn btn-soft-ash rounded-pill"
+                                                                                class="cCommentWrite btn btn-outline-primary rounded-pill"
                                                                                 data-comment-id="${commentList.commentId}">
                                                                             답글 전송
                                                                         </button>
-                                                                        <a href="javascript:void(0);"
+                                                                        <a class="btn btn-soft-primary rounded-pill" href="javascript:void(0);"
                                                                            onclick="closeCTextarea(${commentList.commentId})">취소</a>
                                                                         <br>
                                                                     </div>
@@ -599,13 +583,13 @@
                                                                             <!-- /div -->
                                                                         </div>
                                                                         <!-- /.comment-header -->
-                                                                        <p>${reComment.content}</p>
+                                                                        <p><h3>${reComment.content}<h3></p>
                                                                             <c:if test="${reComment.nickname eq nickName}">
-                                                                            <a href="javascript:void(0);"
+                                                                            <a class="btn btn-primary rounded-pill" href="javascript:void(0);"
                                                                                onclick="showUpdateTextarea(${reComment.commentId})">수정</a>
                                                                             <div class="d-flex justify-content-end">
                                                                                 <button type="button"
-                                                                                        class="commentDelete btn btn-outline-orange rounded-pill"
+                                                                                        class="commentDelete btn btn-primary rounded-pill"
                                                                                         data-comment-id="${reComment.commentId}">
                                                                                     삭제
                                                                                 </button>
@@ -614,15 +598,15 @@
                                                                                  style="display: none">
                                                                                 <textarea
                                                                                         id="updateContent${reComment.commentId}"
-                                                                                        class="mate-comment-content"
+                                                                                        class="mate-comment-content form-control"
                                                                                         placeholder="수정글을 입력해주세요">${reComment.content}</textarea>
                                                                                 <br>
                                                                                 <button type="button"
-                                                                                        class="updateComment btn btn-outline-orange rounded-pill"
+                                                                                        class="updateComment btn btn-primary rounded-pill"
                                                                                         data-comment-id="${reComment.commentId}">
                                                                                     수정
                                                                                 </button>
-                                                                                <a href="javascript:void(0);"
+                                                                                <a class="btn btn-soft-primary rounded-pill" href="javascript:void(0);"
                                                                                    onclick="closeTextarea(${reComment.commentId})">취소</a>
                                                                             </div>
                                                                             </c:if>
@@ -638,7 +622,17 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
+                                     <div class="mate-comment-container">
+                                        <textarea id="cmtContent" class="mate-comment-content form-control" placeholder="Textarea" required></textarea>
+                                        <label for="cmtContent">
+                                </div>
 
+                                <!-- /.form-floating -->
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="mate-comment-submit btn btn-outline-primary rounded-pill" id="commentWrite">작성
+                                    </button>
+                                </div>
+                                <br>
                                 </div>
                                 <!-- /.card-body -->
                             </div>

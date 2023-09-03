@@ -35,10 +35,6 @@ public class MateController {
         MatePageDTO pagedDTO = mateService.paging(matePageDTO);
         //게시물 리스트 가져오기
         List<MateBoardListDTO> list = mateService.list(pagedDTO);
-        //지역 리스트 가져오기
-        List<LocationDTO> location = mateService.location();
-
-        model.addAttribute("location", location);
 
         model.addAttribute("list", list);
 
@@ -56,11 +52,18 @@ public class MateController {
         List<MateBoardListDTO> list = mateService.list(pagedDTO);
         // AgeRange enum 값을 가져와서 List로 변환
         List<Map<String, Object>> ageRangeList = mateService.getAgeRangeList();
+        //region enum값을 가져와서 List로 반환
+        List<Map<String, Object>> regionList = mateService.getRegionList();
+        //gender enum값을 가져와서 List로 반환
+        List<Map<String, Object>> genderList = mateService.getgenderList();
+
 
         Map<String, Object> map = new HashMap<>();
         map.put("list", list);
         map.put("pageDTO", pagedDTO);
         map.put("ageRangeValues", ageRangeList);
+        map.put("regionValues", regionList);
+        map.put("genderValues", genderList);
         return map;
     }
 
