@@ -76,7 +76,7 @@ public class PlanController {
         // plan_day 에 저장된 accommodation(숙박지)리스트를 담을 변수 - 1일차만 구하므로 numOfDays 는 필요없음
         List<AccommodationLoadDTO> addedAccommodations
                 = planService.loadExistingAccommodations(plan);
-        System.out.println("addedAccommodations : " + addedAccommodations);
+        /*System.out.println("addedAccommodations : " + addedAccommodations);*/
 
         model.addAttribute("addedSpots", addedSpots);
         model.addAttribute("addedFlights", addedFlights);
@@ -273,7 +273,7 @@ public class PlanController {
                                                    @RequestParam("accommodationId") String accommodationId, Model model) {
         // plan-day에 여행지 정보 추가
 
-        System.out.println("start adding accommodationToDay accommodationId ---- : " + accommodationId);
+        /*System.out.println("start adding accommodationToDay accommodationId ---- : " + accommodationId);*/
 
         //plan-day 에 숙박지 정보 추가
         //planService.addAccommodationToDay(planId, userId, 1, accommodationId);

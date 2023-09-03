@@ -649,9 +649,9 @@
         $('[id^="search-accommodation-form-"]').hide();
 
         $('[id^="add-accommodation-"]').click(function () {
-            console.log("숙박시설 검색 div visible show");
+           /* console.log("숙박시설 검색 div visible show");*/
             let btnId = $(this).attr('id');
-            console.log("숙박시설 검색 btnId : " + btnId);
+            /*console.log("숙박시설 검색 btnId : " + btnId);*/
             //let index = parseInt(btnId.split('-')[3]); // 일차
             let index = parseInt(btnId.split('-')[2]); // 수정
             let searchAccommodationFormDivId = 'search-accommodation-form-' + index;
@@ -666,9 +666,9 @@
 
         $('[id^="search-accommodation-button-"]').click(function () {
             let btnId = $(this).attr('id');
-            console.log("Accommodation searchBtnId : " + btnId);
+          /*  console.log("Accommodation searchBtnId : " + btnId);*/
             let index = parseInt(btnId.split('-')[3]); // 일차
-            console.log("btnIndex : " + index);
+           /* console.log("btnIndex : " + index);*/
 
             /*
             let categoryId = 'category-accommodation-' + index;
@@ -693,13 +693,13 @@
         let searchAccommodationFormDivId = 'search-accommodation-form-' + index;
         let searchAccommodationResultsDivId = 'search-accommodation-results-' + index;
 
-        console.log("before ajax getAccommodationList");
+     /*   console.log("before ajax getAccommodationList");
         console.log("planId : " + planId);
         console.log("userId : " + userId);
         console.log("index : " + index);
         console.log("category : " + category);
         console.log("address : " + address);
-        console.log("placeName : " + placeName);
+        console.log("placeName : " + placeName);*/
 
         let filter_type = "";
         if (address === "" || address === undefined || address === null)
@@ -714,7 +714,7 @@
         else if (address !== "")
             filter_type = "address";
 
-        console.log("filter_type : " + filter_type);
+       /* console.log("filter_type : " + filter_type);*/
 
         $.ajax({
             method: "get",
@@ -731,10 +731,10 @@
             },
             success: function (data) {
 
-                console.log("after getAccommodationList ajax succeeded!");
+               /* console.log("after getAccommodationList ajax succeeded!");
                 console.log("returned getAccommodationList data");
 
-                console.log(data);
+                console.log(data);*/
 
                 let trimmedHtml = $(data).find('.card');
                 $('#' + searchAccommodationResultsDivId).empty(); // 이전 목록 지우기
@@ -755,8 +755,8 @@
                         let index = parseInt(btnId.split('-')[3]);
                         let accommodationId = $(this).data("accommodation-id");
                         let accommodationPlaceName = $(this).data("accommodation-place-name");
-                        console.log("data-accommodation-id : " + accommodationId);
-                        console.log("data-accommodation-place-name : " + accommodationPlaceName);
+                      /*  console.log("data-accommodation-id : " + accommodationId);
+                        console.log("data-accommodation-place-name : " + accommodationPlaceName);*/
                         addAccommodation(index, accommodationId);
                         $('#' + searchAccommodationResultsDivId).empty();
                     });
@@ -774,12 +774,12 @@
         let selectedAccommodationsDivId = 'selected-accommodations-' + index;
         let selectedAccommodationDivHTML = "";
 
-        console.log("before addAccommodation ajax");
+       /* console.log("before addAccommodation ajax");
         console.log("planId : " + planId);
         console.log("userId : " + userId);
         console.log("index : " + index);
         console.log("accommodationId : " + accommodationId);
-
+*/
         $.ajax({
             method: "get",
             url: "detail/update-plan-accommodation",
@@ -935,6 +935,14 @@
             $.get("/hontrip/plan/emergency_facility/list", function (data) {
                 $("#modalContent").html(data);
             });
+        });
+    });
+
+
+    /*수정버튼 alert*/
+    $(document).ready(function () {
+        $("#planForm").on("submit", function () {
+            alert("수정이 완료되었습니다.");
         });
     });
 </script>
