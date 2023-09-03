@@ -11,8 +11,6 @@
     aspect-ratio: 1/1; /* 가로 세로 비율을 1:1로 설정합니다. */
 }
 
-
-
 /* 지도 컨테이너 스타일 */
 #map-container {
   position: relative;

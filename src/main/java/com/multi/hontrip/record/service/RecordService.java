@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,6 +14,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +26,15 @@ public class RecordService {
 
     // 단일 파일 업로드
     public long upLoadPost( MultipartFile file, CreatePostDTO createPostDTO) {
-        String savedName = file.getOriginalFilename(); // file 원본 이름 저장
-        String uploadPath=servletContext.getRealPath("/")+relativePath+savedName;
+        String originalFileName = file.getOriginalFilename();
+
+        // 파일 저장 루트와 UUID를 사용하여 파일 이름 고유성 보장
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        String uuid = UUID.randomUUID().toString();
+        String savedName = uuid + extension;
+
+        String uploadPath = servletContext.getRealPath("/")+relativePath+savedName;
+        System.out.println(uploadPath);
         File target = new File(uploadPath); //해당 주소에 이미지 저장
         try {
             file.transferTo(target);
@@ -83,15 +88,21 @@ public class RecordService {
             if (!file.isEmpty()) {
                 try {
                     // 파일 저장 로직
-                    String filename = file.getOriginalFilename();
+                    String originalFilename = file.getOriginalFilename();
+
+                    // UUID를 사용하여 파일 이름 고유성 보장
+                    String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                    String uuid = UUID.randomUUID().toString();
+                    String savedName = uuid + extension;
+
                     // 저장할 경로 설정
-                    String savePath = uploadPath+relativePath+ filename;
+                    String savePath = uploadPath + relativePath + savedName;
 
                     // 파일을 저장
                     Files.copy(file.getInputStream(), Paths.get(savePath), StandardCopyOption.REPLACE_EXISTING);
 
                     // 파일의 URL을 리스트에 추가
-                    multifilesUrl.add(relativePath+filename);
+                    multifilesUrl.add(relativePath + savedName);
                 } catch (IOException e) { // 파일 처리 중 에러가 발생한 경우 예외 처리
                     e.printStackTrace();
                 }
