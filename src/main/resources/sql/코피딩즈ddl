@@ -345,3 +345,14 @@ CREATE TABLE `plan_day` (
   `day_order` int NOT NULL,
   PRIMARY KEY (`plan_id`,`day_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- hontrip.spot_like definition
+
+CREATE TABLE `spot_like` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL,
+  `spot_content_id` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `spot_like_un` (`user_id`,`spot_content_id`),
+  CONSTRAINT `spot_like_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

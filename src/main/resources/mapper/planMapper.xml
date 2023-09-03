@@ -41,6 +41,7 @@
 			updated_at
 		from plan
 		where user_id = ${userId}
+		order by created_at desc
 	</select>
 	<delete id="delete" parameterType="hashmap">
 		delete from plan
