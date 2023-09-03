@@ -150,6 +150,8 @@
 		rb.created_at,
 		rb.updated_at,
 		rb.is_visible,
+		rb.start_date AS startDate,
+		rb.end_date AS endDate,
 		(SELECT COUNT(*) FROM record_like rl WHERE rl.record_id = rb.id) AS likeCount
 		FROM
 		record_board rb
@@ -171,6 +173,8 @@
 		rb.created_at,
 		rb.updated_at,
 		rb.is_visible,
+		rb.start_date AS startDate,
+		rb.end_date AS endDate,
 		(SELECT COUNT(*) FROM record_like rl WHERE rl.record_id = rb.id) AS likeCount
 		FROM
 		record_board rb

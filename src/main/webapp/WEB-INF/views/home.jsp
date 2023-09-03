@@ -49,6 +49,14 @@
         aspect-ratio: 4/3; /* 가로 세로 비율을 1:1로 설정합니다. */
         border-radius: 10px;
     }
+
+    .txt_line {
+          width:210px;
+          padding:0 5px;
+          overflow:hidden;
+          text-overflow:ellipsis;
+          white-space:nowrap;
+      }
 </style>
 <section class="wrapper bg-main-light">
     <div class="container pt-10 pt-lg-8 pb-5 pb-md-15">
@@ -59,21 +67,21 @@
                 <div class="swiper-wrapper ticker">
                 <c:forEach items="${topList}" var="postInfoDTO">
                     <div class="swiper-slide">
-                    <!-- <a href="/hontrip/record/postinfo?id=${postInfoDTO.boardId}"><img src="<c:url value='/${postInfoDTO.thumbnail}'/>" alt="" /></a> -->
-
                         <div class="project item">
                             <div class="card shadow-lg">
-                                <figure class="card-img-top itooltip itooltip-aqua" title='<h5 class="mb-0">클릭하여 상세게시물 보기</h5>'>
+                                <figure class="card-img-top"
                                     <a href="/hontrip/record/postinfo?id=${postInfoDTO.boardId}">
                                         <img src="<c:url value='/${postInfoDTO.thumbnail}'/>" alt="" />
                                     </a>
                                 </figure>
+                                <a href="/hontrip/record/postinfo?id=${postInfoDTO.boardId}">
                                 <div class="card-body">
                                     <div class="post-header">
                                         <div class="post-category mb-2 text-primary">${postInfoDTO.city}</div>
-                                        <h4 class="mb-0">${postInfoDTO.title}</h4>
+                                        <h5 class="txt_line mb-0">${postInfoDTO.title}</h5>
                                     </div>
                                 </div>
+                                </a>
                             </div>
                         </div>
                     </div>

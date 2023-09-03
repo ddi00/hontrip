@@ -10,18 +10,18 @@
         <script type="text/javascript" src="../resources/js/jquery-3.7.0.js" ></script>
 
         <section class="wrapper bg-light">
-              <div class="container pt-11 pt-md-13 pb-10 pb-md-0 pb-lg-5 text-center">
+            <div class="container pt-11 pt-md-13 pb-10 pb-md-0 pb-lg-5 text-center">
                 <div class="row">
-                  <div class="col-lg-8 col-xl-7 col-xxl-6 mx-auto" data-cues="slideInDown" data-group="page-title">
-                    <h1 class="display-1 fs-60 mb-4 px-md-15 px-lg-0">My Record Feed<span class="underline-3 style-3 primary"> List</span></h1>
-                  </div>
-                  <!-- /column -->
+                    <div class="col-lg-8 col-xl-7 col-xxl-6 mx-auto" data-cues="slideInDown" data-group="page-title">
+                        <h1 class="display-1">나의<span class="underline-3 style-3 primary"> 여행기록</span></h1>
+                    </div>
+                    <!-- /column -->
                 </div>
                 <!-- /.row -->
-              </div>
-              <!-- /.container -->
-            </section>
-            <!-- /section -->
+            </div>
+            <!-- /.container -->
+        </section>
+        <!-- /section -->
 
         <section class="section-frame mx-xxl-11 overflow-hidden">
               <div class="wrapper image-wrapper bg-image bg-cover bg-overlay bg-overlay-light-500">
@@ -127,19 +127,7 @@
         </section>
 
 
-        <nav class="navbar navbar-expand-lg center-nav transparent navbar-light">
-            <div class="container flex-lg-row flex-nowrap align-items-center">
-              <div class="navbar-collapse offcanvas offcanvas-nav offcanvas-start">
-                <div class="offcanvas-body ms-lg-auto d-flex flex-column h-100">
-                  <ul class="navbar-nav">
-                    <li class="nav-item d-none d-md-block">
-                      <a href="./contact.html" class="btn btn-sm btn-primary rounded-pill">조회수순 등등..</a>
-                    </li>
-                    <li class="nav-item d-none d-md-block">
-                      <a href="./contact.html" class="btn btn-sm btn-primary rounded-pill">좋아요순 등등..</a>
-                    </li>
-                    <li class="nav-item d-none d-md-block">
-                    <div class="form-select-wrapper mb-4">
+
                       <select id="locationDropdown" class="form-select" aria-label="Default select example">
                           <option value="" disabled selected>지역을 선택하세요</option>
                           <optgroup label="특별시/광역시">
@@ -197,69 +185,60 @@
                               </c:forEach>
                           </optgroup>
                       </select>
-                      </div>
-                    </li>
-                  </ul>
-                  <!-- /.navbar-nav -->
-                </div>
-                <!-- /.offcanvas-body -->
-              </div>
-              <!-- /.navbar-collapse -->
-              <div class="navbar-other w-100 d-flex ms-auto">
-                <ul class="navbar-nav flex-row align-items-center ms-auto">
-                  <li class="nav-item d-none d-md-block">
-                    <a href="./contact.html" class="btn btn-sm btn-primary rounded-pill">기타 버튼 등등</a>
-                  </li>
-                </ul>
-                <!-- /.navbar-nav -->
-              </div>
-              <!-- /.navbar-other -->
-            </div>
-            <!-- /.container -->
-          </nav>
-          <!-- /.navbar -->
 
 
         <style>
-            .nav-item {
-                margin-right: 15px; /* 원하는 간격 값으로 조절합니다. */
-            }
+             .project.item.col-md-6.col-xl-4.workshop .card-img-top {
+                 width: 100%;
+                 padding-bottom: 55%; /* 1:1 비율을 위해 높이를 너비와 동일하게 설정합니다. */
+                 position: relative;
+                 overflow: hidden; /* 이미지가 넘치지 않도록 설정합니다. */
+             }
 
-            .project.item.col-md-3.col-xl-3.workshop .card-img-top {
-                width: 100%;
-                padding-bottom: 55%; /* 1:1 비율을 위해 높이를 너비와 동일하게 설정합니다. */
-                position: relative;
-                overflow: hidden; /* 이미지가 넘치지 않도록 설정합니다. */
-            }
-
-            .project.item.col-md-3.col-xl-3.workshop .card-img-top img {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                object-fit: cover; /* 이미지가 박스에 맞게 잘리지 않고 채워지도록 설정합니다. */
-            }
+             .project.item.col-md-6.col-xl-4.workshop .card-img-top img {
+                 position: absolute;
+                 width: 100%;
+                 height: 100%;
+                 object-fit: cover; /* 이미지가 박스에 맞게 잘리지 않고 채워지도록 설정합니다. */
+             }
+            .txt_line {
+                  width:210px;
+                  padding:0 5px;
+                  overflow:hidden;
+                  text-overflow:ellipsis;
+                  white-space:nowrap;
+              }
         </style>
 
         <!-- 내 게시물 표시 부분 -->
         <div id="mylist_section">
-            <section class="wrapper-record">
-                <div class="container pt-20 pt-md-0 pb-16 pb-md-18">
+           <section class="wrapper-record">
+                <div class="container pt-12 pt-md-0 pb-16 pb-md-18">
                     <div class="grid grid-view projects-masonry mt-md-n20 mt-lg-n22 mb-20">
                         <div class="row g-8 g-lg-10 isotope">
                             <c:forEach items="${mylist}" var="postInfoDTO">
-                                <div class="project item col-md-3 col-xl-3 workshop">
+                                <div class="project item col-md-6 col-xl-4 workshop">
                                     <div class="card shadow-lg">
-                                        <figure class="card-img-top itooltip itooltip-aqua" title='<h5 class="mb-0">클릭하여 상세게시물 보기</h5>'>
+                                        <figure class="card-img-top">
                                             <a href="/hontrip/record/postinfo?id=${postInfoDTO.boardId}">
-                                                <img src="<c:url value='/${postInfoDTO.thumbnail}'/>" alt="" />
+                                                <img src="<c:url value='/${postInfoDTO.thumbnail}'/>"/>
                                             </a>
                                         </figure>
-                                        <div class="card-body">
+                                        <a href="/hontrip/record/postinfo?id=${postInfoDTO.boardId}">
+                                        <div class="card-body p-7">
                                             <div class="post-header">
-                                                <div class="post-category mb-2 text-primary">${postInfoDTO.city}</div>
-                                                <h2 class="mb-0">${postInfoDTO.title}</h2>
+                                                <div class="text-primary mb-3">${postInfoDTO.city}</div>
+                                                <h3 class="txt_line mb-0">${postInfoDTO.title}</h3>
                                             </div>
                                         </div>
+                                       <div class="card-footer">
+                                         <ul class="post-meta d-flex mb-0">
+                                           <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${postInfoDTO.startDate}~${postInfoDTO.endDate}</span></li>
+                                           <li class="post-likes ms-auto"><i class="uil uil-heart-alt"></i>${postInfoDTO.likeCount}</li>
+                                         </ul>
+                                         <!-- /.post-meta -->
+                                       </div>
+                                       </a>
                                     </div>
                                 </div>
                             </c:forEach>
