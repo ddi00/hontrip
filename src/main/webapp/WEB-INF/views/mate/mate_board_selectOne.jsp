@@ -471,6 +471,7 @@
                                     </div>
                                     <!-- /#comments -->
                                 </form>
+                                <a class="back-mate-list btn btn-soft-primary rounded-pill" href="bbs_list"> 리스트로 돌아가기 <a>
                                 <div id=clc>
                                     <h3 class="comment-count mb-6">댓글 수:${commentListCount}</h3>
                                 </div>
