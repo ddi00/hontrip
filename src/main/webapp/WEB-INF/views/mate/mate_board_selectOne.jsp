@@ -477,11 +477,11 @@
                                     </div>
                                     <!-- /#comments -->
                                 </form>
-                                <a class="back-mate-list btn btn-soft-primary rounded-pill" href="bbs_list"> 리스트로 돌아가기
+                                <a class="back-mate-list btn btn-soft-primary rounded-pill" href="bbs_list"> 목록
                                     <a>
                                         <div id=clc>
-                                            <h3 class="comment-count mb-6">댓글 수:${commentListCount}</h3>
-                                        </div>
+                                            <h3 class="comment-count mb-6">댓글 ${commentListCount}</h3>
+                                        </div>수
                                         <div id="result">
                                             <c:choose>
                                                 <c:when test="${list.isEmpty()}">
