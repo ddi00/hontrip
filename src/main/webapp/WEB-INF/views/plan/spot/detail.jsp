@@ -8,17 +8,24 @@
     }
 %>
 <section class="wrapper bg-light">
-    <div class="container mt-15 mb-20">
-        <div class="row d-flex justify-content-center">
-            <span class="invisible">${spot.id}</span>
-            <span class="invisible">${spot.contentId}</span>
-            <span class="invisible">${spot.contentTypeId}</span>
-            <span>
+    <div class="container mt-15 mb-20 w-75">
+        <div class="row mb-2 d-flex justify-content-center">
+            <div class="col-8 me-5">
+                <span class="invisible">${spot.id}</span>
+                <span class="invisible">${spot.contentId}</span>
+                <span class="invisible">${spot.contentTypeId}</span>
+                <span>
             <form id="spot-list-form" action="search" method="post">
                 <input type="hidden" id="category" name="category" value="${category}">
                 <input type="hidden" id="keyword" name="keyword" value="${keyword}">
             </form>
             </span>
+            </div>
+            <div class="col-3 text-end ms-auto">
+                <input type="submit" value="목록" class="btn btn-outline-gray bg-white text-black-50 ms-1" style="width: 74%; border: 1px solid rgba(8, 60, 130, 0.15);" form="spot-list-form">
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
             <div class="col-lg-6">
                 <img src="${spot.image}" alt="대표 이미지" width="550" height="450">
             </div>
@@ -31,7 +38,7 @@
                     <p class="mb-6">${spot.overview}</p> <br>
                     <br>
                     <div class="col-lg-9 d-flex flex-row pt-2">
-                        <div class="item-like-div">
+                        <div class="item-like-div" style="height: 2.2rem;">
                             <c:choose>
                                 <c:when test="${isLiked eq 1}">
                                     <button class="dislike-btn btn btn-block btn-primary btn-icon rounded px-3 w-100 h-100"
@@ -53,9 +60,6 @@
                                     </button>
                                 </c:when>
                             </c:choose>
-                        </div>
-                        <div>
-                            <input type="submit" value="목록" class="btn btn-outline-primary ms-1" form="spot-list-form">
                         </div>
                     </div>
                 </div>
