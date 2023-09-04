@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <%
     long userId = 0;
     if (session.getAttribute("id") != null) {
@@ -9,12 +9,15 @@
         request.setAttribute("userId", userId);
     }
 %>
+<div id="loading" class="loading-overlay d-none" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255,255,255,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center;">
+    <div class="spinner-border text-primary" style="width: 4rem; height: 4rem;"></div>
+</div>
 <section class="wrapper bg-light">
     <div class="custom-card container-fluid container p-6 mt-15 mb-20 w-75">
         <div class="row">
             <h2 class="my-4 col-9 float-start">내 여행 일정 > ${plan.title}</h2>
             <div class="col-3 text-end">
-                <button type="button" class="btn btn-outline-gray" style="width: 74%; border: 1px solid rgba(8, 60, 130, 0.15);"><a href="list" class="text-black-50">목록</a>
+                <button type="button" class="btn btn-outline-gray" style="width: 74%; border: 1px solid rgba(8, 60, 130, 0.3);"><a href="list" style="color: black">목록</a>
                 </button>
             </div>
         </div>
@@ -46,7 +49,7 @@
             </div>
             <hr class="my-8"/>
             <div>
-                <button type="submit" class="btn btn-primary col-2 float-end" form="planForm">수정</button>
+                <button type="submit" class="btn btn-outline-gray col-2 float-end" style="border: 1px solid rgba(8, 60, 130, 0.3); color: black" form="planForm">수정</button>
             </div>
         </form>
 
@@ -315,9 +318,9 @@
                     <div class="custom-form-container">
 
                         <input type="text" id="address-input-accommodation-1" name="address-accommodation-1"
-                               class="custom-form-control col-md-5 me-2" placeholder="주소 검색">
+                               class="custom-form-control col-md-5 me-2" placeholder="주소">
                         <input type="text" id="placeName-input-accommodation-1" name="placeName-accommodation-1"
-                               class="custom-form-control col-md-5 me-2" placeholder="장소명 검색">
+                               class="custom-form-control col-md-5 me-2" placeholder="장소명">
 
                         <button type="button" id="search-accommodation-button-1" class="btn btn-yellow col-md-2">검색
                         </button>
@@ -370,7 +373,8 @@
 
     // 여행지 검색 버튼 클릭 시 여행지 검색 결과 표시
     $(document).ready(function () {
-        $('[id^="search-spot-button-"]').click(function () {
+        $(document).on('click', '[id^="search-spot-button-"]', function (){
+        // $('[id^="search-spot-button-"]').click(function () {
             let searchBtnId = $(this).attr('id');
             let dayOrder = parseInt(searchBtnId.split('-')[3]);
             let categoryId = 'category-' + dayOrder;
@@ -386,19 +390,20 @@
         let dayOrder = parseInt(btnId.split('-')[3]);
         let searchSpotFormDivId = 'search-spot-form-' + dayOrder;
         let searchSpotResultsDivId = 'search-spot-results-' + dayOrder;
-
         $.ajax({
             method: "get",
             url: "detail/search-spot",
             contentType: "application/json; charset=UTF-8",
             dataType: "html",
-            async: false,
             data: {
                 userId: userId,
                 planId: planId,
                 dayOrder: dayOrder,
                 category: category,
                 keyword: keyword
+            },
+            beforeSend: function() {
+                $('#loading').removeClass('d-none');
             },
             success: function (data) {
                 // $('#' + searchSpotFormDivId).hide(); // form 숨기기
@@ -411,10 +416,12 @@
                     'height': '500px'
                 }); // 스크롤
                 $('#' + searchSpotResultsDivId).show();
-
             }, // success
             error: function () {
                 alert("여행지 검색에 실패했습니다.");
+            },
+            complete: function() {
+                $('#loading').addClass('d-none');
             }
         }); // ajax
     } // getSpotList
@@ -539,13 +546,15 @@
             url: "detail/search-flight",
             contentType: "application/json; charset=UTF-8",
             dataType: "html",
-            async: false,
             data: {
                 userId: userId,
                 planId: planId,
                 depAirportName: depAirportName,
                 arrAirportName: arrAirportName,
                 depDate: depDate
+            },
+            beforeSend: function() {
+                $('#loading').removeClass('d-none');
             },
             success: function (data) {
                 // $("#search-flight-form").hide(); // form 숨기기
@@ -561,6 +570,9 @@
             },
             error: function () {
                 alert("항공권 검색에 실패했습니다.");
+            },
+            complete: function() {
+                $('#loading').addClass('d-none');
             }
         }); // ajax
     } // getSpotList
@@ -725,12 +737,14 @@
             contentType: "application/json; charset=UTF-8",
             //dataType: "html",
             dataType: "text",
-            async: false,
             data: {
                 addressName: address,
                 placeName: placeName,
                 categoryName: category,
                 filterType: filter_type
+            },
+            beforeSend: function() {
+                $('#loading').removeClass('d-none');
             },
             success: function (data) {
                /* console.log("after getAccommodationList ajax succeeded!");
@@ -744,7 +758,8 @@
 
                 //$('#' + searchAccommodationResultsDivId).append(data);
                 $('#' + searchAccommodationResultsDivId).css({
-                    'overflow': 'scroll',
+                    'overflow-x': 'hidden',
+                    'overflow-y': 'auto',
                     'width': '100%',
                     'height': '500px'
                 });
@@ -766,6 +781,9 @@
             },
             error: function () {
                 alert("숙소 검색에 실패했습니다.");
+            },
+            complete: function() {
+                $('#loading').addClass('d-none');
             }
         });
     };
@@ -943,6 +961,16 @@
     $(document).ready(function () {
         $("#planForm").on("submit", function () {
             alert("수정이 완료되었습니다.");
+        });
+    });
+
+    $(document).ready(function () {
+        $('#startDate').on('change', function () {
+            $('#endDate').prop("min", $(this).val());
+        });
+
+        $('#endDate').on('change', function () {
+            $('#startDate').prop("max", $(this).val());
         });
     });
 </script>
