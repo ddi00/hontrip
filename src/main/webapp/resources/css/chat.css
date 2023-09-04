@@ -292,21 +292,24 @@
 }
 
 .mate-chat-list {
- padding:5px;
+ padding:10px;
 }
 
 .mateChatListUl {
   list-style: none;
    margin: 0;
-   padding: 0;
+   padding: 10px;
    max-height: 350px; /* 스크롤 영역의 최대 높이를 원하는 높이로 조절 */
    justify-content: left;
+}
 
+.mateChatListDiv .mateChatListUl li:hover {
+    background-color: #f0f0f0; /* 개별 li 요소에 마우스를 올렸을 때 배경 색상 변경 */
 }
 
 .mateChatListUl li {
   border: 1px solid transparent;
-  padding: 20px;
+  margin-left: 5px;
 }
 
 .mateChatListUl li::after {
@@ -314,7 +317,7 @@
     display: block;
     border-bottom: 1px solid rgba(128, 128, 128, 0.5);; /* 아랫부분 border의 색상을 orange로 설정 */
     margin-top: 25px; /* 원하는 간격 조절 */
-    width: 320px;
+    width: 350px;
 }
 .mateChatList-wrap {
   background-color: rgba(255, 90, 70, 0.8); /* 원하는 배경 색상 설정 */
@@ -344,3 +347,4 @@
     background-color: #fff;
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
 }
+

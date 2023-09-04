@@ -479,23 +479,26 @@ if (window.location.href.includes('/mate/')) {
 
                     <div class="mt-3 mt-md-0 ms-auto">
                         <a href="javascript:void(0);" onclick="showCcmtTextarea(${commentList.commentId})"
-                           class="btn btn-soft-ash btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                class="uil uil-comments"></i> 답글달기</a>
+                           class="btn btn-outline-primary btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
+                                class="uil uil-comments"></i> 답글 달기</a>
                     </div>
                     </div>
-                    <p>${commentList.content}</p>
+                    <p><h3>${commentList.content}<h3></p>
                     </li>`;
 
                     if (commentList.userId == sessionUserId) {
-                        comments += "<a href='javascript:void(0);' onclick='showUpdateTextarea(" + commentList.commentId + ")'>수정</a>";
+                        comments += `<a class="btn btn-primary rounded-pill" href='javascript:void(0);' onclick='showUpdateTextarea(${commentList.commentId})'>수정</a>`;
                         comments += `<div class="d-flex justify-content-end">`
-                        comments += "<button type='button' class='commentDelete btn btn-soft-ash rounded-pill' data-comment-id='" + commentList.commentId + "'>삭제</button></div>"
+                        comments += "<button type='button' class='commentDelete btn btn-primary rounded-pill' data-comment-id='" + commentList.commentId + "'>삭제</button></div>"
                         comments += `
+
                        <div id="commentUpdate${commentList.commentId}" style="display: none">
-                           <textarea id="updateContent${commentList.commentId}" class="mate-comment-content form-control" placeholder="수정글을 입력해주세요">${commentList.content}</textarea>
+                           <textarea id="updateContent${commentList.commentId}" class="mate-comment-content form-control" placeholder="수정글을 입력해주세요" required>${commentList.content}
+                           </textarea>
                            <br>
-                           <button type='button' class='updateComment btn btn-outline-orange rounded-pill' data-comment-id='${commentList.commentId}'>수정</button>
-                           <a href='javascript:void(0);' onclick='closeTextarea(${commentList.commentId})'>취소</a>
+                           <button type='button' class='updateComment btn btn-primary rounded-pill' data-comment-id='${commentList.commentId}'>수정</button>
+                           <a class="btn btn-soft-primary rounded-pill" href='javascript:void(0);' onclick='closeTextarea(${commentList.commentId})'>취소</a>
+
                        </div>`;
                     }
                     for (let i = 0; i < rCount; i++) {
@@ -513,17 +516,17 @@ if (window.location.href.includes('/mate/')) {
                                          </div>
                                          </div>
                                          </div>
-                                         <p>${replyList.content}</p>`;
+                                         <p><h3>${replyList.content}<h3></p>`;
                             if (commentList.userId == sessionUserId) {
                                 comments += `
-                                <a href="javascript:void(0);" onclick="showUpdateTextarea(${replyList.commentId})">수정</a>
+                                <a class="btn btn-primary rounded-pill" href="javascript:void(0);" onclick="showUpdateTextarea(${replyList.commentId})">수정</a>
                                 <div class="d-flex justify-content-end">
-                                <button type='button' class="commentDelete btn btn-soft-ash rounded-pill" data-comment-id="${replyList.commentId}">삭제</button></div>`;
+                                <button type='button' class="commentDelete btn btn-primary rounded-pill" data-comment-id="${replyList.commentId}">삭제</button></div>`;
                                 comments += `<div id="commentUpdate${replyList.commentId}" style="display: none">
-                                    <textarea id="updateContent${replyList.commentId}" class="mate-comment-content" placeholder="수정글을 입력해주세요">${replyList.content}</textarea>
+                                    <textarea id="updateContent${replyList.commentId}" class="mate-comment-content form-control" placeholder="수정글을 입력해주세요">${replyList.content}</textarea>
                                     <br>
-                                    <button type='button' class="updateComment btn btn-outline-orange rounded-pill" data-comment-id="${replyList.commentId}">수정</button>
-                                    <a href="javascript:void(0);" onclick="closeTextarea(${replyList.commentId})">취소</a>
+                                    <button type='button' class="updateComment btn btn-primary rounded-pill" data-comment-id="${replyList.commentId}">수정</button>
+                                    <a class="btn btn-soft-primary rounded-pill" href="javascript:void(0);" onclick="closeTextarea(${replyList.commentId})">취소</a>
                                 </div>`;
                             }
 
@@ -536,8 +539,8 @@ if (window.location.href.includes('/mate/')) {
                     comments += `<div id="cComment${commentList.commentId}" style="display: none">
                          <textarea id="cContent${commentList.commentId}" class="mate-comment-content form-control" placeholder="답글을 입력해주세요"></textarea>
                         <br>
-                        <button type='button' class="cCommentWrite btn btn-soft-ash rounded-pill" data-comment-id="${commentList.commentId}">답글 전송</button>
-                        <a href="javascript:void(0);" onclick="closeCTextarea(${commentList.commentId})">취소</a>
+                        <button type='button' class="cCommentWrite btn btn-outline-primary rounded-pill" data-comment-id="${commentList.commentId}">답글 전송</button>
+                        <a class="btn bnt-soft-primary rounded-pill" href="javascript:void(0);" onclick="closeCTextarea(${commentList.commentId})">취소</a>
                         <br>
                         </div>
                     </div>
@@ -553,7 +556,7 @@ if (window.location.href.includes('/mate/')) {
             comments += "<h6>등록된 댓글이 없습니다.</h6>";
             comments += "</div>";
         }
-        commentListCount += `<i class="uil uil-comment"><h3 class="mb-6">${commentListRe.commentListCount} Comments</h3></i>`
+        commentListCount += `<h3 class="mb-6">댓글 수:${commentListRe.commentListCount}</h3>`
         $('#clc').empty().html(commentListCount);
         $('#result').html(comments);
     }
