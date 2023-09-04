@@ -64,8 +64,7 @@
 <section class="wrapper bg-main-light">
     <div class="container pt-10 pt-lg-8 pb-5 pb-md-15">
         <section id="snippet-1" class="wrapper-border">
-            <h6 class="display-1 text-center top-ten mb-2"><span class="underline-3 style-3 primary">요즘 뜨는</span> 여행 기록</h6>
-            <br>
+            <h6 class="display-1 text-center top-ten"><span class="underline-3 style-3 primary">요즘 뜨는</span> 여행 기록</h6>
             <div class="container">
                 <div class="swiper-container clients" data-margin="30" data-dots="false" data-loop="true"
                      data-autoplay="true" data-autoplaytime="1" data-drag="false" data-speed="6000" data-items-xxl="4"
@@ -104,12 +103,12 @@
         </section>
         <!-- /section -->
     </div>
-    <section class="wrapper bg-main-light">
+
+    <section class="wrapper">
         <div class="container pt-10 pt-lg-8 pb-5 pb-md-15">
             <section id="snippet-2" class="wrapper-border">
-                <h6 class="display-1 text-center top-ten mb-2"><span class="underline-3 style-3 primary">인기 있는</span> 여행 동행
+                <h6 class="display-1 text-center top-ten"><span class="underline-3 style-3 primary">요즘 뜨는</span> 여행 동행
                 </h6>
-                <br>
                 <div class="container">
                     <div class="swiper-container clients" data-margin="30" data-dots="false" data-loop="true"
                          data-autoplay="true" data-autoplaytime="1" data-drag="false" data-speed="6000"
@@ -121,10 +120,10 @@
                                         <div class="project item">
                                             <div class="card shadow-lg">
                                                 <figure class="card-img-top"
-                                                <a href="/hontrip/mate/${one.mateBoardId}">
-                                                    <img src="<c:url value='/resources/img/mateImg/${one.thumbnail}'/>"
-                                                         alt="Image">
-                                                </a>
+                                                    <a href="/hontrip/mate/${one.mateBoardId}">
+                                                        <img src="<c:url value='/resources/img/mateImg/${one.thumbnail}'/>"
+                                                             alt="Image">
+                                                    </a>
                                                 </figure>
                                                 <a href="/hontrip/mate/${one.mateBoardId}">
                                                     <div class="card-body">
@@ -155,13 +154,12 @@
         </div>
     </section>
 
-    <section class="wrapper bg-main-light">
+    <section class="wrapper">
         <div class="container pt-10 pt-lg-8 pb-5 pb-md-15">
             <section id="snippet-3" class="wrapper-border">
                 <div class="container">
-                    <h6 class="display-1 text-center top-ten"><span class="underline-3 style-3 primary">인기 있는</span> 여행지
+                    <h6 class="display-1 text-center top-ten"><span class="underline-3 style-3 primary">요즘 뜨는</span> 여행지
                     </h6>
-                    <br>
                     <div class="swiper-container clients" data-margin="30" data-dots="false" data-loop="true"
                          data-autoplay="true" data-autoplaytime="1" data-drag="false" data-speed="6000"
                          data-items-xxl="4" data-items-xl="3" data-items-lg="5" data-items-md="2" data-items-xs="1">
@@ -172,14 +170,14 @@
                                         <div class="project item">
                                             <div class="card shadow-lg">
                                                 <figure class="card-img-top">
-                                                    <a href="/hontrip/plan/detail?category=keyword&keyword=${spot.area}&contentId=${spot.spotContentId}">
+                                                    <a href="/hontrip/plan/spot/detail?category=keyword&keyword=${spot.title}&contentId=${spot.spotContentId}">
                                                         <img src="${spot.image}">
                                                     </a>
                                                 </figure>
                                                 <div class="card-body">
                                                     <div class="post-header">
                                                         <div class="post-category mb-2 text-primary">${spot.area}</div>
-                                                        <h4 class="mb-0" style="word-break: keep-all">${spot.title}</h4>
+                                                        <h4 class="txt_line mb-0">${spot.title}</h4>
                                                     </div>
                                                 </div>
                                             </div>

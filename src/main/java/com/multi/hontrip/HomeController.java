@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import com.multi.hontrip.plan.dto.SpotDTO;
 import com.multi.hontrip.plan.dto.SpotInfoDTO;
 import com.multi.hontrip.plan.service.SpotService;
 import com.multi.hontrip.mate.dto.MateBoardListDTO;
@@ -18,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -58,8 +56,6 @@ public class HomeController {
 		model.addAttribute("regionValues", regionList);
 		model.addAttribute("serverTime", formattedDate );
 		model.addAttribute("topSpotList", topSpotList);
-
-
 		return "home";
 	}
 	
