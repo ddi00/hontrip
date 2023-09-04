@@ -13,7 +13,7 @@
     <div class="container-fluid container p-6 mt-13 mb-20 mx-auto w-75">
         <div class="row align-items-center my-5 position-relative zindex-1">
             <div class="col-md-9 col-xl-6 pe-xl-20" data-cues="slideInDown" data-group="page-title">
-                    <h1 class="display-1">내 여행 <span class="underline-3 style-3 primary">일정</span></h1>
+                    <h1 class="display-1">나의 <span class="underline-3 style-3 primary">여행 일정</span></h1>
             </div>
             <div class="col-md-3 col-xl-3 ms-md-auto mt-5 mt-md-0">
                 <button type="button" class="btn btn-primary w-100">
@@ -59,6 +59,7 @@
 </section>
 <script>
     let userId = <%= userId %>;
+
     // 일정 삭제 버튼 이벤트 처리
     $(document).on('click', '.delete-plan-btn', function () {
         let deleteButton = $(this);
