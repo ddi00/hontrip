@@ -119,7 +119,7 @@
                                     <div class="swiper-slide">
                                         <div class="project item">
                                             <div class="card shadow-lg">
-                                                <figure class="card-img-top"
+                                                <figure class="card-img-top">
                                                 <a href="/hontrip/mate/${one.mateBoardId}">
                                                     <img src="<c:url value='/resources/img/mateImg/${one.thumbnail}'/>"
                                                          alt="Image">
