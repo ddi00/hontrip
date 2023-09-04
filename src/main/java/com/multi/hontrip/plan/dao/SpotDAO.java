@@ -49,4 +49,14 @@ public class SpotDAO {
     public int count(String keyword){
         return my.selectOne("spot.count", keyword);
     }
+
+    // 여행지 개요 정보 존재 여부 조회
+    public int checkSpotOverView(String contentId){
+        return my.selectOne("spot.checkSpotOverview", contentId);
+    }
+
+    //
+    public List<SpotDTO> listTopTenSpot(){
+        return my.selectList("spot.listTopTenSpot");
+    }
 }

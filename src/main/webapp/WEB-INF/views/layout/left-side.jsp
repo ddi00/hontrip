@@ -13,7 +13,7 @@
         <h4 class="widget-title mb-3">Categories</h4>
         <ul class="unordered-list bullet-primary text-reset">
             <li><a href="/hontrip/user/my-page">회원 정보</a></li>
-            <li><a href="#">여행계획</a></li>
+            <li><a href="/hontrip/plan/list">여행계획</a></li>
             <li><a href="/hontrip/user/my-record">여행기록</a></li>
             <li><a href="#">동행인모집목록</a></li>
             <li><a href="#">채팅목록</a></li>

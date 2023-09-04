@@ -18,6 +18,7 @@
         <typeAlias type="com.multi.hontrip.plan.dto.EmergencyFacilityDTO" alias="EmergencyFacilityDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.plan.dto.FlightDTO" alias="FlightDTO"></typeAlias>
         <typeAlias type="com.multi.hontrip.plan.dto.FlightSearchDTO" alias="FlightSearchDTO"></typeAlias>
+        <typeAlias type="com.multi.hontrip.plan.dto.SpotLikeDTO" alias="SpotLikeDTO"></typeAlias>
 
         <!-- mate -->
         <typeAlias type="com.multi.hontrip.mate.dto.MateBoardInsertDTO" alias="mateBoardInsertDTO"></typeAlias>

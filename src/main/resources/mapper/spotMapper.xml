@@ -4,36 +4,102 @@
 	<insert id="insert" parameterType="SpotDTO"
 			useGeneratedKeys="true"
 			keyProperty="id">
-		insert into spot
-		values (null, #{contentId}, #{contentTypeId}, #{title}, #{tel}, #{image}, #{homepage}, #{address}
+		INSERT INTO spot
+		VALUES (null, #{contentId}, #{contentTypeId}, #{title}, #{tel}, #{image}, #{homepage}, #{address}
 		,#{mapX}, #{mapY}, #{areaCode}, #{sigunguCode}, #{overview}, #{infoCenter}, #{openDate}, #{restDate}, #{expguide},
 		#{usetime}, #{parking})
 		on duplicate key update content_id = #{contentId}
 	</insert>
 	<update id="update" parameterType="SpotDTO">
-		update spot
-		set homepage = #{homepage}, overview = #{overview}, info_center = #{infoCenter}, open_date = #{openDate}, rest_date = #{restDate}, exp_guide = #{expguide},
+		UPDATE spot
+		SET homepage = #{homepage}, overview = #{overview}, info_center = #{infoCenter}, open_date = #{openDate}, rest_date = #{restDate}, exp_guide = #{expguide},
 			usetime = #{usetime}, parking = #{parking}
-		where content_id = #{contentId}
+		WHERE content_id = #{contentId}
 	</update>
 	<select id="one" parameterType="String" resultType="SpotDTO">
-		select * from spot
-		where content_id = #{contentId}
+		SELECT * FROM spot
+		WHERE content_id = #{contentId}
 	</select>
 	<select id="areaList" parameterType="String" resultType="SpotDTO">
-		select * from spot
-		where areacode = #{areaCode};
+		SELECT * FROM spot
+		WHERE areacode = #{areaCode};
 	</select>
 	<select id="keywordList" parameterType="String" resultType="SpotDTO">
-		select * from spot
-		where title LIKE CONCAT('%', #{keyword}, '%')
+		select * FROM spot
+		WHERE title LIKE CONCAT('%', #{keyword}, '%')
 	</select>
 	<select id="all" resultType="SpotDTO">
-		select * from spot
+		select * FROM spot
 	</select>
 	<select id="count" parameterType="String" resultType="int">
-		select count(*) from spot
-		where title LIKE CONCAT('%', #{keyword}, '%')
+		SELECT count(*) FROM spot
+		WHERE title LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+	<select id="checkSpotOverview" parameterType="String" resultType="int">
+		SELECT
+			CASE
+				WHEN overview IS NOT NULL THEN 1
+				ELSE 0
+				END AS result
+		FROM spot
+		WHERE content_id = #{contentId}
+	</select>
+	<insert id="insertSpotLike" parameterType="spotLikeDTO" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO spot_like (user_id, spot_content_id)
+		VALUES (#{userId}, #{spotContentId})
+	</insert>
+
+	<delete id="deleteSpotLike" parameterType="spotLikeDTO">
+		DELETE FROM spot_like
+		WHERE user_id = #{userId} and spot_content_id = #{spotContentId}
+	</delete>
+
+	<select id="countSpotLike" parameterType="String" resultType="int">
+		SELECT COALESCE(count(*), 0)
+		FROM spot_like
+		WHERE
+			spot_content_id = #{spotContentId};
 	</select>
 
+	<select id="listUserSpotLike" parameterType="long" resultType="spotLikeDTO">
+		SELECT user_id, spot_content_id
+		FROM spot_like
+		WHERE
+			user_id = #{userId};
+	</select>
+
+	<select id="listUserLikedSpot" parameterType="long" resultType="String">
+		SELECT user_id, spot_content_id
+		FROM spot_like
+		WHERE
+			user_id = #{userId};
+	</select>
+
+	<select id="listUserLikedSpotId" parameterType="long" resultType="String">
+		SELECT spot_content_id
+		FROM spot_like
+		WHERE
+			user_id = #{userId};
+	</select>
+
+	<select id="checkUserLiked" parameterType="hashmap" resultType="int">
+        SELECT CASE
+                   WHEN EXISTS (SELECT 1
+                                FROM spot_like
+                                WHERE user_id = #{userId} AND spot_content_id = #{spotContentId})
+                       THEN 1
+                   ELSE 0
+                   END AS result
+        FROM spot_like
+        LIMIT 1
+    </select>
+
+	<select id="listTopTenSpot" resultType="spotDTO">
+		SELECT s.title, s.image, s.areacode, s.content_id, COUNT(sl.spot_content_id) AS likeCount
+		FROM spot s
+				 LEFT JOIN spot_like sl ON s.content_id = sl.spot_content_id
+		GROUP BY s.title, s.image, s.areacode, s.content_id
+		ORDER BY likeCount DESC
+		LIMIT 10;
+	</select>
 </mapper>

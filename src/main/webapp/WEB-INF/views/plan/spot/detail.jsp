@@ -1,11 +1,31 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    long userId = 0;
+    if (session.getAttribute("id") != null) {
+        userId = (long) session.getAttribute("id");
+        request.setAttribute("userId", userId);
+    }
+%>
 <section class="wrapper bg-light">
-    <div class="container mt-15 mb-20">
+    <div class="container mt-15 mb-20 w-75">
+        <div class="row mb-2 d-flex justify-content-center">
+            <div class="col-8 me-5">
+                <span class="invisible">${spot.id}</span>
+                <span class="invisible">${spot.contentId}</span>
+                <span class="invisible">${spot.contentTypeId}</span>
+                <span>
+            <form id="spot-list-form" action="search" method="post">
+                <input type="hidden" id="category" name="category" value="${category}">
+                <input type="hidden" id="keyword" name="keyword" value="${keyword}">
+            </form>
+            </span>
+            </div>
+            <div class="col-3 text-end ms-auto">
+                <input type="submit" value="목록" class="btn btn-outline-gray bg-white text-black-50 ms-1" style="width: 74%; border: 1px solid rgba(8, 60, 130, 0.15);" form="spot-list-form">
+            </div>
+        </div>
         <div class="row d-flex justify-content-center">
-            <p class="invisible">${spot.id}</p>
-            <p class="invisible">${spot.contentId}</p>
-            <p class="invisible">${spot.contentTypeId}</p>
             <div class="col-lg-6">
                 <img src="${spot.image}" alt="대표 이미지" width="550" height="450">
             </div>
@@ -17,9 +37,31 @@
                     <h5>${spot.address}</h5>
                     <p class="mb-6">${spot.overview}</p> <br>
                     <br>
-                    <%--                    추가 연결 필요   --%>
-                    <button id="add-to-plan" type="button" class="btn btn-custom2 text-white">추가</button>
-                    <button id="go-to-list" type="button" class="btn btn-custom1 text-white ms-1">목록</button>
+                    <div class="col-lg-9 d-flex flex-row pt-2">
+                        <div class="item-like-div" style="height: 2.2rem;">
+                            <c:choose>
+                                <c:when test="${isLiked eq 1}">
+                                    <button class="dislike-btn btn btn-block btn-primary btn-icon rounded px-3 w-100 h-100"
+                                            data-spot-content-id="${spot.contentId}">
+                                        <a class="item-like text-white" aria-label="즐겨찾기 해제"><i class="uil">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                 viewBox="0 0 24 24">
+                                                <path fill="white"
+                                                      d="M20.205 4.791a5.938 5.938 0 0 0-4.209-1.754A5.906 5.906 0 0 0 12 4.595a5.904 5.904 0 0 0-3.996-1.558a5.942 5.942 0 0 0-4.213 1.758c-2.353 2.363-2.352 6.059.002 8.412L12 21.414l8.207-8.207c2.354-2.353 2.355-6.049-.002-8.416z"/>
+                                            </svg>
+                                                ${likeCount}
+                                        </i></a></button>
+                                </c:when>
+                                <c:when test="${isLiked eq 0}">
+                                    <button class="like-btn btn btn-block btn-primary btn-icon rounded px-3 w-100 h-100"
+                                            data-spot-content-id="${spot.contentId}">
+                                        <a class="item-like text-white" aria-label="즐겨찾기 추가"><i
+                                                class="uil uil-heart"> ${likeCount}</i></a>
+                                    </button>
+                                </c:when>
+                            </c:choose>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -81,38 +123,59 @@
     </div>
 </section>
 <script>
-    $("#go-to-list").click(function () {
-        location.href="${path}/plan/spot/search?category=${category}&keyword=${keyword}";
-    })
+    let userId = <%= userId %>;
+    // 즐겨찾기 추가 버튼 클릭 이벤트 처리
+    $(document).on('click', '.like-btn', function () {
+        let clickedLikeButton = $(this);
+        let spotContentId = $(this).data("spot-content-id");
+        $.ajax({
+            method: "get",
+            url: "add-spot-like",
+            dataType: "json",
+            data: {
+                userId: userId,
+                spotContentId: spotContentId
+            },
+            success: function (result) {
+                let likeButtonDiv = clickedLikeButton.parent(".item-like-div");
+                let filledLikeButtonHtml = "";
+                let likeCount = result;
+                filledLikeButtonHtml += "<button class='dislike-btn btn btn-block btn-primary btn-icon rounded px-3 w-100 h-100' data-spot-content-id='" + spotContentId + "'>"
+                filledLikeButtonHtml += "<a class='item-like text-white' aria-label='즐겨찾기 해제'>"
+                filledLikeButtonHtml += "<i class='uil'><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'><path fill='white' d='M20.205 4.791a5.938 5.938 0 0 0-4.209-1.754A5.906 5.906 0 0 0 12 4.595a5.904 5.904 0 0 0-3.996-1.558a5.942 5.942 0 0 0-4.213 1.758c-2.353 2.363-2.352 6.059.002 8.412L12 21.414l8.207-8.207c2.354-2.353 2.355-6.049-.002-8.416z'/>"
+                filledLikeButtonHtml += "</svg>" + " " + likeCount + "</i></a></button>"
+                likeButtonDiv.html(filledLikeButtonHtml);
+            },
+            error: function () {
+                alert("즐겨찾기 추가에 실패했습니다.");
+            }
+        });
+    });
 
-    <%--$(document).ready(function () {--%>
-    <%--    $("#go-to-list").click(function () {--%>
-    <%--        $.ajax({--%>
-    <%--            type: "post",--%>
-    <%--            url: "search",--%>
-    <%--            contentType: "application/json; charset=UTF-8",--%>
-    <%--            dataType: "html",--%>
-    <%--            data: {--%>
-    <%--                category: "${category}",--%>
-    <%--                keyword: "${keyword}"--%>
-    <%--            },--%>
-    <%--            success: function (result) {--%>
-    <%--                $("#flight-list").html(result);--%>
-    <%--                $(".spinner-border").hide();--%>
-    <%--                isLoading = false;--%>
-    <%--            },--%>
-    <%--            error: function () {--%>
-    <%--                alert("오류가 발생했습니다.");--%>
-    <%--            } // error--%>
-    <%--        }) //ajax--%>
-    <%--    }) // click--%>
-    <%--}); // document--%>
-
-    // $.post("/plan/spot/search", {id: '67', name: 'Deepak'}, function (data) {
-    //     alert(data.id); // display id value which is returned from the action method
-    //     alert(data.name);//display name value which is returned from the action method
-    // });
-
+    // 즐겨찾기 해제 버튼 클릭 이벤트 처리
+    $(document).on('click', '.dislike-btn', function () {
+        let clickedDislikeButton = $(this);
+        let spotContentId = $(this).data("spot-content-id");
+        $.ajax({
+            method: "get",
+            url: "delete-spot-like",
+            dataType: "json",
+            data: {
+                userId: userId,
+                spotContentId: spotContentId
+            },
+            success: function (result) {
+                let likeButtonDiv = clickedDislikeButton.parent(".item-like-div");
+                let filledDislikeButtonHtml = "";
+                let likeCount = result;
+                filledDislikeButtonHtml += "<button class='like-btn btn btn-block btn-primary btn-icon rounded px-3 w-100 h-100' data-spot-content-id='" + spotContentId + "'>"
+                filledDislikeButtonHtml += "<a class='item-like text-white' aria-label='즐겨찾기 추가'>"
+                filledDislikeButtonHtml += "<i class='uil uil-heart'></i>" + "<i class='uil'>" + " " + likeCount + "</i></a></button>"
+                likeButtonDiv.html(filledDislikeButtonHtml);
+            },
+            error: function () {
+                alert("즐겨찾기 해제에 실패했습니다.");
+            }
+        });
+    });
 </script>
-</body>
-</html>

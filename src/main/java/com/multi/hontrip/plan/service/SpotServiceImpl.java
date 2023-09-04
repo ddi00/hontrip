@@ -2,7 +2,9 @@ package com.multi.hontrip.plan.service;
 
 import com.multi.hontrip.plan.dao.SpotDAO;
 import com.multi.hontrip.plan.dto.SpotDTO;
+import com.multi.hontrip.plan.dto.SpotInfoDTO;
 import com.multi.hontrip.plan.dto.SpotSearchDTO;
+import com.multi.hontrip.plan.parser.Area;
 import com.multi.hontrip.plan.parser.SpotParser;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +33,17 @@ public class SpotServiceImpl implements SpotService {
         spotDAO.insert(spotDTO);
     }
 
-    // 여행지 세부 사항 추가
+    // 여행지 세부 정보 존재 여부 확인 - 개요의 경우 모든 여행지의 세부 정보에 값이 존재하여 개요로 한정
+    public int checkSpotDetails(String contentId){
+        return spotDAO.checkSpotOverView(contentId);
+    }
+
+    // 여행지 세부 정보 추가
     @Override
     public SpotDTO updateDetails(SpotDTO spotDTO) throws IOException, ParserConfigurationException, SAXException {
         SpotDTO spot = new SpotDTO();   // 빈 SpotDTO 생성
         try {
-            // 홈페이지, 개요 정보 없을 시 api 호출 및 조회 
+            // 홈페이지, 개요 정보 없을 시 api 호출 및 조회
             if (StringUtils.isNullOrEmpty(spotDTO.getHomepage()) || StringUtils.isNullOrEmpty(spotDTO.getOverview())) {
                 spot = spotParser.parseCommonDetails(spotDTO);
             }
@@ -139,5 +146,30 @@ public class SpotServiceImpl implements SpotService {
     @Override
     public int countSpot(String keyword) {
         return spotDAO.count(keyword);
+    }
+
+    // 즐겨찾기 수 상위 여행지 10개 조회
+    public List<SpotInfoDTO> listTopTenSpot() {
+        List<SpotDTO> spots = spotDAO.listTopTenSpot();
+        List<SpotInfoDTO> spotInfos = new ArrayList<>();
+        for (int i = 0; i < spots.size(); i++) {
+            SpotInfoDTO spotInfo = new SpotInfoDTO(); // 새로운 SpotInfoDTO 객체 생성
+            spotInfo.setTitle(spots.get(i).getTitle());
+            spotInfo.setSpotContentId(spots.get(i).getContentId());
+            spotInfo.setImage(spots.get(i).getImage());
+            String areaCode = spots.get(i).getAreaCode();
+            String areaName = "";
+
+            for (Area area : Area.values()) {
+                if (area.getAreaCode().equals(areaCode)) {
+                    areaName = area.getAreaName();
+                    break;
+                }
+            }
+
+            spotInfo.setArea(areaName);
+            spotInfos.add(spotInfo);
+        }
+        return spotInfos;
     }
 }

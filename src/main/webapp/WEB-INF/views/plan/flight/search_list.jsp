@@ -1,23 +1,36 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%
+    long userId = 0;
+    if (session.getAttribute("id") != null) {
+        userId = (long) session.getAttribute("id");
+        request.setAttribute("userId", userId);
+    }
+%>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <section class="wrapper bg-light">
-    <div class="container-fluid container mt-15 mb-15 w-75 p-3">
+    <div class="container-fluid container mt-15 mb-15 w-75">
         <div class="row d-flex justify-content-center">
             <div class="col-md-10">
                 <div class="ps-8 pb-5">
-                    <h5>${depDate}</h5>
-                    <h3>${depAirportName}발 - ${arrAirportName}행 항공편 목록</h3>
-                    <a href="search" role="button" class="btn btn-orange col-md-12">재검색</a>
+                    <p class="invisible">${depDate}</p>
+                    <h2>항공권 검색 >
+                    <span>
+                                <fmt:parseDate value="${depDate}" var="formattedDepDate"
+                                               pattern="yyyyMMdd"/>
+                                <fmt:formatDate value="${formattedDepDate}" pattern="yyyy-MM-dd"/>
+                    </span>
+                    ${depAirportName}발 - ${arrAirportName}행
+                    </h2>
+                    <br>
+                    <a href="search" role="button" class="btn btn-primary col-md-12">재검색</a>
                 </div>
-
-                <h3 class="my-2 align-self-center">
+                <h3 class="my-2 text-center">
                     <c:if test="${empty list}">
                         <c:out value="${message}"/>
                     </c:if>
                 </h3>
-
                 <ul>
                     <c:forEach items="${list}" var="flight">
                         <div class="card p-4 mt-2">
@@ -45,12 +58,12 @@
                                     <div class="col-md-4">
                                         <div class="d-flex flex-column align-items-center float-end">
                                             <button type="button"
-                                                    class="btn btn-outline-orange"
+                                                    class="btn btn-outline-primary"
                                                     onclick="goToAirlineHomepage('${flight.airlineName}')">
                                                 예매
                                             </button>
                                             <button type="button"
-                                                    class="btn btn-orange mt-1 text-white">
+                                                    class="btn btn-primary mt-1 text-white">
                                                 추가
                                             </button>
                                         </div>
@@ -99,6 +112,11 @@
                 </ul>
             </div>
         </div>
+        <div id="spinner" class="row justify-content-center">
+            <div class="spinner-border main-color" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
     </div>
 </section>
 <script>
@@ -109,6 +127,14 @@
     let arrAirportName = "${arrAirportName}";
     let depDate = "${depDate}";
     let totalPageCount = "${totalPageCount}";
+
+    $(document)
+        .ajaxStart(function () {
+            $('#spinner').show();
+        })
+        .ajaxStop(function () {
+            $('#spinner').hide();
+        });
 
     $(window).on("scroll", function () {
         let scrollTop = $(window).scrollTop();
