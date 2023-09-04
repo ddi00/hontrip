@@ -23,10 +23,14 @@ public class AlarmDAO {
     }
 
     public int deleteByAlarmId(long alarmId) {
-        return my.delete("mateBbs.deleteByAlarmId", alarmId);
+        return my.update("mateBbs.deleteByAlarmId", alarmId);
     }
 
     public int countMateAllAlarms(long userId) {
         return my.selectOne("mateBbs.countMateAllAlarms", userId);
+    }
+
+    public void readCheck(long alarmId) {
+        my.update("mateBbs.readCheck", alarmId);
     }
 }

@@ -37,4 +37,9 @@ public class AlarmServiceImpl implements AlarmService {
     public int countMateAllAlarms(long userId) {
         return alarmDAO.countMateAllAlarms(userId);
     }
+
+    @Override
+    public void readCheck(long alarmId) {
+        alarmDAO.readCheck(alarmId);
+    }
 }

@@ -170,10 +170,13 @@ CREATE TABLE `mate_chatroom` (
   `guest_id` bigint DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `last_chat_id` bigint DEFAULT '0',
+  `mate_matching_alarm_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `post_id` (`post_id`),
+  KEY `mate_chatroom_FK` (`mate_matching_alarm_id`),
+  CONSTRAINT `mate_chatroom_FK` FOREIGN KEY (`mate_matching_alarm_id`) REFERENCES `mate_matching_alarm` (`id`) ON DELETE CASCADE,
   CONSTRAINT `mate_chatroom_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `mate_board` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- hontrip.mate_comment definition
@@ -200,17 +203,19 @@ CREATE TABLE `mate_comment` (
 
 CREATE TABLE `mate_matching_alarm` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '알림 구분',
-  `mate_board_id` bigint NOT NULL COMMENT '매칭 게시판 구분',
+  `mate_board_id` bigint DEFAULT NULL COMMENT '매칭 게시판 구분',
   `sender_id` bigint NOT NULL COMMENT '동행인 매칭 신청한 유저 아이디',
   `content` varchar(100) NOT NULL DEFAULT '같이 여행가요!' COMMENT '동행인 신청 버튼을 누르면 신청자가 메세지를 작성한다',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성일자',
   `is_read` tinyint NOT NULL DEFAULT '0' COMMENT '읽음 여부',
+  `is_delete` tinyint NOT NULL DEFAULT '0' COMMENT '삭제 여부',
+  `is_accepted` tinyint NOT NULL DEFAULT '0' COMMENT '동행 수락 여부',
   PRIMARY KEY (`id`),
   KEY `mate_board_id` (`mate_board_id`),
   KEY `sender_id` (`sender_id`),
-  CONSTRAINT mate_matching_alarm_ibfk_1 FOREIGN KEY (mate_board_id) REFERENCES hontrip.mate_board(id) ON DELETE CASCADE,
-  CONSTRAINT mate_matching_alarm_ibfk_2 FOREIGN KEY (sender_id) REFERENCES hontrip.`user`(id) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `mate_matching_alarm_ibfk_1` FOREIGN KEY (`mate_board_id`) REFERENCES `mate_board` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `mate_matching_alarm_ibfk_2` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=396 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- hontrip.plan definition

@@ -57,5 +57,20 @@ public class ChatServiceImpl implements ChatService{
     public JoinChatInfo getChatRoomInfoByRoomIdAndUserId(ChatroomRequestDTO chatroomRequestDTO) {
         return chatDAO.getChatRoomInfoByRoomIdAndUserId(chatroomRequestDTO);
     }
+
+    @Override
+    public ChatOwnerAcceptedDTO getIsOwnerIsAcceptedByRoomIdAndUserId(long roomId, long userId) {
+        return chatDAO.getIsOwnerIsAcceptedByRoomIdAndUserId(roomId, userId);
+    }
+
+    @Override
+    public void acceptMatchingApplication(long roomId) {
+        chatDAO.acceptMatchingApplication(roomId);
+    }
+
+    @Override
+    public String getGuestNicknameByRoomId(long roomId) {
+        return chatDAO.getGuestNicknameByRoomId(roomId);
+    }
 }
 

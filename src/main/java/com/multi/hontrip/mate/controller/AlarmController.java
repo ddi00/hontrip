@@ -39,6 +39,7 @@ public class AlarmController {
     @PostMapping("/mate/insertMatchingAlarm")
     @ResponseBody
     public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
+        System.out.println(mateMatchingAlarmDTO);
         return alarmService.insertMatchingAlarm(mateMatchingAlarmDTO);
     }
 
@@ -77,5 +78,12 @@ public class AlarmController {
     @ResponseBody
     public int countMateAllAlarms(HttpSession session) {
         return alarmService.countMateAllAlarms((Long) session.getAttribute("id"));
+    }
+
+
+    //알람리스트에서 채팅아이콘을 클릭하면 is_read가 0-> 1로 변경됨
+    @GetMapping("/mate/read-alarm")
+    public void readCheck(long alarmId) {
+        alarmService.readCheck(alarmId);
     }
 }

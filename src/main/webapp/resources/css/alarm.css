@@ -94,17 +94,57 @@
     bottom: 3%;
     width: 100%;
     height: 15%;
-    background-color: #ff7369;
-    opacity: 60%;
-    color: #fff;
+    opacity: 95%;
+    background-color: #ff7c73;
+    color: white;
     border-radius: 7px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    border: 1px solid #FFFFFF;
     padding: 5% 5%;
     margin-bottom: 5px;
     transition: transform 0.3s ease;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.mateChatRealTimeAlarmLi {
+    display: flex;
+    justify-content: space-between;
+    z-index: 9999999;
+    bottom: 3%;
+    width: 100%;
+    height: 15%;
+    opacity: 95%;
+    background-color: #ffa973;
+    color: white;
+    border-radius: 7px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 5% 5%;
+    margin-bottom: 5px;
+    transition: transform 0.3s ease;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.mateConfirmedRealTimeAlarmLi {
+    display: flex;
+    justify-content: space-between;
+    z-index: 9999999;
+    bottom: 3%;
+    width: 100%;
+    height: 15%;
+    opacity: 95%;
+    background-color: #a1ff36;
+    color: #303030;
+    border-radius: 7px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 5% 5%;
+    margin-bottom: 5px;
+    transition: transform 0.3s ease;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .mateRealTimeAlarmLi.added {
@@ -122,4 +162,12 @@
 
 .mateRealTimeAlarmModal-content {
     width: 100%;
+}
+
+li:disabled {
+    background-color: red;
+}
+
+.closeRealTimeAlarm {
+    cursor: pointer;
 }
