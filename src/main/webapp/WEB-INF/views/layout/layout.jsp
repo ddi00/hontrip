@@ -319,11 +319,13 @@
                     alarmPageClick(currentPg, 5, 5)
 
                     //채팅모달 펼치기
+                    $('.accompanyConfirmedButton').css('display', 'none');
                     $('.mateChatModal').css('display', 'block');
                     $('.mateChatList-wrap').css('display', 'none');
                     $('.mateChatHistory-wrap').css('display', 'block');
                     $('#mateChatHistoryUl').html('');
                     $('#mateChatRoomTitleLetter').text(result.chatRoomName);
+                    $('.ownerAcceptButton').css('display', 'block');
                 },
                 error: function (e) {
                     console.log(e);
@@ -396,8 +398,40 @@
             })
             subscribedChatRoomId.pop(roomId);
             stompClient.unsubscribe('chat' + roomId);
-            $('.mateChatHistory-wrap').css('display', 'none');
             $('.mateChatList-wrap').css('display', 'block');
+            $('.mateChatHistory-wrap').css('display', 'none');
+            $.ajax({
+                url: "${pageContext.request.contextPath}/mate/chat-room-list",
+                method: "POST",
+                success: function (chatRoomList) {
+                    $('#mateChatListUl').html('');
+                    if (chatRoomList.length == 0) {
+                        $('#mateChatListUl').append("불러올 채팅 내역이 없습니다.");
+                    }
+
+                    for (let i = 0; i < chatRoomList.length; i++) {
+                        let lastMessage = chatRoomList[i].lastMessage;
+                        if (lastMessage.length > 20) {
+                            lastMessage = lastMessage.substring(0, 20) + "...";
+                        }
+                        $('#mateChatListUl').append('<li class="mateChatListLi"><a class="mateChatroomAtag" onclick="clickOneChatRoom(this)" data-value="' + chatRoomList[i].roomId + '">' +
+                            '<div class="imgContainer"><img class="chatListOpponentImg" src="' +
+                            chatRoomList[i].opponentProfileImg + '"></div><div class="customRoomnameMessageTime"><div class="customChatRoomName" style="font-size: 15px; font-weight: bold;">' + chatRoomList[i].chatRoomName + '</div><div class="customChatLastMessage">' + lastMessage
+                            + '</div><div class="lastMessageCreatedAt">' + chatRoomList[i].lastMessageCreatedAt + '</div></div></a></li>');
+                        /*
+                                                        '</span><br><img class="chatListOpponentImg" src="' +
+                                                        chatRoomList[i].opponentProfileImg + '"><span class="customChatSenderNickname">' + chatRoomList[i].senderNickname + '  : </span>' +
+                                                        lastMessage + '<br>  <span style="margin-left: 50px; text-align: right; font-size: 12px; color: #777;">' + chatRoomList[i].lastMessageCreatedAt + '</span></a></li>');
+                        */
+                    }
+
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            })
+            /*$('.mateChatHistory-wrap').css('display', 'none');
+            $('.mateChatList-wrap').css('display', 'block');*/
             cancelMatePopup();
         }
 

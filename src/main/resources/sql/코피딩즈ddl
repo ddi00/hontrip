@@ -172,11 +172,11 @@ CREATE TABLE `mate_chatroom` (
   `last_chat_id` bigint DEFAULT '0',
   `mate_matching_alarm_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `post_id` (`post_id`),
+  KEY `mate_chatroom_ibfk_1` (`post_id`),
   KEY `mate_chatroom_FK` (`mate_matching_alarm_id`),
-  CONSTRAINT `mate_chatroom_FK` FOREIGN KEY (`mate_matching_alarm_id`) REFERENCES `mate_matching_alarm` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `mate_chatroom_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `mate_board` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `mate_chatroom_FK` FOREIGN KEY (`mate_matching_alarm_id`) REFERENCES `mate_matching_alarm` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `mate_chatroom_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `mate_board` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=189 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- hontrip.mate_comment definition
@@ -214,8 +214,8 @@ CREATE TABLE `mate_matching_alarm` (
   KEY `mate_board_id` (`mate_board_id`),
   KEY `sender_id` (`sender_id`),
   CONSTRAINT `mate_matching_alarm_ibfk_1` FOREIGN KEY (`mate_board_id`) REFERENCES `mate_board` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  CONSTRAINT `mate_matching_alarm_ibfk_2` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=396 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `mate_matching_alarm_ibfk_2` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=401 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- hontrip.plan definition
@@ -303,6 +303,7 @@ CREATE TABLE `record_like` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
+
 -- hontrip.mate_chat_message definition
 
 CREATE TABLE `mate_chat_message` (
@@ -313,11 +314,11 @@ CREATE TABLE `mate_chat_message` (
   `message` varchar(1000) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `sender_id` (`sender_id`),
-  KEY `chatroom_id` (`chatroom_id`),
+  KEY `mate_chat_message_ibfk_1` (`sender_id`),
+  KEY `mate_chat_message_ibfk_2` (`chatroom_id`),
   CONSTRAINT `mate_chat_message_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `mate_chat_message_ibfk_2` FOREIGN KEY (`chatroom_id`) REFERENCES `mate_chatroom` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `mate_chat_message_ibfk_2` FOREIGN KEY (`chatroom_id`) REFERENCES `mate_chatroom` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=906 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- hontrip.mate_user_chatroom definition
@@ -327,17 +328,17 @@ CREATE TABLE `mate_user_chatroom` (
   `user_id` bigint DEFAULT NULL,
   `last_read_chat_id` bigint DEFAULT NULL,
   `chatroom_id` bigint DEFAULT NULL,
-  `last_join_at` timestamp NULL DEFAULT NULL,
+  `last_join_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `unread_chat_number` int DEFAULT NULL,
   `is_owner` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `chatroom_id` (`chatroom_id`),
-  KEY `last_read_chat_id` (`last_read_chat_id`),
-  CONSTRAINT `mate_user_chatroom_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `mate_user_chatroom_ibfk_2` FOREIGN KEY (`chatroom_id`) REFERENCES `mate_chatroom` (`id`),
-  CONSTRAINT `mate_user_chatroom_ibfk_3` FOREIGN KEY (`last_read_chat_id`) REFERENCES `mate_chat_message` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `mate_user_chatroom_ibfk_1` (`user_id`),
+  KEY `mate_user_chatroom_ibfk_3` (`last_read_chat_id`),
+  KEY `mate_user_chatroom_ibfk_2` (`chatroom_id`),
+  CONSTRAINT `mate_user_chatroom_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE RESTRICT,
+  CONSTRAINT `mate_user_chatroom_ibfk_2` FOREIGN KEY (`chatroom_id`) REFERENCES `mate_chatroom` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `mate_user_chatroom_ibfk_3` FOREIGN KEY (`last_read_chat_id`) REFERENCES `mate_chat_message` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=373 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- hontrip.plan_day definition
 
