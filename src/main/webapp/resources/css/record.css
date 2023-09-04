@@ -33,14 +33,40 @@
     margin-top : 300px;
 }
 
-/*피드리스트 버튼*/
-.row-record-buttons {
+
+/*피드리스트 좋아요 버튼*/
+.btn.btn-lg.btn-primary.rounded-pill.like-button {
+     button-size: 5px; /* 원하는 크기로 조정하세요. */
+     padding: 5px 10px; /* 원하는 크기로 조정하세요. */
+ }
+
+.col-lg-9-record-like-button {
     display: flex;
-    flex-direction : row;
-    justify-content: center;
-    flex-wrap : nowrap;
+    justify-content: flex-end;
 }
 
-.row-record-buttons2 {
+/* 피드 지역 버튼들 */
+.col-lg-9-record-location-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+
+
+.col-lg-9-record-location-buttons button:first-child {
+    margin-right: auto;
+}
+
+
+.col-lg-9-record-location-buttons button:last-child {
+    margin-left: auto;
+}
+
+
+.col-lg-9-record-location-buttons button:not(:first-child):not(:last-child) {
+    margin-left: 10px; /* 원하는 간격으로 조정하세요. */
+}
+
+
+
 
