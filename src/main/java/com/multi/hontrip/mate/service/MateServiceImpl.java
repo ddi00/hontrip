@@ -156,6 +156,37 @@ public class MateServiceImpl implements MateService {
         return ageRangeList;
     }
 
+    public List<Map<String, Object>> getRegionList(){
+        List<Region> RegionValues = Arrays.asList(Region.values());
+        List<Map<String, Object>> regionList = new ArrayList<>();
+
+        for (Region region : RegionValues) {
+            Map<String, Object> regionMap = new HashMap<>();
+            regionMap.put("regionNum", region.getRegionNum());
+            regionMap.put("regionStr", region.getRegionStr());
+            regionList.add(regionMap);
+        }
+
+        return regionList;
+    }
+
+    public List<Map<String, Object>> getgenderList(){
+        List<Gender> GenderValues = Arrays.asList(Gender.values());
+        List<Map<String, Object>> genderList = new ArrayList<>();
+
+        for (Gender gender : GenderValues) {
+            Map<String, Object> genderMap = new HashMap<>();
+            genderMap.put("genderNum", gender.getGenderNum());
+            genderMap.put("genderStr", gender.getGenderStr());
+            genderList.add(genderMap);
+        }
+        return genderList;
+    }
+
+    public List<MateBoardListDTO> likeTopTen(){
+        return mateDAO.topList();
+    }
+
     @Override
     public int updateMateBoard(MultipartFile file, MateBoardInsertDTO mateBoardInsertDTO) {
         String updatedFileName = file.getOriginalFilename();

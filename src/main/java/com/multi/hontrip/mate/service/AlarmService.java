@@ -13,4 +13,6 @@ public interface AlarmService {
     int deleteByAlarmId(long alarmId);  //동행인 신청 알림 삭제하기
 
     int countMateAllAlarms(long userId); //전체 동행신청 알람개수
+
+    void readCheck(long alarmId);    //is_read 0->1로 변경
 }

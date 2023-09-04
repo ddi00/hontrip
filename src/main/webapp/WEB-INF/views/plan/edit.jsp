@@ -269,7 +269,7 @@
                 <div class="row mt-3" id="selected-accommodations-1">
 
                     <c:forEach items="${addedAccommodations}" var="accommodation">
-                        <div class="card my-2">
+                        <div class="card my-2" style="text-align: left; font-size: 0.8em;">
                             <div class='row ms-3 my-4'>
                                     <%--<span class='col-3'><img src="${spot.image}" width="88px" height="72px"></span> --%>
                                 <div class="row">
@@ -323,6 +323,7 @@
                         </button>
 
                     </div>
+
                 </form>
 
                 <div class="search-accommodation-results row" id="search-accommodation-results-1">
@@ -333,6 +334,7 @@
         </div>
         <hr class="my-8"/>
         <%--    container   --%>
+
 </section>
 <script>
     let planId = "${plan.planId}";
@@ -682,6 +684,7 @@
 
             //getAccommodationList(category, address, placeName, btnId);
             //getAccommodationList(category, addressInput, placeNameInput, btnId);
+
             getAccommodationList(addressInput, placeNameInput, btnId);
         });
 
@@ -730,7 +733,6 @@
                 filterType: filter_type
             },
             success: function (data) {
-
                /* console.log("after getAccommodationList ajax succeeded!");
                 console.log("returned getAccommodationList data");
 
@@ -854,7 +856,6 @@
         });
     })
 
-
     /*안전정보 연결*/
     $(document).ready(function () {
         // Load the safety_search.jsp content when the safetyButton is clicked
@@ -902,7 +903,6 @@
             });
         });
     });
-
 
     /*  응급시설*/
     $(document).ready(function () {

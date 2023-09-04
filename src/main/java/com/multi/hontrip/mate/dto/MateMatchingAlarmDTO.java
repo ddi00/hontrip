@@ -6,7 +6,7 @@ import lombok.Data;
 public class MateMatchingAlarmDTO {
 
     public enum AlarmType {
-        MATE_APPLY, MATE_CHAT, MATE_COMMENT
+        MATE_APPLY, MATE_CHAT, MATE_COMMENT, MATE_ACCOMPANY_CONFIRMED
     }
 
 

@@ -23,6 +23,13 @@
                     </div>
                 </c:forEach>
             </ul>
+
+            <c:if test="${empty list}">
+                <div class="alert alert-warning mt-3" role="alert">
+                    검색결과가 없습니다.
+                </div>
+            </c:if>
+
         </div>
     </div>
 </section>

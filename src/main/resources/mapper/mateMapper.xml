@@ -72,21 +72,26 @@
     </delete>
 
     <select id="list" resultType="mateBoardListDTO" parameterType="map">
-        SELECT
-        mb.id AS mateBoardId,
-        u.nickname AS nickname,
-        mb.content AS content,
-        mb.title AS title,
-        mb.thumbnail AS thumbnail,
+		SELECT
+		mb.id AS mateBoardId,
+		u.nickname AS nickname,
+		u.profile_image AS profileImage,
+		mb.content AS content,
+		mb.title AS title,
+		mb.thumbnail AS thumbnail,
 		mb.start_date AS startDate,
 		mb.end_date AS endDate,
 		ar.range_description AS ageRange,
 		mb.view_count AS viewCount,
-		mb.age_range_id AS ageRangeId
+		mb.age_range_id AS ageRangeId,
+		mb.region_id AS regionId,
+		mb.gender AS genderId
 		FROM
 		mate_board mb
-		JOIN user u ON mb.user_id = u.id
-		JOIN age_range ar ON mb.age_range_id = ar.id
+		JOIN
+		user u ON mb.user_id = u.id
+		JOIN
+		age_range ar ON mb.age_range_id = ar.id
 		<where>
 			<if test='regionId != 0'>
 				AND mb.region_id = #{regionId}
@@ -123,6 +128,30 @@
 		LIMIT #{start} OFFSET #{end}
 	</select>
 
+	<select id="topList" resultType="mateBoardListDTO">
+		SELECT
+		mb.id AS mateBoardId,
+		u.nickname AS nickname,
+		u.profile_image AS profileImage,
+		mb.content AS content,
+		mb.title AS title,
+		mb.thumbnail AS thumbnail,
+		mb.start_date AS startDate,
+		mb.end_date AS endDate,
+		ar.range_description AS ageRange,
+		mb.view_count AS viewCount,
+		mb.age_range_id AS ageRangeId,
+		mb.region_id AS regionId,
+		mb.gender AS genderId
+		FROM
+		mate_board mb
+		JOIN
+		user u ON mb.user_id = u.id
+		JOIN
+		age_range ar ON mb.age_range_id = ar.id
+		ORDER BY mb.view_count DESC
+		LIMIT 10 OFFSET 0
+	</select>
 	<select id="one" resultType="mateBoardListDTO">
 		SELECT
 		mb.id AS mateBoardId,
@@ -248,35 +277,42 @@
 
 	<select id="getAllAlarmByUserId" parameterType="alarmPaginationDTO" resultType="mateMatchingAlarmDTO">
         SELECT mma.id,
-               mma.mate_board_id as mateBoardId,
-               mb.title          as mateBoardTitle,
-               #{userId}         as receiverId,
-               mma.sender_id     as senderId,
-               u.nickname        as senderNickname,
-               u.profile_image   as senderProfileImage,
-               mma.content
-        FROM mate_matching_alarm mma
-                 JOIN `user` u ON u.id = mma.sender_id
-                 JOIN mate_board mb ON mma.mate_board_id = mb.id
-        WHERE mma.mate_board_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{userId})
-          and mma.is_read = 0
-        order by mma.id desc LIMIT #{alarmNumPerPage}
-        OFFSET #{startAlarmNum};
-    </select>
+			   mma.mate_board_id as mateBoardId,
+			   mb.title          as mateBoardTitle,
+			   #{userId}         as receiverId,
+			   mma.sender_id     as senderId,
+			   u.nickname        as senderNickname,
+			   u.profile_image   as senderProfileImage,
+			   mma.content
+		FROM mate_matching_alarm mma
+				 JOIN `user` u ON u.id = mma.sender_id
+				 JOIN mate_board mb ON mma.mate_board_id = mb.id
+		WHERE mma.mate_board_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{userId})
+		  and mma.is_read = 0
+		  and mma.is_delete = 0
+		order by mma.id desc LIMIT #{alarmNumPerPage}
+		OFFSET #{startAlarmNum};
+	</select>
 
-    <delete id="deleteByAlarmId" parameterType="long">
-        delete
-        from mate_matching_alarm
-        where id = #{alarmId}
-    </delete>
+	<update id="deleteByAlarmId" parameterType="long">
+		UPDATE mate_matching_alarm
+		SET is_delete = 1
+		WHERE id = #{alarmId};
+	</update>
 
-    <select id="countMateAllAlarms" resultType="int">
-        SELECT count(*)
-        FROM mate_matching_alarm mma
-                 JOIN `user` u ON u.id = mma.sender_id
-        WHERE mma.mate_board_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{userId})
-          and mma.is_read = 0;
-    </select>
+	<select id="countMateAllAlarms" resultType="int">
+		SELECT count(*)
+		FROM mate_matching_alarm mma
+				 JOIN `user` u ON u.id = mma.sender_id
+		WHERE mma.mate_board_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{userId})
+		  and mma.is_read = 0;
+	</select>
+
+	<update id="readCheck" parameterType="long">
+        UPDATE mate_matching_alarm
+        SET is_read = 1
+        WHERE id = #{alarmId};
+    </update>
 </mapper>
 
 

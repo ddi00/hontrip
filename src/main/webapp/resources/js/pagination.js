@@ -26,16 +26,16 @@ if (window.location.href.includes('/mate/bbs_list')) {
         }
         if (savedRegion) {
             // 선택된 버튼 강조 표시
-            $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-            $('.regionBtn[data-region="' + savedRegion + '"]').removeClass('btn-soft-orange').addClass('btn-orange');
+            $('.regionBtn').removeClass('btn-primary').addClass('btn-soft-primary');
+            $('.regionBtn[data-region="' + savedRegion + '"]').removeClass('btn-soft-primary').addClass('btn-primary');
         }
         if (savedAge) {
             // 선택된 버튼 강조 표시
-            $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-            $('.ageBtn[data-age="' + savedAge + '"]').removeClass('btn-soft-orange').addClass('btn-orange');
+            $('.ageBtn').removeClass('btn-primary').addClass('btn-soft-primary');
+            $('.ageBtn[data-age="' + savedAge + '"]').removeClass('btn-soft-primary').addClass('btn-primary');
         }
         if (savedOrderBy) {
-            $('#viewCount').removeClass('btn-soft-orange').addClass('btn-orange');
+            $('#viewCount').removeClass('btn-soft-primary').addClass('btn-primary');
         }
 
 
@@ -72,9 +72,9 @@ if (window.location.href.includes('/mate/bbs_list')) {
             sessionStorage.removeItem(SELECTED_REGION_KEY);
             sessionStorage.removeItem(AGE_KEY);
             sessionStorage.removeItem(orderBy_KEY);
-            $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-            $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-            $('#viewCount').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('.regionBtn').removeClass('btn-primary').addClass('btn-soft-primary');
+            $('.ageBtn').removeClass('btn-primary').addClass('btn-soft-primary');
+            $('#viewCount').removeClass('btn-primary').addClass('btn-soft-primary');
             loadPageData(1);
         });
 
@@ -86,18 +86,18 @@ if (window.location.href.includes('/mate/bbs_list')) {
         $('.regionBtn').click(function () {
             let selectedRegion = $(this).data('region');
             sessionStorage.setItem(SELECTED_REGION_KEY, selectedRegion);
-            $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-            $(this).removeClass('btn-soft-orange').addClass('btn-orange');
+            $('.regionBtn').removeClass('btn-primary').addClass('btn-soft-primary');
+            $(this).removeClass('btn-soft-primary').addClass('btn-primary');
 
             // 세션 스토리지에서 검색 조건 초기화
             sessionStorage.removeItem(SEARCH_TYPE_KEY);
             sessionStorage.removeItem(KEYWORD_KEY);
             sessionStorage.removeItem(AGE_KEY);
             sessionStorage.removeItem(orderBy_KEY);
-            $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('.ageBtn').removeClass('btn-primary').addClass('btn-soft-primary');
             $('#searchType').val('');
             $('#keyword').val('');
-            $('#viewCount').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('#viewCount').removeClass('btn-primary').addClass('btn-soft-primary');
 
             loadPageData(1);
         });
@@ -108,8 +108,8 @@ if (window.location.href.includes('/mate/bbs_list')) {
             sessionStorage.setItem(AGE_KEY, ageRange);
 
             // 선택된 버튼 스타일 변경
-            $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-            $(this).removeClass('btn-soft-orange').addClass('btn-orange');
+            $('.ageBtn').removeClass('btn-primary').addClass('btn-soft-primary');
+            $(this).removeClass('btn-soft-primary').addClass('btn-primary');
 
             // 세션 스토리지에서 검색 조건 초기화
             sessionStorage.removeItem(SEARCH_TYPE_KEY);
@@ -117,10 +117,10 @@ if (window.location.href.includes('/mate/bbs_list')) {
             sessionStorage.removeItem(SELECTED_REGION_KEY);
             sessionStorage.removeItem(orderBy_KEY);
 
-            $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('.regionBtn').removeClass('btn-primary').addClass('btn-soft-primary');
             $('#searchType').val('');
             $('#keyword').val('');
-            $('#viewCount').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('#viewCount').removeClass('btn-primary').addClass('btn-soft-primary');
 
             loadPageData(1);
         });
@@ -129,15 +129,15 @@ if (window.location.href.includes('/mate/bbs_list')) {
             let orderBy = 'viewCount';
             sessionStorage.setItem(orderBy_KEY, orderBy);
 
-            $('#viewCount').removeClass('btn-soft-orange').addClass('btn-orange');
+            $('#viewCount').removeClass('btn-soft-primary').addClass('btn-primary');
 
             // 세션 스토리지에서 검색 조건 초기화
             sessionStorage.removeItem(SEARCH_TYPE_KEY);
             sessionStorage.removeItem(KEYWORD_KEY);
             sessionStorage.removeItem(SELECTED_REGION_KEY);
             sessionStorage.removeItem(AGE_KEY);
-            $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-            $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
+            $('.ageBtn').removeClass('btn-primary').addClass('btn-soft-primary');
+            $('.regionBtn').removeClass('btn-primary').addClass('btn-soft-primary');
             $('#searchType').val('');
             $('#keyword').val('');
 
@@ -148,14 +148,21 @@ if (window.location.href.includes('/mate/bbs_list')) {
             const viewCountButton = document.getElementById("viewCount");
             const ageBtnContainer = document.querySelector(".ageBtn-container");
             const regionBtnContainer = document.querySelector(".regionBtn-container");
-                 // .ageBtn-container를 보이게 하는 스타일
-                 regionBtnContainer.style.display = "block";
-                 ageBtnContainer.style.display = "block";
-                 // #viewCount를 보이게 하는 스타일
-                 viewCountButton.style.display = "block";
 
-
+            if (ageBtnContainer.style.display === "block") {
+                // .ageBtn-container를 숨기는 스타일
+                regionBtnContainer.style.display = "none";
+                ageBtnContainer.style.display = "none";
+                // #viewCount를 숨기는 스타일
+                viewCountButton.style.display = "none";
+            } else {
+                // 다시 버튼을 누르면 보이게 하려면 이 부분에 보이게 하는 스타일을 추가합니다.
+                regionBtnContainer.style.display = "block";
+                ageBtnContainer.style.display = "block";
+                viewCountButton.style.display = "block";
+            }
         });
+
         // 초기화 버튼 클릭 시 세션 스토리지 값을 모두 초기화
         $(document).on('click', '#resetButton', function () {
 
@@ -167,9 +174,9 @@ if (window.location.href.includes('/mate/bbs_list')) {
 
 
                     // 선택된 버튼 스타일 초기화
-                    $('.regionBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-                    $('.ageBtn').removeClass('btn-orange').addClass('btn-soft-orange');
-                    $('#viewCount').removeClass('btn-orange').addClass('btn-soft-orange');
+                    $('.regionBtn').removeClass('btn-primary').addClass('btn-soft-primary');
+                    $('.ageBtn').removeClass('btn-primary').addClass('btn-soft-primary');
+                    $('#viewCount').removeClass('btn-primary').addClass('btn-soft-primary');
 
                     // 검색 조건 선택 상자 초기화
                     $('#searchType').val('');
@@ -190,7 +197,7 @@ if (window.location.href.includes('/mate/bbs_list')) {
         let keyword = $('#keyword').val();
         let selectedRegion = sessionStorage.getItem('selectedRegion');
         let selectedAge = sessionStorage.getItem('selectedAge');
-        let orderBy = sessionStorage.getItem('orderBy_KEY');
+        let orderBy = sessionStorage.getItem('savedOrderBy');
 
         if (!selectedRegion) {
             selectedRegion = 0;
@@ -214,49 +221,64 @@ if (window.location.href.includes('/mate/bbs_list')) {
                     let one = data.list[i];
                     let thumbnail = one.thumbnail;
                     let imagePath = `/resources/img/mateImg/${thumbnail}`;
+
                     let ageRangeValues = data.ageRangeValues;
-                    ageRangeId = one.ageRangeId
+                    let ageRangeId = one.ageRangeId;
                     let ageRangeStr = findAgeRangeStr(ageRangeValues, ageRangeId);
 
+                    let regionValues = data.regionValues;
+                    let regionId = one.regionId;
+                    let regionStr = findRegionStr(regionValues,regionId);
 
-                    str += ` <div class="col-md-6 col-lg-4">
-                                                       <article class="item post">
-                                                         <div class="card mate-post-item">
-                                                           <figure class="card-img-top overlay overlay-1 hover-scale">
-                                                       <a href="../mate/${one.mateBoardId}">
-                                                       <div class="mate-list-image-container">
-                                                         <img src="../${imagePath}">
-                                                         </div>
-                                                         <span class="bg"></span>
-                                                       </a>
-                                                       <figcaption>
-                                                         <h5 class="from-top mb-0">Read More</h5>
-                                                       </figcaption>
-                                                     </figure>
-                                                     <div class="card-body">
-                                                       <div class="post-header">
-                                                         <div class="post-category text-line">
-                                                           <a href="#" class="hover" rel="category">${one.nickname}</a>
-                                                         </div>
-                                                         <h2 class="post-title h3 mt-1 mb-3">
-                                                           <a class="link-dark" href="../mate/${one.mateBoardId}">${one.title}</a>
-                                                           <span class="badge bg-pale-orange text-orange rounded-pill">#${ageRangeStr}</span>
-                                                         </h2>
+                    let genderValues = data.genderValues;
+                    let genderId = one.genderId;
+                    let genderStr = findGenderStr(genderValues,genderId);
 
-                                                         <div class="mate-list-card-footer">
-                                                          <ul class="post-meta d-flex mb-0">
-                                                            <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.startDate} </span></li>
-                                                            <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.endDate}</span></li>
-                                                            <li class="post-likes ms-auto"><i class="uil uil-user-check"></i>조회수 ${one.viewCount}</li>
-                                                          </ul>
-                                                          <!-- /.post-meta -->
+                    str += `
+                                        <div class="col-md-6 col-lg-4">
+                                            <article class="item post">
+                                                <div class="card mate-post-item">
+                                                    <figure class="card-img-top overlay overlay-1 hover-scale">
+                                                        <a href="../mate/${one.mateBoardId}">
+                                                            <div class="mate-list-image-container">
+                                                                <img src="../${imagePath}">
+                                                            </div>
+                                                            <span class="bg"></span>
+                                                        </a>
+                                                        <figcaption>
+                                                            <h5 class="from-top mb-0">Read More</h5>
+                                                        </figcaption>
+                                                    </figure>
+                                                        <div class="card-body">
+                                                            <div class="post-header d-flex align-items-center mb-3"> <!-- 프로필 이미지와 닉네임을 가로로 나란히 배치 -->
+                                                                <figure class="user-avatar">
+                                                                    <img class="rounded-circle" alt="" src="${one.profileImage}" />
+                                                                </figure>
+                                                                ${one.nickname}
+                                                            </div>
+
+                                                            <h2 class="post-title h3 mt-1 mb-2">
+                                                                <a class="link-dark mb-2" href="../mate/${one.mateBoardId}">${one.title}</a><br>
+                                                            </h2>
+                                                            <h4>
+                                                                <div class="badge bg-pale-primary text-primary rounded-pill">#${ageRangeStr}</div>
+                                                                <div class="badge bg-pale-primary text-primary rounded-pill">#${genderStr}</div>
+                                                                <div class="badge bg-pale-primary text-primary rounded-pill">#${regionStr}</div>
+                                                            </h4>
+
+                                                            <div class="mate-list-card-footer">
+                                                                <ul class="post-meta d-flex mb-0 mate-list-one">
+                                                                    <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.startDate} </span>
+                                                                    </li>
+                                                                    <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.endDate}</span></li>
+                                                                    <li class="post-likes ms-auto"><i class="uil uil-user-check"></i>조회수 ${one.viewCount}</li>
+                                                                </ul>
+                                                                <!-- /.post-meta -->
+                                                            </div>
                                                         </div>
-                                                       </div>
-                                                     </div>
-                                                   </div>
-
-                                                 </article>
-                                               </div>`;
+                                                </div>
+                                            </article>
+                                        </div>`;
                 }
 
                 // 데이터 삽입 및 페이지 버튼 다시 생성
@@ -281,6 +303,28 @@ if (window.location.href.includes('/mate/bbs_list')) {
         }
         return ''; // 매치되는 값이 없을 경우 빈 문자열 반환
     }
+
+    function findRegionStr(regionValues, regionId) {
+        for (let k = 0; k < regionValues.length; k++) {
+            let region = regionValues[k];
+            if (region.regionNum == parseInt(regionId)) {
+                return region.regionStr;
+            }
+        }
+        return ''; // 매치되는 값이 없을 경우 빈 문자열 반환
+    }
+
+    function findGenderStr(genderValues, genderId) {
+        for (let k = 0; k < genderValues.length; k++) {
+            let gender = genderValues[k];
+            if (gender.genderNum == parseInt(genderId)) {
+                return gender.genderStr;
+            }
+        }
+        return ''; // 매치되는 값이 없을 경우 빈 문자열 반환
+    }
+
+
 
     //페이지 버튼 생성하는 메서드
     function generatePageButtons(page, pageSize, firstPageNoOnPageList, lastPageNoOnPageList, realEnd) {

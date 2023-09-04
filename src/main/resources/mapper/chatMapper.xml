@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="chatMapper">
     <insert id="insertChatroom" parameterType="chatInfoDTO" useGeneratedKeys="true" keyProperty="roomId">
-        INSERT INTO mate_chatroom (chatroom_name, post_id, guest_id, created_at) VALUES (
-                                                                                            #{chatRoomName}, #{postId},
-                                                                                            #{guestId}, NOW())
+        INSERT INTO mate_chatroom (chatroom_name, post_id, guest_id, created_at, mate_matching_alarm_id)
+        VALUES (#{chatRoomName}, #{postId},
+                #{guestId}, NOW(), #{mateMatchingAlarmId})
     </insert>
     <!-- Owner 추가 -->
     <insert id="insertOwnerChatroom" parameterType="chatInfoDTO" useGeneratedKeys="true">
@@ -109,12 +109,35 @@
         JOIN
         mate_chat_message mcm ON mc.last_chat_id = mcm.id AND mcm.message_type != 'JOIN'
         JOIN
-        user ON user.id = mc.guest_id
+        user
+        ON user.id = mc.guest_id
         WHERE
-        mc.guest_id = #{id}
-        OR mc.post_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{id})
+            mc.guest_id = #{id}
+           OR mc.post_id IN (SELECT mb.id FROM mate_board mb WHERE mb.user_id = #{id})
         ORDER BY
-        mc.id DESC;
+            mc.id DESC;
+    </select>
+
+    <select id="getIsOwnerIsAcceptedByRoomIdAndUserId" parameterType="map" resultType="chatOwnerAcceptedDTO">
+        select muc.is_owner    as isOwner,
+               mma.is_accepted as isAccepted
+        from mate_user_chatroom muc
+                 join mate_matching_alarm mma
+                      on mma.id = (select mc.mate_matching_alarm_id from mate_chatroom mc where mc.id = #{roomId})
+        where muc.user_id = #{userId}
+          and muc.chatroom_id = #{roomId}
+    </select>
+
+    <update id="acceptMatchingApplication" parameterType="long">
+        update mate_matching_alarm mma
+        set is_accepted = 1
+        where mma.id = (select mc.mate_matching_alarm_id from mate_chatroom mc where id = #{roomId})
+    </update>
+
+    <select id="getGuestNicknameByRoomId" parameterType="long" resultType="String">
+        select user.nickname
+        from user
+        where user.id = (select guest_id from mate_chatroom mc where mc.id = #{roomId})
     </select>
 </mapper>
 

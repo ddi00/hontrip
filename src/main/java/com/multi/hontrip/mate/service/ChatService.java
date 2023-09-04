@@ -16,4 +16,11 @@ public interface ChatService {
     Long getChatRoomIdByPostIdAndGuestID(ChatInfoDTO chatInfoDTO);
 
     JoinChatInfo getChatRoomInfoByRoomIdAndUserId(ChatroomRequestDTO chatroomRequestDTO);
+
+    ChatOwnerAcceptedDTO getIsOwnerIsAcceptedByRoomIdAndUserId(long roomId, long userId);
+
+    void acceptMatchingApplication(long roomId);
+
+    String getGuestNicknameByRoomId(long roomId);
+
 }

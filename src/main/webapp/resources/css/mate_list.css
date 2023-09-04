@@ -9,9 +9,27 @@
         display: none;
 }
 
-#searchBtn {
-    margin-left:20px;
+.mate-search-select{
+    width:30vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-right:10px;
 }
+
+.mate-search-text{
+    width:50vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin:10px;
+}
+
+
+/* input-group 내 요소 중앙 정렬 */
+.mate-search-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
 
 .regionBtn {
     width: calc(9% - 10px);  /* 버튼 너비 계산 */
@@ -97,7 +115,6 @@
 
 .mate-comment-content{
    height: 150px;
-   border: 2px solid #000;
    width: 1000px;
 }
 
@@ -132,3 +149,27 @@ font-size: 10px;
     align-items: center; /* 수직 가운데 정렬 */
 }
 
+.mate-list-insert-btn {
+    margin-left:1110px;
+}
+
+.mate-list-one{
+  font-size: 13px !important;
+}
+
+#clc{
+    margin-left:35px;
+}
+
+#result{
+   margin:37px;
+}
+
+.back-mate-list{
+ width: 150px;
+ margin-left:890px;
+}
+
+.top-ten{
+margin-bottom:40px;
+}

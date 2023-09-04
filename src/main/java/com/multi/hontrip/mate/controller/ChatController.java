@@ -1,12 +1,13 @@
 package com.multi.hontrip.mate.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.multi.hontrip.mate.dto.*;
 import com.multi.hontrip.mate.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
@@ -29,8 +30,6 @@ public class ChatController {
         }
         chatService.saveChatContent(chatMessageDTO);
         simpMessageSendingOperations.convertAndSend("/topic/chat/roomId/" + chatMessageDTO.getRoomId(), chatMessageDTO);
-        /*String time = new SimpleDateFormat("HH:mm").format(new Date());
-        return new OutputMessage(message.getFrom(), message.getText(), time);*/
     }
 
     @PostMapping("/create-chatroom")    //form으로 보낼때는 requestBody 쓰지 마시오
@@ -69,14 +68,14 @@ public class ChatController {
         List<ChatSessionInfoDTO> chatRoomDTOList = chatService.getChatListById(id);
         return chatRoomDTOList;
     }
-*/
-
 
     @GetMapping("/chat-view")
     public ModelAndView chatPage(ModelAndView modelAndView) {
         modelAndView.setViewName("/mate/chat-view");
         return modelAndView;
     }
+*/
+
 
     @GetMapping("/join-chat/{roomId}")
     public JoinChatInfo joinChat(@PathVariable("roomId") Long roomId,
@@ -95,5 +94,22 @@ public class ChatController {
     @GetMapping("/update_last_join_at")
     public void updateLastJoinAt(long userId, long roomId) {
         chatService.updateLastJoinAt(userId, roomId);
+    }
+
+    @GetMapping("/owner_check")
+    public ChatOwnerAcceptedDTO getIsOwnerIsAcceptedByRoomIdAndUserId(long roomId, long userId) {
+        return chatService.getIsOwnerIsAcceptedByRoomIdAndUserId(roomId, userId);
+    }
+
+    @GetMapping("/accept_matching_application")
+    public void acceptMatchingApplication(long roomId) {
+        chatService.acceptMatchingApplication(roomId);
+    }
+
+    @GetMapping(value = "/guest_nickname", produces = "application/json; charset=utf8")
+    public String getGuestNicknameByRoomId(long roomId) {
+        JsonObject guestNickname = new JsonObject();
+        guestNickname.addProperty("nickname", chatService.getGuestNicknameByRoomId(roomId));
+        return new Gson().toJson(guestNickname);
     }
 }

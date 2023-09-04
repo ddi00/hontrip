@@ -22,6 +22,7 @@
     <input hidden id="mateHeaderReceiverId">
     <input hidden id="mateHeaderChaRoomId">
     <input hidden id="mateHeaderChaRoomName">
+    <input hidden id="mateHeaderSenderNickname">
     <div class="mateChatModal-content">
         <%--채팅방 목록--%>
         <div class="mateChatList-wrap">
@@ -29,7 +30,6 @@
             <div class="mate-chat-list-container">
             <div class="mateChatListDiv">
                 <ul id="mateChatListUl" class="mateChatListUl">
-
                 </ul>
             </div>
         </div>
@@ -48,11 +48,24 @@
                     채팅방 제목
                 </span>
                     <%--<a id="chatRoomDownArrow" class="chatRoomDownArrow" onclick="clickDownArrow()"><svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16" id="IconChangeColor"> <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" id="mainIconPathAttribute" fill="#ffffff"></path> </svg></a>--%>
-                    <button type="button" class="acceptMateButton" id="acceptMateButton" onclick="acceptMate()">동행 수락
-                    </button>
+                    <%--<button id="deleteButton" class="btn btn-primary rounded-pill mx-1 mb-2 mb-md-0" data-bs-toggle="modal"
+                            data-bs-target="#acceptMateApply"> 동행인 수락
+                    </button>--%>
+                    <span class="ownerAcceptButton"><button type="button" class="acceptMateButton" id="acceptMateButton"
+                                                            onclick="accompanyPopup()">동행 수락</button></span>
+                    <span class="accompanyConfirmedButton"><i class="uil uil-users-alt"></i>동행 확정</span>
                 </div>
                 <!--/.card-header -->
                 <div class="mateChatHistoryDiv">
+                    <div id="acceptMatePopup" class="acceptMatePopup"><span class="mateGuestName"></span>님의 동행 신청을
+                        수락하시겠습니까?<br>
+                        <button class="mate-cancel-button" onclick="cancelMatePopup()">취소</button>
+                        <button class="mate-accept-button" onclick="acceptMatePopup()">수락</button>
+                    </div>
+                    <div id="mateSuccessMessagePopup" class="mateSuccessMessagePopup"><span
+                            class="mateGuestName"></span>과 동행 매칭이 완료되었습니다!
+                        <button class="mate-confirm-button" onclick="deleteConfirmButton(this)">x</button>
+                    </div>
                     <ul id="mateChatHistoryUl" class="mateChatHistoryUl">
                     </ul>
                 </div>

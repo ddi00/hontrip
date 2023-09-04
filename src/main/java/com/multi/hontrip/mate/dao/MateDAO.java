@@ -76,6 +76,10 @@ public class MateDAO {
         my.update("mateBbs.viewUpdate", id);
     }
 
+    public List<MateBoardListDTO> topList() {
+        return my.selectList("mateBbs.topList");
+    }
+
 
 //    //게시물 1개 검색
 //    public BbsDTO one(int id) {

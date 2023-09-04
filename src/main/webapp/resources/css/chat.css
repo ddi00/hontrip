@@ -43,7 +43,7 @@
     position: fixed;
     z-index: 9999;
     right: 4%;
-    top: 23%;
+    top: 25%;
     width: 25%;
     height: 60%;
     background-color: transparent;
@@ -109,8 +109,8 @@
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    right: 2%;
-    bottom: 11%;
+    right: 1.5%;
+    bottom: 12%;
     width: 60px;
     height: 60px;
     background-color: #FFF;
@@ -130,9 +130,17 @@
     border-radius: 15px;
 }*/
 
+.imgContainer {
+    display: flex;
+    align-items: center;
+    width: 70px;
+}
+
 .chatListOpponentImg {
-    width: 45px;
-    height: 45px;
+    margin-top: 12px;
+    margin-right: 5px;
+    width: 50px;
+    height: 50px;
     border-radius: 20px;
 }
 
@@ -145,7 +153,7 @@
     align-content: center;
     border-radius: 10px 10px 0px 0px;
     font-weight: bold;
-    padding: 2%;
+    padding: 3%;
     height: 10%;
     width: 100%;
     text-align: center;
@@ -265,82 +273,222 @@
 }
 
 .mate-chat-list-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .mateChatListDiv {
-  width: 500px;
-  display: flex;
-  align-items: center;
-  max-height: 350px; /* 원하는 높이로 조정 */
-  overflow-y: auto;
-  background-color:white;
+    width: 500px;
+    display: flex;
+    align-items: center;
+    max-height: 350px; /* 원하는 높이로 조정 */
+    overflow-y: auto;
+    background-color: white;
 }
 
 .mateChatListDiv::-webkit-scrollbar {
-  width: 0.5em; /* 스크롤바의 너비 조절 */
+    width: 0.5em; /* 스크롤바의 너비 조절 */
 }
 
 .mateChatListDiv::-webkit-scrollbar-track {
-  background-color: transparent; /* 스크롤바 트랙 배경색을 투명하게 설정하여 보이지 않게 만듦 */
+    background-color: transparent; /* 스크롤바 트랙 배경색을 투명하게 설정하여 보이지 않게 만듦 */
 }
 
 .mateChatListDiv::-webkit-scrollbar-thumb {
-  background-color: transparent; /* 스크롤바 썸 배경색을 투명하게 설정하여 보이지 않게 만듦 */
+    background-color: transparent; /* 스크롤바 썸 배경색을 투명하게 설정하여 보이지 않게 만듦 */
 }
 
 .mate-chat-list {
- padding:5px;
+    padding: 10px;
 }
 
 .mateChatListUl {
-  list-style: none;
-   margin: 0;
-   padding: 0;
-   max-height: 350px; /* 스크롤 영역의 최대 높이를 원하는 높이로 조절 */
-   justify-content: left;
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+    width: 95%;
+    max-height: 350px; /* 스크롤 영역의 최대 높이를 원하는 높이로 조절 */
+    justify-content: center;
+}
 
+.mateChatListDiv .mateChatListUl li:hover {
+    background-color: #f0f0f0; /* 개별 li 요소에 마우스를 올렸을 때 배경 색상 변경 */
 }
 
 .mateChatListUl li {
-  border: 1px solid transparent;
-  padding: 20px;
+    border: 1px solid transparent;
+    margin-left: 5px;
 }
 
 .mateChatListUl li::after {
-  content: "";
+    content: "";
     display: block;
     border-bottom: 1px solid rgba(128, 128, 128, 0.5);; /* 아랫부분 border의 색상을 orange로 설정 */
     margin-top: 25px; /* 원하는 간격 조절 */
-    width: 320px;
+    width: 100%;
 }
+
 .mateChatList-wrap {
-  background-color: rgba(255, 90, 70, 0.8); /* 원하는 배경 색상 설정 */
-  border-radius: 10px;
-
+    background-color: rgba(255, 90, 70, 0.8); /* 원하는 배경 색상 설정 */
+    border-radius: 10px;
 }
 
-.chatModalAlarmLetter{
- color:white;
- height: 30px; /* 높이를 50px로 설정 */
- width: 355px;
- font-size: 24px; /* 원하는 크기로 설정 */
- text-align: center; /* 텍스트를 가운데 정렬 */
- margin-bottom:20px;
+.chatModalAlarmLetter {
+    color: white;
+    height: 20px;
+    width: 355px;
+    font-size: 17px; /* 원하는 크기로 설정 */
+    text-align: center; /* 텍스트를 가운데 정렬 */
+    margin-bottom: 20px;
 }
+
 .content-after-chatModalAlarmLetter {
-  background-color: transparent; /* 배경을 투명하게 설정 */
+    background-color: transparent; /* 배경을 투명하게 설정 */
 }
 
 .acceptMateButton {
     color: rgba(255, 90, 70, 0.88);
     font-size: 11.5px;
     font-weight: bold;
-    width: 20%;
+    width: 75px;
+    height: 25px;
     border: none;
     border-radius: 7px;
     background-color: #fff;
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+}
+
+#acceptMatePopup {
+    color: #363636;
+    display: none;
+    font-size: 12px;
+    text-align: center;
+    width: 22%;
+    font-weight: bold;
+    height: 70px;
+    position: fixed;
+    z-index: 9999999;
+    background-color: #fff;
+    margin-left: 20px;
+    border-radius: 7px;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+    line-height: 30px;
+}
+
+/* 버튼에 호버 효과 추가 (선택 사항) */
+.mate-cancel-button:hover {
+    background-color: rgba(212, 210, 210, 0.7); /* 호버 시 배경 색상 변경 */
+    color: white; /* 호버 시 텍스트 색상 변경 */
+}
+
+.mate-accept-button:hover {
+    background-color: rgba(255, 90, 70, 0.7); /* 호버 시 배경 색상 변경 */
+    color: #fff8ee; /* 호버 시 텍스트 색상 변경 */
+}
+
+.mate-cancel-button {
+    width: 120px;
+    background-color: white; /* 배경 색상 설정 */
+    color: #b5b3b3; /* 텍스트 색상 설정 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 둥근 모서리 설정 */
+    cursor: pointer; /* 마우스 커서 스타일 설정 */
+    margin-right: 10px; /* 오른쪽 여백 설정 (선택 사항) */
+}
+
+.mate-accept-button {
+    width: 120px;
+    background-color: white; /* 배경 색상 설정 */
+    color: rgba(255, 90, 70, 0.8); /* 텍스트 색상 설정 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 둥근 모서리 설정 */
+    cursor: pointer; /* 마우스 커서 스타일 설정 */
+}
+
+/*
+.mate-accept-button, .mate-cancel-button, .acceptMateButton:hover {
+    opacity: 0.8; !* 호버 시 투명도 변경 *!
+}*/
+.acceptMateButton:hover {
+    background-color: rgba(255, 90, 70, 0.6); /* 호버 시 배경 색상 변경 */
+    color: white; /* 호버 시 텍스트 색상 변경 */
+}
+
+.mateChatHistory-wrap {
+    border-radius: 10px;
+}
+
+.ownerAcceptButton {
+    display: none;
+}
+
+
+.mateSuccessMessagePopup {
+    color: #fff;
+    display: none;
+    font-size: 14px;
+    text-align: center;
+    width: 22%;
+    font-weight: bold;
+    height: 50px;
+    position: fixed;
+    z-index: 9999999;
+    background-color: rgba(255, 129, 120, 0.9);
+    margin-left: 20px;
+    border-radius: 7px;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+    line-height: 30px;
+}
+
+.mate-confirm-button {
+    height: 30px;
+    line-height: 30px;
+    border: none;
+    color: #fff;
+    width: 20px;
+    font-size: 12px;
+    background-color: transparent;
+}
+
+.accompanyConfirmedButton {
+    display: none;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    width: 80px;
+    height: 25px;
+    border: none;
+    border-radius: 7px;
+    background-color: rgba(255, 129, 120, 0.9);
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+}
+
+.mateChatListLi {
+    color: black;
+    width: 100%;
+    height: 80px;
+    margin-bottom: 25px;
+}
+
+.lastMessageCreatedAt {
+    margin-top: 5px;
+    font-size: 11px;
+}
+
+.customChatLastMessage {
+    font-size: 14px;
+}
+
+.customRoomnameMessageTime {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    flex-direction: column; /*수직 정렬*/
+}
+
+.mateChatroomAtag {
+    color: #4f4f4f;
+    display: flex;
+    flex-direction: row;
 }
