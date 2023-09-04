@@ -465,6 +465,7 @@
 }
 
 .mateChatListLi {
+    cursor: pointer;
     color: black;
     width: 100%;
     height: 80px;
