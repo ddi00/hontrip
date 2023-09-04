@@ -482,16 +482,16 @@
             }
 
             if (result.alarmType == 'MATE_APPLY') {
-                $('#mateRealTimeAlarmUl').append("<li class='mateRealTimeAlarmLi' style='width: 95%;'>" + result.senderNickname + "님이 동행을 신청했어요!💨<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span> </li>");
+                $('#mateRealTimeAlarmUl').append("<li class='mateRealTimeAlarmLi' style='width: 350px;'>" + result.senderNickname + "님이 동행을 신청했어요!💨<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span> </li>");
 
             } else if (result.alarmType == 'MATE_CHAT') {
-                $('#mateRealTimeAlarmUl').append("<li class='mateChatRealTimeAlarmLi' style='width: 95%;'>💌 " + result.senderNickname + "님이 메세지를 보냈어요!<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span></li>");
+                $('#mateRealTimeAlarmUl').append("<li class='mateChatRealTimeAlarmLi' style='width: 350px;'>💌 " + result.senderNickname + "님이 메세지를 보냈어요!<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span></li>");
 
             } else if (result.alarmType == 'MATE_COMMENT') {
-                $('#mateRealTimeAlarmUl').append("<li class='mateRealTimeAlarmLi' style='width: 95%;'>" + result.senderNickname + "님이 댓글을 작성했어요!<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span> </li>");
+                $('#mateRealTimeAlarmUl').append("<li class='mateRealTimeAlarmLi' style='width: 350px;'>" + result.senderNickname + "님이 댓글을 작성했어요!<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span> </li>");
             } else if (result.alarmType == 'MATE_ACCOMPANY_CONFIRMED') {
                 $('.accompanyConfirmedButton').css('display', 'block');
-                $('#mateRealTimeAlarmUl').append("<li class='mateConfirmedRealTimeAlarmLi' style='width: 95%;'>🎉 " + result.senderNickname + "님과 동행이 확정되었어요!<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span> </li>");
+                $('#mateRealTimeAlarmUl').append("<li class='mateConfirmedRealTimeAlarmLi' style='width: 350px;'>🎉 " + result.senderNickname + "님과 동행이 확정되었어요!<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span> </li>");
             }
             document.getElementsByClassName("mateAlarmListClose")[0].addEventListener("click", function () {
                 document.getElementById("myMateRealTimeAlarmModal").style.display = "none";

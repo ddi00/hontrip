@@ -44,8 +44,8 @@
     z-index: 9999;
     right: 4%;
     top: 25%;
-    width: 25%;
-    height: 60%;
+    width: 400px;
+    height: 500px;
     background-color: transparent;
 }
 
@@ -364,7 +364,7 @@
     display: none;
     font-size: 12px;
     text-align: center;
-    width: 22%;
+    width: 350px;
     font-weight: bold;
     height: 70px;
     position: fixed;
@@ -429,7 +429,7 @@
     display: none;
     font-size: 14px;
     text-align: center;
-    width: 22%;
+    width: 350px;
     font-weight: bold;
     height: 50px;
     position: fixed;
