@@ -107,3 +107,108 @@ VALUES
 -- plan 생성하기 전 초기 단계에 추가 필요
 INSERT INTO plan_day (plan_id, user_id, day_order)
 values (1, 1, 1);
+
+
+-- 즐겨찾기 상위 10개 여행지 표시에 필요
+INSERT INTO hontrip.spot
+(content_id, content_type, title, tel, image, homepage, address, mapx, mapy, areacode, sigungucode, overview, info_center, open_date, rest_date, exp_guide, usetime, parking)
+VALUES('127813', '12', '섭지코지', NULL, 'http://tong.visitkorea.or.kr/cms/resource/80/2513480_image2_1.jpg', '', '제주특별자치도 서귀포시 성산읍 섭지코지로 107', '126.9280674087', '33.4302500880', '39', '3', '봄소식이 제일 먼저 찾아오는 제주. 뭍에서는 찬바람 씽씽 불어오는 추운 겨울날 이미 제주의 봄은 시작되었을 터. 하지만 봄이 가장 먼저 시작되는 제주라 할지라도 바람 센 제주에서 제법 봄의 정취를 느끼기에는 노란 유채꽃이 피어올라야만 비로소 실감할 수 있다. 화려한 유채꽃이 한창인 명소는 제주도 어디에서나 볼 수 있지만, 그중 한라산 동편, 즉 제주 동쪽 해안의 섭지코지는 기막힌 해안절경과 흐드러지게 피어난 노란 유채꽃밭의 어우러짐으로 4월 제주 기행에 있어 빼놓을 수 없는 풍광을 보여준다. 지척에 너무도 잘 알려진 경승지 성산 일출봉이 코앞에 있어, 봄날 섭지코지의 아름다움이 그 빛이 덜하지만 차라리 그 덕에 한적함과 낭만적인 멋이 더욱 풍겨나는 이곳이 여행자들에게는 더 오래도록 기억에 남을 것이다. 위로 봉긋 솟아 있는 한라산의 모습은 과연 환상의 섬 제주 이런가 하는 것을 새삼 느끼게 한다.', '제주관광정보센터 064-740-6000', NULL, '연중무휴', NULL, NULL, '주차 가능');
+
+
+INSERT INTO hontrip.spot
+(content_id, content_type, title, tel, image, homepage, address, mapx, mapy, areacode, sigungucode, overview, info_center, open_date, rest_date, exp_guide, usetime, parking)
+VALUES('2545877', '12', '별빛정원우주', NULL, 'http://tong.visitkorea.or.kr/cms/resource/79/2545879_image2_1.JPG', '', '경기도 이천시 마장면 덕이로154번길 287-76 (마장면)', '127.3897873324', '37.2413604686', '31', '26', '별빛정원 우주(OOOZOOO)는 빛과 자연 테마의 신개념 문화 공간이다. 낮에는 다양한 꽃과 식물들로 이루어진 유럽형 컨테이너 가든, 밤에는 반짝이는 조명과 미디어아트 체험 시설을 즐길 수 있는 일루미네이션 테마파크 별빛정원 우주를 만나보자. 바쁜 일상에서 벗어나 새롭고 행복한 경험을 선사한다.<br>', '031-645-0002', '2017년 10월 26일', '연중무휴', NULL, '3월~10월 : 주간 11:00~17:30 / 야간 18:00~23:00<br />
+11월~2월 : 주간 11:00~16:30 / 야간 17:00~23:00', '있음(덕평자연휴게소 상/하행 주차장 및 별빛정원우주 국도 전용 주차장 이용)');
+
+
+INSERT INTO hontrip.spot
+(content_id, content_type, title, tel, image, homepage, address, mapx, mapy, areacode, sigungucode, overview, info_center, open_date, rest_date, exp_guide, usetime, parking)
+VALUES('125790', '12', '강릉 경포대', NULL, 'http://tong.visitkorea.or.kr/cms/resource/86/2596286_image2_1.jpg', '', '강원특별자치도 강릉시 경포로 365 (저동)', '128.8965126086', '37.7955691591', '32', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+
+INSERT INTO hontrip.spot
+(content_id, content_type, title, tel, image, homepage, address, mapx, mapy, areacode, sigungucode, overview, info_center, open_date, rest_date, exp_guide, usetime, parking)
+VALUES('128755', '12', '돌산공원', NULL, 'http://tong.visitkorea.or.kr/cms/resource/19/2653419_image2_1.jpg', '', '전라남도 여수시 돌산읍 우두리 산 1', '127.7415234884', '34.7305968920', '38', '13', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+
+INSERT INTO hontrip.spot
+(content_id, content_type, title, tel, image, homepage, address, mapx, mapy, areacode, sigungucode, overview, info_center, open_date, rest_date, exp_guide, usetime, parking)
+VALUES('129438', '12', '장태산자연휴양림', NULL, 'http://tong.visitkorea.or.kr/cms/resource/50/2661750_image2_1.jpg', '', '대전광역시 서구 장안로 461', '127.3412755693', '36.2159580005', '3', '3', '장태산 자연휴양림은 국내 유일의 메타세쿼이아 숲이 울창하게 형성되어 있어 이국적인 경관과 더불어 가족 단위 산림욕을 즐기기에 적합한 곳이다. 천혜의 자연경관과 잘 어우러진 이곳은 산책길이 잘 조성되어 있을 뿐만 아니라  건강지압로, 추억의 놀이, 출렁다리, 교과서 식물원, 생태연못, 숲속 교실 등을 갖추고 있어 자연과 더불어 자연학습과 휴식을 동시에 즐길 수 있다. 또한 단체오락, 미니축구, 농구 경기 등을 즐길 수 있는 소규모(380㎡) 운동공간과  스카이웨이, 전망대, 비탈 놀이 시설을 통해 메타세쿼이아 숲을 특별히 체험할 수 있는 공간도 마련되어 있으며 장태산 정상의 형제바위 위에 있는 전망대에서는 낙조를 바라볼 수 있고 장군봉, 행상바위 등 기암괴석도 볼 수 있다.', '042-270-7883', '2006년 4월 25일', NULL, NULL, '[숙박시설] 당일 15:00~익일 12:00', '있음 (472면)');
+
+
+INSERT INTO hontrip.spot
+(content_id, content_type, title, tel, image, homepage, address, mapx, mapy, areacode, sigungucode, overview, info_center, open_date, rest_date, exp_guide, usetime, parking)
+VALUES('2742152', '12', '남해양떼목장 양마르뜨언덕', NULL, 'http://tong.visitkorea.or.kr/cms/resource/47/2742147_image2_1.jpg', '', '경상남도 남해군 삼동면 금암로 179-45​', '128.0242500278', '34.7906256571', '36', '5', '남해 최초의 양떼목장인 양모리학교와 지향점을 같이하는 남해 양떼목장 양마르뜨언덕은 약 19,000 ㎡의 푸른 초원이 펼쳐진 체험목장이다. 독일마을 가까운 곳에 위치한 양마르뜨언덕은 푸른 목초지와 초원 산책로, 푸른 숲과 깨끗한 계곡까지 흘러 다양한 즐거움이 있는 곳이다. 그리고 듬직한 양몰이 견인 엘리트 ''모스''와 사고뭉치 ''감동이''의 날렵한 양몰이 쇼도 즐길 수 있다. 입장료에 포함된 모이는 1회 리필이 가능하며 귀여운 양 떼들이 있는 목장 안에서 직접 ​먹이도 주고 만져볼 수도 있으며 함께 사진도 찍을 수 있다. 근처에 남해여행 핫플레이스인 독일마을과 원예예술촌, 바람흔적미술관, 편백자연휴양림 등이 있다.<br>*양들은 물거나 공격하지 않아요! 비가 올 때는 홈페이지 공지를 참고하세요!', '010-8577-2244', NULL, '없음', '먹이주기', '10:00 - 17:00', '있음 (수변공원 주차 가능)');
+
+
+INSERT INTO hontrip.spot
+(content_id, content_type, title, tel, image, homepage, address, mapx, mapy, areacode, sigungucode, overview, info_center, open_date, rest_date, exp_guide, usetime, parking)
+VALUES('126335', '12', '망해사', NULL, 'http://tong.visitkorea.or.kr/cms/resource/11/2675611_image2_1.jpg', '', '전라북도 김제시 진봉면 심포10길 94', '126.7156797015', '35.8597239049', '37', '3', '김제에서 서북방 약27km 지점에 있으며 심포 어항에 이르기 1km 전방에서 오른쪽 언덕바지 진봉산 능선따라 올라가 고개 너머 왼쪽으로 즉 큰길에서 약500m지점 정도를 내려가면 깎은듯이 세워진 기암괴석 벼랑위에 망망대해 서해의 파도가 출렁이고 고군산열도가 내다보이는 곳에 세워져 있어 이름 그대로 망해사이다.
+전하는 바로는 이곳은 본시 섬이었다 하여 642년(백제 의자왕 2년)에 부설거사가 까닭이 있어 이곳에 사찰을 개창하여 수도하다가 입적하신 곳이라 하며 그 후 754년(경덕왕 13년)에 당나라의 중 중도법사(일명 통장화상)가 중창하였으나 조선조에 들어 많은 수난을 당하였다.
+그 뒤 인조대왕 때 만경 불거촌출신인 고명한 화상인 진묵대사가 재건복구하여 크게 번창하였는데 그 때가 망해사로서는 최강전성기였으며, 그 후 흥망성쇠를 거듭하면서 오늘에 이르고 있는 것이다.
+망해사 경내에는 보광명전 낙서전 칠성각 요사 그리고 4개의 부도가 있다);
+
+
+INSERT INTO hontrip.spot
+(content_id, content_type, title, tel, image, homepage, address, mapx, mapy, areacode, sigungucode, overview, info_center, open_date, rest_date, exp_guide, usetime, parking)
+VALUES('125713', '12', '망상해변', NULL, 'http://tong.visitkorea.or.kr/cms/resource/40/2671440_image2_1.jpg', '', '강원특별자치도 동해시 동해대로 6270-10 (망상동)', '129.0896709728', '37.5922686461', '32', '3', '망상해변은 묵호항에서 북쪽으로 3km쯤 떨어져 있는 국민관광지로서 부근의 옥계, 경포 등과 함께 동해안의 유명 관광지이다. 넓은 백사장과 울창한 송림(수령 20~30년), 청정한 해수, 얕은 수심(경사도 2~4도, 평균 물 깊이 0.5~1.5m) 등 동해안 해수욕장  중 가장 넓고 쾌적한 환경을 갖추었으며, 주차장, 야영장, 샤워장, 공중화장실 등과 각종 편의시설이 잘 갖춰져 있어 관광객들이 이용하기에 편리하다.<br /><br />해수욕장 바로 위에는 오토캠핑장이 있어 가족단위 관광객들에게 인기가 있다. 인근 천곡 자연동굴, 무릉계곡과 추암 촛대바위를 비롯하여 남쪽으로 간이 해수욕장(노봉, 대진, 어달, 한섬, 감추, 추암 해수욕장)이 즐비하다. 인근의 묵호항과 더불어 강릉~삼척을 잇는 해안 관광지 중 하나이며 오징어, 소라, 해삼, 멍게, 광어 등의 풍부한 해산물로 풍요로움과 넉넉함이 묻어난다.<br>', '033-530-2800 / 033-530-2234', NULL, NULL, NULL, NULL, NULL);
+
+
+INSERT INTO hontrip.spot
+(content_id, content_type, title, tel, image, homepage, address, mapx, mapy, areacode, sigungucode, overview, info_center, open_date, rest_date, exp_guide, usetime, parking)
+VALUES('2913903', '12', '남애항 스카이워크 전망대', NULL, 'http://tong.visitkorea.or.kr/cms/resource/50/2922150_image2_1.jpg', '', '강원특별자치도 양양군 현남면 매바위길 138', '128.7868845282', '37.9451191407', '32', '7', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+
+INSERT INTO hontrip.spot
+(content_id, content_type, title, tel, image, homepage, address, mapx, mapy, areacode, sigungucode, overview, info_center, open_date, rest_date, exp_guide, usetime, parking)
+VALUES('126537', '12', '북촌한옥마을', NULL, 'http://tong.visitkorea.or.kr/cms/resource/06/2512006_image2_1.jpg', '', '서울특별시 종로구 계동길 37 (계동)', '126.9864254967', '37.5791612548', '1', '23', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- 1. 제주 섭지코지
+INSERT INTO hontrip.spot_like
+(user_id, spot_content_id)
+VALUES(4, '127813'), (7, '127813'), (8, '127813'), (9, '127813'), (10, '127813'), (11, '127813');
+
+-- 2. 이천 별빛정원우주
+INSERT INTO hontrip.spot_like
+(user_id, spot_content_id)
+VALUES(4, '2545877'), (7, '2545877'), (8, '2545877'), (9, '2545877'), (10, '2545877'), (11, '2545877');
+
+-- 3. 강릉 경포대
+INSERT INTO hontrip.spot_like
+(user_id, spot_content_id)
+VALUES(4, '125790'), (7, '125790'), (8, '125790'), (9, '125790'), (10, '125790'), (11, '125790');
+
+-- 4. 전남 여수 돌산공원
+INSERT INTO hontrip.spot_like
+(user_id, spot_content_id)
+VALUES(4, '128755'), (7, '128755'), (8, '128755'), (9, '128755'), (10, '128755'), (11, '128755');
+
+-- 5. 대전 장태산자연휴양림
+INSERT INTO hontrip.spot_like
+(user_id, spot_content_id)
+VALUES(4, '129438'), (7, '129438'), (8, '129438'), (9, '129438'), (10, '129438'), (11, '129438');
+
+-- 6. 경남 남해양떼목장 양마르뜨언덕
+INSERT INTO hontrip.spot_like
+(user_id, spot_content_id)
+VALUES(4, '2742152'), (7, '2742152'), (8, '2742152'), (9, '2742152'), (10, '2742152'), (11, '2742152');
+
+-- 7. 전북 김제 망해사
+INSERT INTO hontrip.spot_like
+(user_id, spot_content_id)
+VALUES(4, '126335'), (7, '126335'), (8, '126335'), (9, '126335'), (10, '126335'), (11, '126335');
+
+-- 8. 강원 동해 망상해변
+INSERT INTO hontrip.spot_like
+(user_id, spot_content_id)
+VALUES(4, '125713'), (7, '125713'), (8, '125713'), (9, '125713'), (10, '125713'), (11, '125713');
+
+-- 9. 강원 양양 남애항 스카이워크 전망대
+INSERT INTO hontrip.spot_like
+(user_id, spot_content_id)
+VALUES(4, '2913903'), (7, '2913903'), (8, '2913903'), (9, '2913903'), (10, '2913903'), (11, '2913903');
+
+-- 10. 북촌한옥마을
+INSERT INTO hontrip.spot_like
+(user_id, spot_content_id)
+VALUES(4, '126537'), (7, '126537'), (8, '126537'), (9, '126537'), (10, '126537'), (11, '126537');

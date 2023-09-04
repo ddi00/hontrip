@@ -93,4 +93,13 @@
         FROM spot_like
         LIMIT 1
     </select>
+
+	<select id="listTopTenSpot" resultType="spotDTO">
+		SELECT s.title, s.image, s.areacode, s.content_id, COUNT(sl.spot_content_id) AS likeCount
+		FROM spot s
+				 LEFT JOIN spot_like sl ON s.content_id = sl.spot_content_id
+		GROUP BY s.title, s.image, s.areacode, s.content_id
+		ORDER BY likeCount DESC
+		LIMIT 10;
+	</select>
 </mapper>

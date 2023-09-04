@@ -1,10 +1,10 @@
 package com.multi.hontrip.plan.service;
 
 import com.multi.hontrip.plan.dao.SpotDAO;
-import com.multi.hontrip.plan.dao.SpotLikeDAO;
 import com.multi.hontrip.plan.dto.SpotDTO;
-import com.multi.hontrip.plan.dto.SpotLikeDTO;
+import com.multi.hontrip.plan.dto.SpotInfoDTO;
 import com.multi.hontrip.plan.dto.SpotSearchDTO;
+import com.multi.hontrip.plan.parser.Area;
 import com.multi.hontrip.plan.parser.SpotParser;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,5 +146,30 @@ public class SpotServiceImpl implements SpotService {
     @Override
     public int countSpot(String keyword) {
         return spotDAO.count(keyword);
+    }
+
+    // 즐겨찾기 수 상위 여행지 10개 조회
+    public List<SpotInfoDTO> listTopTenSpot() {
+        List<SpotDTO> spots = spotDAO.listTopTenSpot();
+        List<SpotInfoDTO> spotInfos = new ArrayList<>();
+        for (int i = 0; i < spots.size(); i++) {
+            SpotInfoDTO spotInfo = new SpotInfoDTO(); // 새로운 SpotInfoDTO 객체 생성
+            spotInfo.setTitle(spots.get(i).getTitle());
+            spotInfo.setSpotContentId(spots.get(i).getContentId());
+            spotInfo.setImage(spots.get(i).getImage());
+            String areaCode = spots.get(i).getAreaCode();
+            String areaName = "";
+
+            for (Area area : Area.values()) {
+                if (area.getAreaCode().equals(areaCode)) {
+                    areaName = area.getAreaName();
+                    break;
+                }
+            }
+
+            spotInfo.setArea(areaName);
+            spotInfos.add(spotInfo);
+        }
+        return spotInfos;
     }
 }

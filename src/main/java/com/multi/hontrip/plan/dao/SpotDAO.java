@@ -54,4 +54,9 @@ public class SpotDAO {
     public int checkSpotOverView(String contentId){
         return my.selectOne("spot.checkSpotOverview", contentId);
     }
+
+    //
+    public List<SpotDTO> listTopTenSpot(){
+        return my.selectList("spot.listTopTenSpot");
+    }
 }

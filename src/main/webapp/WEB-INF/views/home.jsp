@@ -143,6 +143,7 @@
               <!-- /.container -->
             </section>
             <!-- /section -->
+        </div>
     <div class="container pt-12 pt-lg-8 pb-14 pb-md-17">
     </div>
 </section>
