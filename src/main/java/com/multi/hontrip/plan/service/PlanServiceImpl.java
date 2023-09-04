@@ -32,8 +32,9 @@ public class PlanServiceImpl implements PlanService {
 
     @Transactional
     @Override
-    public void insertPlan(PlanDTO planDTO) {
-        planDAO.insert(planDTO);
+    public long insertPlan(PlanDTO planDTO) {
+        long insertedPlanId = planDAO.insert(planDTO);
+        return insertedPlanId;
     } // 일정 생성
 
     @Override

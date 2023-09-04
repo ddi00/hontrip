@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.xml.sax.SAXException;
 
 import javax.servlet.http.HttpSession;
@@ -50,15 +51,21 @@ public class PlanController {
     }
 
     @PostMapping("/insert") // plan_form에서 작성한 내용 insert
-    public String insert(@ModelAttribute("planDTO") PlanDTO planDTO, HttpSession session) {
+    public String insert(@ModelAttribute("planDTO") PlanDTO planDTO, HttpSession session, RedirectAttributes redirectAttributes) {
         Long userId = (Long) session.getAttribute("id");
         planDTO.setUserId(userId);
-        planService.insertPlan(planDTO);
-        return "redirect:/plan/list"; // 일정 생성 후 일정 목록으로 리다이렉트
+        long insertedPlanId = planService.insertPlan(planDTO);
+        // 리다이렉트할 파라미터 전달
+        redirectAttributes.addAttribute("userId", userId);
+        redirectAttributes.addAttribute("planId", insertedPlanId);
+
+//        return "redirect:/plan/list"; // 일정 생성 후 일정 목록으로 리다이렉트
+        return "redirect:/plan/edit";
     }
 
+
     // 일정 수정 - 여행지, 항공권, 숙소 추가
-    @GetMapping("/detail")
+    @GetMapping("/edit")
     @RequiredSessionCheck
     public String updateDetail(@RequestParam("userId") Long userId,
                                @RequestParam("planId") Long planId,

@@ -15,8 +15,9 @@ public class PlanDAO {
     @Autowired
     SqlSessionTemplate my;
 
-    public void insert(PlanDTO planDTO) {
+    public long insert(PlanDTO planDTO) {
        my.insert("plan.insert", planDTO);
+       return planDTO.getPlanId();
     } // insert
 
     public void update(PlanDTO planDTO) {
