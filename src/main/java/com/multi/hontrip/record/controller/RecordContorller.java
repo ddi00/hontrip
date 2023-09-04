@@ -250,26 +250,83 @@ public class RecordContorller {
 
     @GetMapping("feedlist") // 공유피드 리스트 가져오기
     public String getFeedList(Model model) {
-        List<PostInfoDTO> feedlist = recordService.getFeedList();
+        final int PAGE_ROW_COUNT = 6; // 한 페이지에 표시할 게시물 개수
+        int pageNum = 1; // 페이지 번호
+        int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT; // 시작 row 번호
+        int endRowNum = pageNum * PAGE_ROW_COUNT; // 마지막 row 번호
+        int rowCount = PAGE_ROW_COUNT; // row 카운트
+
+        // 페이지 조건에 맞는 리스트 불러올 재료
+        PostScrollDTO postScrollDTO = new PostScrollDTO();
+        postScrollDTO.setStartRowNum(startRowNum);
+        postScrollDTO.setEndRowNum(endRowNum);
+        postScrollDTO.setRowCount(rowCount);
+
+
         List<LocationDTO> locationList = locationService.locationList(); //드롭다운 컨테이너 지역 정보 가져오기
-        model.addAttribute("feedlist", feedlist);
         model.addAttribute("locationList", locationList);
+
+
+
+        List<PostInfoDTO> listSize = recordService.getFeedList();
+        List<PostInfoDTO> feedlist = recordService.getFeedListWithScroll(postScrollDTO);
+        // 내 게시물 수
+        int totalRow = listSize.size();
+        // 전체 페이지 수
+        int totalPageCount = (int) Math.ceil(totalRow / (double) PAGE_ROW_COUNT);
+
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("totalRow", totalRow);
+        model.addAttribute("pageNum", pageNum);
+
+        model.addAttribute("feedlist", feedlist);
+
+
         return "/record/feedlist"; // feedlist.jsp 파일로 반환
     }
 
-    @GetMapping("feedlist_dropdown") // 공유피드에서 버튼 선택시 리스트 가져오기
-    public void getFeedListDropdown(@RequestParam("locationIdPattern") String locationIdPattern,
-                                    @RequestParam("locationIdSpecialId") String locationIdSpecialId,
-                                    @RequestParam("locationIdSpecialId2") String locationIdSpecialId2,
-                                    @RequestParam("locationIdSpecialId3") String locationIdSpecialId3,
-                                    Model model) {
-        List<PostInfoDTO> getFeedListDropdown;
+    @RequestMapping("re-post-page2")
+    public String feedListWithScroll(@RequestParam int pageNum, Model model) {
+        final int PAGE_ROW_COUNT = 6    ; // 한 페이지에 표시할 게시물 개수
+
+        int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT; // 시작 row 번호
+        int endRowNum = pageNum * PAGE_ROW_COUNT; // 마지막 row 번호
+        int rowCount = PAGE_ROW_COUNT; // row 카운트
+
+        PostScrollDTO postScrollDTO = new PostScrollDTO();
+        postScrollDTO.setStartRowNum(startRowNum);
+        postScrollDTO.setEndRowNum(endRowNum);
+        postScrollDTO.setRowCount(rowCount);
+
+        List<PostInfoDTO> feedlist = recordService.getFeedListWithScroll(postScrollDTO);
+        // 내 게시물 수
+        int totalRow = feedlist.size();
+        // 전체 페이지 수
+        int totalPageCount = (int) Math.ceil(totalRow / (double) PAGE_ROW_COUNT);
+
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("totalRow", pageNum);
+        model.addAttribute("pageNum", pageNum);
+
+        model.addAttribute("feedlist", feedlist);
+
+
+        return "/record/post_list_page2";
+    }
+
+    @GetMapping("feedlist_location_buttons") // 공유피드에서 지역 버튼 선택시 리스트 가져오기
+    public void getFeedListLocationButtons(@RequestParam("locationIdPattern") String locationIdPattern,
+                                           @RequestParam("locationIdSpecialId") String locationIdSpecialId,
+                                           @RequestParam("locationIdSpecialId2") String locationIdSpecialId2,
+                                           @RequestParam("locationIdSpecialId3") String locationIdSpecialId3,
+                                           Model model) {
+        List<PostInfoDTO> getFeedListLocationButtons;
         if (locationIdPattern.equals("")) {
-            getFeedListDropdown = recordService.getFeedListDropdownAll(locationIdPattern);
+            getFeedListLocationButtons = recordService.getFeedListLocationButtonsAll(locationIdPattern);
         } else {
-            getFeedListDropdown = recordService.getFeedListDropdown(locationIdPattern, locationIdSpecialId, locationIdSpecialId2, locationIdSpecialId3);
+            getFeedListLocationButtons = recordService.getFeedListLocationButtons(locationIdPattern, locationIdSpecialId, locationIdSpecialId2, locationIdSpecialId3);
         }
-        model.addAttribute("feedListButtons", getFeedListDropdown);
+        model.addAttribute("feedListButtons", getFeedListLocationButtons);
     }
 
     @GetMapping("feedlist_like") // 공유피드 리스트 가져오기

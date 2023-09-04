@@ -155,13 +155,17 @@ public class RecordService {
         return recordDAO.getFeedList();
     }
 
-
-    public List<PostInfoDTO> getFeedListDropdownAll(String locationIdPattern) {
-        return recordDAO.getFeedListDropdownAll(locationIdPattern);
+    public List<PostInfoDTO> getFeedListWithScroll(PostScrollDTO postScrollDTO) {
+        return recordDAO.getFeedListWithScroll(postScrollDTO);
     }
 
-    public List<PostInfoDTO> getFeedListDropdown(String locationIdPattern, String locationIdSpecialId, String locationIdSpecialId2, String locationIdSpecialId3) {
-        return recordDAO.getFeedListDropdown(locationIdPattern, locationIdSpecialId, locationIdSpecialId2, locationIdSpecialId3);
+
+    public List<PostInfoDTO> getFeedListLocationButtonsAll(String locationIdPattern) {
+        return recordDAO.getFeedListLocationButtonsAll(locationIdPattern);
+    }
+
+    public List<PostInfoDTO> getFeedListLocationButtons(String locationIdPattern, String locationIdSpecialId, String locationIdSpecialId2, String locationIdSpecialId3) {
+        return recordDAO.getFeedListLocationButtons(locationIdPattern, locationIdSpecialId, locationIdSpecialId2, locationIdSpecialId3);
     }
 
     public List<PostInfoDTO> getFeedListLike( ) {
