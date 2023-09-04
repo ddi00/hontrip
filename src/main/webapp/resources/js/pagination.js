@@ -63,9 +63,12 @@ if (window.location.href.includes('/mate/bbs_list')) {
         }
 
         // 검색 버튼 클릭 시 페이지 버튼 생성 및 데이터 가져오기
-        $(document).on('click', '.searchBtn', function () {
+        $(document).on('click', '.mate-search-Btn', function () {
             let searchType = $('#searchType').val();
             let keyword = $('#keyword').val();
+            console.log("실행");
+            console.log("searchType >> " + searchType);
+            console.log("keyword >> " + keyword);
             sessionStorage.setItem(SEARCH_TYPE_KEY, searchType);
             sessionStorage.setItem(KEYWORD_KEY, keyword);
             //regionId 세션 삭제
