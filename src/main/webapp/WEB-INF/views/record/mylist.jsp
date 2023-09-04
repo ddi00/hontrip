@@ -25,12 +25,12 @@
 
         <section class="section-frame mx-xxl-11 overflow-hidden">
               <div class="wrapper image-wrapper bg-image bg-cover bg-overlay bg-overlay-light-500">
-                <div class="container py-16 py-md-6">
+                <div class="container py-16 py-md-12">
                   <div class="map-wrapper d-flex">
                     <div id="map-container">
                       <div id="map"></div>
-                      <a href="createpost" class="btn btn-circle btn-primary btn-lg" style='top: 730%; left: 47.87%'><i class="uil uil-plus"></i></a>
-                      <a href="feedlist" class="btn btn-circle btn-primary btn-lg" style='top: 600%; left: 43.21%'><i class="uil uil-corner-up-right"></i></i></a>
+                      <a href="createpost" class="btn btn-circle btn-primary btn-lg" data-bs-toggle="tooltip" data-bs-placement="right" title="마커 생성하기" style='top: 730%; left: 47.87%'><i class="uil uil-plus"></i></a>
+                      <a href="feedlist" class="btn btn-circle btn-primary btn-lg" data-bs-toggle="tooltip" data-bs-placement="right" title="공유 피드가기" style='top: 600%; left: 43.21%'><i class="uil uil-corner-up-right"></i></a>
                     </div>
                   </div>
                 </div>
@@ -49,7 +49,7 @@
                 };
 
             var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
-
+            map.setMaxLevel(13);
             <c:forEach items="${mymap}" var="locationDTO">
                 var marker = new kakao.maps.Marker({ // 마커 생성
                     map: map,
@@ -72,7 +72,7 @@
                             data: { locationId: ${locationDTO.id} }, // 마커의 locationId를 전달
                             dataType: "html",
                             success: function(response) {
-                                $("#list_mylocation_click_result").html(response).show(); // 결과를 표시하도록 변경
+                                $(".list_mylocation").html(response).show(); // 결과를 표시하도록 변경
                             },
                             error: function() {
                             // 에러 처리
@@ -126,67 +126,6 @@
             </script>
         </section>
 
-
-
-                      <select id="locationDropdown" class="form-select" aria-label="Default select example">
-                          <option value="" disabled selected>지역을 선택하세요</option>
-                          <optgroup label="특별시/광역시">
-                              <c:forEach items="${locationList}" var="locationDTO">
-                                  <c:choose>
-                                      <c:when test="${locationDTO.id >= 100 && locationDTO.id < 200}">
-                                          <option value="${locationDTO.id}">${locationDTO.city}</option>
-                                      </c:when>
-                                  </c:choose>
-                              </c:forEach>
-                          </optgroup>
-                          <optgroup label="강원도">
-                              <c:forEach items="${locationList}" var="locationDTO">
-                                  <c:choose>
-                                      <c:when test="${locationDTO.id >= 200 && locationDTO.id < 300}">
-                                          <option value="${locationDTO.id}">${locationDTO.city}</option>
-                                      </c:when>
-                                  </c:choose>
-                              </c:forEach>
-                          </optgroup>
-                          <optgroup label="경기도">
-                              <c:forEach items="${locationList}" var="locationDTO">
-                                  <c:choose>
-                                      <c:when test="${locationDTO.id >= 300 && locationDTO.id < 400}">
-                                          <option value="${locationDTO.id}">${locationDTO.city}</option>
-                                      </c:when>
-                                  </c:choose>
-                              </c:forEach>
-                          </optgroup>
-                          <optgroup label="경상도">
-                              <c:forEach items="${locationList}" var="locationDTO">
-                                  <c:choose>
-                                      <c:when test="${locationDTO.id >= 400 && locationDTO.id < 500}">
-                                          <option value="${locationDTO.id}">${locationDTO.city}</option>
-                                      </c:when>
-                                  </c:choose>
-                              </c:forEach>
-                          </optgroup>
-                          <optgroup label="전라도">
-                              <c:forEach items="${locationList}" var="locationDTO">
-                                  <c:choose>
-                                      <c:when test="${locationDTO.id >= 500 && locationDTO.id < 600}">
-                                          <option value="${locationDTO.id}">${locationDTO.city}</option>
-                                      </c:when>
-                                  </c:choose>
-                              </c:forEach>
-                          </optgroup>
-                          <optgroup label="충청도">
-                              <c:forEach items="${locationList}" var="locationDTO">
-                                  <c:choose>
-                                      <c:when test="${locationDTO.id >= 600 && locationDTO.id < 700}">
-                                          <option value="${locationDTO.id}">${locationDTO.city}</option>
-                                      </c:when>
-                                  </c:choose>
-                              </c:forEach>
-                          </optgroup>
-                      </select>
-
-
         <style>
              .project.item.col-md-6.col-xl-4.workshop .card-img-top {
                  width: 100%;
@@ -210,11 +149,11 @@
               }
         </style>
 
-       <div class="container">
+       <div class="list_mylocation container">
            <section class="wrapper bg-light">
-               <div class="container py-10 py-md-3">
+               <div class="container">
                    <div class="row gy-6">
-                       <div class="row isotope gx-md-8 gy-8 mb-2">
+                       <div class="row isotope gx-md-8 gy-8 mb-0">
                            <c:forEach items="${mylist}" var="postInfoDTO">
                                <div class="col-md-6 col-lg-4">
                                    <article class="item post">
@@ -234,6 +173,7 @@
                                            <div class="card-body p-7">
                                                <div class="post-header">
                                                    <div class="post-category mb-2 text-primary">${postInfoDTO.city}</div>
+                                                   <div class="post-category mb-2 text-end">${postInfoDTO.nickName}</div>
                                                    <h3 class="txt_line mb-0">${postInfoDTO.title}</h3>
                                                </div>
                                            </div>
@@ -255,7 +195,7 @@
                        </div>
                        <div class="rePostList">
 
-                                          </div>
+                       </div>
                    </div>
                </div>
            </section>
