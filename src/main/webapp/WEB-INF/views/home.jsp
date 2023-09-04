@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.multi.hontrip.mate.dto.Region" %>
 <section class="wrapper bg-light">
     <div class="container pt-10 pt-md-12 pb-14 pb-md-8 text-center">
         <div class="row gx-lg-8 gx-xl-12 gy-10 gy-xl-0 mb-14 align-items-center">
@@ -61,6 +62,7 @@
 <section class="wrapper bg-main-light">
     <div class="container pt-10 pt-lg-8 pb-5 pb-md-15">
     <section id="snippet-1" class="wrapper-border">
+           <h6 class="display-1 text-center top-ten"><span class="underline-3 style-3 primary">인기 있는</span> 여행 기록</h6>
           <div class="container">
             <div class="swiper-container clients" data-margin="30" data-dots="false" data-loop="true" data-autoplay="true" data-autoplaytime="1" data-drag="false" data-speed="6000" data-items-xxl="4" data-items-xl="3" data-items-lg="5" data-items-md="2" data-items-xs="1">
               <div class="swiper">
@@ -97,8 +99,51 @@
         </section>
         <!-- /section -->
     </div>
+    <section class="wrapper bg-main-light">
+        <div class="container pt-10 pt-lg-8 pb-5 pb-md-15">
+        <section id="snippet-1" class="wrapper-border">
+            <h6 class="display-1 text-center top-ten"><span class="underline-3 style-3 primary">인기 있는</span> 여행 동행</h6>
+              <div class="container">
+                <div class="swiper-container clients" data-margin="30" data-dots="false" data-loop="true" data-autoplay="true" data-autoplaytime="1" data-drag="false" data-speed="6000" data-items-xxl="4" data-items-xl="3" data-items-lg="5" data-items-md="2" data-items-xs="1">
+                  <div class="swiper">
+                    <div class="swiper-wrapper ticker">
+                    <c:forEach items="${mateTopList}" var="one">
+                        <div class="swiper-slide">
+                            <div class="project item">
+                                <div class="card shadow-lg">
+                                    <figure class="card-img-top"
+                                        <a href="/hontrip/mate/${one.mateBoardId}">
+                                            <img src="<c:url value='/resources/img/mateImg/${one.thumbnail}'/>"
+                                                                                                 alt="Image">
+                                        </a>
+                                    </figure>
+                                    <a href="/hontrip/mate/${one.mateBoardId}">
+                                    <div class="card-body">
+                                        <div class="post-header">
+                                            <c:forEach items="${Region.values()}" var="Region">
+                                        <c:if test="${Region.regionNum == Integer.parseInt(one.regionId)}">
+                                            <div class="post-category mb-2 text-primary">${Region.regionStr}</div>
+                                        </c:if>
+                                    </c:forEach>
+                                            <h5 class="txt_line mb-0">${one.title}</h5>
+                                        </div>
+                                    </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                    </div>
+                    <!--/.swiper-wrapper -->
+                  </div>
+                  <!-- /.swiper -->
+                </div>
+                <!-- /.swiper-container -->
+              </div>
+              <!-- /.container -->
+            </section>
+            <!-- /section -->
     <div class="container pt-12 pt-lg-8 pb-14 pb-md-17">
-        나중에 여기에 즐겨찾기 순으로 여행지가 들어옴
     </div>
 </section>
 <section class="wrapper bg-main-light">

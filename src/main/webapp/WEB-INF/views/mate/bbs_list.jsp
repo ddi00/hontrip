@@ -85,7 +85,7 @@
                 <div class="row isotope gx-md-8 gy-8 mb-8">
                     <c:forEach items="${list}" var="one" varStatus="loop">
                         <div class="col-md-6 col-lg-4">
-                            <article class="item post">
+                            <article class="item post mate-post-item">
                                 <div class="card">
                                     <figure class="card-img-top overlay overlay-1 hover-scale">
                                         <a href="../mate/${one.mateBoardId}">
@@ -108,8 +108,8 @@
                                              </figure>
                                                  ${one.nickname}
                                          </div>
-                                            <h2 class="post-title h3 mt-1 mb-3">
-                                                <a class="link-dark mb-0"
+                                            <h2 class="post-title h3 mt-1 mb-2">
+                                                <a class="link-dark mb-2"
                                                    href="../mate/${one.mateBoardId}">${one.title}</a><br><br>
                                                 <c:forEach items="${AgeRange.values()}" var="age">
                                                     <c:if test="${age.ageRangeNum == Integer.parseInt(one.ageRangeId)}">
