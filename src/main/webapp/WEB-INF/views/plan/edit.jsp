@@ -12,9 +12,9 @@
 <section class="wrapper bg-light">
     <div class="custom-card container-fluid container p-6 mt-15 mb-20 w-75">
         <div class="row">
-            <h3 class="my-4 col-9 float-start">내 여행 일정 > ${plan.title}</h3>
+            <h2 class="my-4 col-9 float-start">내 여행 일정 > ${plan.title}</h2>
             <div class="col-3 text-end">
-                <button type="button" class="btn btn-outline-gray" style="width: 74%"><a href="list" class="text-black-50">목록</a>
+                <button type="button" class="btn btn-outline-gray" style="width: 74%; border: 1px solid rgba(8, 60, 130, 0.15);"><a href="list" class="text-black-50">목록</a>
                 </button>
             </div>
         </div>
