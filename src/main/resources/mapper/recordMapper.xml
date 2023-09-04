@@ -97,7 +97,7 @@
 		rc.created_at ASC;
 	</select>
 
-	<update id="updatePostInfo" parameterType="postInfoDTO">
+	<update id="updatePostInfo" parameterType="createPostDTO">
 		UPDATE record_board
 		SET title = #{title},
 			content = #{content},
