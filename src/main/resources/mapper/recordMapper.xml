@@ -232,6 +232,19 @@
 		ORDER BY rb.id desc
 	</select>
 
+	<select id="feedlistScroll" resultType="postInfoDTO" parameterType="postScrollDTO">
+		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId, COUNT(rl.record_id) AS likeCount, rb.start_date, rb.end_date
+		FROM record_board rb
+		LEFT JOIN user u ON rb.user_id = u.id
+		LEFT JOIN location loc ON rb.location_id = loc.id
+		LEFT JOIN record_like rl ON rb.id = rl.record_id
+		WHERE
+		rb.is_visible  = 1
+		GROUP BY rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id, u.id, loc.id
+		ORDER BY rb.id desc
+		limit #{startRowNum}, #{rowCount}
+	</select>
+
 	<!-- 좋아요순으로 게시물 10개 -->
 	<select id="likeTop10" resultType="postInfoDTO">
 		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId, COUNT(rl.record_id) AS likeCount, rb.start_date, rb.end_date
@@ -246,7 +259,7 @@
 	</select>
 
 	<!-- 공유피드에서 버튼 클릭 해당지역 게시물 가져오기 -->
-	<select id="feedlist_by_location_pattern" resultType="postInfoDTO" parameterType="java.util.Map">
+	<select id="feedListLocationButtons" resultType="postInfoDTO" parameterType="java.util.Map">
 		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId, COUNT(rl.record_id) AS likeCount, rb.start_date, rb.end_date
 		FROM record_board rb
 		LEFT JOIN user u ON rb.user_id = u.id
@@ -259,7 +272,7 @@
 	</select>
 
 	<!-- 공유피드에서 버튼 클릭 전국 게시물 가져오기 -->
-	<select id="feedlist_by_location_pattern_all" resultType="postInfoDTO">
+	<select id="feedListLocationButtonsAll" resultType="postInfoDTO">
 		SELECT rb.title, rb.thumbnail, rb.user_id, rb.is_visible, rb.location_id, loc.city, rb.id AS boardId, COUNT(rl.record_id) AS likeCount, rb.start_date, rb.end_date
 		FROM record_board rb
 		LEFT JOIN user u ON rb.user_id = u.id
