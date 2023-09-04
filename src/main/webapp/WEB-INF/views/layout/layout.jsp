@@ -178,11 +178,15 @@
                     success: function (chatRoomList) {
                         $('#mateChatListUl').html('');
                         for (let i = 0; i < chatRoomList.length; i++) {
-                            $('#mateChatListUl').append('<li><a onclick="clickOneChatRoom(this)" data-value="' + chatRoomList[i].roomId + '"><span class="customChatRoomName" style="font-size: 20px; text-align: center !important;">' +
+                            let lastMessage = chatRoomList[i].lastMessage;
+                            if (lastMessage.length > 20) {
+                                lastMessage = lastMessage.substring(0, 20) + "...";
+                            }
+                            $('#mateChatListUl').append('<li><a onclick="clickOneChatRoom(this)" data-value="' + chatRoomList[i].roomId + '"><span class="customChatRoomName" style="margin-left: 45px; font-size: 20px; text-align: center !important;">' +
                                 chatRoomList[i].chatRoomName +
                                 '</span><br><img class="chatListOpponentImg" src="' +
                                 chatRoomList[i].opponentProfileImg + '">      ' + chatRoomList[i].senderNickname + '  : ' +
-                                chatRoomList[i].lastMessage + '  <span style="text-align: right; font-size: 12px; color: #777;">' + chatRoomList[i].lastMessageCreatedAt + '</span></a></li>');
+                                lastMessage + '<br>  <span style="margin-left: 50px; text-align: right; font-size: 12px; color: #777;">' + chatRoomList[i].lastMessageCreatedAt + '</span></a></li>');
                         }
 
                     },

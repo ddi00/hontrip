@@ -29,7 +29,6 @@
             <div class="mate-chat-list-container">
             <div class="mateChatListDiv">
                 <ul id="mateChatListUl" class="mateChatListUl">
-
                 </ul>
             </div>
         </div>
