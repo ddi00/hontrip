@@ -65,7 +65,6 @@ public class SpotController {
 
     // 여행지 상세
     @GetMapping("/detail")
-    @RequiredSessionCheck
     public String showSpotDetail(@RequestParam("category") String category,
                                  @RequestParam("keyword") String keyword,
                                  @RequestParam("contentId") String contentId,

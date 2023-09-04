@@ -89,8 +89,42 @@
         </section>
         <!-- /section -->
     </div>
-    <div class="container pt-12 pt-lg-8 pb-14 pb-md-17">
-        나중에 여기에 즐겨찾기 순으로 여행지가 들어옴
+    <div class="container pt-10 pt-lg-8 pb-5 pb-md-15">
+        <section id="snippet-2" class="wrapper-border">
+            <div class="container">
+                <h6 class="display-1 text-center top-ten"><span class="underline-3 style-3 primary">인기 있는</span> 여행지</h6>
+                <div class="swiper-container clients" data-margin="30" data-dots="false" data-loop="true" data-autoplay="true" data-autoplaytime="1" data-drag="false" data-speed="6000" data-items-xxl="4" data-items-xl="3" data-items-lg="5" data-items-md="2" data-items-xs="1">
+                    <div class="swiper">
+                        <div class="swiper-wrapper ticker">
+                            <c:forEach items="${topSpotList}" var="spot">
+                                <div class="swiper-slide">
+                                    <div class="project item">
+                                        <div class="card shadow-lg">
+                                            <figure class="card-img-top itooltip itooltip-aqua" title='<h5 class="mb-0">클릭하여 상세게시물 보기</h5>'>
+                                                <a href="/hontrip/plan/detail?category=keyword&keyword=${spot.area}&contentId=${spot.spotContentId}">
+                                                    <img src="${spot.image}">
+                                                </a>
+                                            </figure>
+                                            <div class="card-body">
+                                                <div class="post-header">
+                                                    <div class="post-category mb-2 text-primary">${spot.area}</div>
+                                                    <h4 class="mb-0" style="word-break: keep-all">${spot.title}</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                        <!--/.swiper-wrapper -->
+                    </div>
+                    <!-- /.swiper -->
+                </div>
+                <!-- /.swiper-container -->
+            </div>
+            <!-- /.container -->
+        </section>
+        <!-- /section -->
     </div>
 </section>
 <section class="wrapper bg-main-light">
