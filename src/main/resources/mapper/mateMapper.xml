@@ -128,6 +128,30 @@
 		LIMIT #{start} OFFSET #{end}
 	</select>
 
+	<select id="topList" resultType="mateBoardListDTO">
+		SELECT
+		mb.id AS mateBoardId,
+		u.nickname AS nickname,
+		u.profile_image AS profileImage,
+		mb.content AS content,
+		mb.title AS title,
+		mb.thumbnail AS thumbnail,
+		mb.start_date AS startDate,
+		mb.end_date AS endDate,
+		ar.range_description AS ageRange,
+		mb.view_count AS viewCount,
+		mb.age_range_id AS ageRangeId,
+		mb.region_id AS regionId,
+		mb.gender AS genderId
+		FROM
+		mate_board mb
+		JOIN
+		user u ON mb.user_id = u.id
+		JOIN
+		age_range ar ON mb.age_range_id = ar.id
+		ORDER BY mb.view_count DESC
+		LIMIT 10 OFFSET 0
+	</select>
 	<select id="one" resultType="mateBoardListDTO">
 		SELECT
 		mb.id AS mateBoardId,

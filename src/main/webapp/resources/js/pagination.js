@@ -234,51 +234,51 @@ if (window.location.href.includes('/mate/bbs_list')) {
                     let genderId = one.genderId;
                     let genderStr = findGenderStr(genderValues,genderId);
 
-                    str += ` <div class="col-md-6 col-lg-4">
-                                                       <article class="item post">
-                                                         <div class="card mate-post-item">
-                                                           <figure class="card-img-top overlay overlay-1 hover-scale">
-                                                       <a href="../mate/${one.mateBoardId}">
-                                                       <div class="mate-list-image-container">
-                                                         <img src="../${imagePath}">
-                                                         </div>
-                                                         <span class="bg"></span>
-                                                       </a>
-                                                       <figcaption>
-                                                         <h5 class="from-top mb-0">Read More</h5>
-                                                       </figcaption>
-                                                     </figure>
-                                                     <div class="card-body">
-                                                     <div class="post-header d-flex align-items-center mb-3"> <!-- 프로필 이미지와 닉네임을 가로로 나란히 배치 -->
-                                                         <figure class="user-avatar">
-                                                             <img class="rounded-circle" alt="" src="${one.profileImage}"/>
-                                                         </figure>
-                                                             ${one.nickname}
-                                                     </div>
+                    str += `
+                                        <div class="col-md-6 col-lg-4">
+                                            <article class="item post">
+                                                <div class="card mate-post-item">
+                                                    <figure class="card-img-top overlay overlay-1 hover-scale">
+                                                        <a href="../mate/${one.mateBoardId}">
+                                                            <div class="mate-list-image-container">
+                                                                <img src="../${imagePath}">
+                                                            </div>
+                                                            <span class="bg"></span>
+                                                        </a>
+                                                        <figcaption>
+                                                            <h5 class="from-top mb-0">Read More</h5>
+                                                        </figcaption>
+                                                    </figure>
+                                                        <div class="card-body">
+                                                            <div class="post-header d-flex align-items-center mb-3"> <!-- 프로필 이미지와 닉네임을 가로로 나란히 배치 -->
+                                                                <figure class="user-avatar">
+                                                                    <img class="rounded-circle" alt="" src="${one.profileImage}" />
+                                                                </figure>
+                                                                ${one.nickname}
+                                                            </div>
 
-                                                         <h2 class="post-title h3 mt-1 mb-2">
-                                                           <a class="link-dark mb-2" href="../mate/${one.mateBoardId}">${one.title}</a><br>
-                                                         </h2>
-                                                         <h4>
-                                                         <div class="badge bg-pale-primary text-primary rounded-pill">#${ageRangeStr}</div>
-                                                        <div class="badge bg-pale-primary text-primary rounded-pill">#${genderStr}</div>
-                                                        <div class="badge bg-pale-primary text-primary rounded-pill">#${regionStr}</div>
-                                                        </h4>
+                                                            <h2 class="post-title h3 mt-1 mb-2">
+                                                                <a class="link-dark mb-2" href="../mate/${one.mateBoardId}">${one.title}</a><br>
+                                                            </h2>
+                                                            <h4>
+                                                                <div class="badge bg-pale-primary text-primary rounded-pill">#${ageRangeStr}</div>
+                                                                <div class="badge bg-pale-primary text-primary rounded-pill">#${genderStr}</div>
+                                                                <div class="badge bg-pale-primary text-primary rounded-pill">#${regionStr}</div>
+                                                            </h4>
 
-                                                         <div class="mate-list-card-footer">
-                                                          <ul class="post-meta d-flex mb-0 mate-list-one">
-                                                            <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.startDate} </span></li>
-                                                            <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.endDate}</span></li>
-                                                            <li class="post-likes ms-auto"><i class="uil uil-user-check"></i>조회수 ${one.viewCount}</li>
-                                                          </ul>
-                                                          <!-- /.post-meta -->
+                                                            <div class="mate-list-card-footer">
+                                                                <ul class="post-meta d-flex mb-0 mate-list-one">
+                                                                    <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.startDate} </span>
+                                                                    </li>
+                                                                    <li class="post-date"><i class="uil uil-calendar-alt"></i><span>${one.endDate}</span></li>
+                                                                    <li class="post-likes ms-auto"><i class="uil uil-user-check"></i>조회수 ${one.viewCount}</li>
+                                                                </ul>
+                                                                <!-- /.post-meta -->
+                                                            </div>
                                                         </div>
-                                                       </div>
-                                                     </div>
-                                                   </div>
-
-                                                 </article>
-                                               </div>`;
+                                                </div>
+                                            </article>
+                                        </div>`;
                 }
 
                 // 데이터 삽입 및 페이지 버튼 다시 생성

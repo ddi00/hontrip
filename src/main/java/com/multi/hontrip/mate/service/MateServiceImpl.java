@@ -183,6 +183,10 @@ public class MateServiceImpl implements MateService {
         return genderList;
     }
 
+    public List<MateBoardListDTO> likeTopTen(){
+        return mateDAO.topList();
+    }
+
     @Override
     public int updateMateBoard(MultipartFile file, MateBoardInsertDTO mateBoardInsertDTO) {
         String updatedFileName = file.getOriginalFilename();

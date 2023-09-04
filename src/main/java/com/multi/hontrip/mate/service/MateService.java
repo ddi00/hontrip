@@ -1,6 +1,7 @@
 package com.multi.hontrip.mate.service;
 
 import com.multi.hontrip.mate.dto.*;
+import com.multi.hontrip.record.dto.PostInfoDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -54,4 +55,6 @@ public interface MateService {
     List<Map<String, Object>> getRegionList();
 
     List<Map<String, Object>> getgenderList();
+
+    List<MateBoardListDTO> likeTopTen();
 }
