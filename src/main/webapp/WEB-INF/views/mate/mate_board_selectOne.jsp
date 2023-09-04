@@ -480,8 +480,8 @@
                                 <a class="back-mate-list btn btn-soft-primary rounded-pill" href="bbs_list"> 목록
                                     <a>
                                         <div id=clc>
-                                            <h3 class="comment-count mb-6">댓글 ${commentListCount}</h3>
-                                        </div>수
+                                            <h3 class="comment-count mb-6">${commentListCount} 댓글</h3>
+                                        </div>
                                         <div id="result">
                                             <c:choose>
                                                 <c:when test="${list.isEmpty()}">
