@@ -3,6 +3,8 @@ package com.multi.hontrip.user.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.multi.hontrip.common.RequiredSessionCheck;
+import com.multi.hontrip.mate.dto.MateBoardListDTO;
+import com.multi.hontrip.mate.dto.MatePageDTO;
 import com.multi.hontrip.mate.service.MateService;
 import com.multi.hontrip.user.dto.PageConditionDTO;
 import com.multi.hontrip.user.dto.UserInfoDTO;
@@ -114,23 +116,19 @@ public class MyPageController { //마이페이지 관련 컨트롤러
     }
 
 
-    /*@GetMapping("/my-mate")
+    @GetMapping("/my-mate")
     @RequiredSessionCheck
-    public String myRecordPage(Model model, HttpSession session, MatePageDTO matePageDTO){  //my-record 첫페이지
+    public ModelAndView myRecordPage(ModelAndView modelAndView, HttpSession session, MatePageDTO matePageDTO) {  //my-record 첫페이지
 
         MatePageDTO pagedDTO = mateService.paging(matePageDTO);
         //게시물 리스트 가져오기
         List<MateBoardListDTO> list = mateService.list(pagedDTO);
-        model.addAttribute("list", list);
-        model.addAttribute("pageDTO", pagedDTO);
 
-        *//*Long userId = (Long)session.getAttribute("id");
-        Map<String,Object> resultList = myPageService.getMyPageResult(userId,pageConditionDTO);
-
-        resultList.forEach((key, value) -> {
-            modelAndView.addObject(key, value);
-        });*//*
-     *//*modelAndView.setViewName("/my-page/my-mate-page");*//*
-        return "/my-page/my-mate-page";
-    }*/
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("pageDTO", pagedDTO);
+        // 신규 댓글 내역 가져오기
+        // 동행 신청 보기
+        modelAndView.setViewName("/my-page/my-mate-page");
+        return modelAndView;
+    }
 }
