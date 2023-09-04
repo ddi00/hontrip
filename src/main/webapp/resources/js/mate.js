@@ -556,7 +556,7 @@ if (window.location.href.includes('/mate/')) {
             comments += "<h6>등록된 댓글이 없습니다.</h6>";
             comments += "</div>";
         }
-        commentListCount += `<h3 class="mb-6">댓글 수:${commentListRe.commentListCount}</h3>`
+        commentListCount += `<h3 class="mb-6">댓글 ${commentListRe.commentListCount}</h3>`
         $('#clc').empty().html(commentListCount);
         $('#result').html(comments);
     }

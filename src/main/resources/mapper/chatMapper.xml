@@ -85,7 +85,7 @@
         UPDATE mate_user_chatroom
         SET last_join_at = NOW()
         WHERE user_id = #{userId}
-          AND chatroom_id = #{roomId};
+        AND chatroom_id = #{roomId};
     </update>
 
     <select id="getChatRoomListById" parameterType="long" resultType="chatroomListDTO">
