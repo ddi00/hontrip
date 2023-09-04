@@ -10,16 +10,16 @@
     <div class="navbar-collapse offcanvas offcanvas-nav offcanvas-start">
       <div class="offcanvas-body ms-lg-auto d-flex flex-column h-100">
         <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="/hontrip/plan/list">계획</a></li>
+          <li class="nav-item"><a class="nav-link" href="/hontrip/plan/list">계획하기</a></li>
           <li class="nav-item">
            <c:if test="${not empty sessionScope.id}"> <!-- 세션에 ID값이 있는 경우, 내게시물 링크 출력 -->
-              <a class="nav-link" href="/hontrip/record/mylist" class="vertical-center">기록</a>
+              <a class="nav-link" href="/hontrip/record/mylist" class="vertical-center">기록하기</a>
             </c:if>
             <c:if test="${empty sessionScope.id}"> <!-- 세션에 ID값이 없는 경우, 공유피드 링크 출력 -->
-              <a class="nav-link" href="/hontrip/record/feedlist" class="vertical-center">기록</a>
+              <a class="nav-link" href="/hontrip/record/feedlist" class="vertical-center">기록하기</a>
             </c:if>
            </li>
-          <li class="nav-item"><a class="nav-link" href="/hontrip/mate/bbs_list">동행인</a></li>
+          <li class="nav-item"><a class="nav-link" href="/hontrip/mate/bbs_list">동행 찾기</a></li>
         </ul>
         <!-- /.navbar-nav -->
       </div>
