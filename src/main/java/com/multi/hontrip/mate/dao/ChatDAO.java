@@ -55,7 +55,6 @@ public class ChatDAO {
         sessionTemplate.update("chatMapper.updateLastJoinAt", params);
     }
 
-    /*-------------------------------------위: 봄 / 아래 : 아직 못봄---------------*/
 
     public Long getChatRoomIdByPostIdAndGuestID(ChatInfoDTO chatInfoDTO) {
         return sessionTemplate.selectOne("chatMapper.selectRoomIdByPostIdAndGuestID", chatInfoDTO);
@@ -81,5 +80,20 @@ public class ChatDAO {
                 .chatMessages(chatMessageDTOS)
                 .newFlag(newFlag)
                 .build();
+    }
+
+    public ChatOwnerAcceptedDTO getIsOwnerIsAcceptedByRoomIdAndUserId(long roomId, long userId) {
+        Map<String, Long> params = new HashMap<>();
+        params.put("userId", userId);
+        params.put("roomId", roomId);
+        return sessionTemplate.selectOne("chatMapper.getIsOwnerIsAcceptedByRoomIdAndUserId", params);
+    }
+
+    public void acceptMatchingApplication(long roomId) {
+        sessionTemplate.update("chatMapper.acceptMatchingApplication", roomId);
+    }
+
+    public String getGuestNicknameByRoomId(long roomId) {
+        return sessionTemplate.selectOne("chatMapper.getGuestNicknameByRoomId", roomId);
     }
 }

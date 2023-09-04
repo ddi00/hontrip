@@ -1,5 +1,7 @@
 package com.multi.hontrip.mate.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.multi.hontrip.mate.dto.*;
 import com.multi.hontrip.mate.service.ChatService;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +30,6 @@ public class ChatController {
         }
         chatService.saveChatContent(chatMessageDTO);
         simpMessageSendingOperations.convertAndSend("/topic/chat/roomId/" + chatMessageDTO.getRoomId(), chatMessageDTO);
-        /*String time = new SimpleDateFormat("HH:mm").format(new Date());
-        return new OutputMessage(message.getFrom(), message.getText(), time);*/
     }
 
     @PostMapping("/create-chatroom")    //form으로 보낼때는 requestBody 쓰지 마시오
@@ -94,5 +94,22 @@ public class ChatController {
     @GetMapping("/update_last_join_at")
     public void updateLastJoinAt(long userId, long roomId) {
         chatService.updateLastJoinAt(userId, roomId);
+    }
+
+    @GetMapping("/owner_check")
+    public ChatOwnerAcceptedDTO getIsOwnerIsAcceptedByRoomIdAndUserId(long roomId, long userId) {
+        return chatService.getIsOwnerIsAcceptedByRoomIdAndUserId(roomId, userId);
+    }
+
+    @GetMapping("/accept_matching_application")
+    public void acceptMatchingApplication(long roomId) {
+        chatService.acceptMatchingApplication(roomId);
+    }
+
+    @GetMapping(value = "/guest_nickname", produces = "application/json; charset=utf8")
+    public String getGuestNicknameByRoomId(long roomId) {
+        JsonObject guestNickname = new JsonObject();
+        guestNickname.addProperty("nickname", chatService.getGuestNicknameByRoomId(roomId));
+        return new Gson().toJson(guestNickname);
     }
 }
