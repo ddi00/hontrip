@@ -91,8 +91,16 @@ public class RecordContorller {
         List<CommentDTO> reCommentList = commentService.reCommentList(commentList); //대댓글
         List<PostLikeDTO> likeUserList = postLikeService.selectLikeList(id); //좋아요 누른 유저
 
-        long sessionUserId = (long) request.getSession().getAttribute("id"); // 현재세션의 유저 id값
-        boolean userLikedPost = postLikeService.checkUserLikedPost(sessionUserId, id); // 좋아요 누른 유저인지 확인
+        long sessionUserId = 0; // 현재세션의 유저 id값
+        boolean userLikedPost;
+
+        // 현제 세션에 유저가 없더라도 상세페이지 확인 가능
+        if (request.getSession().getAttribute("id") != null) {
+            sessionUserId = (long)request.getSession().getAttribute("id");
+            userLikedPost = postLikeService.checkUserLikedPost(sessionUserId, id);
+        } else {
+            userLikedPost = false;
+        }
 
         if (userLikedPost) { // 좋아요를 누른 유저이면 ok
             model.addAttribute("userCheckLike", "ok");
@@ -105,19 +113,8 @@ public class RecordContorller {
         return "/record/postinfo";
     }
 
-    @GetMapping("updatepost") // 게시물 수정 페이지 + 수정 정보
-    @RequiredSessionCheck
-    public String updatePostInfoView(@RequestParam("id") long id, Model model, HttpSession httpSession) {
-        PostInfoDTO postInfoDTO = recordService.selectPostInfo(id);
-        List<PostImgDTO> postImgList = recordService.selectPostImg(id); //게시물 이미지 view
-        model.addAttribute("postInfoDTO", postInfoDTO);
-        model.addAttribute("postImgList", postImgList);
-        return "/record/updatepost";
-    }
-
-    @PostMapping("updatepost") // 게시물 수정 적용
-    public String updatePostInfo(//@RequestParam("file") MultipartFile file,
-                                 CreatePostDTO createPostDTO) {
+    @PostMapping("update_post") // 게시물 수정 적용
+    public String updatePostInfo(@RequestBody CreatePostDTO createPostDTO) {
         long postId = recordService.updatePostInfo(createPostDTO);
         return "redirect:/record/postinfo?id=" + postId; // 수정후 수정된 게시물 이동
     }

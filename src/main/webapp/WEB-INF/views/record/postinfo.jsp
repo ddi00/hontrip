@@ -8,6 +8,25 @@
     %>
 
 <style>
+    /* 스크롤 가능한 컨테이너의 스타일을 정의합니다. */
+    .scrollable-container {
+        max-height: 750px; /* 원하는 최대 높이 설정 */
+        overflow-y: scroll; /* 세로 스크롤을 허용합니다. */
+        border: 1px solid #ccc; /* 테두리 스타일을 지정할 수 있습니다. */
+    }
+
+    /* 이미지 슬라이드의 스타일을 조절합니다. */
+    .postimg {
+        padding: 15px; /* 이미지 사이의 간격을 조절할 수 있습니다. */
+    }
+
+    /* 이미지에 호버 스케일 효과를 적용합니다. (옵션) */
+    .hover-scale:hover {
+        transform: scale(1.1);
+        transition: transform 0.3s ease;
+    }
+
+
     /* 이미지 컨테이너의 스타일 설정 */
     .swiper-slide{
         width: 500px;
@@ -30,7 +49,7 @@
     }
 
     .modal-dialog {
-        max-width: 80%; /* 원하는 너비로 설정하세요. 예를 들어, 80%로 설정하면 화면의 80% 너비를 차지합니다. */
+        max-width: 90%; /* 원하는 너비로 설정하세요. 예를 들어, 80%로 설정하면 화면의 80% 너비를 차지합니다. */
     }
 
 </style>
@@ -347,6 +366,42 @@
             });
         });
 
+        // 수정 버튼 클릭 시 Ajax 요청 보내는 부분
+        $(".btn-update").click(function () {
+            // 수정할 데이터를 수집
+            var startDate = $("input[name='startDate']").val();
+            var endDate = $("input[name='endDate']").val();
+            var isVisible = $("select[name='isVisible']").val();
+            var title = $("input[name='title']").val();
+            var content = $("textarea[name='content']").val();
+            var id = $("input[name='id']").val();
+            // 수정할 데이터를 객체로 만듦
+            var postData = {
+                id: id,
+                startDate: startDate,
+                endDate: endDate,
+                isVisible: isVisible,
+                title: title,
+                content: content
+            };
+
+            // Ajax 요청
+            $.ajax({
+                type: "POST",
+                url: "update_post",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(postData),
+                success: function (response) {
+                    window.location.href = "postinfo?id=" + id;
+                },
+                error: function (error) {
+                    // 수정 실패 시의 처리
+                    alert("게시물 수정에 실패했습니다.");
+                }
+            });
+        });
+
+
     }); // $
 </script>
 
@@ -441,9 +496,8 @@
                                         </li>
 
                                         <c:if test="${postInfoDTO.userId eq userId}">
-                                            <li class="post-likes"><a
-                                                    href="/hontrip/record/updatepost?id=${postInfoDTO.boardId}">
-                                                    수 정</a>
+                                            <li class="post-likes">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modal-update">수정</a>
                                             </li>
                                             <li class="post-likes"><a
                                                     href="/hontrip/record/deletepost?id=${postInfoDTO.boardId}">
@@ -636,8 +690,6 @@
     </section>
     <!-- /section -->
 
-    <a href="#" class="btn btn-primary rounded-pill mx-1 mb-2 mb-md-0" data-bs-toggle="modal" data-bs-target="#modal-signup">게시물 수정</a>
-
     <div class="modal fade" id="modal-02" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content text-center">
@@ -678,68 +730,88 @@
     </div>
     <!--/.modal -->
 
-    <div class="modal fade" id="modal-signup" tabindex="-1">
-                      <div class="modal-dialog modal-dialog-centered modal-sm">
-                        <div class="modal-content text-center">
-                          <div class="modal-body">
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                             <section class="wrapper bg-light">
-                                   <div class="container py-14 py-md-10">
-                                     <div class="row gx-md-8 gx-xl-12 gy-8">
-                                       <div class="col-lg-6">
-                                         <div class="swiper-container swiper-thumbs-container" data-margin="10" data-dots="false" data-nav="true" data-thumbs="true">
-                                           <div class="swiper">
-                                             <div class="swiper-wrapper">
-                                             <c:forEach items="${postImgList}" var="postImgDTO">
-                                               <div class="swiper-slide">
-                                                 <figure class="rounded"><img src="<c:url value='/${postImgDTO.imgUrl}'/>" srcset="<c:url value='/${postImgDTO.imgUrl}'/>"/></figure>
-                                               </div>
-                                               <!--/.swiper-slide -->
-                                             </c:forEach>
-                                             </div>
-                                             <!--/.swiper-wrapper -->
-                                           </div>
-                                           <!-- /.swiper -->
-                                         </div>
-                                         <!-- /.swiper-container -->
-                                       </div>
-                                       <!-- /column -->
-                                       <div class="col-lg-6">
-                                         <div class="post-header mb-5">
-                                           <h2 class="post-title display-5"><a href="./shop-product.html" class="link-dark">Curology Skincare Set</a></h2>
-                                         </div>
-                                         <!-- /.post-header -->
-                                         <form>
-                                           <div class="row">
-                                             <div class="col-lg-9 d-flex flex-row pt-2">
-                                               <div class="flex-grow-1 mx-2">
-                                                 <input type="text"></input>
-                                               </div>
-
-                                               <div class="flex-grow-1 mx-2">
-                                                 <button class="btn btn-primary btn-icon btn-icon-start rounded w-100 flex-grow-1">수정 완료</button>
-                                               </div>
-                                             </div>
-                                             <!-- /column -->
-                                           </div>
-                                           <!-- /.row -->
-                                         </form>
-                                         <!-- /form -->
-                                       </div>
-                                       <!-- /column -->
-                                     </div>
-                                     <!-- /.row -->
-                                   </div>
-                                   <!-- /.container -->
-                                 </section>
-                                 <!-- /section -->
-                          </div>
-                          <!--/.modal-content -->
+<div class="modal fade" id="modal-update" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <section class="wrapper bg-light">
+                    <div class="container py-14 py-md-10">
+                        <div class="row gx-md-8 gx-xl-12 gy-8">
+                            <div class="col-lg-6">
+                                <div class="scrollable-container">
+                                    <c:forEach items="${postImgList}" var="postImgDTO">
+                                        <div class="postimg">
+                                            <figure class="hover-scale rounded cursor-dark">
+                                                <a href="/hontrip/${postImgDTO.imgUrl}" data-glightbox data-gallery="product-group">
+                                                    <img src="<c:url value='/${postImgDTO.imgUrl}'/>"
+                                                         srcset="<c:url value='/${postImgDTO.imgUrl}'/>" />
+                                                </a>
+                                            </figure>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                            <!-- /column -->
+                            <div class="col-lg-6">
+                                <div class="post-header mb-5">
+                                    <h2 class="post-title display-5 text-primary">게시물 수정</h2>
+                                </div>
+                                <br>
+                                <form class="text-start mb-3">
+                                    <input type="hidden" name="id" value="${postInfoDTO.boardId}">
+                                    <p class="mb-3 text-start">날짜 수정</p>
+                                    <div class="form-floating mb-0">
+                                        <div class="mateDates1">
+                                            <input name="startDate" type="date" class="form-control" required
+                                                value="${postInfoDTO.startDate}">
+                                            -
+                                            <input name="endDate" type="date" class="form-control" required
+                                                value="${postInfoDTO.endDate}">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <p class="mb-3 text-start">공개/비공개 수정</p>
+                                    <div class="form-floating mb-4">
+                                        <div class="form-select-wrapper">
+                                            <select name="isVisible" class="form-select" required>
+                                                <option value="1">공개</option>
+                                                <option value="0">비공개</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <p class="mb-3 text-start">제목 수정</p>
+                                    <div class="form-floating password-field mb-4">
+                                        <div class="form-floating">
+                                            <input type="text" name="title" class="form-control"
+                                                value="${postInfoDTO.title}">
+                                            <label for="textInputExample">Title*</label>
+                                        </div>
+                                    </div>
+                                    <p class="mb-3 text-start">내용 수정</p>
+                                    <div class="form-floating password-field mb-4">
+                                        <div class="form-floating">
+                                            <textarea input name="content" class="form-control" placeholder="content"
+                                                style="height: 180px">${postInfoDTO.content}</textarea>
+                                            <label for="textInputExample">Content*</label>
+                                        </div>
+                                    </div>
+                                    <a class="btn btn-outline-primary rounded-pill btn-update w-100 mb-2">수정 완료</a>
+                                </form>
+                                <!-- /form -->
+                            </div>
+                            <!-- /column -->
                         </div>
-                        <!--/.modal-body -->
-                      </div>
-                      <!--/.modal-dialog -->
+                        <!-- /.row -->
                     </div>
-                    <!--/.modal -->
-                  </div>
-                  <!--/.card-body -->
+                    <!-- /.container -->
+                </section>
+                <!-- /section -->
+            </div>
+            <!--/.modal-content -->
+        </div>
+        <!--/.modal-body -->
+    </div>
+    <!--/.modal-dialog -->
+</div>
+<!--/.modal -->
