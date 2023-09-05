@@ -39,7 +39,6 @@ public class AlarmController {
     @PostMapping("/mate/insertMatchingAlarm")
     @ResponseBody
     public int insertMatchingAlarm(MateMatchingAlarmDTO mateMatchingAlarmDTO) {
-        System.out.println(mateMatchingAlarmDTO);
         return alarmService.insertMatchingAlarm(mateMatchingAlarmDTO);
     }
 
