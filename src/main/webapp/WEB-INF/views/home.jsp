@@ -189,15 +189,14 @@
                                         <div class="project item">
                                             <div class="card shadow-lg">
                                                 <figure class="card-img-top">
-                                                        <%--                                                    <a href="/hontrip/plan/spot/detail?category=keyword&keyword=${spot.title}&contentId=${spot.spotContentId}">--%>
-                                                    <a>
+                                                    <a href="/hontrip/plan/spot/detail?category=keyword&keyword=${spot.title}&contentId=${spot.spotContentId}">
                                                         <img src="${spot.image}">
                                                     </a>
                                                 </figure>
                                                 <div class="card-body">
                                                     <div class="post-header">
                                                         <div class="post-category mb-2 text-primary">${spot.area}</div>
-                                                        <h4 class="txt_line mb-0">${spot.title}</h4>
+                                                        <h4 class="txt_line mb-0"><a href="/hontrip/plan/spot/detail?category=keyword&keyword=${spot.title}&contentId=${spot.spotContentId}" style="color: black">${spot.title}</a></h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -217,7 +216,7 @@
         </div>
     </section>
 </section>
-<section class="wrappert mb-10">
+<section class="wrapper mb-10">
     <%--<div class="overflow-hidden">
         <div class="divider text-light mx-n2">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100">
