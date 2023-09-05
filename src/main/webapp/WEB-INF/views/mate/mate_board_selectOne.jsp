@@ -398,15 +398,15 @@
 
                                                 <ul class="list-unstyled tag-list mb-0 flex-lg-wrap"
                                                     style="width: 100%">
-                                                    <li class="btn btn-soft-ash btn-sm rounded-pill mb-2"
+                                                    <li class="btn btn-soft-orange btn-sm rounded-pill mb-2"
                                                         style="width: 14%">원해요
                                                     </li>
-                                                    <li class="btn btn-soft-ash btn-sm rounded-pill mb-2"
+                                                    <li class="btn btn-soft-orange btn-sm rounded-pill mb-2"
                                                         style="width: 14%">
                                                         #${dto.gender.genderStr}</li>
                                                     <c:if test="${not empty ageRangeStr}">
                                                         <c:forEach items="${ageRangeStr}" var="age">
-                                                            <li class="btn btn-soft-ash btn-sm rounded-pill mb-2"
+                                                            <li class="btn btn-soft-orange btn-sm rounded-pill mb-2"
                                                                 style="width: 14%">
                                                                 #${age}</li>
                                                         </c:forEach>

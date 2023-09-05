@@ -372,15 +372,12 @@ if (window.location.href.includes('/mate/')) {
     /*모달에서 삭제버튼을 눌렀을때 */
     function deleteAccept() {
         $.ajax({
-            method: 'DELETE',
-            url: "delete/" + $('#mateBoardId').val(),
+            url: "delete",
             data: {
-                id: parseInt($('#mateBoardId').val())
+                id: $('#mateBoardId').val()
             },
             success: function (result) {
-                if (result == 1) {
-                    location.href = "../mate/bbs_list?page=1"
-                }
+                location.href = "../mate/bbs_list?page=1"
             }, error: function (e) {
                 console.log(e)
             }
@@ -535,7 +532,6 @@ if (window.location.href.includes('/mate/')) {
                     comments += "<br>";
 
 
-
                     comments += `<div id="cComment${commentList.commentId}" style="display: none">
                          <textarea id="cContent${commentList.commentId}" class="mate-comment-content form-control" placeholder="답글을 입력해주세요"></textarea>
                         <br>
@@ -587,8 +583,8 @@ if (window.location.href.includes('/mate/')) {
             var nickname = $('#nickName').val();
 
             if (!userId) {
-                        alert("로그인 해주세요.");
-                        return;
+                alert("로그인 해주세요.");
+                return;
             }
             $.ajax({
                 url: "/hontrip/mate/comment_insert",

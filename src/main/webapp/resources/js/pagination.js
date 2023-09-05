@@ -362,14 +362,11 @@ if (window.location.href.includes('/mate/bbs_list')) {
 //    if (endPage < realEnd) {
 //      pagingHtml += '<li class="page-item"><button class="page-link pageBtn skipBtn" data-page="' + (endPage + 1) + '">>></button></li>';
 //    }
-
-
         if (endPage < realEnd) {
             pagingHtml += '<li class="page-item"><button class="page-link pageBtn skipBtn" data-page="' + (endPage + 1) + '"><i class="uil uil-arrow-right"></i> </button></li>';
         } else {
             pagingHtml += '<li class="page-item disabled"><button class="page-link pageBtn skipBtn"><i class="uil uil-arrow-right"></i> </button></li>';
         }
-
         $('.pagination').empty().html(pagingHtml);
     }
 }

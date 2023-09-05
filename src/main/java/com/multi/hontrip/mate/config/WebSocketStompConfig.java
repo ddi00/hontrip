@@ -1,4 +1,4 @@
-package com.multi.hontrip.mate.alarm;
+package com.multi.hontrip.mate.config;
 
 
 import org.springframework.context.annotation.Configuration;
