@@ -50,7 +50,7 @@
             <ul class="dropdown-menu">
               <li class="nav-item"><a class="dropdown-item" href="/hontrip/user/my-page"><i
                       class="uil uil-user"><span class="kor-font-small">회원정보</span></i></a></li>
-              <li class="nav-item"><a class="dropdown-item" href="#"><i class="uil uil-schedule"><span
+              <li class="nav-item"><a class="dropdown-item" href="/hontrip/plan/list"><i class="uil uil-schedule"><span
                       class="kor-font-small">계획</span></i></a></li>
               <li class="nav-item"><a class="dropdown-item" href="/hontrip/record/createpost"><i
                       class="uil uil-edit-alt"><span class="kor-font-small">기록</span></i></a></li>
