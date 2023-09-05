@@ -276,16 +276,17 @@
                             <div class='row ms-3 my-4'>
                                     <%--<span class='col-3'><img src="${spot.image}" width="88px" height="72px"></span> --%>
                                 <div class="row">
-                                    <span class='col-6 align-self-center'> <Strong> ${accommodation.placeName} </Strong></span>
-                                    <span class='col-8'>${accommodation.categoryName}"</span>
+                                    <%--<span class='col-6 align-self-center'> <Strong> ${accommodation.placeName} </Strong></span>--%>
+                                        <span class='col-6 align-self-center'> <Strong> <a href="${accommodation.placeUrl}" target="_blank">${accommodation.placeName}</a> </Strong></span>
+                                    <span class='col-8'>${accommodation.categoryName}</span>
                                 </div>
 
                                 <div class="row">
-                                    <span class='col-8 align-self-center'>${accommodation.addressName}</span>
+                                    <span class='col-8 align-self-center'><i class="uil uil-map-marker"> </i>${accommodation.addressName}</span>
                                 </div>
 
                                 <div class="row">
-                                    <span class='col-10 align-self-center'>${accommodation.phone}</span>
+                                    <span class='col-10 align-self-center'><i class="uil uil-phone"> </i>${accommodation.phone}</span>
                                     <span class="col-2 align-self-start">
                                             <button type="button" class="delete-accommodation-btn btn btn-sm"
                                                     data-accommodation-id="${accommodation.id}">
@@ -300,9 +301,9 @@
                                 </div>
 
 
-                                <div class="row">
+                               <%-- <div class="row">
                                     <span class='col-8 align-self-center'><a href="${accommodation.placeUrl}">숙박 후기</a> </span>
-                                </div>
+                                </div>--%>
 
 
                             </div>
@@ -802,23 +803,26 @@
                 /*selectedAccommodationDivHTML += "<div class='card my-2'><div class='ms-3 my-4'><div class='row'>"*/
                 selectedAccommodationDivHTML += "<div class='card my-2' style='text-align: left; font-size: 0.8em;'>";
                 selectedAccommodationDivHTML += "<div class='ms-3 my-4'><div class='row'>";
-                selectedAccommodationDivHTML += "<div class='row'> <span class='col-6 align-self-center'> <Strong> "
+                /*selectedAccommodationDivHTML += "<div class='row'> <span class='col-6 align-self-center'> <Strong> "
                     + accommodation.placeName + "</Strong></span><span class='col-8'>"
-                    + accommodation.categoryName + "</span></div>"
+                    + accommodation.categoryName + "</span></div>"*/
+                selectedAccommodationDivHTML += "<div class='row'> <span class='col-6 align-self-center'> <Strong> <a href='" + accommodation.placeUrl + "' target='_blank'>" + accommodation.placeName + "</a></Strong></span><span class='col-8'>" + accommodation.categoryName + "</span></div>";
 
-                selectedAccommodationDivHTML += "<div class='row'><span class='col-8'>" + accommodation.addressName + "</span></div>"
+                /*selectedAccommodationDivHTML += "<div class='row'><span class='col-8'>" + accommodation.addressName + "</span></div>"*/
+                selectedAccommodationDivHTML += "<div class='row'><span class='col-8'><i class='uil uil-map-marker'></i> " + accommodation.addressName + "</span></div>";
 
                 selectedAccommodationDivHTML += "<div class='row'>"
-                selectedAccommodationDivHTML += "<span class='col-10'>" + accommodation.phone + "</span>"
+                /*selectedAccommodationDivHTML += "<span class='col-10'>" + accommodation.phone + "</span>"*/
+                selectedAccommodationDivHTML += "<span class='col-10'><i class='uil uil-phone'></i> " + accommodation.phone + "</span>";
                 selectedAccommodationDivHTML += "<span class='col-2 align-self-start'><button type='button' class='delete-accommodation-btn btn btn-sm'"
                     + "data-accommodation-id='" + accommodation.id + "'>"
                 selectedAccommodationDivHTML += "<svg style='color: gray' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-x' viewBox='0 0 16 16'>"
                 selectedAccommodationDivHTML += "<path d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z' fill='gray'></path></svg>"
                 selectedAccommodationDivHTML += "</button></span></div>"
 
-                selectedAccommodationDivHTML += "<div class='row'>"
+                /*selectedAccommodationDivHTML += "<div class='row'>"
                 selectedAccommodationDivHTML += "<span class='col-12'><a href='" + accommodation.placeUrl + "'>숙박후기</a>" + "</span>"
-                selectedAccommodationDivHTML += "</div>"
+                selectedAccommodationDivHTML += "</div>"*/
 
                 $('#' + selectedAccommodationsDivId).append(selectedAccommodationDivHTML);
                 $('#' + selectedAccommodationsDivId).show();
