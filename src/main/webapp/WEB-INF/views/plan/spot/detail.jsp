@@ -22,7 +22,7 @@
             </span>
             </div>
             <div class="col-3 text-end ms-auto">
-                <input type="submit" value="목록" class="btn btn-outline-gray bg-white text-black-50 ms-1" style="width: 74%; border: 1px solid rgba(8, 60, 130, 0.15);" form="spot-list-form">
+                <input type="submit" value="목록" class="btn btn-outline-gray bg-white ms-1" style="width: 74%; border: 1px solid rgba(8, 60, 130, 0.15); color: black;" form="spot-list-form">
             </div>
         </div>
         <div class="row d-flex justify-content-center">

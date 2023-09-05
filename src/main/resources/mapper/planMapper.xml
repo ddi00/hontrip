@@ -3,7 +3,7 @@
 <mapper namespace="plan">
 	<insert id="insert" parameterType="planDTO"
 			useGeneratedKeys="true"
-			keyProperty="plan_id">
+			keyProperty="planId">
 		insert into plan (user_id, title, start_date, end_date, memo, created_at, updated_at)
 		values (#{userId}, #{title}, #{startDate}, #{endDate}, #{memo}, now(), now())
 	</insert>

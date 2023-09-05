@@ -43,6 +43,7 @@ public class SpotParser {
         for (Area area : Area.values()) {
             if (area.getAreaName().contains(areaName)) {
                 areaCode = area.getAreaCode();
+                break;
             }
         }
         return areaCode;

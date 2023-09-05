@@ -92,8 +92,11 @@ public class ChatController {
     }
 
     @GetMapping("/update_last_join_at")
-    public void updateLastJoinAt(long userId, long roomId) {
+    public List<ChatroomListDTO> updateLastJoinAt(long userId, long roomId) {
         chatService.updateLastJoinAt(userId, roomId);
+        List<ChatroomListDTO> chatRoomDTOList = chatService.getChatListById(userId);
+
+        return chatRoomDTOList;
     }
 
     @GetMapping("/owner_check")

@@ -398,15 +398,15 @@
 
                                                 <ul class="list-unstyled tag-list mb-0 flex-lg-wrap"
                                                     style="width: 100%">
-                                                    <li class="btn btn-soft-ash btn-sm rounded-pill mb-2"
+                                                    <li class="btn btn-soft-orange btn-sm rounded-pill mb-2"
                                                         style="width: 14%">원해요
                                                     </li>
-                                                    <li class="btn btn-soft-ash btn-sm rounded-pill mb-2"
+                                                    <li class="btn btn-soft-orange btn-sm rounded-pill mb-2"
                                                         style="width: 14%">
                                                         #${dto.gender.genderStr}</li>
                                                     <c:if test="${not empty ageRangeStr}">
                                                         <c:forEach items="${ageRangeStr}" var="age">
-                                                            <li class="btn btn-soft-ash btn-sm rounded-pill mb-2"
+                                                            <li class="btn btn-soft-orange btn-sm rounded-pill mb-2"
                                                                 style="width: 14%">
                                                                 #${age}</li>
                                                         </c:forEach>
@@ -477,10 +477,10 @@
                                     </div>
                                     <!-- /#comments -->
                                 </form>
-                                <a class="back-mate-list btn btn-soft-primary rounded-pill" href="bbs_list"> 리스트로 돌아가기
+                                <a class="back-mate-list btn btn-soft-primary rounded-pill" href="bbs_list"> 목록
                                     <a>
                                         <div id=clc>
-                                            <h3 class="comment-count mb-6">댓글 수:${commentListCount}</h3>
+                                            <h3 class="comment-count mb-6">${commentListCount} 댓글</h3>
                                         </div>
                                         <div id="result">
                                             <c:choose>

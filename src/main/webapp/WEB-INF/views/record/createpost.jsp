@@ -60,19 +60,50 @@
         reader.readAsDataURL(f);
       });
     }
+
+function dateInit() {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1; // 0부터 시작하므로 1을 더해줍니다.
+    const yyyy = today.getFullYear();
+
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    const formattedToday = yyyy + '-' + mm + '-' + dd;
+    $('#recordStart').prop("max", formattedToday); // 여행 시작일 최대값을 오늘로 설정합니다.
+    $('#recordEnd').prop("max", formattedToday); // 여행 종료일 최대값을 오늘로 설정합니다.
+}
+
+$(document).ready(function () {
+    dateInit();
+
+    $('#recordStart').on('change', function () {
+        $('#recordEnd').prop("min", $(this).val());
+    });
+
+    $('#mateEndDate').on('change', function () {
+        $('#recordStart').prop("max", $(this).val());
+        $('#recordEnd').prop("max", formattedToday); // 여행 종료일 최대값을 오늘로 설정합니다.
+    });
+});
+
 </script>
 
-<section class="wrapper bg-light">
-  <div class="container pt-11 pt-md-13 pb-10 pb-md-0 pb-lg-4 text-center">
-    <div class="row">
-      <div class="col-lg-8 col-xl-7 col-xxl-6 mx-auto" data-cues="slideInDown" data-group="page-title">
-        <h1 class="display-1 fs-60 mb-4 px-md-15 px-lg-0">Record Post<span class="underline-3 style-3 primary"> Create</span></h1>
-      </div>
-      <!-- /column -->
+ <section class="wrapper bg-light">
+    <div class="container pt-11 pt-md-13 pb-10 pb-md-0 pb-lg-5 text-center">
+        <div class="row">
+            <div class="col-lg-8 col-xl-7 col-xxl-6 mx-auto" data-cues="slideInDown" data-group="page-title">
+                <h1 class="display-1"><span class="underline-3 style-3 primary">여행기록</span> 작성</h1>
+            </div>
+            <!-- /column -->
+        </div>
+        <!-- /.row -->
     </div>
-    <!-- /.row -->
-  </div>
-  <!-- /.container -->
+    <!-- /.container -->
 </section>
 <!-- /section -->
 
@@ -166,15 +197,18 @@
                             </div>
                         </div>
                         <div>여행 기간을 선택하세요</div>
-                        <div class="mateDates1">
+                        <div class="Dates1">
+                        <div class="fs-sm">- 시작</div>
                                 <input
+                                        id="recordStart"
                                         name="startDate"
                                         type="date"
                                         class="form-control"
                                         required
                                 >
-                                -
+                        <div class="fs-sm">- 끝</div>
                                 <input
+                                        id="recordEnd"
                                         name="endDate"
                                         type="date"
                                         class="form-control"

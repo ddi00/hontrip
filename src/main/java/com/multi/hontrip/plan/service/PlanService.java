@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface PlanService {
-    void insertPlan(PlanDTO planDTO); // 일정 생성
+    long insertPlan(PlanDTO planDTO); // 일정 생성
 
     void updatePlan(PlanDTO planDTO); // 일정 수정
 

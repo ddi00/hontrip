@@ -48,7 +48,7 @@
         right: 0px; /* 원하는 오른쪽 여백 값으로 조정하세요 */
     }
 
-    .modal-dialog {
+    .update-modal {
         max-width: 90%; /* 원하는 너비로 설정하세요. 예를 들어, 80%로 설정하면 화면의 80% 너비를 차지합니다. */
     }
 
@@ -56,6 +56,35 @@
     <script type="text/javascript"
     	src="../resources/js/jquery-3.7.0.js" ></script>
     <script type="text/javascript">
+            function dateInit() { // 날짜수정 유효성 검사
+                    let today = new Date();
+                    let dd = today.getDate();
+                    let mm = today.getMonth() + 1; // 0부터 시작하므로 1을 더해줍니다.
+                    const yyyy = today.getFullYear();
+
+                    if (dd < 10) {
+                        dd = '0' + dd;
+                    }
+                    if (mm < 10) {
+                        mm = '0' + mm;
+                    }
+                    const fomattedToday = yyyy + '-' + mm + '-' + dd;
+                    $('#recordStart').prop("max", fomattedToday);
+                    $('#recordEnd').prop("max", fomattedToday);
+                }
+
+                $(document).ready(function () {
+                    dateInit();
+
+                    $('#recordStart').on('change', function () {
+                        $('#recordEnd').prop("min", $(this).val());
+                    });
+
+                    $('#recordEnd').on('change', function () {
+                        $('#recordStart').prop("min", $(this).val());
+                    });
+            })
+
         function showUpdateTextarea(commentId) {
             var updateField = document.getElementById("commentUpdate" + commentId);
             updateField.style.display = "block";
@@ -93,7 +122,7 @@
                     users += `<p class="mb-6"><img class="avatar w-10" src="\${postLikeDTO.profileImg}"/>\${postLikeDTO.likeUserNickname}</p>`;
                 }
             } else {
-                users += "<h6 class='text-primary'>좋아요를 누른 사람이 없습니다.</h6>"
+                users += "<h6>좋아요를 누른 사람이 없습니다.</h6>"
             }
             $('#likeUsers').html(users);
         }
@@ -104,7 +133,7 @@
             let rCount = commentListRe.reCommentList.length;
 
             if (cCount > 0) {
-                comments += "<h3 class='mb-12 text-orange'>" + cCount + " 댓글</h3>";
+                comments += "<h3 class='mb-12 text-primary'>" + cCount + " 댓글</h3>";
                 for (let i = 0; i < cCount; i++) {
                     let commentList = commentListRe.commentList[i];
                     if (commentList.cmtSequence == 0) {
@@ -223,7 +252,7 @@
                     }
                 }
             } else {
-                comments += "<h3 class='mb-6'>" + cCount + " Comments</h3>";
+                comments += "<h3 class='mb-6 text-primary'>" + cCount + " 댓글</h3>";
                 comments += "<div><h6>등록된 댓글이 없습니다.</h6></div>";
             }
 
@@ -707,7 +736,14 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${likeUserList}" var="user">
-                                    <p class="mb-6"><img class="avatar w-10" src="${user.profileImg}"/>${user.likeUserNickname}</p>
+                                    <div class="d-flex align-items-center">
+                                                <figure class="user-avatar me-5">
+                                                    <img class="rounded-circle" alt="" src="${user.profileImg}"/>
+                                                </figure>
+                                                <div>
+                                                    <h6 class="comment-author mb-0">${user.likeUserNickname}</h6>
+                                                </div>
+                                            </div>
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>
@@ -731,7 +767,7 @@
     <!--/.modal -->
 
 <div class="modal fade" id="modal-update" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-dialog modal-dialog-centered modal-sm update-modal">
         <div class="modal-content text-center">
             <div class="modal-body">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -755,7 +791,7 @@
                             <!-- /column -->
                             <div class="col-lg-6">
                                 <div class="post-header mb-5">
-                                    <h2 class="post-title display-5 text-primary">게시물 수정</h2>
+                                    <h2 class="post-title display-5 text-primary">여행기록 수정</h2>
                                 </div>
                                 <br>
                                 <form class="text-start mb-3">
@@ -763,10 +799,10 @@
                                     <p class="mb-3 text-start">날짜 수정</p>
                                     <div class="form-floating mb-0">
                                         <div class="mateDates1">
-                                            <input name="startDate" type="date" class="form-control" required
+                                            <input id="recordStart" name="startDate" type="date" class="form-control" required
                                                 value="${postInfoDTO.startDate}">
                                             -
-                                            <input name="endDate" type="date" class="form-control" required
+                                            <input id="recordEnd" name="endDate" type="date" class="form-control" required
                                                 value="${postInfoDTO.endDate}">
                                         </div>
                                     </div>

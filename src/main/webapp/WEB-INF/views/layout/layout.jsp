@@ -54,7 +54,9 @@
 
                     } else {
                         applyAlarm(JSON.parse(result.body));
-                        $('#unreadChatCount').css('display', 'block');
+                        /*$('.chatIcon').css('background-color','#d5ff80');
+                        $('.chatIcon').css('color','#d5ff80');*/
+                        /*$('#unreadChatCount').css('display', 'block');*/
                     }
                 })
             })
@@ -178,7 +180,7 @@
                     success: function (chatRoomList) {
                         $('#mateChatListUl').html('');
                         if (chatRoomList.length == 0) {
-                            $('#mateChatListUl').append("불러올 채팅 내역이 없습니다.");
+                            $('#mateChatListUl').append("아직 불러올 채팅 내역이 없습니다. <br>동행인 신청에 참여해보세요!!");
                         }
 
                         for (let i = 0; i < chatRoomList.length; i++) {
@@ -319,11 +321,13 @@
                     alarmPageClick(currentPg, 5, 5)
 
                     //채팅모달 펼치기
+                    $('.accompanyConfirmedButton').css('display', 'none');
                     $('.mateChatModal').css('display', 'block');
                     $('.mateChatList-wrap').css('display', 'none');
                     $('.mateChatHistory-wrap').css('display', 'block');
                     $('#mateChatHistoryUl').html('');
                     $('#mateChatRoomTitleLetter').text(result.chatRoomName);
+                    $('.ownerAcceptButton').css('display', 'block');
                 },
                 error: function (e) {
                     console.log(e);
@@ -388,7 +392,27 @@
                     userId: $('#mateAlarmUserId').val(),
                     roomId: roomId
                 },
-                success: function () {
+                success: function (chatRoomList) {
+                $('#mateChatListUl').html('');
+                        if (chatRoomList.length == 0) {
+                            $('#mateChatListUl').append("아직 불러올 채팅 내역이 없습니다. <br>동행인 신청에 참여해보세요!!");
+                        }
+
+                        for (let i = 0; i < chatRoomList.length; i++) {
+                            let lastMessage = chatRoomList[i].lastMessage;
+                            if (lastMessage.length > 20) {
+                                lastMessage = lastMessage.substring(0, 20) + "...";
+                            }
+                            $('#mateChatListUl').append('<li class="mateChatListLi"><a class="mateChatroomAtag" onclick="clickOneChatRoom(this)" data-value="' + chatRoomList[i].roomId + '">' +
+                                '<div class="imgContainer"><img class="chatListOpponentImg" src="' +
+                                chatRoomList[i].opponentProfileImg + '"></div><div class="customRoomnameMessageTime"><div class="customChatRoomName" style="font-size: 15px; font-weight: bold;">' + chatRoomList[i].chatRoomName + '</div><div class="customChatLastMessage">' + lastMessage
+                                + '</div><div class="lastMessageCreatedAt">' + chatRoomList[i].lastMessageCreatedAt + '</div></div></a></li>');
+                            /*
+                                                            '</span><br><img class="chatListOpponentImg" src="' +
+                                                            chatRoomList[i].opponentProfileImg + '"><span class="customChatSenderNickname">' + chatRoomList[i].senderNickname + '  : </span>' +
+                                                            lastMessage + '<br>  <span style="margin-left: 50px; text-align: right; font-size: 12px; color: #777;">' + chatRoomList[i].lastMessageCreatedAt + '</span></a></li>');
+                            */
+                        }
                 },
                 error: function (e) {
                     console.log(e);
@@ -396,8 +420,40 @@
             })
             subscribedChatRoomId.pop(roomId);
             stompClient.unsubscribe('chat' + roomId);
-            $('.mateChatHistory-wrap').css('display', 'none');
             $('.mateChatList-wrap').css('display', 'block');
+            $('.mateChatHistory-wrap').css('display', 'none');
+            /* $.ajax({
+                 url: "${pageContext.request.contextPath}/mate/chat-room-list",
+                method: "POST",
+                success: function (chatRoomList) {
+                    $('#mateChatListUl').html('');
+                    if (chatRoomList.length == 0) {
+                        $('#mateChatListUl').append("불러올 채팅 내역이 없습니다.");
+                    }
+
+                    for (let i = 0; i < chatRoomList.length; i++) {
+                        let lastMessage = chatRoomList[i].lastMessage;
+                        if (lastMessage.length > 20) {
+                            lastMessage = lastMessage.substring(0, 20) + "...";
+                        }
+                        $('#mateChatListUl').append('<li class="mateChatListLi"><a class="mateChatroomAtag" onclick="clickOneChatRoom(this)" data-value="' + chatRoomList[i].roomId + '">' +
+                            '<div class="imgContainer"><img class="chatListOpponentImg" src="' +
+                            chatRoomList[i].opponentProfileImg + '"></div><div class="customRoomnameMessageTime"><div class="customChatRoomName" style="font-size: 15px; font-weight: bold;">' + chatRoomList[i].chatRoomName + '</div><div class="customChatLastMessage">' + lastMessage
+                            + '</div><div class="lastMessageCreatedAt">' + chatRoomList[i].lastMessageCreatedAt + '</div></div></a></li>');
+                        /!*
+                                                        '</span><br><img class="chatListOpponentImg" src="' +
+                                                        chatRoomList[i].opponentProfileImg + '"><span class="customChatSenderNickname">' + chatRoomList[i].senderNickname + '  : </span>' +
+                                                        lastMessage + '<br>  <span style="margin-left: 50px; text-align: right; font-size: 12px; color: #777;">' + chatRoomList[i].lastMessageCreatedAt + '</span></a></li>');
+                        *!/
+                    }
+
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            })*/
+            /*$('.mateChatHistory-wrap').css('display', 'none');
+            $('.mateChatList-wrap').css('display', 'block');*/
             cancelMatePopup();
         }
 
@@ -426,15 +482,16 @@
             }
 
             if (result.alarmType == 'MATE_APPLY') {
-                $('#mateRealTimeAlarmUl').append("<li class='mateRealTimeAlarmLi' style='width: 95%;'>" + result.senderNickname + "님이 동행을 신청했어요!💨<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span> </li>");
+                $('#mateRealTimeAlarmUl').append("<li class='mateRealTimeAlarmLi' style='width: 350px; z-index: 9999999;'>" + result.senderNickname + "님이 동행을 신청했어요!💨<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span> </li>");
 
             } else if (result.alarmType == 'MATE_CHAT') {
-                $('#mateRealTimeAlarmUl').append("<li class='mateChatRealTimeAlarmLi' style='width: 95%;'>💌 " + result.senderNickname + "님이 메세지를 보냈어요!<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span></li>");
+                $('#mateRealTimeAlarmUl').append("<li class='mateChatRealTimeAlarmLi' style='width: 350px; z-index: 9999999;'>💌 " + result.senderNickname + "님이 메세지를 보냈어요!<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span></li>");
 
             } else if (result.alarmType == 'MATE_COMMENT') {
-                $('#mateRealTimeAlarmUl').append("<li class='mateRealTimeAlarmLi' style='width: 95%;'>" + result.senderNickname + "님이 댓글을 작성했어요!<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span> </li>");
+                $('#mateRealTimeAlarmUl').append("<li class='mateRealTimeAlarmLi' style='width: 350px; z-index: 9999999;'>" + result.senderNickname + "님이 댓글을 작성했어요!<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span> </li>");
             } else if (result.alarmType == 'MATE_ACCOMPANY_CONFIRMED') {
-                $('#mateRealTimeAlarmUl').append("<li class='mateConfirmedRealTimeAlarmLi' style='width: 95%;'>🎉 " + result.senderNickname + "님과 동행이 확정되었어요!<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span> </li>");
+                $('.accompanyConfirmedButton').css('display', 'block');
+                $('#mateRealTimeAlarmUl').append("<li class='mateConfirmedRealTimeAlarmLi' style='width: 350px; z-index: 9999999;'>🎉 " + result.senderNickname + "님과 동행이 확정되었어요!<span class='closeRealTimeAlarm' onclick='deleteRealTimeAlarm(this)'>x</span> </li>");
             }
             document.getElementsByClassName("mateAlarmListClose")[0].addEventListener("click", function () {
                 document.getElementById("myMateRealTimeAlarmModal").style.display = "none";

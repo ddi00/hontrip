@@ -15,8 +15,7 @@
             <li><a href="/hontrip/user/my-page">회원 정보</a></li>
             <li><a href="/hontrip/plan/list">여행계획</a></li>
             <li><a href="/hontrip/user/my-record">여행기록</a></li>
-            <li><a href="#">동행인모집목록</a></li>
-            <li><a href="#">채팅목록</a></li>
+            <li><a href="/hontrip/user/my-mate">동행인모집목록</a></li>
             <li><a href="#">댓글목록</a></li>
         </ul>
     </div>

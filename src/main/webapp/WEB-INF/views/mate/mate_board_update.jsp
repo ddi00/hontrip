@@ -143,16 +143,16 @@
                                         <div class="image-container">
                                             <img id="upldimg" src="../resources/img/mateImg/${dto.thumbnail}"
                                                  alt="Uploaded Image"
-                                                 height="300px" width="100%">
+                                                 height="400px" width="100%">
                                             <input type="file" name="file" id="file" accept="image/*"
                                                    class="mateFileInput">
                                         </div>
 
 
-        <div class="form-container">
-            <input class="form-input form-input-title" type="text" id="title"
-                   name="title"
-                   value="${dto.title}" required>
+            <div class="form-container">
+                <input class="form-input form-input-title" type="text" id="title"
+                       name="title"
+                       value="${dto.title}" required>
                                             <textarea class="form-input form-input-content" id="content" name="content"
                                                       rows="8" required>${contentBody}</textarea>
                                         </div>
