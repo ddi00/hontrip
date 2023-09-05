@@ -121,7 +121,7 @@ CREATE TABLE `spot` (
   `tel` varchar(50) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `homepage` varchar(255) DEFAULT NULL,
-  `address` varchar(100) NOT NULL,
+  `address` varchar(255) NOT NULL,
   `mapX` varchar(50) NOT NULL,
   `mapY` varchar(50) NOT NULL,
   `areacode` varchar(10) DEFAULT NULL,

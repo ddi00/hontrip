@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <%
     long userId = 0;
     if (session.getAttribute("id") != null) {
@@ -38,7 +38,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-10">
-                            <h3><a href="detail?userId=${userId}&planId=${plan.planId}"
+                            <h3><a href="edit?userId=${userId}&planId=${plan.planId}"
                                    class="custom-a">${plan.title}</a></h3>
 
                             <span><i class="uil uil-calendar-alt"></i> ${plan.startDate} - ${plan.endDate}</span>
