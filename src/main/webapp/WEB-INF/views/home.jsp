@@ -7,7 +7,7 @@
             <div class="col-md-10 offset-md-1 offset-lg-0 col-lg-5 text-center text-lg-start">
                 <h1 class="display-1 fs-54 mb-5 mx-md-n5 mx-lg-0 mt-7">계획하고, <br>기록하고, <br>
                     <span class="rotator-fade main-color">함께하는 여행</span></h1>
-                <p class="lead fs-lg mb-7 ">지금부터 'HonTrip'을 통해 여행을 계획하고 / 기록하고 / 함께해보세요!</p>
+                <p class="lead fs-lg mb-7" style="word-break: keep-all">지금부터 'HonTrip'을 통해 여행을 계획하고 / 기록하고 / 혼자서, 여럿이 함께하세요!</p>
                 <c:if test="${empty sessionScope.id}">
                     <span><a class="btn btn-lg btn-primary
                  rounded-pill me-2" href="/hontrip/user/sign-in">가입하고 글쓰기!</a></span>
@@ -189,15 +189,14 @@
                                         <div class="project item">
                                             <div class="card shadow-lg">
                                                 <figure class="card-img-top">
-                                                        <%--                                                    <a href="/hontrip/plan/spot/detail?category=keyword&keyword=${spot.title}&contentId=${spot.spotContentId}">--%>
-                                                    <a>
+                                                    <a href="/hontrip/plan/spot/detail?category=keyword&keyword=${spot.title}&contentId=${spot.spotContentId}">
                                                         <img src="${spot.image}">
                                                     </a>
                                                 </figure>
                                                 <div class="card-body">
                                                     <div class="post-header">
                                                         <div class="post-category mb-2 text-primary">${spot.area}</div>
-                                                        <h4 class="txt_line mb-0">${spot.title}</h4>
+                                                        <h4 class="txt_line mb-0"><a href="/hontrip/plan/spot/detail?category=keyword&keyword=${spot.title}&contentId=${spot.spotContentId}" style="color: black">${spot.title}</a></h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -217,7 +216,7 @@
         </div>
     </section>
 </section>
-<section class="wrappert mb-10">
+<section class="wrapper mb-10">
     <%--<div class="overflow-hidden">
         <div class="divider text-light mx-n2">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100">
