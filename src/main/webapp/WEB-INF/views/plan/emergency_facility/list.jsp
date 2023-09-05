@@ -13,7 +13,7 @@
                 </select>
                 <input type="text" id="addressName" name="addressName" class="form-control me-2" placeholder="주소 입력"
                        value="">
-                <button type="submit" name="filterType" value="address" class="btn btn-orange">검색</button>
+                <button type="submit" name="filterType" value="address" class="btn btn-primary">검색</button>
             </div>
         </form>
         <%--<ul class="unordered-list mt-4">
@@ -43,5 +43,29 @@
         $('#emergency_facility_search_form').on('submit', function() {
             $('.loading-overlay').removeClass('d-none');
         });
+    });
+
+
+    $(document).on("submit", "#emergency_facility_search_form", function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: "/hontrip/plan/emergency_facility/filter_list",
+            method: "POST",
+            data: $(this).serialize(),
+            success: function (data) {
+                $("#modalContent").html(data);
+                $('.loading-overlay').addClass('d-none');  // Hide
+            },
+            error: function () {
+                alert("안전정보 검색에 실패했습니다.");
+                $('.loading-overlay').addClass('d-none');  // Hide
+            }
+        });
+    });
+
+    // closed
+    $(document).on('hidden.bs.modal', '#modalContent', function () {
+        $('.loading-overlay').addClass('d-none');
     });
 </script>

@@ -22,5 +22,28 @@
             $('.loading-overlay').removeClass('d-none');
         });
     });
+
+    $(document).on("submit", "#safetySearchForm", function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: "safety_result",
+            method: "POST",
+            data: $(this).serialize(),
+            success: function (data) {
+                $("#safetyModal .modal-body").html(data);
+                $('.loading-overlay').addClass('d-none');  // Hide l
+            },
+            error: function () {
+                alert("안전정보 검색에 실패했습니다.");
+                $('.loading-overlay').addClass('d-none');  // Hide
+            }
+        });
+    });
+
+    // closed
+    $(document).on('hidden.bs.modal', '#safetyModal', function () {
+        $('.loading-overlay').addClass('d-none');
+    });
 </script>
 
