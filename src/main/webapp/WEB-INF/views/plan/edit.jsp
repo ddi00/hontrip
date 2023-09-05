@@ -130,8 +130,7 @@
                     <c:set var="contentOrder" value="0"/> <!-- 초기 값 설정 -->
                     <c:forEach items="${addedSpots}" var="spot" varStatus="status">
                         <c:if test="${spot.dayOrder eq index}">
-                            <div>
-                            <div class='row ms-3 my-4'>
+                            <div class='row ms-3 my-3'>
                                 <span class='col-3'><img src="${spot.image}" width="88px" height="72px"></span>
                                 <span class='col-6 align-self-center'>${spot.title}<br><span style="font-size: 0.6rem">${spot.address}</span></span>
                                 <span class="col-1 align-self-center"><button type="button"
@@ -465,7 +464,7 @@
                 $('#' + searchSpotFormDivId).hide();
                 $('#' + searchSpotResultsDivId).hide();
 
-                selectedSpotDivHTML += "<div class='row ms-3 my-4'>"
+                selectedSpotDivHTML += "<div class='row ms-3 my-3'>"
                 selectedSpotDivHTML += "<span class='col-3'><img src='" + spot.image + "'width='88px' height='72px'></span>"
                 selectedSpotDivHTML += "<span class='col-6 align-self-center'>" + spot.title + "<br><span style='font-size: 0.6rem'>" + spot.address + "</span></span>"
                 selectedSpotDivHTML += "<span class='col-1 align-self-center'><button type='button' class='btn btn-sm delete-spot-btn' data-spot-content-day-order='" + dayOrder + "'data-spot-content-order='" + spotOrder + "'data-spot-content-id='" + spot.contentId + "'>"
@@ -505,7 +504,7 @@
             },
             success: function (result) {
                 alert("여행지가 삭제되었습니다!");
-                deleteButton.closest(".row.ms-3.my-4").remove();
+                deleteButton.closest(".row").remove();
                 let selectedSpotsDivs = $('[id^="selected-spots-"]');
                 selectedSpotsDivs.each(function () {
                     let divContents = $(this).find('div');
