@@ -153,7 +153,8 @@ public class SpotServiceImpl implements SpotService {
         List<SpotDTO> spots = spotDAO.listTopTenSpot();
         List<SpotInfoDTO> spotInfos = new ArrayList<>();
         for (int i = 0; i < spots.size(); i++) {
-            SpotInfoDTO spotInfo = new SpotInfoDTO(); // 새로운 SpotInfoDTO 객체 생성
+            // 필수 정보만 담을 SpotInfoDTO 생성
+            SpotInfoDTO spotInfo = new SpotInfoDTO();
             spotInfo.setTitle(spots.get(i).getTitle());
             spotInfo.setSpotContentId(spots.get(i).getContentId());
             spotInfo.setImage(spots.get(i).getImage());

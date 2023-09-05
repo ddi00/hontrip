@@ -59,14 +59,14 @@
             <div class="col-md-6 my-2">
                 <div class="d-flex justify-content-center">
                     <button type="button" class="btn btn-outline-orange rounded-pill" style="width: 50%;"
-                            data-bs-toggle="modal" data-bs-target="#safetyModal">안전정보 확인
+                            data-bs-toggle="modal" data-bs-target="#safetyModal">안전정보
                     </button>
                 </div>
             </div>
             <div class="col-md-6 my-2">
                 <div class="d-flex justify-content-center">
                     <button type="button" id="add-emergency-facility-button" class="btn btn-outline-orange rounded-pill"
-                            style="width: 50%;" data-toggle="modal" data-target="#emergencyFacilityModal">응급시설 확인
+                            style="width: 50%;" data-toggle="modal" data-target="#emergencyFacilityModal">응급시설
                     </button>
                 </div>
             </div>
@@ -80,7 +80,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="safetyModalLabel">안전정보 확인</h5>
+                        <h5 class="modal-title" id="safetyModalLabel">안전정보</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -97,7 +97,7 @@
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="emergencyFacilityModalLabel">응급시설 목록</h5>
+                        <h5 class="modal-title" id="emergencyFacilityModalLabel">응급시설</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="modalContent">
@@ -130,9 +130,10 @@
                     <c:set var="contentOrder" value="0"/> <!-- 초기 값 설정 -->
                     <c:forEach items="${addedSpots}" var="spot" varStatus="status">
                         <c:if test="${spot.dayOrder eq index}">
+                            <div>
                             <div class='row ms-3 my-4'>
                                 <span class='col-3'><img src="${spot.image}" width="88px" height="72px"></span>
-                                <span class='col-6 align-self-center'>${spot.title}</span>
+                                <span class='col-6 align-self-center'>${spot.title}<br><span style="font-size: 0.6rem">${spot.address}</span></span>
                                 <span class="col-1 align-self-center"><button type="button"
                                                                               class="btn btn-sm delete-spot-btn"
                                                                               data-spot-content-day-order="${index}"
@@ -466,7 +467,7 @@
 
                 selectedSpotDivHTML += "<div class='row ms-3 my-4'>"
                 selectedSpotDivHTML += "<span class='col-3'><img src='" + spot.image + "'width='88px' height='72px'></span>"
-                selectedSpotDivHTML += "<span class='col-6 align-self-center'>" + spot.title + "</span>"
+                selectedSpotDivHTML += "<span class='col-6 align-self-center'>" + spot.title + "<br><span style='font-size: 0.6rem'>" + spot.address + "</span></span>"
                 selectedSpotDivHTML += "<span class='col-1 align-self-center'><button type='button' class='btn btn-sm delete-spot-btn' data-spot-content-day-order='" + dayOrder + "'data-spot-content-order='" + spotOrder + "'data-spot-content-id='" + spot.contentId + "'>"
                 selectedSpotDivHTML += "<svg style='color: gray' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-x' viewBox='0 0 16 16'>"
                 selectedSpotDivHTML += "<path d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z' fill='gray'></path></svg>"
@@ -504,7 +505,7 @@
             },
             success: function (result) {
                 alert("여행지가 삭제되었습니다!");
-                deleteButton.closest(".row").remove();
+                deleteButton.closest(".row.ms-3.my-4").remove();
                 let selectedSpotsDivs = $('[id^="selected-spots-"]');
                 selectedSpotsDivs.each(function () {
                     let divContents = $(this).find('div');
