@@ -86,9 +86,7 @@
                     <div class="modal-body">
                         <jsp:include page="safety_search.jsp"/>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    </div>
+
                 </div>
             </div>
         </div>
