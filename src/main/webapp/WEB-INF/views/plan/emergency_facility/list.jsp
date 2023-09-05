@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section class="wrapper bg-light">
     <div class="container-fluid container mt-15 mb-20 w-75 text-center">
-        <h1 class="mb-5">응급시설 목록</h1>
+        <h1 class="mb-5">응급시설 조회</h1>
         <form id="emergency_facility_search_form" class="mt-3 left-aligned" method="post" action="filter_list">
             <div class="input-group mb-3">
                 <select id="categorySelect" name="categoryGroupName" form="emergency_facility_search_form"
