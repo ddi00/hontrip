@@ -696,14 +696,6 @@
         let searchAccommodationFormDivId = 'search-accommodation-form-' + index;
         let searchAccommodationResultsDivId = 'search-accommodation-results-' + index;
 
-     /*   console.log("before ajax getAccommodationList");
-        console.log("planId : " + planId);
-        console.log("userId : " + userId);
-        console.log("index : " + index);
-        console.log("category : " + category);
-        console.log("address : " + address);
-        console.log("placeName : " + placeName);*/
-
         let filter_type = "";
         if (address === "" || address === undefined || address === null)
             address = "";
@@ -733,11 +725,6 @@
                 filterType: filter_type
             },
             success: function (data) {
-               /* console.log("after getAccommodationList ajax succeeded!");
-                console.log("returned getAccommodationList data");
-
-                console.log(data);*/
-
                 let trimmedHtml = $(data).find('.card');
                 $('#' + searchAccommodationResultsDivId).empty(); // 이전 목록 지우기
                 $('#' + searchAccommodationResultsDivId).append(trimmedHtml);
@@ -776,12 +763,6 @@
         let selectedAccommodationsDivId = 'selected-accommodations-' + index;
         let selectedAccommodationDivHTML = "";
 
-       /* console.log("before addAccommodation ajax");
-        console.log("planId : " + planId);
-        console.log("userId : " + userId);
-        console.log("index : " + index);
-        console.log("accommodationId : " + accommodationId);
-*/
         $.ajax({
             method: "get",
             url: "detail/update-plan-accommodation",
@@ -800,9 +781,11 @@
 
                 $('#' + searchAccommodationResultsDivId).hide();
 
-                selectedAccommodationDivHTML += "<div class='card my-2'><div class='ms-3 my-4'><div class='row'>"
+                /*selectedAccommodationDivHTML += "<div class='card my-2'><div class='ms-3 my-4'><div class='row'>"*/
+                selectedAccommodationDivHTML += "<div class='card my-2' style='text-align: left; font-size: 0.8em;'>";
+                selectedAccommodationDivHTML += "<div class='ms-3 my-4'><div class='row'>";
                 selectedAccommodationDivHTML += "<div class='row'> <span class='col-6 align-self-center'> <Strong> "
-                    + accommodation.placeName + "<</Strong></span><span class='col-8'>"
+                    + accommodation.placeName + "</Strong></span><span class='col-8'>"
                     + accommodation.categoryName + "</span></div>"
 
                 selectedAccommodationDivHTML += "<div class='row'><span class='col-8'>" + accommodation.addressName + "</span></div>"
@@ -858,7 +841,6 @@
 
     /*안전정보 연결*/
     $(document).ready(function () {
-        // Load the safety_search.jsp content when the safetyButton is clicked
         $("#safetyButton").click(function () {
             $.ajax({
                 url: "/hontrip/plan/safety_search",
