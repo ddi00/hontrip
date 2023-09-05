@@ -2,9 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- 공유피드 좋아요 순 버튼 선택 해당 게시물  리스트 -->
-    <div id="feedlist_button_like_section">
+ <div id="feedlist_button_like_section">
       <div class="container">
-        <section class="wrapper bg-light">
+        <section class="wrapper-record-feedlist bg-light">
           <div class="container py-10 py-md-3">
             <div class="row gy-6">
               <div class="row isotope gx-md-8 gy-8 mb-2">
@@ -27,6 +27,7 @@
                            <div class="card-body p-7">
                              <div class="post-header">
                                <div class="post-category mb-2 text-primary">${postInfoDTO.city}</div>
+                               <div class="post-category mb-2 text">${postInfoDTO.nickName}</div>
                                <h3 class="txt_line mb-0">${postInfoDTO.title}</h3>
                              </div>
                            </div>
@@ -42,8 +43,9 @@
                    </div>
                 </c:forEach>
               </div>
-            </div>
-          </div>
+
         </section>
       </div>
     </div>
+
+

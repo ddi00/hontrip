@@ -21,13 +21,15 @@
       <div class="container">
         <div class="row-record-buttons">
           <div class="col-lg-9-record-location-buttons col-xl-8 col-xxl-7 mx-auto">
-            <button class="btn btn-orange rounded-pill mb-2 me-1 location-button" data-location="allLocations">전국</button>
+            <button class="btn btn-orange rounded-pill mb-3 me-3 location-button" data-location="allLocations">전국</button>
             <button class="btn btn-orange rounded-pill mb-3 me-3 location-button" data-location="capital-area">수도권</button>
             <button class="btn btn-orange rounded-pill mb-3 me-3 location-button" data-location="gangwon">강원</button>
             <button class="btn btn-orange rounded-pill mb-3 me-3 location-button" data-location="gyeongsang">경상</button>
             <button class="btn btn-orange rounded-pill mb-3 me-3 location-button" data-location="jeolla">전라</button>
             <button class="btn btn-orange rounded-pill mb-3 me-3 location-button" data-location="chungcheong">충청</button>
             <button class="btn btn-orange rounded-pill mb-3 me-3 location-button" data-location="jeju">제주</button>
+
+            <button class="btn btn-primary rounded-pill mb-3 me-3 like-button" like="like">좋아요 순</button>
           </div>
         </div>
       </div>
@@ -37,7 +39,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-9-record-like-button col-xl-8 col-xxl-7 mx-auto">
-            <button class="btn btn-lg btn-primary rounded-pill me-2 like-button" like="like">좋아요 순</button>
+
           </div>
         </div>
       </div>
@@ -190,7 +192,7 @@
   <!-- 공유피드 게시물 표시 부분 -->
     <div id="feedlist_section">
       <div class="container">
-        <section class="wrapper bg-light">
+        <section class="wrapper-record-feedlist bg-light">
           <div class="container py-10 py-md-3">
             <div class="row gy-6">
               <div class="row isotope gx-md-8 gy-8 mb-2">
@@ -213,6 +215,7 @@
                            <div class="card-body p-7">
                              <div class="post-header">
                                <div class="post-category mb-2 text-primary">${postInfoDTO.city}</div>
+                               <div class="post-category mb-2 text">${postInfoDTO.nickName}</div>
                                <h3 class="txt_line mb-0">${postInfoDTO.title}</h3>
                              </div>
                            </div>

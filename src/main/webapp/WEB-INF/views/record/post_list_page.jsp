@@ -22,6 +22,7 @@
                         <div class="card-body p-7">
                             <div class="post-header">
                                 <div class="post-category mb-2 text-primary">${postInfoDTO.city}</div>
+                                <div class="post-category mb-2 text">${postInfoDTO.nickName}</div>
                                 <h3 class="txt_line mb-0">${postInfoDTO.title}</h3>
                             </div>
                         </div>

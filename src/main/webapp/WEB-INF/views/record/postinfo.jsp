@@ -283,7 +283,7 @@
                         $('#cmtContent').val(""); // 댓글 전송 후 입력칸 비우기
                     },
                     error: function() {
-                        alert("실패!");
+                        alert("작성 실패!");
                     } // error
                 });
             }); // commentWrite
@@ -701,15 +701,17 @@
                                 style="height: 100px"></textarea>
                             <label>Comment *</label>
                         </div>
+                    </c:if>
                         <div class="row">
                             <div class="col-md-6"> <!-- 작성 버튼을 왼쪽에 배치 -->
+                            <c:if test="${not empty sessionScope.id}">
                                 <button id="commentWrite" class="btn btn-outline-primary rounded-pill mb-0">작성 하기</button>
+                            </c:if>
                             </div>
                             <div class="col-md-6 text-end"> <!-- 목록으로 가는 버튼을 오른쪽에 배치 -->
-                                <a href="feedlist" class="btn btn-primary rounded-pill">목록으로 돌아가기</a>
+                                <a href="feedlist" class="btn btn-primary rounded-pill">목록</a>
                             </div>
                         </div>
-                    </c:if>
                 </div>
                 <!-- /column -->
             </div>
