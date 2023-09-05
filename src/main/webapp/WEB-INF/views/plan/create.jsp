@@ -28,7 +28,7 @@
                 <label for="memo" class="form-label">메모</label>
                 <textarea id="memo" name="memo" class="form-control h-20"></textarea>
             </div>
-            <button type="submit" class="btn btn-orange my-5 w-100">생성하기</button>
+            <button type="submit" class="btn btn-primary my-5 w-100">생성</button>
         </form>
     </div>
 </section>

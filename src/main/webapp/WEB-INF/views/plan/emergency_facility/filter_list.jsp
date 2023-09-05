@@ -2,9 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section class="wrapper bg-light">
     <div class="container-fluid container mt-15 mb-20 w-75 text-center">
-        <h1 class="mt-4">응급시설 목록</h1>
+        <h1 class="mt-4">응급시설</h1>
         <div class="row">
-            <a href="/hontrip/plan/emergency_facility/list" class="btn btn-orange col-12 my-5">다시 검색하기
+            <a href="/hontrip/plan/emergency_facility/list" class="btn btn-primary col-12 my-5">재검색
                 </a>
             <ul class="unordered-list mt-4">
                 <c:forEach items="${list}" var="emergency_facility">

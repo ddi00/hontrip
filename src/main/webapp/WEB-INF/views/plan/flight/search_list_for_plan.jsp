@@ -5,7 +5,7 @@
     <div class="col-12">
         <div class="ps-8 pb-5">
             <h5>${depDate}</h5>
-            <h3>${depAirportName}발 - ${arrAirportName}행 항공편 목록</h3>
+            <h3>${depAirportName}발 - ${arrAirportName}행 항공편</h3>
         </div>
 
         <h3 class="my-2 align-self-center">
