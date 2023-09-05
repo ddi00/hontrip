@@ -37,7 +37,6 @@
         $('#startDate').on('change', function () {
             $('#endDate').prop("min", $(this).val());
         });
-
         $('#endDate').on('change', function () {
             $('#startDate').prop("max", $(this).val());
         });
