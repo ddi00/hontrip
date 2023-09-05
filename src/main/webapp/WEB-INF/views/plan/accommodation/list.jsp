@@ -20,22 +20,6 @@
                     </button>
                 </div>
             </div>
-            <%--카테고리 현재 검색 필터 적용이 잘 안 되어서 추후에 개발할 예정--%>
-            <%--  <div class="row mb-3">
-                <div class="col">
-                  <select class="form-select" name="categoryName">
-                    <option value="">카테고리 선택</option>
-                    <option value="여행 > 숙박 >">전체</option>
-                    <option value="여행 > 숙박 > 호텔">호텔</option>
-                    <option value="여행 > 숙박 > 펜션">펜션</option>
-                    <option value="여행 > 숙박 > 콘도,리조트">콘도,리조트</option>
-                    <option value="여행 > 숙박 > 야영,캠핑장">야영,캠핑장</option>
-                  </select>
-                </div>
-                <div class="col-md-2">
-                  <button type="submit" class="btn btn-secondary">카테고리 검색</button>
-                </div>
-              </div>--%>
         </form>
       <%--  <ul class="unordered-list">
             <c:forEach items="${list}" var="accommodation">

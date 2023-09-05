@@ -9,7 +9,7 @@
                   <div class="container pt-11 pt-md-13 pb-10 pb-md-0 pb-lg-5 text-center">
                       <div class="row">
                           <div class="col-lg-8 col-xl-7 col-xxl-6 mx-auto" data-cues="slideInDown" data-group="page-title">
-                              <h1 class="display-1"><span class="underline-3 style-3 primary">동행인</span> 게시판</h1>
+                              <h1 class="display-1">나의 <span class="underline-3 style-3 primary">동행 찾기</span> </h1>
                           </div>
                           <!-- /column -->
                       </div>
@@ -37,8 +37,7 @@
                                 <div class="mate-search-text">
                                 <input type="text" id="keyword" name="keyword" class="form-control"
                                        placeholder="검색어를 입력하세요"></div>
-                                <button id="mate-search-Btn" class="mate-search-Btn btn btn-primary rounded-pill btn-lg px-4"
-                                        type="submit">
+                                <button id="mate-search-Btn" class="mate-search-Btn btn btn-primary rounded-pill btn-lg px-4">
                                     검색
                                 </button>
                             </div>

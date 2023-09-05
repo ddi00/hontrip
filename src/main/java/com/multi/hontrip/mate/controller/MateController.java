@@ -239,9 +239,9 @@ public class MateController {
     }
 
     /*동행 상세게시판 삭제*/
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/delete")
     @ResponseBody
-    public int deleteMateBoard(@PathVariable("id") long id) {
+    public int deleteMateBoard(long id) {
         return mateService.deleteMateBoard(id);
     }
 

@@ -24,12 +24,6 @@ public class EmergencyFacilityController {
         model.addAttribute("plan", plan);
     }
 
-    /*@GetMapping(value = "/list") // 응급시설 리스트
-    public String showEmergencyFacilityList(Model model) {
-        List<EmergencyFacilityDTO> list = emergencyFacilityService.list();
-        model.addAttribute("list", list);
-        return "/plan/emergency_facility/list";
-    }*/
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String showEmergencyFacilityList(Model model) {

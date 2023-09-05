@@ -10,15 +10,10 @@
                 <c:forEach items="${list}" var="emergency_facility">
                     <div class="card mt-2">
                         <div class="card-body left-aligned">
-                                <%--  <strong>응급시설 id:</strong> ${emergency_facility.id}<br>--%>
-                                <%-- <strong>응급시설 카테고리 그룹:</strong>--%> ${emergency_facility.categoryGroupName}<br>
+                                ${emergency_facility.categoryGroupName}<br>
                             <a href="${emergency_facility.placeUrl}" target="_blank">${emergency_facility.placeName}</a><br>
-                                <%--<strong>응급시설 이름:</strong> ${emergency_facility.placeName}--%>
                             <strong>주소:</strong> ${emergency_facility.addressName}<br>
                             <strong>연락처:</strong> ${emergency_facility.phone}<br>
-                                <%-- <strong>응급시설 URL:</strong> <a href="${emergency_facility.placeUrl}"
-                                                               target="_blank"
-                                                               class="custom-a">${emergency_facility.placeUrl}</a><br>--%>
                         </div>
                     </div>
                 </c:forEach>

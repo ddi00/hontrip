@@ -35,6 +35,7 @@ public class SpotDAO {
         for (Area area : Area.values()) {
             if (area.getAreaName().contains(areaName)) {
                 areaCode = area.getAreaCode();
+                break;
             }
         }
         return my.selectList("spot.areaList", areaCode);

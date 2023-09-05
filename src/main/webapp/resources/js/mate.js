@@ -372,15 +372,12 @@ if (window.location.href.includes('/mate/')) {
     /*모달에서 삭제버튼을 눌렀을때 */
     function deleteAccept() {
         $.ajax({
-            method: 'DELETE',
-            url: "delete/" + $('#mateBoardId').val(),
+            url: "delete",
             data: {
-                id: parseInt($('#mateBoardId').val())
+                id: $('#mateBoardId').val()
             },
             success: function (result) {
-                if (result == 1) {
-                    location.href = "../mate/bbs_list?page=1"
-                }
+                location.href = "../mate/bbs_list?page=1"
             }, error: function (e) {
                 console.log(e)
             }
@@ -461,92 +458,96 @@ if (window.location.href.includes('/mate/')) {
             for (let i = 0; i < cCount; i++) {
                 let commentList = commentListRe.list[i];
                 if (commentList.commentSequence == 0) {
-                    comments += `<li class="comment">
-                        <div class="comment-header d-md-flex align-items-center">
-                            <div class="d-flex align-items-center">
-                                <figure class="user-avatar">
-                                    <img class="rounded-circle" alt="" src="${commentList.profileImage}" />
-                                </figure>
-                                <div>
-                                    <h6 class="comment-author">
-                                        <a href="#" class="link-dark">${commentList.nickname}</a>
-                                    </h6>
-                                    <ul class="post-meta">
-                                        <li><i class="uil uil-calendar-alt"></i>${commentList.createdAt}</li>
-                                    </ul>
+                    comments += `
+                        <li class="comment">
+                            <div class="comment-header d-md-flex align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <figure class="user-avatar">
+                                        <img class="rounded-circle" alt="" src="${commentList.profileImage}" />
+                                    </figure>
+                                    <div>
+                                        <h6 class="comment-author">
+                                            <a href="#" class="link-dark">${commentList.nickname}</a>
+                                        </h6>
+                                        <ul class="post-meta">
+                                            <li><i class="uil uil-calendar-alt"></i>${commentList.createdAt}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mt-3 mt-md-0 ms-auto">
+                                    <a href="javascript:void(0);" onclick="showCcmtTextarea(${commentList.commentId})"
+                                       class="btn btn-outline-primary btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
+                                            class="uil uil-comments"></i> 답글 달기</a>
                                 </div>
                             </div>
-
-                    <div class="mt-3 mt-md-0 ms-auto">
-                        <a href="javascript:void(0);" onclick="showCcmtTextarea(${commentList.commentId})"
-                           class="btn btn-outline-primary btn-sm rounded-pill btn-icon btn-icon-start mb-0"><i
-                                class="uil uil-comments"></i> 답글 달기</a>
-                    </div>
-                    </div>
-                    <p><h3>${commentList.content}<h3></p>
-                    </li>`;
+                            <p><h3>${commentList.content}</h3></p>
+                        </li>
+                    `;
 
                     if (commentList.userId == sessionUserId) {
-                        comments += `<a class="btn btn-primary rounded-pill" href='javascript:void(0);' onclick='showUpdateTextarea(${commentList.commentId})'>수정</a>`;
-                        comments += `<div class="d-flex justify-content-end">`
-                        comments += "<button type='button' class='commentDelete btn btn-primary rounded-pill' data-comment-id='" + commentList.commentId + "'>삭제</button></div>"
                         comments += `
-
-                       <div id="commentUpdate${commentList.commentId}" style="display: none">
-                           <textarea id="updateContent${commentList.commentId}" class="mate-comment-content form-control" placeholder="수정글을 입력해주세요" required>${commentList.content}
-                           </textarea>
-                           <br>
-                           <button type='button' class='updateComment btn btn-primary rounded-pill' data-comment-id='${commentList.commentId}'>수정</button>
-                           <a class="btn btn-soft-primary rounded-pill" href='javascript:void(0);' onclick='closeTextarea(${commentList.commentId})'>취소</a>
-
-                       </div>`;
+                            <a class="btn btn-primary rounded-pill" href="javascript:void(0);" onclick="showUpdateTextarea(${commentList.commentId})">수정</a>
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="commentDelete btn btn-primary rounded-pill" data-comment-id="${commentList.commentId}">삭제</button>
+                            </div>
+                            <div id="commentUpdate${commentList.commentId}" style="display: none">
+                                <textarea id="updateContent${commentList.commentId}" class="mate-comment-content form-control" placeholder="수정글을 입력해주세요" required>${commentList.content}</textarea>
+                                <br>
+                                <button type="button" class="updateComment btn btn-primary rounded-pill" data-comment-id="${commentList.commentId}">수정</button>
+                                <a class="btn btn-soft-primary rounded-pill" href="javascript:void(0);" onclick="closeTextarea(${commentList.commentId})">취소</a>
+                            </div>
+                        `;
                     }
+
                     for (let i = 0; i < rCount; i++) {
                         let replyList = commentListRe.reCommentList[i];
                         if (commentList.commentId == replyList.indentationNumber) {
-                            comments += `<ul class="children"><li class="comment">
-                                         <div class="comment-header d-md-flex align-items-center">
-                                         <div class="d-flex align-items-center">
-                                         <figure class="user-avatar"><img class="rounded-circle" alt="" src="${replyList.profileImage}"/>
-                                         </figure>
-                                         <div>
-                                         <h6 class="comment-author"><a href="#" class="link-dark">${replyList.nickname}</a></h6>
-                                         <ul class="post-meta"> <li><i class="uil uil-calendar-alt"></i>${replyList.createdAt}</li>
-                                         </ul>
-                                         </div>
-                                         </div>
-                                         </div>
-                                         <p><h3>${replyList.content}<h3></p>`;
+                            comments += `
+                                <ul class="children">
+                                    <li class="comment">
+                                        <div class="comment-header d-md-flex align-items-center">
+                                            <div class="d-flex align-items-center">
+                                                <figure class="user-avatar">
+                                                    <img class="rounded-circle" alt="" src="${replyList.profileImage}" />
+                                                </figure>
+                                                <div>
+                                                    <h6 class="comment-author"><a href="#" class="link-dark">${replyList.nickname}</a></h6>
+                                                    <ul class="post-meta">
+                                                        <li><i class="uil uil-calendar-alt"></i>${replyList.createdAt}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><h3>${replyList.content}</h3></p>
+                            `;
+
                             if (commentList.userId == sessionUserId) {
                                 comments += `
-                                <a class="btn btn-primary rounded-pill" href="javascript:void(0);" onclick="showUpdateTextarea(${replyList.commentId})">수정</a>
-                                <div class="d-flex justify-content-end">
-                                <button type='button' class="commentDelete btn btn-primary rounded-pill" data-comment-id="${replyList.commentId}">삭제</button></div>`;
-                                comments += `<div id="commentUpdate${replyList.commentId}" style="display: none">
-                                    <textarea id="updateContent${replyList.commentId}" class="mate-comment-content form-control" placeholder="수정글을 입력해주세요">${replyList.content}</textarea>
-                                    <br>
-                                    <button type='button' class="updateComment btn btn-primary rounded-pill" data-comment-id="${replyList.commentId}">수정</button>
-                                    <a class="btn btn-soft-primary rounded-pill" href="javascript:void(0);" onclick="closeTextarea(${replyList.commentId})">취소</a>
-                                </div>`;
+                                    <a class="btn btn-primary rounded-pill" href="javascript:void(0);" onclick="showUpdateTextarea(${replyList.commentId})">수정</a>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="commentDelete btn btn-primary rounded-pill" data-comment-id="${replyList.commentId}">삭제</button>
+                                    </div>
+                                    <div id="commentUpdate${replyList.commentId}" style="display: none">
+                                        <textarea id="updateContent${replyList.commentId}" class="mate-comment-content form-control" placeholder="수정글을 입력해주세요">${replyList.content}</textarea>
+                                        <br>
+                                        <button type="button" class="updateComment btn btn-primary rounded-pill" data-comment-id="${replyList.commentId}">수정</button>
+                                        <a class="btn btn-soft-primary rounded-pill" href="javascript:void(0);" onclick="closeTextarea(${replyList.commentId})">취소</a>
+                                    </div>
+                                `;
                             }
 
+                            comments += `</li></ul>`;
                         }
                     }
-                    comments += "<br>";
-
-
-
-                    comments += `<div id="cComment${commentList.commentId}" style="display: none">
-                         <textarea id="cContent${commentList.commentId}" class="mate-comment-content form-control" placeholder="답글을 입력해주세요"></textarea>
-                        <br>
-                        <button type='button' class="cCommentWrite btn btn-outline-primary rounded-pill" data-comment-id="${commentList.commentId}">답글 전송</button>
-                        <a class="btn bnt-soft-primary rounded-pill" href="javascript:void(0);" onclick="closeCTextarea(${commentList.commentId})">취소</a>
-                        <br>
+                    comments += `
+                        <div id="cComment${commentList.commentId}" style="display: none">
+                            <textarea id="cContent${commentList.commentId}" class="mate-comment-content form-control" placeholder="답글을 입력해주세요"></textarea>
+                            <br>
+                            <button type="button" class="cCommentWrite btn btn-outline-primary rounded-pill" data-comment-id="${commentList.commentId}">답글 전송</button>
+                            <a class="btn btn-soft-primary rounded-pill" href="javascript:void(0);" onclick="closeCTextarea(${commentList.commentId})">취소</a>
+                            <br>
                         </div>
-                    </div>
-                    </ul>
-                      </td>
-                    </tr>`;
+                    `;
 
 
                 }
@@ -556,7 +557,7 @@ if (window.location.href.includes('/mate/')) {
             comments += "<h6>등록된 댓글이 없습니다.</h6>";
             comments += "</div>";
         }
-        commentListCount += `<h3 class="mb-6">댓글 수:${commentListRe.commentListCount}</h3>`
+        commentListCount += `<h3 class="mb-6">${commentListRe.commentListCount} 댓글</h3>`
         $('#clc').empty().html(commentListCount);
         $('#result').html(comments);
     }
@@ -587,8 +588,8 @@ if (window.location.href.includes('/mate/')) {
             var nickname = $('#nickName').val();
 
             if (!userId) {
-                        alert("로그인 해주세요.");
-                        return;
+                alert("로그인 해주세요.");
+                return;
             }
             $.ajax({
                 url: "/hontrip/mate/comment_insert",
