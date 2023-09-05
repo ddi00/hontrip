@@ -30,8 +30,6 @@ public class AccommodationServiceImpl implements AccommodationService {
     @Autowired
     private RestTemplate restTemplate;
 
-    /*private static final String KAKAO_MAP_API_KEY = "d8cf7eddeac8408c087d168ac8ede50c";*/
-
     @Value("${kakao.map.api.key}")
     private String KAKAO_MAP_API_KEY;
     private static final String KAKAO_MAP_API_URL = "https://dapi.kakao.com/v2/local/search/keyword.json";
@@ -193,19 +191,5 @@ public class AccommodationServiceImpl implements AccommodationService {
     public List<AccommodationDTO> filterByAddressAndCategoryName(String addressName, String categoryName) { // 숙박시설 주소|카테고리 필터
         return accommodationDAO.filterByAddressAndCategoryName(addressName, categoryName);
     }
-
-  /*  @Override
-    public List<AccommodationDTO> filterByPlaceNameAndCategoryName(String placeName, String categoryName) { // 숙박시설 주소|카테고리 필터
-        return accommodationDAO.filterByPlaceNameAndCategoryName(placeName, categoryName);
-    }*/
-
-  /*  @Override
-    public List<AccommodationDTO> filterByCategoryAndPlaceNameAndAddress(String addressName, String categoryName, String placeName) { // 숙박시설 주소|카테고리 필터
-        return accommodationDAO.filterByCategoryAndPlaceNameAndAddress(addressName, categoryName, placeName);
-
-    }*/
-
-
-
 
 }

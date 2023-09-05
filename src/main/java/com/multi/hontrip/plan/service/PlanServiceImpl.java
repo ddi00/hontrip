@@ -286,7 +286,6 @@ public class PlanServiceImpl implements PlanService {
     //public List<AccommodationLoadDTO> loadExistingAccommodations(PlanDTO plan, int numOfDays)
     public List<AccommodationLoadDTO> loadExistingAccommodations(PlanDTO plan){
         List<AccommodationLoadDTO> addedAccommodations = new ArrayList<>();
-        // 채림
         PlanDayDTO planDayDTO = new PlanDayDTO();
         planDayDTO.setPlanId(plan.getPlanId());
         planDayDTO.setUserId(plan.getUserId());
@@ -301,16 +300,13 @@ public class PlanServiceImpl implements PlanService {
             if (!existingPlanDay.getAccommodationId().isEmpty())
             { // 이미 추가된 숙바지가 디비에 있을 경우
                 String existingAccommodationIds = existingPlanDay.getAccommodationId(); // 숙박지가 여러개이면 : 로 구분된 문자열 id
-              /*  System.out.println("existingIdsAsString : " + existingAccommodationIds);*/
                 String[] AccommodationIds = existingAccommodationIds.split(":");  // ':'로 나눈 후, id 를 배열에 저장
-               /* System.out.println("existingIdsAsArray : " + AccommodationIds.toString());*/
 
                 for (int i = 0; i < AccommodationIds.length; i++)
                 {
                     AccommodationLoadDTO accommodationLoadDTO = new AccommodationLoadDTO(); // 일정-일차에 담긴 여행지 옮기기 위한 DTO
                     accommodationLoadDTO.setPlanId(plan.getPlanId());
                     accommodationLoadDTO.setUserId(plan.getUserId());
-                    //채림
                     //accommodationLoadDTO.setId(Long.valueOf(AccommodationIds[i]));
                     accommodationLoadDTO.setId(AccommodationIds[i]);
 
@@ -329,7 +325,7 @@ public class PlanServiceImpl implements PlanService {
                 }
             }
             else {
-             /*   System.out.println("디비에서 accommodation 검색못함");*/
+
             }
         }
         catch (NullPointerException e) {
@@ -359,7 +355,6 @@ public class PlanServiceImpl implements PlanService {
 
         try {
             if (planDayDTO != null) {
-           /*     System.out.println("when dayPlan already exists, planDayDTO != null");*/
                 if (!planDayDTO.getAccommodationId().isEmpty()) {
                     String existingAccommodations = planDayDTO.getAccommodationId();
                     String newAccommodations = existingAccommodations + ":" + accommodationId;
@@ -370,7 +365,6 @@ public class PlanServiceImpl implements PlanService {
                 }
 
             } else {
-               /* System.out.println("when planDayDTO===null");*/
                 PlanDayDTO newPlanDayDTO = new PlanDayDTO();
                 newPlanDayDTO.setPlanId(planId);
                 newPlanDayDTO.setUserId(userId);
@@ -379,19 +373,14 @@ public class PlanServiceImpl implements PlanService {
                 planDayDTO = newPlanDayDTO;
             }
         } catch (NullPointerException e) {
-           /* System.out.println("planDayDTO null exception");*/
             planDayDTO.setAccommodationId("");
             planDayDTO.setAccommodationId(String.valueOf(accommodationId));
 
         }
-
-      /*  System.out.println("returning planDayDTO value : " + planDayDTO);*/
-        //addAccommodation(planDayDTO); // Call the method to update the plan-day
         planDayDAO.updateAccommodation(planDayDTO);
         return planDayDTO;
     }
 
-    //채림
     public void deleteAccommodationFromDay(Long planId, Long userId, String accommodationId) {
         PlanDayDTO planDayDTO = findPlanWithDay(planId, userId, 1);
 
@@ -421,9 +410,6 @@ public class PlanServiceImpl implements PlanService {
     public void addAccommodation(PlanDayDTO planDayDTO) {
 
         planDayDAO.updateAccommodation(planDayDTO);
-        //planDayDAO.insert(planDayDTO);
-        //System.out.println("before inserting planDayDTO : " + planDayDTO);
-        //planDayDAO.insertWithNewAccommodation(planDayDTO);
 
     }
 }
