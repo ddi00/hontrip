@@ -521,7 +521,7 @@ if (window.location.href.includes('/mate/')) {
                                         <p><h3>${replyList.content}</h3></p>
                             `;
 
-                            if (commentList.userId == sessionUserId) {
+                            if (replyList.userId == sessionUserId) {
                                 comments += `
                                     <a class="btn btn-primary rounded-pill" href="javascript:void(0);" onclick="showUpdateTextarea(${replyList.commentId})">수정</a>
                                     <div class="d-flex justify-content-end">
