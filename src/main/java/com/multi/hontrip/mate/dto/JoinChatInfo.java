@@ -15,3 +15,4 @@ public class JoinChatInfo { //채팅방 입장할 때 필요정보
     private List<ChatMessageDTO> chatMessages;  // 이전 메세지
     private boolean newFlag;    // 처음 들어온 사람인지
 }
+
