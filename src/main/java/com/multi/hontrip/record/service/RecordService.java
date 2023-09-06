@@ -57,18 +57,7 @@ public class RecordService {
     }
 
     // 게시물 수정
-    public long updatePostInfo(//MultipartFile file,
-                               CreatePostDTO createPostDTO) {
-
-//        String savedName = file.getOriginalFilename(); // file 원본 이름 저장
-//        String uploadPath=servletContext.getRealPath("/")+relativePath+savedName;
-//        File target = new File(uploadPath);
-//        try {
-//            file.transferTo(target);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        createPostDTO.setThumbnail(relativePath+savedName);
+    public long updatePostInfo(CreatePostDTO createPostDTO) {
         recordDAO.updatePost(createPostDTO);
         return createPostDTO.getId();
     }
