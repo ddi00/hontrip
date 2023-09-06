@@ -97,7 +97,7 @@ public class PlanController {
     @PostMapping("/update")
     public String updatePlan(PlanDTO planDTO) {
         planService.updatePlan(planDTO);
-        return "redirect:/plan/detail?" + "userId=" + planDTO.getUserId() + "&planId=" + planDTO.getPlanId();
+        return "redirect:/plan/edit?" + "userId=" + planDTO.getUserId() + "&planId=" + planDTO.getPlanId();
     }
 
     // 일정 수정 - 여행지 조회

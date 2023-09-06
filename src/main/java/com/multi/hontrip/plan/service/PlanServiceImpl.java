@@ -106,6 +106,7 @@ public class PlanServiceImpl implements PlanService {
                         SpotDTO spotDTO = spotService.findSpot(SpotContentIds[j]);
                         spotLoadDTO.setTitle(spotDTO.getTitle());
                         spotLoadDTO.setImage(spotDTO.getImage());
+                        spotLoadDTO.setAddress(spotDTO.getAddress());
                         addedSpots.add(spotLoadDTO);
                     }
                 } else {
@@ -152,6 +153,7 @@ public class PlanServiceImpl implements PlanService {
         spotAddDTO.setTitle(spotDTO.getTitle());
         spotAddDTO.setImage(spotDTO.getImage());
         spotAddDTO.setPlanId(planId);
+        spotAddDTO.setAddress(spotDTO.getAddress());
 
         return spotAddDTO;
     } // 추가 여행지 반환
