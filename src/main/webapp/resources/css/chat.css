@@ -43,7 +43,7 @@
     position: fixed;
     z-index: 9999;
     right: 4%;
-    top: 25%;
+    top: 27%;
     width: 360px;
     height: 450px;
     background-color: transparent;
@@ -110,7 +110,7 @@
     justify-content: center;
     z-index: 9999;
     right: 1.5%;
-    bottom: 12%;
+    bottom: 15%;
     width: 60px;
     height: 60px;
     background-color: #FFF;

@@ -16,15 +16,18 @@
   - JAVA8
   - Spring Framework 5.0.1, Spring MVC
   - Junit5
-  - Maven 
+  - Maven
   - Mybatis
-  - intelliJ
+  - IntelliJ
+  - WebSocket
 - <strong>Front-end</strong>
   - HTML
   - CSS
   - JavaScript
   - JQuery 3.6.4
   - BootStrap 5
+  - Stomp
+  - SockJS
 - <strong>Deploy</strong>
   - 배포 적어주세요!
 - <strong>Collaboration</strong>
