@@ -250,8 +250,8 @@
              $('#mateAlarm' + liNum).css("opacity", 0.6);*/
 
 
-            if (postTitle.length > 15) {
-                chatRoomName = postTitle.substring(0, 16) + "···";
+            if (postTitle.length > 12) {
+                chatRoomName = postTitle.substring(0, 13) + "···";
             } else {
                 chatRoomName = postTitle;
             }
@@ -386,6 +386,7 @@
         //뒤로가기 화살표버튼을 누르면 -> 해당 채팅방 구독을 끊고, 채팅리스트로 돌아간다.
         function unsubscribeChatRoom(ths) {
             let roomId = $(ths).data('value');
+            $('.mateSuccessMessagePopup').css('display', 'none');
             $.ajax({
                 url: "${pageContext.request.contextPath}/mate/update_last_join_at",
                 data: {
@@ -679,14 +680,13 @@
             })
             $('#acceptMatePopup').css('display', 'none')
             $('.mateChatHistory-wrap').css('background', 'transparent')
+            $('.ownerAcceptButton').css('display', 'none')
+            $('.accompanyConfirmedButton').css('display', 'block')
             //000님과 동행 매칭이 완료되었습니다. 모달창 띄우기
             $('#mateSuccessMessagePopup').css('display', 'block')
             $('.mateChatHistory-wrap').css('background', 'rgba(0,0,0,0.1)')
 
-            console.log($('#mateHeaderReceiverId').val());
-
             let alarmContent = $('#mateAlarmUserNickname').val() + '님과 동행이 확정되었습니다!'
-
             $.ajax({
                 type: "POST",
                 url: "${pageContext.request.contextPath}/mate/insertMatchingAlarm",

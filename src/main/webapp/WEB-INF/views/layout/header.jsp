@@ -63,7 +63,7 @@
                         <button class="mate-accept-button" onclick="acceptMatePopup()">수락</button>
                     </div>
                     <div id="mateSuccessMessagePopup" class="mateSuccessMessagePopup"><span
-                            class="mateGuestName"></span>과 동행 매칭이 완료되었습니다!
+                            class="mateGuestName"></span>님과 동행 매칭이 완료되었습니다!
                         <button class="mate-confirm-button" onclick="deleteConfirmButton(this)">x</button>
                     </div>
                     <ul id="mateChatHistoryUl" class="mateChatHistoryUl">
