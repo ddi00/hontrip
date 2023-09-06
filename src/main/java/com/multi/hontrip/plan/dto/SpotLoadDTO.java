@@ -11,4 +11,5 @@ public class SpotLoadDTO {
     private String title;   // 여행지명
     private String image;   // 여행지 이미지
     private int DayOrder;   // 일차
+    private String address;
 }
