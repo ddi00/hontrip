@@ -119,7 +119,15 @@
             if (likeList.likeCount > 0) {
                 for (let i = 0; i < likeList.likeCount; i++) {
                     let postLikeDTO = likeList.likeUserList[i];
-                    users += `<p class="mb-6"><img class="avatar w-10" src="\${postLikeDTO.profileImg}"/>\${postLikeDTO.likeUserNickname}</p>`;
+                    users += `
+                        <div class="d-flex align-items-center">
+                            <figure class="user-avatar me-5">
+                                <img class="rounded-circle" alt="" src="\${postLikeDTO.profileImg}"/>
+                            </figure>
+                            <div>
+                                <h6 class="comment-author mb-0">\${postLikeDTO.likeUserNickname}</h6>
+                            </div>
+                        </div>`;
                 }
             } else {
                 users += "<h6>좋아요를 누른 사람이 없습니다.</h6>"
@@ -739,13 +747,13 @@
                             <c:otherwise>
                                 <c:forEach items="${likeUserList}" var="user">
                                     <div class="d-flex align-items-center">
-                                                <figure class="user-avatar me-5">
-                                                    <img class="rounded-circle" alt="" src="${user.profileImg}"/>
-                                                </figure>
-                                                <div>
-                                                    <h6 class="comment-author mb-0">${user.likeUserNickname}</h6>
-                                                </div>
-                                            </div>
+                                        <figure class="user-avatar me-5">
+                                            <img class="rounded-circle" alt="" src="${user.profileImg}"/>
+                                        </figure>
+                                        <div>
+                                            <h6 class="comment-author mb-0">${user.likeUserNickname}</h6>
+                                        </div>
+                                    </div>
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>
