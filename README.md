@@ -28,8 +28,6 @@
   - BootStrap 5
   - Stomp
   - SockJS
-- <strong>Deploy</strong>
-  - 배포 적어주세요!
 - <strong>Collaboration</strong>
   - Git
   - Slack
