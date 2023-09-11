@@ -110,5 +110,4 @@
 ## ERD 설계
 ![Image](https://github.com/copidingz/hontrip/assets/131749616/2c71ac9f-9685-4231-8ef5-ad4922a3a867)
 
-## 시스템 아키텍쳐 구성도
 
